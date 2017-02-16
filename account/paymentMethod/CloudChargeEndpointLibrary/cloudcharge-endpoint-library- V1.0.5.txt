@@ -1,0 +1,307 @@
+/*
+
+	CloudCharge Endpoint Library Document
+		Version 1.0.5
+	
+	change-log [
+		2016-9-08 - introduce new methods to handle plan related operations.
+		2016-9-02 - introduce new methods to handle card related operations.
+		2016-9-02 - format method responses.
+		2016-8-29 - added new method to get apps within the subscription period.
+		2016-8-23 - added token authentication for card.
+		2016-8-23 - added method for get registered stripe customer information.
+	]
+*/
+
+
+#############
+#	 User	#
+#############
+	
+	** require cloudcharge.php file inside /include/duoapi to your php file.
+
+----------------------------------------
+Get registed stripe customer infomations
+----------------------------------------
+
+Invoke to get stripe customer infomations. Using this method can decide whether customer registed or not with the stripe.
+
+Method: (new CloudCharge())->user()->get();
+
+Success response:   {
+						"status":true,
+						"data":[{
+							"userId":"developer3.digin.io",
+							"cusID":"cus_90fszhBj1fGf9R",
+							"gatewayType":"stripe",
+							"subscriptionId":"sub_90fs770g9q5h5F",
+							"createdDate":"2016-08-15 08:23:55",
+							"modifiedDate":"2016-08-15 08:23:55",
+							"plan":"Gold",
+							"paidDate":null,
+							"planStatus":null,
+							"planType":"main"
+							}]
+					}
+
+Error response: {"status": false}
+
+############
+#	Card   #
+############
+	
+	** require cloudcharge.php file inside /include/duoapi to your php file.
+
+----------------------------------------
+Get registed stripe customer infomations
+----------------------------------------
+
+Invoke to get stripe customer infomations. Using this method can decide whether customer registed or not with the stripe.
+
+Method: (new CloudCharge())->customer()->get();
+
+Success response:   {
+						"status":true,
+						"data":[{
+							"userId":"developer3.digin.io",
+							"cusID":"cus_90fszhBj1fGf9R",
+							"gatewayType":"stripe",
+							"subscriptionId":"sub_90fs770g9q5h5F",
+							"createdDate":"2016-08-15 08:23:55",
+							"modifiedDate":"2016-08-15 08:23:55",
+							"plan":"Gold",
+							"paidDate":null,
+							"planStatus":null,
+							"planType":"main"
+							}]
+					}
+
+Error response: {"status": false}
+
+
+#############
+#	Apps	#
+#############
+
+	** require cloudcharge.php file inside /include/duoapi to your php file.
+
+--------------
+Create a app
+--------------
+
+Invoke during app publishing. It's will create product for app in cloud charge side.
+
+Method: (new CloudCharge())->app()->create($app);
+
+Params: app - required
+
+Sample params: 
+
+	- if it's a onetime paid app - 
+
+	{
+		"appKey": "APP_INVOICE",
+		"appName": "Invoice",
+		"appCategory": "Software",
+		"unitPrice": 1000.50,
+		"paymentMethod": "onetime"
+	}
+
+	- if it's a subcription based app -
+
+	{
+		"appKey": "APP_INVOICE",
+		"appName": "Invoice",
+		"appCategory": "Software",
+		"unitPrice": 1000.50,
+		"paymentMethod": "subscription",
+		"subscriptionInfo": {
+			"subscriptionPeriod": "month",
+			"currency": "usd"
+		}
+	}
+
+Success response:  {"status": true}
+
+Error response: {"status": false,"response": {}}
+
+--------------
+Purchase a app
+--------------
+
+This will invoke when purchasing a onetime paid app.
+
+Method: (new CloudCharge())->app()->purchase($appkey, $price [,$token]);
+
+Params: appkey - required - uniqe key of the app
+		price  - reqired  - app price
+		token - optional - token which genarated by strpe. if user has already set card information to the system, this parameter not 						needed.but if it's not this parameter should set
+
+Sample params: 
+
+	token : "tok_18lWkWK0rvwKooYBzYuSXjr7"
+
+Success response:  {"status": true}
+
+Error response: {"status": false,"response": {}}
+
+---------------
+Subscribe a app
+---------------
+
+This will invoke when subscribe a app.
+
+Method: (new CloudCharge())->app()->subscribe($appkey [,$token]);
+
+Params: appkey - required - uniqe key of the app
+		token - optional - token which genarated by strpe. if user has already set card information to the system, this 					parameter not needed.but if it's not this parameter should set.
+
+Sample params: 
+
+	token : "tok_18lWkWK0rvwKooYBzYuSXjr7"
+
+Success response:  {"status": true}
+
+Error response: {"status": false,"response": {}}
+
+--------------------------------------
+Retrive apps within subscription period
+--------------------------------------
+
+Invoke to retrive all app in subscription period. Not applicable with onetime apps.
+
+(new CloudCharge())->app()->withinSubscriptionPeriod();
+
+Success response: {"status":true,"data":[{"plan":"App1"},{"plan":"App2"}]}
+
+Error response: {"status": false,"response": {}}
+
+---------------
+Reinstall a app
+---------------
+
+This will invoke when app reinstallation and app must be subscribe based.
+
+Method: (new CloudCharge())->app()->reinstall($appkey)
+
+Params: appkey - required - uniqe key of the app
+
+Sample params: 
+
+	appkey : "APP_INVOICE"
+
+Success response:  {"status": true}
+
+Error response: {"status": false,"response": {}}
+
+---------------
+Uninstall a app
+---------------
+
+This will invoke when app uninstallation and app must be subscribe based.
+
+Method: (new CloudCharge())->app()->uninstall($appkey)
+
+Params: appkey - required - uniqe key of the app
+
+Sample params: 
+
+	appkey : "APP_INVOICE"
+
+Success response:  {"status": true}
+
+Error response: {"status": false,"response": {}}
+
+##########
+#  Plan  #
+##########
+
+--------------------------
+Subscribe for a Fixed plan
+--------------------------
+
+invoke when subscribes for a fixed plan.
+
+Method: (new CloudCharge())->plan()->subscribeToFixedplan($token ,$planInfo);
+
+Params: token - token that genarated by stripe
+				planInfo - object that contains plan info
+
+					{"plan":"Gold", "amount": 10, "quantity":1}
+
+
+Success response:  {"status": true}
+
+Error response: {"status": false,"response": {}}
+
+-------------------------------------
+Subscribe for a Custom plan(Alacarte)
+-------------------------------------
+
+invoke when subscribes for a alacarte plan
+
+Method: (new CloudCharge())->plan()->subscribeToCustomplan($token ,$planInfo);
+
+Params: token - token that genarated by stripe
+				planInfo - object that contains plan info
+
+					{
+						"attributes":  [
+							{"tag":"Package","feature": "Gold Package","amount": 20,"quantity":0,"action":"add"},
+							{"tag":"user","feature": "Additional +1 user","amount": 10, "quantity":5,"action":"add"}
+						],
+						"subscription": "month",
+						"quantity":	1 
+					}
+
+
+Success response:  {"status": true}
+
+Error response: {"status": false,"response": {}}
+
+-----------------------------------
+Subscribe for Custom plan(Alacarte)
+-----------------------------------
+
+invoke when subscribes for a alacarte plan
+
+Method: (new CloudCharge())->plan()->subscribeToCustomplan($token ,$planInfo);
+
+Params: token - token that genarated by stripe
+				planInfo - object that contains plan info
+
+					{
+						"attributes":  [
+							{"tag":"Package","feature": "Gold Package","amount": 20,"quantity":0,"action":"add"},
+							{"tag":"user","feature": "Additional +1 user","amount": 10, "quantity":5,"action":"add"}
+						],
+						"subscription": "month",
+						"quantity":	1 
+					}
+
+
+Success response:  {"status": true}
+
+Error response: {"status": false,"response": {}}
+
+----------------
+Customize a plan
+----------------
+
+This's only for custom plan. Invoke this method for purchase additional features to existing alacarte plan.
+
+Method: (new CloudCharge())->plan()->customize($planInfo);
+
+Params: token - planInfo - object that contains plan info
+
+			{
+				"features": [
+					{"tag":"storage","feature": "25GB storage","quantity":0,"amount": 30,"action":"remove"},
+					{"tag":"user","feature": "Additional users","amount": 15,"quantity":5,"action":"add"}
+				]
+			}
+
+
+Success response:  {"status": true}
+
+Error response: {"status": false,"response": {}}

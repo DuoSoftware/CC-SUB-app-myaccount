@@ -1,0 +1,41 @@
+<md-dialog>
+  <md-card layout-align="center center" class="plan-card"  flex >
+    <md-card-title flex layout="column">
+      <md-card-title-text>
+        <h3>{{selectedPlan.name}}</h3>
+      </md-card-title-text>
+    </md-card-title>
+    <div class="plan-name" layout="row" layout-align="center center" flex>
+      <div ng-if="selectedPlan.price == '0'">Free
+        <span>{{selectedPlan.per}}</span>
+      </div>
+      <div ng-if="selectedPlan.price != '0'">$ {{selectedPlan.price }}
+        <span >{{selectedPlan.per}}</span>
+      </div>
+    </div>
+
+    <md-card-content flex style="background: #ffffff;">
+      <p layout="row">{{selectedPlan.numberOfUsers }} <span ng-if="selectedPlan.numberOfUsers == '1'">&nbspUser</span><span ng-if="selectedPlan.numberOfUsers != '1'">&nbspUsers</span></p>
+      <p>{{selectedPlan.numberOfApps}} Apps</p>
+      <div ng-init="showAdditional = false" layout-padding ng-show="showAdditional" style="color: rgb(103, 97, 97);">
+        <b>Additional Storage:</b>
+        <p>+ 25 GB/Month: 4.99</p>
+        <p>+ 100 GB/Month: 9.99</p>
+        <p>+ 1 TB/Month: 24.99</p>
+      </div>
+    </md-card-content>
+
+    <md-card-actions layout="row" layout-align="center center" flex>
+
+      <!--<div ng-if="selectedPlan.no < plan.no && plan.price > 0">-->
+        <!--<md-button  class="md-raised {{plan.id}}" ng-if="selectedPlan.price === '0'" stripe-payment="config" ng-click="selectPlan(plan)"> Select Plan</md-button>-->
+        <!--<md-button  class="md-raised {{plan.id}}" ng-if="selectedPlan.price != '0'" ng-click="selectPlan(plan)"> Select Plan</md-button>-->
+      <!--</div>-->
+      <!--<div ng-if="selectedPlan.no >= plan.no || plan.price <= 0">-->
+        <!--<md-button ng-disabled="true"  class="md-raised {{plan.id}}" ng-if="selectedPlan.price === '0'" stripe-payment="config" ng-click="selectPlan(plan)"> Select Plan</md-button>-->
+        <!--<md-button ng-disabled="true"  class="md-raised {{plan.id}}" ng-if="selectedPlan.price != '0'" ng-click="selectPlan(plan)"> Select Plan</md-button>-->
+      <!--</div>-->
+      <!--<md-button ng-disabled="true" class="md-raised {{plan.id}}" ng-if="plan.price == '0'" ng-click="selectPlan(plan)"> Select Plan</md-button>-->
+    </md-card-actions>
+  </md-card>
+</md-dialog>
