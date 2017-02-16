@@ -327,13 +327,17 @@
                 <div layout="row" class="inpage-readpane">
                   <div flex class="inpage-readpane-body">
                     <div layout="row" layout-align="space-between center" class="detail-row" ng-repeat="key in access_keys">
-                      <div>
-                        <span><b>{{key.name}}</b></span>
-                        <span>: {{key.key}}</span>
+                      <div ic="{{key.key}}">
+                        <span><b>{{key.name}} : </b></span>
+                        <span id="{{key.key}}">{{key.key}}</span>
                       </div>
-                      <md-button class="md-icon-button md-accent" ng-disabled="isKeyResetting" ng-click="resetKey(key.key)"><md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
+                      <div layout="row">
+                        <md-button class="md-icon-button md-primary" ng-click="copyToClipboard(key.key)"><md-icon md-font-icon="icon-content-copy" class="copy-icon"></md-icon><md-tooltip>Copy key</md-tooltip> </md-button>
+                        <md-button class="md-icon-button md-accent" ng-disabled="isKeyResetting" ng-click="resetKey(key.key)"><md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
+                      </div>
                     </div>
                   </div>
+                  <div id="paste"></div>
                 </div>
 
               </md-card-content>

@@ -17,10 +17,23 @@
       margin: 0;
     }
   }
+  .copy-icon{
+    font-size: 20px;
+  }
+  .copy-msg{
+    width: 50px!important;
+    font-size: 12px;
+    padding: 2px;
+    text-align: center;
+    border-radius: 12px;
+    background: #eee;
+    border: solid 1px #ddd;
+    color: #777;
+    margin-left: 10px;
+  }
   .inpage-readpane-body{
     height: 100%;
     .detail-row{
-      padding: 7px 0;
       span:first-child{
         display: inline-block;
         width: 140px;

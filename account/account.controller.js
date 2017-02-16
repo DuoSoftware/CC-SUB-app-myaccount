@@ -1050,11 +1050,24 @@
       key: "ALSDFSFUASDFASD123123K12KU12312K3H1U3UI1HI23U1N31N23I123"
     },{
       name: "Access Key 2",
-      key: "ALSDFSFUASDFASD123123K12KU12312K3H1U3UI1HI23U1N31N23I123"
+      key: "ALSDFSFUASDFASD1231aswa12K3asdasH1U31UI1HI23U1N31N23I123"
     }];
 
     $scope.resetKey = function(key){
       $scope.isKeyResetting = true;
+    }
+
+    $scope.copyToClipboard = function (id) {
+      var id = "#"+id;
+      var copyField = document.querySelector(id);
+      var range = document.createRange();
+      //range.selectNode(copyField);
+      window.getSelection().addRange(range);
+      // select the contents
+
+      document.execCommand('copy');
+      copyField.insertAdjacentHTML('beforeend', '<span class="copy-msg">Copied</span>');
+
     }
 
   }
