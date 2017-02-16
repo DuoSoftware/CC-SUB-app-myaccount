@@ -7,6 +7,197 @@
     color: #999;
   }
 }
+.inpage-readpane{
+  //border-left: solid 1px #e4e4e4;
+  z-index: 100;
+  .inpage-readpane-toolbar{
+    padding: 2px 0 2px 16px;
+    border-bottom: solid 1px #eee;
+    h3{
+      margin: 0;
+    }
+  }
+  .inpage-readpane-body{
+    height: 100%;
+    .detail-row{
+      padding: 7px 0;
+      span:first-child{
+        display: inline-block;
+        width: 140px;
+      }
+    }
+    .entitled-apps{
+      padding: 10px 0;
+      h1{
+        text-transform: capitalize;color: #6e9bb1;
+      }
+    }
+  }
+  md-content{
+    &.inpage-readpane-body{
+      background-color: rgb(251, 251, 251);
+    }
+  }
+}
+.input-block-gen{
+  margin: 20px 20px 20px 2px;
+  overflow: hidden;
+  background-color: #fff;
+  overflow: hidden;
+  md-card-title{
+    height: 50px;
+    padding: 10px;
+    background: rgba(25, 102, 138, 0.05);;
+    md-icon{
+      font-size: 20px;
+      margin-right: 10px;
+      //color: rgba(0, 0, 0, 0.3);
+      color: #039be5;
+    }
+    .title-icon-custom{
+      font-weight: 500;
+      font-size: 14px;
+      color: #f5f5f5;
+      margin-right: 10px;
+      margin-left: 3px;
+      display: block;
+      border-radius: 50%;
+      //background: #bebebe;
+      background: #039be5;
+      width: 18px;
+      height: 18px;
+      padding-left: 5px;
+      padding-top: 0px;
+    }
+    h3{
+      margin: 0;
+      color: rgba(1, 59, 86, 0.6);
+      //font-weight: 500;
+    }
+  }
+  md-card-content{
+    padding: 16px;
+    background: #fff;
+    z-index: 1;
+    .state-capsule{
+      position: relative;
+      top: -4px;
+      span:first-child{
+        padding: 5px;
+        background: rgba(3, 155, 229, 0.09);
+        border-bottom-left-radius: 5px;
+        border-top-left-radius: 5px;
+        //border-right: solid 1px #ccc;
+        //border: solid 1px #eee;
+      }
+      span:last-child{
+        padding: 5px;
+        //background: rgba(238, 238, 238, 0.5);
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 5px;
+        border: solid 1px #eee;
+        height: 29px;
+      }
+    }
+    .md-icon-button.md-accent{
+      margin-right: -10px;
+    }
+    ._md-datepicker-floating-label._md-datepicker-has-calendar-icon > label:not(.md-no-float):not(.md-container-ignore){
+      left: 40px;
+    }
+    md-datepicker{
+      margin-left: -10px;
+      .md-datepicker-input-container{
+        width: 75%;
+      }
+      .md-datepicker-button{
+        margin-left: -8px;
+        padding-left: 0px;
+      }
+    }
+    md-select, md-autocomplete{
+      font-size: 14px!important;
+    }
+    .dep-checkbox{
+      width: 120px;
+      top:-10px;
+      margin-bottom: 0;
+      color: #aaa;
+      .md-icon{
+        width: 18px;
+        height: 18px;
+        border-color: #aaaaaa;
+        &:after{
+          left: 3.66667px;
+          top: 0.22222px;
+          width: 6.66667px;
+          height: 11.33333px;
+        }
+      }
+      &.md-checked .md-icon {
+        border-color: transparent;
+      }
+    }
+    .payment-list-body{
+      max-height: 200px;
+      min-height: 40px;
+      .state-checker{
+        height: 100%;
+        margin-top: 10px;
+        span{
+          md-icon{
+            font-size: 19px;
+            color: rgba(76, 76, 76, 0.17);
+          }
+          font-size: 13px;
+          color: rgba(76, 76, 76, 0.21);
+        }
+      }
+      .payment-list-item{
+        padding: 10px 16px;
+        &:not(:last-child){
+          border-bottom: solid 1px #f1f1f1;
+        }
+      }
+    }
+    .group-sub-head{
+      color: #638698;
+      height: 30px;
+      margin-top: 20px;
+      md-input-container{
+        &:first-child{
+          margin-top: 10px;
+        }
+      }
+      &.fade{
+        opacity: 0.5!important;
+      }
+    }
+  }
+  md-card-actions{
+    margin: 0;
+    padding: 8px;
+    background: #fbfbfb;
+    .product-sub-block{
+      padding: 0 20px 20px;
+      .sub-pricing-info{
+        padding: 30px 0 0 0;
+        color: #666;
+        .li-connector{
+          border-bottom: dashed 1px rgba(221, 221, 221, 0.38);
+          margin: 0 10px;
+        }
+        md-input-container{
+          margin: 0;
+        }
+        &.total{
+          //font-weight: 500;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
 .cust-name{
   margin-top: 20px;
 }
@@ -242,7 +433,7 @@
 }
 .admin_setup, .normal_setup{
   md-content{
-    padding: 30px 20px 20px 0;
+    padding: 0;
     md-card-actions{
       margin: 0px;
       padding: 10px;

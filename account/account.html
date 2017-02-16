@@ -94,26 +94,21 @@
 
         <md-tab label="My Plan" ng-if="isUserAdmin">
           <md-content class="md-padding">
-            <md-card class="profile_plan" flex>
-              <md-card-header>
-                <md-card-header-text flex>
-                  <span class="heading-lev3 top">Current Plan</span>
-                </md-card-header-text>
-                <!--<md-card-header-text>-->
-                <!--&lt;!&ndash;<span class="heading-lev3 top">Current Plan</span>&ndash;&gt;-->
-                <!--</md-card-header-text>-->
+            <md-card flex class="input-block-gen">
+              <md-card-title>
+                <div layout="row" layout-align="start center">
+                  <md-icon md-font-icon="icon-map"></md-icon> <h3>Plan Details</h3>
+                </div>
                 <md-card-header-text layout-align="center end">
                   <span ng-show="selectedPlan.id === 'free_trial'" >{{remainingDays}}</span>
                   <span ng-show="selectedPlan.id === 'free_trial'">  Plan expires on : <span style="font-weight: 500">{{displayExpireDate}}</span></span>
                   <span ng-show="selectedPlan.no > 2 && isTempDeactive">  Plan renewal date : <span style="font-weight: 500">{{displayExpireDate}}</span></span>
                   <span ng-show="selectedPlan.no > 2 && !isTempDeactive">  Subscription ending date : <span style="font-weight: 500">{{displayExpireDate}}</span></span>
                 </md-card-header-text>
-              </md-card-header>
-
-              <md-card-content class="full" style="background: #fff;">
-
+              </md-card-title>
+              <md-card-content>
                 <div layout="row" class="plan_footer" style="height: 50px;">
-                  <div flex class="heading-lev2" layout="column" layout-align="center start"><span>{{selectedPlan.name}}
+                  <div flex class="heading-lev2" layout="column" layout-align="center start"><span>Plan Name{{selectedPlan.name}}
                     <md-button class="md-icon-button show-plan" ng-click="showCurrPlan()"><md-icon md-font-icon="icon-information"></md-icon></md-button>
                   </span>
                   </div>
@@ -276,31 +271,22 @@
               </md-card-content>
             </md-card>
 
-            <md-card class="profile_plan top-20" flex>
-              <md-card-header>
-                <md-card-header-text layout="row" layout-align="center center">
-                  <span class="heading-lev3 top">Payment Method Details</span>
-                  <div flex></div>
-                  <md-button ng-if="cardDetails.length > 0" class="md-accent" stripe-payment="config" ng-click="addNewCard()" layout-align="center center"> Add Card</md-button>
-                </md-card-header-text>
-              </md-card-header>
-
+            <md-card flex class="input-block-gen">
+              <md-card-title>
+                <div layout="row" layout-align="start center">
+                  <md-icon md-font-icon="icon-credit-card-multiple"></md-icon> <h3>Payment Details</h3>
+                </div>
+                <div flex></div>
+                <md-button ng-if="cardDetails.length > 0" class="md-accent" stripe-payment="config" ng-click="addNewCard()" layout-align="center center"> Add Card</md-button>
+              </md-card-title>
               <div class="list-header" layout="row">
                 <div flex layout-align="center start">Card ID</div>
                 <div flex layout-align="center start">Expire Date</div>
                 <div flex="20" layout-align="center center" style="text-align:center">Card Type</div>
                 <div flex="15"></div>
               </div>
-
-              <md-card-content class="full" style="background: #fff;" >
-                <!--ng-repeat="card in cardDetails"-->
+              <md-card-content>
                 <div layout="row" flex class="payment-details-row" ng-repeat="card in cardDetails">
-                  <!--<div class="prodMainInfo" layout="column" layout-align="center start" flex="30">-->
-                  <!--<div layout="column">-->
-                  <!--<span class="text-truncate">Customer{{card.customer}}</span>-->
-                  <!--<div class="code text-truncate">Card id : {{card.id}}</div>-->
-                  <!--</div>-->
-                  <!--</div>-->
                   <div class="prodCost" flex layout="column" layout-align="center start">
                     <span class="text-truncate">XXXX-XXXX-XXXX-{{card.last4}}</span>
                   </div>
@@ -326,14 +312,29 @@
                   <div class="prodCost" flex="15" layout="column" layout-align="center end">
                     <span class="default" ng-if="card.rowId===0">Default</span>
                     <md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>
-                    <!--<md-button class="md-icon-button make-default" ng-if="isDefaultPayment!='1'" ng-click="defaultPayment('1')">-->
-                    <!--<md-icon md-font-icon="icon-check" class="md-accent"></md-icon>-->
-                    <!--<md-tooltip>Make This Default</md-tooltip>-->
-                    <!--</md-button>-->
                   </div>
                 </div>
+              </md-card-content>
+            </md-card>
 
-
+            <md-card flex class="input-block-gen">
+              <md-card-title>
+                <div layout="row" layout-align="start center">
+                  <md-icon md-font-icon="icon-cog"></md-icon> <h3>Settings</h3>
+                </div>
+              </md-card-title>
+              <md-card-content>
+                <div layout="row" class="inpage-readpane">
+                  <div flex class="inpage-readpane-body">
+                    <div layout="row" layout-align="space-between center" class="detail-row" ng-repeat="key in access_keys">
+                      <div>
+                        <span><b>{{key.name}}</b></span>
+                        <span>: {{key.key}}</span>
+                      </div>
+                      <md-button class="md-icon-button md-accent" ng-disabled="isKeyResetting" ng-click="resetKey(key.key)"><md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
+                    </div>
+                  </div>
+                </div>
 
               </md-card-content>
             </md-card>

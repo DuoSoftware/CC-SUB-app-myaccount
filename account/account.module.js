@@ -36,6 +36,7 @@
       });
 
     msNavigationServiceProvider.saveItem('account', {
+      title    : 'My Account',
       state    : 'app.account',
       /*stateParams: {
        'param1': 'page'

@@ -16,7 +16,7 @@
     $scope.companyPricePlans = null;
     $scope.selectedPlan = null;
     $scope.tenantId = null;
-    $scope.isUserAdmin = false;
+    $scope.isUserAdmin = true;
     $scope.paymentHistoryList = null;
 
     $scope.paymentTenant = "0";
@@ -1044,6 +1044,18 @@
     }
 
     $scope.addMoreUsers();
+
+    $scope.access_keys = [{
+      name: "Access Key 1",
+      key: "ALSDFSFUASDFASD123123K12KU12312K3H1U3UI1HI23U1N31N23I123"
+    },{
+      name: "Access Key 2",
+      key: "ALSDFSFUASDFASD123123K12KU12312K3H1U3UI1HI23U1N31N23I123"
+    }];
+
+    $scope.resetKey = function(key){
+      $scope.isKeyResetting = true;
+    }
 
   }
 })();
