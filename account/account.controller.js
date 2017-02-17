@@ -1061,7 +1061,7 @@
       var id = "#"+id;
       var copyField = document.querySelector(id);
       var range = document.createRange();
-      //range.selectNode(copyField);
+      range.selectNode(copyField);
       window.getSelection().addRange(range);
       // select the contents
 
