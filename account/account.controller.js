@@ -286,76 +286,80 @@
 
     $scope.securityToken= gst('securityToken');
 
+    $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImdmSUtJSC15WjNwaFJIUnlqbnNISXFaTWFlUExHQUVMelBhdDBDTlk0c0EifQ.eyJleHAiOjE0ODcyNDg2OTUsIm5iZiI6MTQ4NzI0NTA5NSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjliZTFiN2ZkLTU1ZGEtNGIxMi04NzkxLWJjY2M5YmYzNTdmMCIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg3MjQ1MDk1LCJhdXRoX3RpbWUiOjE0ODcyNDUwOTUsIm9pZCI6IjliZTFiN2ZkLTU1ZGEtNGIxMi04NzkxLWJjY2M5YmYzNTdmMCIsImdpdmVuX25hbWUiOiJidXRlamlzIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyYWlsIiwiY291bnRyeSI6IkF6ZXJiYWlqYW4iLCJleHRlbnNpb25fRG9tYWluIjoiYnV0ZWppcy5jbG91ZGNoYXJnZS5jb20iLCJqb2JUaXRsZSI6ImFkbWluIiwibmFtZSI6InVua25vd24iLCJlbWFpbHMiOlsiYnV0ZWppc0BmdW42NC5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFBvbGljeSJ9.47GfdDY1OwldIN_3xefZ5KGqSXxx6IbRqwne6TLqconSNnrUmeFfIwHsamuVfvqB8aTGrv5SIXcJ2t8LykvmeaZzlK-w0W_GUBo29DTnLwLIenkiXYhjo2f4qj2E9BiF269t5T-YQQXI0VtnaanCtqHQ3m42XU-oHRi1kP61b4YzOhRg2C2cCWfSEkrS5gmzvJ0ZyqopD1IWFZXiy_8afPufxk-epyr7bgGoS2hmBtn5p9wYMmd1zAwyOMFjl21HRjGPyXyLlqPvRVWaf9FCDlEniqSCpGHiWZtz6SLSHcCh_FTEpZzmklb-IHMrz4DdWTcOYw85dEwFtRlWoeD3Ow";//gst('idToken');
+
 
     $http({
       method: 'GET',
-      url: '/auth/GetSession/'+$scope.securityToken+'/Nil',
+      url: 'http://dev.cloudcharge.com:8001/auth/getUserInfoByID',
       headers: {
-        'Content-Type': 'application/json'
+        'id_token':$scope.idToken
       }
     }).then(function(response) {
 
-      console.log(response.data.Username);
+      console.log(response);
 
-      $scope.tenantId = response.data.Domain.split('.')[0];
+      vm.dummy.Data =response.data.Result;
 
-      $http({
-        method : 'GET',
-        url : "/auth/tenant/Autherized/"+ response.data.Domain ,
-        headers: {
-          'Content-Type': 'application/json'
-        }}).then(function(response) {
+      $scope.tenantId = response.data.Result.domain.split('.')[0];
 
-        if(response.data.SecurityLevel === "admin"){
+      //$http({
+      //  method : 'GET',
+      //  url : "/auth/tenant/Autherized/"+ response.data.Domain ,
+      //  headers: {
+      //    'Content-Type': 'application/json'
+      //  }}).then(function(response) {
+      //
+        if(response.data.Result.UserType === "admin"){
           $scope.isUserAdmin = true;
         }
 
-      }, function(response) {
+      //}, function(response) {
+      //
+      //  console.log('check whether admin error '+response);
+      //
+      //});
+      //
+      //
+      //var userName = response.data.Username;
 
-        console.log('check whether admin error '+response);
+      //$http({
+      //  method : 'GET',
+      //  url : "/apis/profile/userprofile/"+userName,
+      //  headers: {
+      //    'Content-Type': 'application/json',
+      //    'securityToken':$scope.securityToken
+      //  }}).then(function(response) {
+      //  console.log(response.data.Data);
+      //  vm.dummy.Data =response.data.Data;
+      //
+      //  $scope.freeTrialStartDate = response.data.Data.timestamp;
+      //
+      //  $scope.calculateFreeTrialExpireDate();
+      //
+      //}, function(response) {
+      //  console.log(response);
+      //
+      //});
 
-      });
+      //$http({
+      //  method : 'GET',
+      //  url : "/apis/authorization/priceplan/"+userName,
+      //
+      //}).then(function(response) {
+        console.log(response.data.Result.plan);
 
-
-      var userName = response.data.Username;
-
-      $http({
-        method : 'GET',
-        url : "/apis/profile/userprofile/"+userName,
-        headers: {
-          'Content-Type': 'application/json',
-          'securityToken':$scope.securityToken
-        }}).then(function(response) {
-        console.log(response.data.Data);
-        vm.dummy.Data =response.data.Data;
-
-        $scope.freeTrialStartDate = response.data.Data.timestamp;
-
-        $scope.calculateFreeTrialExpireDate();
-
-      }, function(response) {
-        console.log(response);
-
-      });
-
-      $http({
-        method : 'GET',
-        url : "/apis/authorization/priceplan/"+userName,
-
-      }).then(function(response) {
-        console.log(response.data.Data.PricePlan);
-
-        selectPlan(response.data.Data.PricePlan);
+        selectPlan(response.data.Result.plan);
 
         $scope.userPrice = ($scope.selectedPlan.no > 4) ? 20 : 2;
-
+      //
         $scope.calculateFreeTrialExpireDate();
-
-
-      }, function(response) {
-        console.log(response);
-
-      });
+      //
+      //
+      //}, function(response) {
+      //  console.log(response);
+      //
+      //});
 
 
     }, function(response) {
@@ -417,7 +421,7 @@
 
     }
 
-    $scope.getTenantPaymentHistory();
+   // $scope.getTenantPaymentHistory();
 
 
     $scope.deactiveCurrentPlan = function(){  // EOD deactivation
@@ -437,7 +441,7 @@
           url : "/services/duosoftware.paymentgateway.service/stripe/permanentDisconnect",
           headers: {
             'Content-Type': 'application/json',
-            'securityToken':$scope.securityToken
+            'idToken':$scope.idToken
           },
           data : {'action':'eod'}
         }).then(function(response) {
@@ -488,7 +492,7 @@
           targetEvent: ev,
           clickOutsideToClose:false,
           locals:{
-            securityToken : $scope.securityToken
+            idToken : $scope.idToken
           }
         })
         .then(function(answer) {
@@ -545,7 +549,7 @@
             url: "/services/duosoftware.paymentgateway.service/2checkout/deleteClient",
             headers: {
               'Content-Type': 'application/json',
-              'securityToken':$scope.securityToken
+              'idToken':$scope.idToken
             },
             data : $scope.twoCheckOut
 
@@ -584,7 +588,7 @@
         url : "/apis/profile/userprofile",
         headers: {
           'Content-Type': 'application/json',
-          'securityToken':$scope.securityToken
+          'idToken':$scope.idToken
         },
         data : vm.dummy.Data
 
@@ -661,7 +665,7 @@
           .cancel('No');
         $mdDialog.show(confirm).then(function () {
 
-          $scope.getUserTenantData($scope.securityToken, packaged);
+          $scope.getUserTenantData($scope.idToken, packaged);
 
         }, function () {
           $scope.isPlanSelected = false;
@@ -669,7 +673,7 @@
         });
 
       }else{
-        $scope.getUserTenantData($scope.securityToken, packaged);
+        $scope.getUserTenantData($scope.idToken, packaged);
       }
 
     }
@@ -702,7 +706,7 @@
 
       $scope.paymentTenant = $scope.tenantId ;
       $scope.paymentPlan = pack.id;
-      $scope.paymentSecurityToken = $scope.securityToken;
+      $scope.paymentSecurityToken = $scope.idToken;
       $scope.paymentPrice = (pack.price);
       $scope.paymentName = pack.name;
 
@@ -778,7 +782,7 @@
         }
         var meta = {
           "domainUrl": window.location.hostname,
-          "securityToken": $scope.securityToken
+          "idToken": $scope.idToken
         }
         data = JSON.stringify(data);
         meta = JSON.stringify(meta);
@@ -854,8 +858,10 @@
       $http({
         method: 'GET',
         url: '/apis/authorization/userauthorization/changepassword/'+$scope.user.currentPassword+'/'+$scope.user.newPassword,
+        //url: 'http://dev.cloudcharge.com/auth/resetAPIUserPassword',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'id_token' : $scope.idToken
         }
       })
         .success(function (dataa) {
@@ -943,7 +949,7 @@
           url: '/services/duosoftware.paymentgateway.service/stripe/deactiveAcc',
           headers: {
             'Content-Type': 'application/json',
-            'securityToken':$scope.securityToken
+            'idToken':$scope.idToken
           }
         }).success(function (dataa) {
           debugger;
@@ -1010,7 +1016,7 @@
         url: '/services/duosoftware.paymentgateway.service/stripe/subscriberCheck',
         headers: {
           'Content-Type': 'application/json',
-          'securityToken' : $scope.securityToken
+          'idToken' : $scope.idToken
         }
       }).success(function (data) {
         console.log(data);

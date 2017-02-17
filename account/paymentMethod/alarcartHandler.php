@@ -82,11 +82,11 @@ switch ($view) {
 
                             $headr = array();
                             $headr[] = 'Content-Type: application/json';
-                            $headr[] = 'securityToken: '.$st;
+                            $headr[] = 'idTokrn: '.$st;
 
                               curl_setopt($chp, CURLOPT_HTTPHEADER,$headr);
 
-        					  curl_setopt($chp, CURLOPT_COOKIE, "securityToken=" . $st . "; authData=". $authData);
+        					  curl_setopt($chp, CURLOPT_COOKIE, "idTokrn=" . $st . "; authData=". $authData);
 
                               $planId = str_replace("_year","",$planId);
 
