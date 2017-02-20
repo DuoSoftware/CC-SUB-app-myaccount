@@ -1,6 +1,6 @@
 <?php
 
-//require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
+require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
 ////require_once('../data/accountConfig.php');
 //
 //$doc = $_SERVER ['DOCUMENT_ROOT'];
@@ -43,65 +43,68 @@
 
 
 
-//if(!isset($_COOKIE['planId'])) {
-//    header('Location: ../../../../#/account');
-// }else{
-//
-//    $planId = $_COOKIE['planId'];
-//    $st = $_COOKIE['securityToken'];
-//    $price = $_COOKIE['price'];
-//    $name = $_COOKIE['name'];
-//    $tenantID = $_COOKIE['tenantID'];
-//    $selectedPlan = $_COOKIE['selectedPlan'];
-//
-//    $paymentStatus = "";
-//
-//    if(isset($_COOKIE['paymentStatus']))
-//      $paymentStatus = $_COOKIE['paymentStatus'];
-//
-//    $resp = new stdClass();
-//    $resp->status = 0;
-//
-//    $planInfo = new stdClass();
-//    $planInfo->plan = $planId;
-//    $planInfo->quantity = 1;
-//    $planInfo->amount = $price;
-//
-//    if($paymentStatus == 'canceled')
-//    {
-//
-//        $planInfo->panelty = 0;
-//
-//        $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);
-//    }
-//    else{
-//
-//  if($selectedPlan == 'free_trial' || $selectedPlan == 'personal_space' ){
-//
-//    $token  = $_COOKIE['stripeToken'];//$_POST['stripeToken'];
-//
-//
-////        $actual_link = "http://$_SERVER[HTTP_HOST]";
-////        print_r($actual_link);
-////        print_r($_COOKIE);
-////        print_r($token);
-////        exit();
-//
-//       $planInfo->token = $token;
-//
-//
-//       $resp = (new CloudCharge())->plan()->subscribeToFixedplan($token ,$planInfo);
-//
-//    }else{
-//
-//       $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);
-//
-//    }
-//}
-//
-//        print_r($resp);
-//       exit();
-//
+if(!isset($_COOKIE['planId'])) {
+    header('Location: ../../../../#/account');
+ }else{
+
+    $planId = $_COOKIE['planId'];
+    $st = $_COOKIE['securityToken'];
+    $price = $_COOKIE['price'];
+    $name = $_COOKIE['name'];
+    $tenantID = $_COOKIE['tenantID'];
+    $selectedPlan = $_COOKIE['selectedPlan'];
+
+    $paymentStatus = "";
+
+    if(isset($_COOKIE['paymentStatus']))
+      $paymentStatus = $_COOKIE['paymentStatus'];
+
+    $resp = new stdClass();
+    $resp->status = 0;
+
+    $planInfo = new stdClass();
+    $planInfo->plan = $planId;
+    $planInfo->quantity = 1;
+    $planInfo->amount = $price;
+
+    if($paymentStatus == 'canceled')
+    {
+
+        $planInfo->panelty = 0;
+
+        echo 'aaaa';
+       // $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);
+    }
+    else{
+
+    echo 'bbbbb';
+
+  if($selectedPlan == 'free_trial' || $selectedPlan == 'personal_space' ){
+
+    $token  = $_COOKIE['stripeToken'];//$_POST['stripeToken'];
+
+      echo 'ccccc';
+//        $actual_link = "http://$_SERVER[HTTP_HOST]";
+//        print_r($actual_link);
+//        print_r($_COOKIE);
+//        print_r($token);
+//        exit();
+
+       $planInfo->token = $token;
+
+
+     //  $resp = (new CloudCharge())->plan()->subscribeToFixedplan($token ,$planInfo);
+
+    }else{
+        echo 'ddddd';
+     //  $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);
+
+    }
+}
+
+
+       exit();
+
 //
 //    if($resp->status)
 //        {
