@@ -1,11 +1,10 @@
 <?php
 
-
-require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
-//require_once('../data/accountConfig.php');
-
-$doc = $_SERVER ['DOCUMENT_ROOT'];
-require_once ($doc.'/services/config/settings.php');
+//require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
+////require_once('../data/accountConfig.php');
+//
+//$doc = $_SERVER ['DOCUMENT_ROOT'];
+//require_once ($doc.'/services/config/settings.php');
 
 
                   echo '  <!DOCTYPE html>  <html>  <head> <style> ';
@@ -44,122 +43,122 @@ require_once ($doc.'/services/config/settings.php');
 
 
 
-if(!isset($_COOKIE['planId'])) {
-    header('Location: ../../../../#/account');
- }else{
-
-    $planId = $_COOKIE['planId'];
-    $st = $_COOKIE['securityToken'];
-    $price = $_COOKIE['price'];
-    $name = $_COOKIE['name'];
-    $tenantID = $_COOKIE['tenantID'];
-    $selectedPlan = $_COOKIE['selectedPlan'];
-
-    $paymentStatus = "";
-
-    if(isset($_COOKIE['paymentStatus']))
-      $paymentStatus = $_COOKIE['paymentStatus'];
-
-    $resp = new stdClass();
-    $resp->status = 0;
-
-    $planInfo = new stdClass();
-    $planInfo->plan = $planId;
-    $planInfo->quantity = 1;
-    $planInfo->amount = $price;
-
-    if($paymentStatus == 'canceled')
-    {
-
-        $planInfo->panelty = 0;
-
-        $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);
-    }
-    else{
-
-  if($selectedPlan == 'free_trial' || $selectedPlan == 'personal_space' ){
-
-    $token  = $_COOKIE['stripeToken'];//$_POST['stripeToken'];
-
-
-//        $actual_link = "http://$_SERVER[HTTP_HOST]";
-//        print_r($actual_link);
-//        print_r($_COOKIE);
-//        print_r($token);
-//        exit();
-
-       $planInfo->token = $token;
-
-
-       $resp = (new CloudCharge())->plan()->subscribeToFixedplan($token ,$planInfo);
-
-    }else{
-
-       $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);
-
-    }
-}
-
-        print_r($resp);
-       exit();
-
-
-    if($resp->status)
-        {
-           // header('Location: ../#/proceed?plan='.$planId.'&st='.$st.'&tenantID='.$tenantID);
-
-
-          $authData = $_COOKIE['authData'];
-
-           $ch = curl_init();
-
-           curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
-
-           // receive server response ...
-           curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-           $output = curl_exec ($ch);
-
-           curl_close ($ch);
-
-//           Permission Update
-
-                $chp = curl_init();
-
-                    $headr = array();
-                    $headr[] = 'Content-Type: application/json';
-                    $headr[] = 'idToken: '.$st;
-
-                      curl_setopt($chp, CURLOPT_HTTPHEADER,$headr);
-
-					  curl_setopt($chp, CURLOPT_COOKIE, "idToken=" . $st . "; authData=". $authData);
-
-                      $planId = str_replace("_year","",$planId);
-
-                     curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
-
-					// $urlss = "http://". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId;
-
-                      // receive server response ...
-                      curl_setopt($chp, CURLOPT_RETURNTRANSFER, 1);
-
-                      $outputp = curl_exec ($chp);
-
-                      curl_close ($chp);
-
-
-          $message = "You have successfully Updated to ".$name." Package. Please re login to active new features.";
-                     echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account';</script></body></html>";
-
-        }
-        else
-        {
-           $message = "Error while make payment, ".$resp->result.",  Please choose again to update new package.";
-           echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account' </script></body></html>";
-
-
-        }
-
-}
+//if(!isset($_COOKIE['planId'])) {
+//    header('Location: ../../../../#/account');
+// }else{
+//
+//    $planId = $_COOKIE['planId'];
+//    $st = $_COOKIE['securityToken'];
+//    $price = $_COOKIE['price'];
+//    $name = $_COOKIE['name'];
+//    $tenantID = $_COOKIE['tenantID'];
+//    $selectedPlan = $_COOKIE['selectedPlan'];
+//
+//    $paymentStatus = "";
+//
+//    if(isset($_COOKIE['paymentStatus']))
+//      $paymentStatus = $_COOKIE['paymentStatus'];
+//
+//    $resp = new stdClass();
+//    $resp->status = 0;
+//
+//    $planInfo = new stdClass();
+//    $planInfo->plan = $planId;
+//    $planInfo->quantity = 1;
+//    $planInfo->amount = $price;
+//
+//    if($paymentStatus == 'canceled')
+//    {
+//
+//        $planInfo->panelty = 0;
+//
+//        $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);
+//    }
+//    else{
+//
+//  if($selectedPlan == 'free_trial' || $selectedPlan == 'personal_space' ){
+//
+//    $token  = $_COOKIE['stripeToken'];//$_POST['stripeToken'];
+//
+//
+////        $actual_link = "http://$_SERVER[HTTP_HOST]";
+////        print_r($actual_link);
+////        print_r($_COOKIE);
+////        print_r($token);
+////        exit();
+//
+//       $planInfo->token = $token;
+//
+//
+//       $resp = (new CloudCharge())->plan()->subscribeToFixedplan($token ,$planInfo);
+//
+//    }else{
+//
+//       $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);
+//
+//    }
+//}
+//
+//        print_r($resp);
+//       exit();
+//
+//
+//    if($resp->status)
+//        {
+//           // header('Location: ../#/proceed?plan='.$planId.'&st='.$st.'&tenantID='.$tenantID);
+//
+//
+//          $authData = $_COOKIE['authData'];
+//
+//           $ch = curl_init();
+//
+//           curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
+//
+//           // receive server response ...
+//           curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//
+//           $output = curl_exec ($ch);
+//
+//           curl_close ($ch);
+//
+////           Permission Update
+//
+//                $chp = curl_init();
+//
+//                    $headr = array();
+//                    $headr[] = 'Content-Type: application/json';
+//                    $headr[] = 'idToken: '.$st;
+//
+//                      curl_setopt($chp, CURLOPT_HTTPHEADER,$headr);
+//
+//					  curl_setopt($chp, CURLOPT_COOKIE, "idToken=" . $st . "; authData=". $authData);
+//
+//                      $planId = str_replace("_year","",$planId);
+//
+//                     curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
+//
+//					// $urlss = "http://". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId;
+//
+//                      // receive server response ...
+//                      curl_setopt($chp, CURLOPT_RETURNTRANSFER, 1);
+//
+//                      $outputp = curl_exec ($chp);
+//
+//                      curl_close ($chp);
+//
+//
+//          $message = "You have successfully Updated to ".$name." Package. Please re login to active new features.";
+//                     echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account';</script></body></html>";
+//
+//        }
+//        else
+//        {
+//           $message = "Error while make payment, ".$resp->result.",  Please choose again to update new package.";
+//           echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account' </script></body></html>";
+//
+//
+//        }
+//
+//}
 
 ?>
