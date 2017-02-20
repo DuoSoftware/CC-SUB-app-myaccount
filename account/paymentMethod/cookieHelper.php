@@ -63,10 +63,14 @@ if(isset($_COOKIE['isRefreshed'])){
 //exit();
 
  if(isset($_COOKIE['planId'])) {
-      header('Location: charge.php');
-       //?plan=' + pack.id + '&st=' + dataa.SecurityToken + '&price=' + (pack.price * 100) + '&name=' + pack.name + '&tenantID=' + TenantID);
+      //header('Location: charge.php');
+
+    print_r('inside if part,   dbjsdbfsh d jhdsfhsbhfsbjfh shd hsbhfdsbfhbdfhd');
+
  } else {
-     header('Location: ../#/account');
+     //header('Location: ../#/account');
+
+     print_r('inside else.  hhhhhhhhhhhhhhh hhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhh');
  }
  //header('Location: ../#/proceed?plan=');
 
