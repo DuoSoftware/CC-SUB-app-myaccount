@@ -1,5 +1,5 @@
 <?php
-print_r($_SERVER["DOCUMENT_ROOT"]);
+print_r('dsdsdsdsdsdsd');
 exit();
 require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
 ////require_once('../data/accountConfig.php');
