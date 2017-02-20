@@ -162,7 +162,16 @@
 
 
       //checkAccount ->  Stripe
-      $charge.paymentgateway().stripeCheckAccount().success(function(data) {
+      //$charge.paymentgateway().stripeCheckAccount().success(function(data) {
+
+      $http({
+        method: 'GET',
+        url: 'http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/commongateway/connectedGateways',
+        headers: {
+          'Content-Type': 'application/json',
+          'idToken' : $scope.idToken
+        }
+      }).success(function (data) {
 
         if(data.status) {
           for (var i = 0; i < data.data.length; i++) {
@@ -178,7 +187,7 @@
         }
 
       }).error(function(data) {
-        console.log(data);
+        console.log("blaaaaaaaaa" + data);
 
         $scope.isRegisteredWithStripe = false;
         $scope.isRegisteredWith2checkout = false;
@@ -404,7 +413,19 @@
     $scope.getTenantPaymentHistory = function() {
 
       $scope.isTenantPaymentHistoryClicked = true;
-      $charge.paymentgateway().getAllPaymentByTenant(0, 100, 'cloudcharge').success(function (data) {
+      //$charge.paymentgateway().getAllPaymentByTenant(0, 100, 'cloudcharge').success(function (data) {
+
+      $http({
+        method: 'GET',
+        url: 'http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/payinfo/getAllPaymentByTenant/?skip=0&take=100&type=cloudcharge',
+        headers: {
+          'Content-Type': 'application/json',
+          'idToken' : $scope.idToken
+        },
+        data:{
+
+        }
+      }).success(function (data) {
 
         $scope.paymentHistoryList = null;
         $scope.paymentHistoryList = data;
@@ -421,7 +442,7 @@
 
     }
 
-   // $scope.getTenantPaymentHistory();
+    $scope.getTenantPaymentHistory();
 
 
     $scope.deactiveCurrentPlan = function(){  // EOD deactivation
@@ -438,7 +459,7 @@
 
         $http({
           method : 'POST',
-          url : "/services/duosoftware.paymentgateway.service/stripe/permanentDisconnect",
+          url : "http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/stripe/permanentDisconnect",
           headers: {
             'Content-Type': 'application/json',
             'idToken':$scope.idToken
@@ -546,7 +567,7 @@
 
           $http({
             method: 'DELETE',
-            url: "/services/duosoftware.paymentgateway.service/2checkout/deleteClient",
+            url: "http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/2checkout/deleteClient",
             headers: {
               'Content-Type': 'application/json',
               'idToken':$scope.idToken
@@ -682,23 +703,25 @@
 
       $scope.isPlanSelected= true;
 
-      $http({
-        method: 'GET',
-        url: '/auth/GetSession/'+secToken+'/Nil',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).success(function (dataa) {
-        debugger;
-        console.log(dataa);
-        submitTenantDetails(pack,dataa)
-      })
-        .error(function (data) {
-          console.log(data);
-          displaycreateCompanyDetailsSubmissionError('Sorry, we are having problems updating packages at this moment. Please try again later.','Failed to create company.');
-          $scope.isPlanSelected= false;
+      submitTenantDetails(pack,'')
 
-        });
+      //$http({
+      //  method: 'GET',
+      //  url: '/auth/GetSession/'+secToken+'/Nil',
+      //  headers: {
+      //    'Content-Type': 'application/json'
+      //  }
+      //}).success(function (dataa) {
+      //  debugger;
+      //  console.log(dataa);
+      //  submitTenantDetails(pack,dataa)
+      //})
+      //  .error(function (data) {
+      //    console.log(data);
+      //    displaycreateCompanyDetailsSubmissionError('Sorry, we are having problems updating packages at this moment. Please try again later.','Failed to create company.');
+      //    $scope.isPlanSelected= false;
+      //
+      //  });
     };
 
 
@@ -946,7 +969,7 @@
 
         $http({
           method: 'GET',
-          url: '/services/duosoftware.paymentgateway.service/stripe/deactiveAcc',
+          url: 'http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/stripe/deactiveAcc',
           headers: {
             'Content-Type': 'application/json',
             'idToken':$scope.idToken
@@ -1013,7 +1036,7 @@
 
       $http({
         method: 'GET',
-        url: '/services/duosoftware.paymentgateway.service/stripe/subscriberCheck',
+        url: 'http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/stripe/subscriberCheck',
         headers: {
           'Content-Type': 'application/json',
           'idToken' : $scope.idToken
@@ -1043,7 +1066,7 @@
       }).error(function (data) {
 
         if(data.response)
-          $scope.paymentStatus = data.response[0].status;
+          $scope.paymentStatus = data.response;
 
       });
 
