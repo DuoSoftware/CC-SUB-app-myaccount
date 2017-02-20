@@ -65,12 +65,12 @@ if(isset($_COOKIE['isRefreshed'])){
  if(isset($_COOKIE['planId'])) {
       //header('Location: charge.php');
 
-    print_r('inside if part,   dbjsdbfsh d jhdsfhsbhfsbjfh shd hsbhfdsbfhbdfhd');
+    echo ('inside if part,   dbjsdbfsh d jhdsfhsbhfsbjfh shd hsbhfdsbfhbdfhd');
 
  } else {
      //header('Location: ../#/account');
 
-     print_r('inside else.  hhhhhhhhhhhhhhh hhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhh');
+     echo ('inside else.  hhhhhhhhhhhhhhh hhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhh');
  }
  //header('Location: ../#/proceed?plan=');
 

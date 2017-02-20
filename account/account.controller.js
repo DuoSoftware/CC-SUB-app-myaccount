@@ -124,7 +124,7 @@
 
       $http({
         method: 'GET',
-        url: "/shell/app/main/account/paymentMethod/cardHandler.php?view=getCardDetails",
+        url: "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=getCardDetails",
         headers: {
           'Content-Type': 'application/json'
         }
@@ -244,7 +244,7 @@
 
       $http({
         method : 'GET',
-        url : "/shell/app/main/account/paymentMethod/cardHandler.php?view=setCardDefault&cardId="+cardDetails.id,
+        url : "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=setCardDefault&cardId="+cardDetails.id,
         headers: {
           'Content-Type': 'application/json'
         }}).then(function(response) {
@@ -649,7 +649,7 @@
 
         $http({
           method : 'GET',
-          url : "/shell/app/main/account/paymentMethod/cardHandler.php?view=addCard&token="+args.id+"&default=true",
+          url : "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=addCard&token="+args.id+"&default=true",
           headers: {
             'Content-Type': 'application/json'
           }}).then(function(response) {
@@ -663,8 +663,8 @@
       } else {
         $scope.isPlanSelected = true;
 
-        $window.location.href = '/shell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.id + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus ;
-        //$window.location.href = '/shell/app/main/account/paymentMethod/cookieHelper.php?plan=' +  $scope.paymentPlan + '&st=' +  $scope.paymentSecurityToken + '&price=' + ( $scope.paymentPrice ) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&stripeToken=' +  args.id;
+        $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.id + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus ;
+        //$window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?plan=' +  $scope.paymentPlan + '&st=' +  $scope.paymentSecurityToken + '&price=' + ( $scope.paymentPrice ) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&stripeToken=' +  args.id;
       }
 
     });
@@ -748,7 +748,7 @@
 
           $http({
             method : 'POST',
-            url : '/shell/app/main/account/paymentMethod/alarcartHandler.php?view=updatePackageWithAddAdditionalUsers&userCount='+$scope.userdata+'&userPrice='+($scope.userdata * $scope.addUp)+ '&selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ,
+            url : '/azureshell/app/main/account/paymentMethod/alarcartHandler.php?view=updatePackageWithAddAdditionalUsers&userCount='+$scope.userdata+'&userPrice='+($scope.userdata * $scope.addUp)+ '&selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ,
             headers: {
               'Content-Type': 'application/json'
             }
@@ -777,8 +777,8 @@
 
         }else {
 
-          //$window.location.href = '/shell/app/main/account/paymentMethod/charge.php';
-          $window.location.href = '/shell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ;
+          //$window.location.href = '/azureshell/app/main/account/paymentMethod/charge.php';
+          $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ;
         }
 
       }
@@ -936,7 +936,7 @@
 
       $scope.isRegButtonsShow = true;
       //$window.location.href = 'https://connect.stripe.com/oauth/authorize?response_type=code&scope=read_write&client_id=ca_9SnbSf9mKGaz5k4lelzQIQJZ3FjgQ79h';
-      $window.location.href = '/shell/app/main/account/paymentMethod/payment-partial.php';
+      $window.location.href = '/azureshell/app/main/account/paymentMethod/payment-partial.php';
 
       }, function () {
         $mdDialog.hide();
