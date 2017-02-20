@@ -63,14 +63,12 @@ if(isset($_COOKIE['isRefreshed'])){
 //exit();
 
  if(isset($_COOKIE['planId'])) {
-      //header('Location: charge.php');
 
-    echo ('inside if part,   dbjsdbfsh d jhdsfhsbhfsbjfh shd hsbhfdsbfhbdfhd');
+      header('Location: charge.php');
 
  } else {
-     //header('Location: ../#/account');
 
-     echo ('inside else.  hhhhhhhhhhhhhhh hhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhh');
+     header('Location: ../#/account');
  }
  //header('Location: ../#/proceed?plan=');
 

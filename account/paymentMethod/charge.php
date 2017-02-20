@@ -100,8 +100,6 @@ if(!isset($_COOKIE['planId'])) {
     }
 }
 
-        print_r($resp);
-       exit();
 
 
     if($resp->status)
