@@ -114,8 +114,14 @@ if(!isset($_COOKIE['planId'])) {
 
            $ch = curl_init();
 
+           $head = array();
+             $head[] = 'Content-Type: application/json';
+             $head[] = 'id_token: '.$st;
+
+           curl_setopt($ch, CURLOPT_HTTPHEADER,$head);
+
            //curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
-           curl_setopt($ch, CURLOPT_URL, "http://dev.cloudcharge.com:8002/auth/updateSubscription?planCode=".$planId);
+           curl_setopt($ch, CURLOPT_URL, "http://dev.cloudcharge.com:8001/auth/updateSubscription?planCode=".$planId);
 
            // receive server response ...
            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -124,30 +130,30 @@ if(!isset($_COOKIE['planId'])) {
 
            curl_close ($ch);
 
-//           Permission Update
-
-                $chp = curl_init();
-
-                    $headr = array();
-                    $headr[] = 'Content-Type: application/json';
-                    $headr[] = 'idToken: '.$st;
-
-                      curl_setopt($chp, CURLOPT_HTTPHEADER,$headr);
-
-					  curl_setopt($chp, CURLOPT_COOKIE, "idToken=" . $st );
-
-                      $planId = str_replace("_year","",$planId);
-
-                     curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
-
-					// $urlss = "http://". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId;
-
-                      // receive server response ...
-                      curl_setopt($chp, CURLOPT_RETURNTRANSFER, 1);
-
-                      $outputp = curl_exec ($chp);
-
-                      curl_close ($chp);
+////           Permission Update
+//
+//                $chp = curl_init();
+//
+//                    $headr = array();
+//                    $headr[] = 'Content-Type: application/json';
+//                    $headr[] = 'idToken: '.$st;
+//
+//                      curl_setopt($chp, CURLOPT_HTTPHEADER,$headr);
+//
+//					            curl_setopt($chp, CURLOPT_COOKIE, "id_token=" . $st );
+//
+//                      $planId = str_replace("_year","",$planId);
+//
+//                     curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
+//
+//					// $urlss = "http://". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId;
+//
+//                      // receive server response ...
+//                      curl_setopt($chp, CURLOPT_RETURNTRANSFER, 1);
+//
+//                      $outputp = curl_exec ($chp);
+//
+//                      curl_close ($chp);
 
 
           $message = "You have successfully Updated to ".$name." Package. Please re login to active new features.";
