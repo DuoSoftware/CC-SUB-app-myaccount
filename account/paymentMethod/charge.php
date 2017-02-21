@@ -4,7 +4,7 @@
 //exit();
 //$doc = $_SERVER ['DOCUMENT_ROOT'];
 //require_once ($doc.'/services/config/settings.php');
-
+print_r($_SERVER["DOCUMENT_ROOT"]);
 
                   echo '  <!DOCTYPE html>  <html>  <head> <style> ';
                           /* Center the loader */
