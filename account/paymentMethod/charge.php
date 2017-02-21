@@ -56,8 +56,8 @@ if(!isset($_COOKIE['planId'])) {
       $paymentStatus = $_COOKIE['paymentStatus'];
 
 
-      print_r($planId.' '.$st. ' '.$price.' '.$name.' '.$tenantID.' '.$selectedPlan);
-      exit();
+//      print_r($planId.' '.$st. ' '.$price.' '.$name.' '.$tenantID.' '.$selectedPlan.' '.$paymentStatus);
+//      exit();
 
     $resp = new stdClass();
     $resp->status = 0;
@@ -80,6 +80,7 @@ if(!isset($_COOKIE['planId'])) {
 
     $token  = $_COOKIE['stripeToken'];//$_POST['stripeToken'];
 
+
 //        $actual_link = "http://$_SERVER[HTTP_HOST]";
 //        print_r($actual_link);
 //        print_r($_COOKIE);
@@ -87,6 +88,7 @@ if(!isset($_COOKIE['planId'])) {
 //        exit();
 
        $planInfo->token = $token;
+
 
        $resp = (new CloudCharge())->plan()->subscribeToFixedplan($token ,$planInfo);
 
