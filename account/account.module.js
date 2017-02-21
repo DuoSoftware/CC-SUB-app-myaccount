@@ -2,8 +2,8 @@
 // App : MyAccount / MyProfile
 // Owner : Ishara Gunathilaka
 // Last changed date : 2017/01/11
-// Version : 6.0.0.36
-// Modified By : Kasun
+// Version : 6.0.0.1
+// Modified By : ishara
 /////////////////////////////////
 
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once($_SERVER["DOCUMENT_ROOT"] . '/shell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
+require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
 //require_once('../data/accountConfig.php');
 
 $doc = $_SERVER ['DOCUMENT_ROOT'];

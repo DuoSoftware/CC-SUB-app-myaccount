@@ -23,7 +23,8 @@ require_once ($doc.'/services/config/settings.php');
        curl_setopt($req, CURLOPT_RETURNTRANSFER, true);
        curl_setopt($req, CURLOPT_POST, true );
       curl_setopt($req,CURLOPT_HTTPHEADER,array('securityToken: '.$res[1]));
-       curl_setopt($req, CURLOPT_POSTFIELDS, json_encode($token_request_body));
+      curl_setopt($req,CURLOPT_HTTPHEADER,array('idToken: '.$res[1]));
+      curl_setopt($req, CURLOPT_POSTFIELDS, json_encode($token_request_body));
        curl_setopt($req, CURLOPT_SSL_VERIFYPEER, false);
        // TODO: Additional error handling
        $respCode = curl_getinfo($req, CURLINFO_HTTP_CODE);
