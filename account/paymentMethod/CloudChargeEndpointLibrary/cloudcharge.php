@@ -303,8 +303,6 @@ class Plan {
 
 	public function subscribeToFixedplan($token ,$planInfo) {
 		/* {"plan":"Gold", "amount": 10, "quantity":1} */
-var_dump($token);
-exit();
 		$plan = new FixedPlanStruct();
 		$plan->token = $token;
 		$plan->plan = $planInfo->plan;

@@ -2,6 +2,9 @@
 
 require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
 
+$doc = $_SERVER ['DOCUMENT_ROOT'];
+require_once ($doc.'/services/config/settings.php');
+
                   echo '  <!DOCTYPE html>  <html>  <head> <style> ';
                           /* Center the loader */
                    echo '       #loader { '.
@@ -107,11 +110,12 @@ if(!isset($_COOKIE['planId'])) {
            // header('Location: ../#/proceed?plan='.$planId.'&st='.$st.'&tenantID='.$tenantID);
 
 
-          $authData = $_COOKIE['authData'];
+         // $authData = $_COOKIE['authData'];
 
            $ch = curl_init();
 
-           curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
+           //curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
+           curl_setopt($ch, CURLOPT_URL, "http://dev.cloudcharge.com:8002/auth/updateSubscription?planCode=".$planId);
 
            // receive server response ...
            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -130,7 +134,7 @@ if(!isset($_COOKIE['planId'])) {
 
                       curl_setopt($chp, CURLOPT_HTTPHEADER,$headr);
 
-					  curl_setopt($chp, CURLOPT_COOKIE, "idToken=" . $st . "; authData=". $authData);
+					  curl_setopt($chp, CURLOPT_COOKIE, "idToken=" . $st );
 
                       $planId = str_replace("_year","",$planId);
 
