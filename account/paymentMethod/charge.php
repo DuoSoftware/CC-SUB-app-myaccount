@@ -92,8 +92,7 @@ if(!isset($_COOKIE['planId'])) {
 
        $planInfo->token = $token;
 
-
-       $resp = (new CloudCharge())->plan()->subscribeToFixedplan($token ,$planInfo);
+      $resp = (new CloudCharge())->plan()->subscribeToFixedplan($token ,$planInfo);
 
     }else{
          $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);

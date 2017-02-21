@@ -6,7 +6,8 @@ require_once ($doc.'/services/config/settings.php');
 
 
  define('CLIENT_ID', 'ca_9PpA3YTuMERCqYWgdj2ORagy9THaCOVO');
- define('TOKEN_URI', ''. MAIN_DOMAIN .'/services/duosoftware.paymentgateway.service/stripe/insertAccKeys');
+ //define('TOKEN_URI', ''. MAIN_DOMAIN .'/services/duosoftware.paymentgateway.service/stripe/insertAccKeys');
+ define('TOKEN_URI', 'http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/stripe/insertAccKeys');
  define('AUTHORIZE_URI', 'https://connect.stripe.com/oauth/authorize');
    if (isset($_GET['code'])) {
      $code = $_GET['code'];
