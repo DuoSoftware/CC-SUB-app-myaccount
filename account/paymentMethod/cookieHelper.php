@@ -64,7 +64,7 @@ if(isset($_COOKIE['isRefreshed'])){
 
  if(isset($_COOKIE['planId'])) {
 
-      header('Location: charge.php');
+      header('Location: charge.php?bla=sssssssssss');
 
  } else {
 
