@@ -1,6 +1,7 @@
 <?php
-print_r('dsdsdsdsdsdsd');
-//print_r($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
+
+ini_set('display_errors', 1);
+//require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
 //exit();
 //$doc = $_SERVER ['DOCUMENT_ROOT'];
 //require_once ($doc.'/services/config/settings.php');
