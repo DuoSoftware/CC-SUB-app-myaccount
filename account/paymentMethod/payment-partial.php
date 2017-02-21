@@ -36,12 +36,12 @@ require_once ($doc.'/services/config/settings.php');
 	  //var_dump($resp);
 
 	  if($resp['status']){
-        header('Location: //'.$res[0] .'/shell/#/account');
+        header('Location: //'.$res[0] .'/azureshell/#/account');
 	  }else{
 
 	    var_dump($resp);
 
-      $url = '//'.$res[0].'/shell/#/account';
+      $url = '//'.$res[0].'/azureshell/#/account';
       echo "<br/> <a href='$url'>Go Back</a>";
 
 	  }
@@ -55,13 +55,13 @@ require_once ($doc.'/services/config/settings.php');
         $error =  $_GET['error_description'];
 
         if($error === 'The user denied your request'){
-           header('Location: //'.$res[0] .'/shell/#/account');
+           header('Location: //'.$res[0] .'/azureshell/#/account');
         }else{
 
           print_r('Error : '.$error);
 
-          //$url = 'http://'.$res[0] .'/shell/#/account';
-          $url = '//'.$res[0] .'/shell/#/account';
+          //$url = 'http://'.$res[0] .'/azureshell/#/account';
+          $url = '//'.$res[0] .'/azureshell/#/account';
           echo "<br/> <a href='$url'>Go Back</a>";
         }
 
@@ -72,7 +72,7 @@ require_once ($doc.'/services/config/settings.php');
        'scope' => 'read_write',
        'client_id' => CLIENT_ID,
        'state' => $_SERVER['SERVER_NAME'].'@'.$_COOKIE['securityToken']
-       ,'redirect_uri'=> MAIN_DOMAIN .'/shell/app/main/account/paymentMethod/payment-partial.php'
+       ,'redirect_uri'=> MAIN_DOMAIN .'/azureshell/app/main/account/paymentMethod/payment-partial.php'
      );
 
    $url = AUTHORIZE_URI . '?' . http_build_query($authorize_request_body);
