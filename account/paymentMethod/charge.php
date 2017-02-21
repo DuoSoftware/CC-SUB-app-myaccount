@@ -130,7 +130,6 @@ if(!isset($_COOKIE['planId'])) {
 
            curl_close ($ch);
 
-           print_r($output);exit();
 
 ////           Permission Update
 //
