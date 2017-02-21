@@ -3,6 +3,7 @@
 require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
 
 $doc = $_SERVER ['DOCUMENT_ROOT'];
+define('DOC_ROOT', $doc);
 require_once ($doc.'/services/config/settings.php');
 
                   echo '  <!DOCTYPE html>  <html>  <head> <style> ';
@@ -100,8 +101,8 @@ if(!isset($_COOKIE['planId'])) {
     }
 }
 
-
-      // exit();
+print_r($resp);
+       exit();
 
 
     if($resp->status)
