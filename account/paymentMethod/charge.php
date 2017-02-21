@@ -1,10 +1,6 @@
 <?php
 
-//require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
-//exit();
-//$doc = $_SERVER ['DOCUMENT_ROOT'];
-//require_once ($doc.'/services/config/settings.php');
-//print_r($_SERVER["DOCUMENT_ROOT"]);
+require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
 
                   echo '  <!DOCTYPE html>  <html>  <head> <style> ';
                           /* Center the loader */
