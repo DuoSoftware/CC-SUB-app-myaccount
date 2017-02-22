@@ -7,7 +7,7 @@
     .controller('GuidedPayment2CheckoutController', GuidedPayment2CheckoutController);
 
   /** @ngInject */
-  function GuidedPayment2CheckoutController($mdDialog, $scope,$http,notifications,securityToken)
+  function GuidedPayment2CheckoutController($mdDialog, $scope,$http,notifications,idToken)
   {
     var vm = this;
     $scope.twoCheckOut = {
@@ -22,7 +22,8 @@
           url: "/services/duosoftware.paymentgateway.service/2checkout/insertAccKeys",
           headers: {
             'Content-Type': 'application/json',
-            'securityToken':securityToken
+            'securityToken':idToken,
+            'idToken':idToken
           },
           data : $scope.twoCheckOut
 

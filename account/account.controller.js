@@ -173,10 +173,6 @@
 
     $scope.checkPaymentMethodRegistry = function(){
 
-
-      //checkAccount ->  Stripe
-      //$charge.paymentgateway().stripeCheckAccount().success(function(data) {
-
       $http({
         method: 'GET',
         url: 'http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/commongateway/connectedGateways',
