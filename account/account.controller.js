@@ -68,8 +68,28 @@
     $scope.idToken= gst('securityToken');
 
     if(!$scope.idToken)
-      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImdmSUtJSC15WjNwaFJIUnlqbnNISXFaTWFlUExHQUVMelBhdDBDTlk0c0EifQ.eyJleHAiOjE0ODcyNDg2OTUsIm5iZiI6MTQ4NzI0NTA5NSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjliZTFiN2ZkLTU1ZGEtNGIxMi04NzkxLWJjY2M5YmYzNTdmMCIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg3MjQ1MDk1LCJhdXRoX3RpbWUiOjE0ODcyNDUwOTUsIm9pZCI6IjliZTFiN2ZkLTU1ZGEtNGIxMi04NzkxLWJjY2M5YmYzNTdmMCIsImdpdmVuX25hbWUiOiJidXRlamlzIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyYWlsIiwiY291bnRyeSI6IkF6ZXJiYWlqYW4iLCJleHRlbnNpb25fRG9tYWluIjoiYnV0ZWppcy5jbG91ZGNoYXJnZS5jb20iLCJqb2JUaXRsZSI6ImFkbWluIiwibmFtZSI6InVua25vd24iLCJlbWFpbHMiOlsiYnV0ZWppc0BmdW42NC5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFBvbGljeSJ9.47GfdDY1OwldIN_3xefZ5KGqSXxx6IbRqwne6TLqconSNnrUmeFfIwHsamuVfvqB8aTGrv5SIXcJ2t8LykvmeaZzlK-w0W_GUBo29DTnLwLIenkiXYhjo2f4qj2E9BiF269t5T-YQQXI0VtnaanCtqHQ3m42XU-oHRi1kP61b4YzOhRg2C2cCWfSEkrS5gmzvJ0ZyqopD1IWFZXiy_8afPufxk-epyr7bgGoS2hmBtn5p9wYMmd1zAwyOMFjl21HRjGPyXyLlqPvRVWaf9FCDlEniqSCpGHiWZtz6SLSHcCh_FTEpZzmklb-IHMrz4DdWTcOYw85dEwFtRlWoeD3Ow";//gst('idToken');
+      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImdmSUtJSC15WjNwaFJIUnlqbnNISXFaTWFlUExHQUVMelBhdDBDTlk0c0EifQ.eyJleHAiOjE0ODc3NjE0MDEsIm5iZiI6MTQ4Nzc1NzgwMSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjA5YjliMDZmLTJjY2ItNDBjZC05MzZlLTAxNDVjZmJiZGZlYSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg3NzU3ODAxLCJhdXRoX3RpbWUiOjE0ODc3NTc4MDEsIm9pZCI6IjA5YjliMDZmLTJjY2ItNDBjZC05MzZlLTAxNDVjZmJiZGZlYSIsImdpdmVuX25hbWUiOiJ4ZXhlaGkiLCJuYW1lIjoieGV4ZWhpIiwiY291bnRyeSI6IlNhYmEiLCJleHRlbnNpb25fRG9tYWluIjoieGV4ZWhpLmNsb3VkY2hhcmdlLmNvbSIsImZhbWlseV9uYW1lIjoiZnJlZV90cmlhbCIsImpvYlRpdGxlIjoiYWRtaW4iLCJlbWFpbHMiOlsieGV4ZWhpQGNhcjEwMS5wcm8iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFBvbGljeSJ9.XjyLnos5Ugu2ZdcqWb07wihAaAIyjAWluCee5Wmn-y4cAqQIQkrqYpzB7v_kUI53Ld27CGyxrdUEnfs0MbPxdojWPpdF_YfX1RLBsrSr1m-5l72MEqUB8enVf04t89oH4NggRDt9KtHWmXxbTAKHHc9LHHL6xB-ZMWXNW94UCYAyK6TSvdXNzPD46k_XNZbv_szNmEik9LYa1LTe2jwV5qJRdyKMNT66K1VxSjaSveDw5TJHOkxzvQj22ifdTfSxG0vD9gqIX5p75h7STObcuxMmXBGHMfIBgMFJ4WC1vVcGUuOv8CqihK6SWKBWWhn0h5bQbD6oRWu5xzfgH3eiHg";//gst('idToken');
 
+    (function (){
+      $http({
+        method: 'GET',
+        url: 'http://dev.cloudcharge.com:8001/auth/getSubscriptionInfo',
+        headers: {
+          'Content-Type': 'application/json',
+          'id_token' : $scope.idToken
+        }
+      }).success(function (response) {
+        $scope.access_keys = [{
+          name: "Primary key",
+          key: response.Result.primaryKey
+        },{
+          name: "Secondary key",
+          key: response.Result.secondaryKey
+        }];
+      }).error(function (errorResponse) {
+        console.log(errorResponse);
+      });
+    })();
 
 
     $scope.freeTrialStartDate = '';
@@ -700,24 +720,6 @@
       $scope.isPlanSelected= true;
 
       submitTenantDetails(pack,'')
-
-      //$http({
-      //  method: 'GET',
-      //  url: '/auth/GetSession/'+secToken+'/Nil',
-      //  headers: {
-      //    'Content-Type': 'application/json'
-      //  }
-      //}).success(function (dataa) {
-      //  debugger;
-      //  console.log(dataa);
-      //  submitTenantDetails(pack,dataa)
-      //})
-      //  .error(function (data) {
-      //    console.log(data);
-      //    displaycreateCompanyDetailsSubmissionError('Sorry, we are having problems updating packages at this moment. Please try again later.','Failed to create company.');
-      //    $scope.isPlanSelected= false;
-      //
-      //  });
     };
 
 
@@ -1069,6 +1071,48 @@
     }
 
     $scope.addMoreUsers();
+
+    $scope.xfiedKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+    $scope.isKeyShowing = false;
+    $scope.keyIndex = 0;
+    $scope.currentlyOn = "Primary key";
+
+    $scope.resetKey = function(key){
+      $scope.isKeyResetting = true;
+    };
+
+    $scope.showAccessKey = function(key, index){
+      $scope.keyIndex = index;
+      document.getElementsByClassName('access-key')[index].innerHTML=key.key;
+      $scope.isKeyShowing = true;
+      $scope.currentlyOn = key.name;
+    }
+
+    $scope.hideAccessKey = function(key, index){
+      $scope.keyIndex = index;
+      var length = key.key.length;
+      document.getElementsByClassName('access-key')[index].innerHTML=$scope.xfiedKey.substring(0, length);
+      $scope.isKeyShowing = false;
+      $scope.currentlyOn = key.name;
+    };
+
+    $scope.copyToClipboard = function (id) {
+      window.getSelection().empty();
+      var ID = "#"+id;
+      var notif = document.querySelector(ID+' span.copy-msg');
+      var copyField = document.querySelector(ID);
+      var range = document.createRange();
+      range.selectNode(copyField);
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      if(notif != null){
+        notif.remove();
+        copyField.insertAdjacentHTML('beforeend', '<span class="copy-msg">Copied</span>');
+      }else{
+        copyField.insertAdjacentHTML('beforeend', '<span class="copy-msg">Copied</span>');
+      }
+
+    }
 
   }
 })();

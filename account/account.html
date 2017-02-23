@@ -3,7 +3,7 @@
   <!--Billing Info row-->
   <div layout="row" class="layout-row" flex layout-fill style="width: 100%;">
     <!--Contact Info portion-->
-    <div flex="25" style="padding: 20px;">
+    <md-content flex="25" style="padding: 20px;z-index: 9999;" md-whiteframe="8dp" ms-scroll>
 
       <div layout="column" flex>
         <div layout="row" layout-align="end center">
@@ -84,11 +84,11 @@
 
       </div>
 
-    </div>
+    </md-content>
     <!-- / Contact Info portion-->
 
     <!--Admin portion-->
-    <div flex="75" ng-if="admin" class="admin_setup">
+    <div flex ng-if="admin" class="admin_setup">
 
       <md-tabs md-dynamic-height md-border-bottom>
 
@@ -333,7 +333,33 @@
                   </div>
                 </div>
 
+              </md-card-content>
+            </md-card>
 
+            <md-card flex class="input-block-gen">
+              <md-card-title>
+                <div layout="row" layout-align="start center">
+                  <md-icon md-font-icon="icon-cog"></md-icon> <h3>Settings</h3>
+                </div>
+              </md-card-title>
+              <md-card-content>
+                <div layout="row" class="inpage-readpane">
+                  <div flex class="inpage-readpane-body">
+                    <div layout="row" layout-align="space-between center" class="detail-row" ng-repeat="key in access_keys">
+                      <div>
+                        <span style="width: 120px"><b>{{key.name}}</b></span>
+                        : <span class="access-key" id="{{key.key}}">{{xfiedKey | limitTo: key.key.length}}</span>
+                      </div>
+                      <div layout="row">
+                        <md-button ng-hide="isKeyShowing && currentlyOn == key.name" class="md-icon-button md-accent" ng-click="showAccessKey(key, $index)"><md-icon md-font-icon="icon-eye" class="copy-icon"></md-icon><md-tooltip>Show Key</md-tooltip> </md-button>
+                        <md-button ng-if="isKeyShowing && currentlyOn == key.name" class="md-icon-button md-accent" ng-click="hideAccessKey(key, $index)"><md-icon md-font-icon="icon-eye-off" class="copy-icon"></md-icon><md-tooltip>Hide Key</md-tooltip> </md-button>
+                        <md-button class="md-icon-button md-accent" ng-click="copyToClipboard(key.key)"><md-icon md-font-icon="icon-content-copy" class="copy-icon" style="font-size: 18px"></md-icon><md-tooltip>Copy key</md-tooltip> </md-button>
+                        <md-button class="md-icon-button md-accent" ng-disabled="isKeyResetting" ng-click="resetKey(key.key, key.name)"><md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="paste"></div>
+                </div>
 
               </md-card-content>
             </md-card>
