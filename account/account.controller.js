@@ -68,7 +68,7 @@
     $scope.idToken= gst('securityToken');
 
     if(!$scope.idToken)
-      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImdmSUtJSC15WjNwaFJIUnlqbnNISXFaTWFlUExHQUVMelBhdDBDTlk0c0EifQ.eyJleHAiOjE0ODc3NjE0MDEsIm5iZiI6MTQ4Nzc1NzgwMSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjA5YjliMDZmLTJjY2ItNDBjZC05MzZlLTAxNDVjZmJiZGZlYSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg3NzU3ODAxLCJhdXRoX3RpbWUiOjE0ODc3NTc4MDEsIm9pZCI6IjA5YjliMDZmLTJjY2ItNDBjZC05MzZlLTAxNDVjZmJiZGZlYSIsImdpdmVuX25hbWUiOiJ4ZXhlaGkiLCJuYW1lIjoieGV4ZWhpIiwiY291bnRyeSI6IlNhYmEiLCJleHRlbnNpb25fRG9tYWluIjoieGV4ZWhpLmNsb3VkY2hhcmdlLmNvbSIsImZhbWlseV9uYW1lIjoiZnJlZV90cmlhbCIsImpvYlRpdGxlIjoiYWRtaW4iLCJlbWFpbHMiOlsieGV4ZWhpQGNhcjEwMS5wcm8iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFBvbGljeSJ9.XjyLnos5Ugu2ZdcqWb07wihAaAIyjAWluCee5Wmn-y4cAqQIQkrqYpzB7v_kUI53Ld27CGyxrdUEnfs0MbPxdojWPpdF_YfX1RLBsrSr1m-5l72MEqUB8enVf04t89oH4NggRDt9KtHWmXxbTAKHHc9LHHL6xB-ZMWXNW94UCYAyK6TSvdXNzPD46k_XNZbv_szNmEik9LYa1LTe2jwV5qJRdyKMNT66K1VxSjaSveDw5TJHOkxzvQj22ifdTfSxG0vD9gqIX5p75h7STObcuxMmXBGHMfIBgMFJ4WC1vVcGUuOv8CqihK6SWKBWWhn0h5bQbD6oRWu5xzfgH3eiHg";//gst('idToken');
+      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODc5OTI1OTgsIm5iZiI6MTQ4NzkwOTc5OCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjY5MGNjMmIxLTk4N2UtNDc0YS05ZjM4LWNmNGZmZGIxMjU0OCIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg3OTA5Nzk4LCJhdXRoX3RpbWUiOjE0ODc5MDk3OTgsIm9pZCI6IjY5MGNjMmIxLTk4N2UtNDc0YS05ZjM4LWNmNGZmZGIxMjU0OCIsImdpdmVuX25hbWUiOiJ6YXJpemF2aW5hIiwibmFtZSI6Inphcml6YXZpbmEiLCJjb3VudHJ5IjoiU3QgSGVsZW5hLCBBc2NlbnNpb24sIFRyaXN0YW4gZGEgQ3VuaGEiLCJleHRlbnNpb25fRG9tYWluIjoiemFyaXphdmluYS5jbG91ZGNoYXJnZS5jb20iLCJmYW1pbHlfbmFtZSI6ImZyZWVfdHJpYWwiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbInphcml6YXZpbmFAMTJzdG9yYWdlLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.mh27mcrcAePt1IiBwyOREmqEG1Ok1DLJUsDODUkm-OzgLKrCg7OjrcrSUul4sZsbniNehbVfNJ4GMXOng9TEN6K7cMLLa7dfLQSjtsGY5YfACVExMoEiGvXMepP0ReiKFZ0bwSxQD7IHNyysnhrT1UysPtUDmmBvnp86mEzh-6ZE4F0iFYSoCZv7fAMtOy-EJwUwt2O0er8cpkwyrvqdzFo2Op0YhuWHaQFiOJegbI784iPxsWbX6MJ2HP7DX47P5q7uGFV5_xXpgpZ_8Bme1HPY65XVTZOBhemfqC3s1U1da4G7Kc0X1gKq5RG1XEIC83rDEhyYD2k1YvRMQDk9Zg";//gst('idToken');
 
     (function (){
       $http({
@@ -449,12 +449,12 @@
           }
 
 
-        }, function(response) {
+        }).error(function (response) {
           console.log(response);
 
           notifications.toast("Subscription disconnection not completed", "error");
 
-        });
+        })
 
       }, function() {
 
@@ -487,35 +487,11 @@
           }
         })
         .then(function(answer) {
-
             $scope.checkPaymentMethodRegistry();
 
         }, function() {
 
         });
-
-        //$http({
-        //  method: 'POST',
-        //  url: "/services/duosoftware.paymentgateway.service/2checkout/insertAccKeys",
-        //  headers: {
-        //    'Content-Type': 'application/json',
-        //    'securityToken':$scope.securityToken
-        //  },
-        //  data : $scope.twoCheckOut
-        //
-        //}).then(function (response) {
-        //
-        //  if(response.data.status){
-        //    notifications.toast("Successfully registered with 2checkout", "success");
-        //    $scope.isRegisteredWith2checkout = true;
-        //  }else{
-        //    notifications.toast("2Checkout registration failed, ", "error");
-        //  }
-        //
-        //}, function (response) {
-        //  console.log(response);
-        //  notifications.toast("2Checkout registration failed", "error");
-        //});
 
       }, function () {
         $mdDialog.hide();
@@ -535,18 +511,9 @@
         .cancel('No');
       $mdDialog.show(confirm).then(function () {
 
-          $http({
-            method: 'DELETE',
-            url: "http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/2checkout/deleteClient",
-            headers: {
-              'Content-Type': 'application/json',
-              'idToken':$scope.idToken
-            },
-            data : $scope.twoCheckOut
+        $charge.paymentgateway().deleteClient().success(function (response) {
 
-          }).then(function (response) {
-
-            if(response.data.status){
+          if(response.status){
               $scope.isRegisteredWith2checkout = false;
               notifications.toast("Successfully disconnected with 2checkout ", "success");
             }else{
@@ -554,7 +521,7 @@
             }
 
 
-          }, function (response) {
+          }).error(function (response) {
             console.log(response);
             notifications.toast("2Checkout disconnection failed", "error");
 
