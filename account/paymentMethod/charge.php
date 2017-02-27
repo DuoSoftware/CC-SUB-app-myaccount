@@ -43,8 +43,7 @@ require_once ($doc.'/services/config/settings.php');
 
 
 if(!isset($_COOKIE['planId'])) {
-    print_r('inside if');
-   // header('Location: ../../../../#/account');
+    header('Location: ../../../../#/account');
  }else{
 
     $planId = $_COOKIE['planId'];
@@ -129,9 +128,6 @@ if(!isset($_COOKIE['planId'])) {
            $output = curl_exec ($ch);
 
            curl_close ($ch);
-
-print_r($output);
-exit();
 
 ////           Permission Update
 //
