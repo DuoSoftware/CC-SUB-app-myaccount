@@ -18,12 +18,12 @@
 */
 
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 error_reporting(E_ALL);
 
-require_once($_SERVER['DOCUMENT_ROOT'] ."/dwcommon.php");
-require_once($_SERVER['DOCUMENT_ROOT'] ."/include/config.php");
+require_once($_SERVER['DOCUMENT_ROOT'] ."/azuredwcommon.php");
+require_once($_SERVER['DOCUMENT_ROOT'] ."/include/azureconfig.php");
 
 class AppStruct {
 	public $uom;
