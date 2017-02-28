@@ -23,19 +23,19 @@
         $scope.generalDetails = true;
         $scope.planDetails = false;
         $scope.paymentHistory = false;
-        $scope.passwordSettings = false;
+        $scope.onlinePayments = false;
       }else if(switchTo == 'plan-details'){
         $scope.generalDetails = false;
         $scope.planDetails = true;
         $scope.paymentHistory = false;
-        $scope.passwordSettings = false;
+        $scope.onlinePayments = false;
       }else if(switchTo == 'payment-history'){
         $scope.generalDetails = false;
         $scope.planDetails = false;
         $scope.paymentHistory = true;
-        $scope.passwordSettings = false;
-      }else if(switchTo == 'password-settings'){
-        $scope.passwordSettings = true;
+        $scope.onlinePayments = false;
+      }else if(switchTo == 'online-payments'){
+        $scope.onlinePayments = true;
         $scope.generalDetails = false;
         $scope.planDetails = false;
         $scope.paymentHistory = false;
@@ -989,9 +989,9 @@
     $scope.addMoreUsers();
 
     $scope.xfiedKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-    $scope.isKeyShowing = false;
+    $scope.isKeyShowing = 'show';
     $scope.keyIndex = 0;
-    $scope.currentlyOn = "Primary key";
+    $scope.currentlyOn = "";
 
     $scope.resetKey = function(key){
       $scope.isKeyResetting = true;
@@ -1000,34 +1000,48 @@
     $scope.showAccessKey = function(key, index){
       $scope.keyIndex = index;
       document.getElementsByClassName('access-key')[index].innerHTML=key.key;
-      $scope.isKeyShowing = true;
-      $scope.currentlyOn = key.name;
+      document.querySelector('.keyDisplay'+key.key+' #show').style.display='none';
+      document.querySelector('.keyDisplay'+key.key+' #hide').style.display='block';
     }
 
     $scope.hideAccessKey = function(key, index){
       $scope.keyIndex = index;
       var length = key.key.length;
       document.getElementsByClassName('access-key')[index].innerHTML=$scope.xfiedKey.substring(0, length);
-      $scope.isKeyShowing = false;
-      $scope.currentlyOn = key.name;
+      document.querySelector('.keyDisplay'+key.key+' #show').style.display='block';
+      document.querySelector('.keyDisplay'+key.key+' #hide').style.display='none';
     };
 
     $scope.copyToClipboard = function (id) {
       window.getSelection().empty();
       var ID = "#"+id;
-      var notif = document.querySelector(ID+' span.copy-msg');
-      var copyField = document.querySelector(ID);
+      var notifParent = document.getElementById(id);
+      var notif = notifParent.getElementsByClassName('copy-msg')[0];
+      var copyField = document.getElementById(id);
       var range = document.createRange();
       range.selectNode(copyField);
       window.getSelection().addRange(range);
-      document.execCommand('copy');
-      if(notif != null){
+      if(notif != null || notif != undefined){
         notif.remove();
         copyField.insertAdjacentHTML('beforeend', '<span class="copy-msg">Copied</span>');
       }else{
         copyField.insertAdjacentHTML('beforeend', '<span class="copy-msg">Copied</span>');
       }
+      document.execCommand('copy');
+    }
 
+    $scope.showMoreUserInfo=false;
+    $scope.contentExpandHandler = function () {
+      $scope.reverseMoreLess =! $scope.reverseMoreLess;
+      if($scope.reverseMoreLess){
+        $scope.showMoreUserInfo=true;
+      }else{
+        $scope.showMoreUserInfo=false;
+      }
+    };
+
+    $scope.cancelEdit = function(){
+      vm.editableMode = false;
     }
 
   }

@@ -210,7 +210,7 @@
                     </div>
 
                     <div flex="30" layout-align="end center" layout="row">
-                      <md-button class="md-warn" ng-show="selectedPlan.no > 2 && isTempDeactive " ng-click="deactiveCurrentPlan()">Deactivate</md-button>
+                      <md-button class="md-warn md-raised" ng-show="selectedPlan.no > 2 && isTempDeactive " ng-click="deactiveCurrentPlan()">Deactivate</md-button>
                       <md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex style="max-width: 116px;">Upgrade Plan</md-button>
                     </div>
                   </div>
@@ -371,7 +371,7 @@
                 <div layout="row" layout-align="start center">
                   <md-icon md-font-icon="icon-credit-card-multiple"></md-icon> <h3>Payment method details</h3>
                 </div>
-                <md-button ng-if="cardDetails.length > 0" class="md-accent" stripe-payment="config" ng-click="addNewCard()" layout-align="center center"> Add Card</md-button>
+                <!--<md-button ng-if="cardDetails.length > 0" class="md-accent" stripe-payment="config" ng-click="addNewCard()" layout-align="center center"> Add Card</md-button>-->
               </md-card-title>
               <div class="list-header" layout="row">
                 <div flex layout-align="center start">Card ID</div>
@@ -459,53 +459,120 @@
             </md-card>
           </div>
 
-          <div layout="column" ng-if="passwordSettings">
-            <form id="passwordSettings" name="vm.passwordSettings" ng-submit="changePassword()" ng-disabled="isChangePasswordSelected">
-              <md-card flex class="input-block-gen">
-                <md-card-title>
-                  <div layout="row" layout-align="start center">
-                    <md-icon md-font-icon="icon-lock"></md-icon> <h3>Password settings</h3>
-                  </div>
-                </md-card-title>
-                <md-card-content md-whiteframe="1dp">
-                  <div layout="row" layout-align="start center" class="group-sub-head" style="margin-top: 0;margin-bottom: 10px">
-                    <span flex="30"><b>Change password</b></span>
-                  </div>
-                  <div layout="row" layout-align="start center">
-                    <md-input-container class="acc-input-container" flex="30">
-                      <label>Current password</label>
-                      <input type="password" ng-model="user.currentPassword" name="password_curr" ng-disabled="!isEditablePassword" required/>
-                      <div ng-messages="vm.passwordSettings.password_curr.$error">
-                        <div ng-message="required"></div>
-                      </div>
-                    </md-input-container>
-                    <div flex="5"></div>
-                    <md-input-container class="acc-input-container" flex="30">
-                      <label>New password</label>
-                      <input type="password" ng-model="user.newPassword" ng-pattern="user.confirmNewPassword" minlength="8" maxlength="16" name="password_new" ng-disabled="!isEditablePassword"/>
-                      <div ng-messages="vm.passwordSettings.password_new.$error">
-                        <div ng-message="required"></div>
-                        <div ng-message="minlength">Password must be between 8-16 characters</div>
-                        <div ng-message="maxlength">Password must be between 8-16 characters</div>
-                        <div ng-message="pattern">Passwords are not matching</div>
-                      </div>
-                    </md-input-container>
-                    <div flex="5"></div>
-                    <md-input-container class="acc-input-container" flex="30">
-                      <label>Confirm new password</label>
-                      <input type="password" ng-model="user.confirmNewPassword" name="confirmPassword" ng-pattern="user.newPassword"   minlength="8" maxlength="16" ng-disabled="!isEditablePassword"/>
-                      <div ng-messages="vm.passwordSettings.confirmPassword.$error">
-                        <div ng-message="required"></div>
-                        <div ng-message="minlength">Password must be between 8-16 characters</div>
-                        <div ng-message="maxlength">Password must be between 8-16 characters</div>
-                        <div ng-message="pattern">Passwords are not matching</div>
-                      </div>
-                    </md-input-container>
-                  </div>
-                </md-card-content>
+          <div layout="column" ng-if="onlinePayments">
+            <md-content class="md-padding" layout="row" flex>
+              <md-card flex="30" class="payment-card">
+                <div layout="row" layout-align="center center">
+                  <md-input-container style="margin: 0;">
+                    <div class="online_stripe" ng-class="{'online_disabled': !isRegisteredWithStripe}"></div>
+                  </md-input-container>
+
+                  <div flex></div>
+
+                  <md-input-container style="margin: 0;">
+                    <md-menu>
+                      <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="vm.openRegistrationMenu($mdOpenMenu, $event)">
+                        <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                      </md-button>
+                      <md-menu-content width="4" ng-disabled="isRegButtonsShow">
+                        <md-menu-item>
+                          <md-button ng-disabled="isRegisteredWithStripe" ng-click="proceedWithStripe()">
+                            <md-icon md-font-icon="icon-login" md-menu-align-target></md-icon>
+                            Register
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                          <md-button ng-disabled="!isRegisteredWithStripe" ng-click="disconnectWithStripe()">
+                            <md-icon md-font-icon="icon-logout"></md-icon>
+                            Leave
+                          </md-button>
+                        </md-menu-item>
+                      </md-menu-content>
+                    </md-menu>
+                  </md-input-container>
+                </div>
               </md-card>
-            </form>
+              <!--2Checkout section -->
+              <md-card flex="30" class="payment-card">
+                <div layout="row" layout-align="center center">
+                  <md-input-container style="margin: 0;">
+                    <div class="online_2checkout" ng-class="{'online_disabled': !isRegisteredWith2checkout}"></div>
+                  </md-input-container>
+                  <div flex></div>
+
+                  <md-input-container style="margin: 0;">
+                    <md-menu>
+                      <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="vm.openRegistrationMenu($mdOpenMenu, $event)">
+                        <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                      </md-button>
+                      <md-menu-content width="4" ng-disabled="isRegButtonsShow">
+                        <md-menu-item>
+                          <md-button ng-disabled="isRegisteredWith2checkout" ng-click="registerWithTwoCheckout($event)">
+                            <md-icon md-font-icon="icon-login" md-menu-align-target></md-icon>
+                            Register
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                          <md-button ng-disabled="!isRegisteredWith2checkout" ng-click="deleteWithTwoCheckout()">
+                            <md-icon md-font-icon="icon-logout"></md-icon>
+                            Leave
+                          </md-button>
+                        </md-menu-item>
+                      </md-menu-content>
+                    </md-menu>
+                  </md-input-container>
+                </div>
+              </md-card>
+            </md-content>
           </div>
+
+          <!--<div layout="column" ng-if="passwordSettings">-->
+            <!--<form id="passwordSettings" name="vm.passwordSettings" ng-submit="changePassword()" ng-disabled="isChangePasswordSelected">-->
+              <!--<md-card flex class="input-block-gen">-->
+                <!--<md-card-title>-->
+                  <!--<div layout="row" layout-align="start center">-->
+                    <!--<md-icon md-font-icon="icon-lock"></md-icon> <h3>Password settings</h3>-->
+                  <!--</div>-->
+                <!--</md-card-title>-->
+                <!--<md-card-content md-whiteframe="1dp">-->
+                  <!--<div layout="row" layout-align="start center" class="group-sub-head" style="margin-top: 0;margin-bottom: 10px">-->
+                    <!--<span flex="30"><b>Change password</b></span>-->
+                  <!--</div>-->
+                  <!--<div layout="row" layout-align="start center">-->
+                    <!--<md-input-container class="acc-input-container" flex="30">-->
+                      <!--<label>Current password</label>-->
+                      <!--<input type="password" ng-model="user.currentPassword" name="password_curr" ng-disabled="!isEditablePassword" required/>-->
+                      <!--<div ng-messages="vm.passwordSettings.password_curr.$error">-->
+                        <!--<div ng-message="required"></div>-->
+                      <!--</div>-->
+                    <!--</md-input-container>-->
+                    <!--<div flex="5"></div>-->
+                    <!--<md-input-container class="acc-input-container" flex="30">-->
+                      <!--<label>New password</label>-->
+                      <!--<input type="password" ng-model="user.newPassword" ng-pattern="user.confirmNewPassword" minlength="8" maxlength="16" name="password_new" ng-disabled="!isEditablePassword"/>-->
+                      <!--<div ng-messages="vm.passwordSettings.password_new.$error">-->
+                        <!--<div ng-message="required"></div>-->
+                        <!--<div ng-message="minlength">Password must be between 8-16 characters</div>-->
+                        <!--<div ng-message="maxlength">Password must be between 8-16 characters</div>-->
+                        <!--<div ng-message="pattern">Passwords are not matching</div>-->
+                      <!--</div>-->
+                    <!--</md-input-container>-->
+                    <!--<div flex="5"></div>-->
+                    <!--<md-input-container class="acc-input-container" flex="30">-->
+                      <!--<label>Confirm new password</label>-->
+                      <!--<input type="password" ng-model="user.confirmNewPassword" name="confirmPassword" ng-pattern="user.newPassword"   minlength="8" maxlength="16" ng-disabled="!isEditablePassword"/>-->
+                      <!--<div ng-messages="vm.passwordSettings.confirmPassword.$error">-->
+                        <!--<div ng-message="required"></div>-->
+                        <!--<div ng-message="minlength">Password must be between 8-16 characters</div>-->
+                        <!--<div ng-message="maxlength">Password must be between 8-16 characters</div>-->
+                        <!--<div ng-message="pattern">Passwords are not matching</div>-->
+                      <!--</div>-->
+                    <!--</md-input-container>-->
+                  <!--</div>-->
+                <!--</md-card-content>-->
+              <!--</md-card>-->
+            <!--</form>-->
+          <!--</div>-->
 
         </md-content>
         <div layout="row" layout-align="end center" md-whiteframe="8dp" class="bottom-fixed-bar" ng-show="generalDetails && vm.editableMode" flex>
