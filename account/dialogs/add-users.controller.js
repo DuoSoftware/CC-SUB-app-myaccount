@@ -81,7 +81,7 @@
             "sign": "<="
           }
           var meta = {
-            "domainUrl": window.location.hostname,
+            "domainUrl": 'azure.cloudcharge.com',
             "securityToken": $helpers.getCookie('securityToken')
           }
           data = JSON.stringify(data);
