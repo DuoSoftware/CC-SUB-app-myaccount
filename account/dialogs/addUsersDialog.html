@@ -1,89 +1,46 @@
-<md-dialog class="compose-dialog" style="width: 400px;">
-  <form id="promptForm" ng-cloak name="addCategoryForm" ng-submit="addUser()" novalidate>
-    <md-toolbar>
-      <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-        <div layout="row" layout-align="start center">
-          <md-icon md-font-icon="icon-account-multiple"></md-icon> <h3>Additional users</h3>
-        </div>
-        <md-button class="md-icon-button" ng-click="vm.closeDialog()" ng-disabled="isSubmitClicked" aria-label="Close dialog">
-          <md-icon md-font-icon="icon-close"></md-icon>
-        </md-button>
+<md-dialog aria-label="Mango (Fruit)">
+  <form ng-cloak>
+    <div>
+      <md-toolbar style="background-color: whitesmoke;color: #000000;">
+      <div class="md-toolbar-tools">
+        <h4>Add new Users</h4>
+        <span flex></span>
       </div>
     </md-toolbar>
 
-    <md-dialog-content>
+    <md-dialog-content style="background-color: #ffffff" >
       <div layout="column" layout-align="center center">
         <md-input-container>
           <label>Number of users to add</label>
-          <input ng-disabled="isSubmitClicked" type="number" ng-model="numberOfUsers" min="1" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" style="text-align: right"/>
+          <input ng-disabled="isSubmitClicked" type="number" ng-model="numberOfUsers" min="1" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"/>
         </md-input-container>
         <div>
           <h2 style="color: rgb(3,155,229);"><span style="color: #aaaaaa;">Cost :</span> ${{price}}</h2>
         </div>
       </div>
     </md-dialog-content>
-
-    <md-dialog-actions layout="row" md-whiteframe="2dp" ng-hide="confirmToProceed">
-      <span flex></span>
-      <md-button class="md-raised md-accent" type="submit" ng-disabled="isSubmitClicked">
-        Add
-      </md-button>
-    </md-dialog-actions>
-
-    <md-dialog-actions layout="row" ng-show="confirmToProceed" >
-      <h2 style="color: rgb(3,155,229);"><span style="color: #aaaaaa;">Please Confirm ??</span> </h2>
+      </div>
+  <div ng-hide="confirmToProceed">
+    <md-dialog-actions layout="row">
       <md-button ng-click="vm.closeDialog()" ng-disabled="isSubmitClicked">
-        No
+        Cancel
       </md-button>
-      <md-button type="submit" class="md-raised md-warn" ng-disabled="isSubmitClicked">
-        Yes
+      <md-button type="submit" ng-click="addUser()" class="md-raised md-warn" ng-disabled="isSubmitClicked">
+        Submit
       </md-button>
     </md-dialog-actions>
+  </div>
 
+    <div ng-show="confirmToProceed">
+      <md-dialog-actions layout="row" >
+        <h2 style="color: rgb(3,155,229);"><span style="color: #aaaaaa;">Please Confirm ??</span> </h2>
+        <md-button ng-click="vm.closeDialog()" ng-disabled="isSubmitClicked">
+          No
+        </md-button>
+        <md-button type="submit" ng-click="addUser()" class="md-raised md-warn" ng-disabled="isSubmitClicked">
+          Yes
+        </md-button>
+      </md-dialog-actions>
+    </div>
   </form>
 </md-dialog>
-
-
-<!--<md-dialog aria-label="Mango (Fruit)">-->
-  <!--<form ng-cloak>-->
-    <!--<div>-->
-      <!--<md-toolbar style="background-color: whitesmoke;color: #000000;">-->
-      <!--<div class="md-toolbar-tools">-->
-        <!--<h4>Add new Users</h4>-->
-        <!--<span flex></span>-->
-      <!--</div>-->
-    <!--</md-toolbar>-->
-
-    <!--<md-dialog-content style="background-color: #ffffff" >-->
-      <!--<div layout="column" layout-align="center center">-->
-        <!--<md-input-container>-->
-          <!--<label>Number of users to add</label>-->
-          <!--<input ng-disabled="isSubmitClicked" type="number" ng-model="numberOfUsers" min="1" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"/>-->
-        <!--</md-input-container>-->
-        <!--<div>-->
-          <!--<h2 style="color: rgb(3,155,229);"><span style="color: #aaaaaa;">Cost :</span> ${{price}}</h2>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</md-dialog-content>-->
-      <!--</div>-->
-
-    <!--<md-dialog-actions layout="row" ng-hide="confirmToProceed">-->
-      <!--<md-button ng-click="vm.closeDialog()" ng-disabled="isSubmitClicked">-->
-        <!--Cancel-->
-      <!--</md-button>-->
-      <!--<md-button type="submit" ng-click="addUser()" class="md-raised md-warn" ng-disabled="isSubmitClicked">-->
-        <!--Submit-->
-      <!--</md-button>-->
-    <!--</md-dialog-actions>-->
-
-      <!--<md-dialog-actions layout="row" ng-show="confirmToProceed" >-->
-        <!--<h2 style="color: rgb(3,155,229);"><span style="color: #aaaaaa;">Please Confirm ??</span> </h2>-->
-        <!--<md-button ng-click="vm.closeDialog()" ng-disabled="isSubmitClicked">-->
-          <!--No-->
-        <!--</md-button>-->
-        <!--<md-button type="submit" ng-click="addUser()" class="md-raised md-warn" ng-disabled="isSubmitClicked">-->
-          <!--Yes-->
-        <!--</md-button>-->
-      <!--</md-dialog-actions>-->
-  <!--</form>-->
-<!--</md-dialog>-->

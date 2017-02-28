@@ -12,6 +12,36 @@
     //console.log("Profile Controller Called.");
     var vm = this;
 
+    vm.appInnerState = 'default';
+    vm.activeAccountPaneIndex = 0;
+
+    $scope.generalDetails = true;
+    $scope.planDetails = false;
+    $scope.paymentHistory = false;
+    $scope.switchInpageState = function (switchTo){
+      if(switchTo == 'general-details'){
+        $scope.generalDetails = true;
+        $scope.planDetails = false;
+        $scope.paymentHistory = false;
+        $scope.passwordSettings = false;
+      }else if(switchTo == 'plan-details'){
+        $scope.generalDetails = false;
+        $scope.planDetails = true;
+        $scope.paymentHistory = false;
+        $scope.passwordSettings = false;
+      }else if(switchTo == 'payment-history'){
+        $scope.generalDetails = false;
+        $scope.planDetails = false;
+        $scope.paymentHistory = true;
+        $scope.passwordSettings = false;
+      }else if(switchTo == 'password-settings'){
+        $scope.passwordSettings = true;
+        $scope.generalDetails = false;
+        $scope.planDetails = false;
+        $scope.paymentHistory = false;
+      }
+    }
+
     vm.editableMode = false;
     $scope.companyPricePlans = null;
     $scope.selectedPlan = null;
