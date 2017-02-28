@@ -444,8 +444,7 @@
         var disconnectData = {'action':'eod'};
         $charge.paymentgateway().permanentDisconnect(disconnectData).success(function (data) {
 
-          console.log(response);
-          if(response.data.status)
+          if(data.status)
           {
             $scope.isTempDeactive = false;
             notifications.toast("Operation successful, your subscription period will be ending on "+ $scope.displayExpireDate, "success");
