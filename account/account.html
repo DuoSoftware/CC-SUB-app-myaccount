@@ -99,6 +99,9 @@
                         </md-input-container>
                       </div>
                     </div>
+                    <div><div layout="row" layout-align="end center">
+                      <md-button class="md-accent" href="/ccactiveb2c.onmicrosoft.com/B2C_1_DefaultPolicy/api/CombinedSigninAndSignup/forgotPassword?csrf_token=RTZYbkMxYmsxNW5leGthaGJRL3pzOHM3ZkFOcEhaRVROS1FSdW9VNFlTWDVDMm8yMCtiUHpuSlZneHB0THdsZWpwMmNhYWpCRWRua3lmcXFGVUJ1bFE9PTsyMDE3LTAyLTI4VDEyOjU4OjI2LjAzNTIxN1o7cmtMeHRPbm9zRTZJT0hQY09mTm5rQT09O3siT3JjaGVzdHJhdGlvblN0ZXAiOjF9&tx=eyJUSUQiOiJmNzQwNzMxMC00N2Q2LTRlMjQtOTQ3ZS1mMTVlNGMxNTc2YWQifQ&p=B2C_1_DefaultPolicy"><md-icon md-font-icon="icon-refresh"></md-icon> Reset password</md-button>
+                    </div></div>
                   </md-card-content>
                 </md-card>
 
@@ -211,7 +214,7 @@
 
                     <div flex="30" layout-align="end center" layout="row">
                       <md-button class="md-warn md-raised" ng-show="selectedPlan.no > 2 && isTempDeactive " ng-click="deactiveCurrentPlan()">Deactivate</md-button>
-                      <md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex style="max-width: 116px;">Upgrade Plan</md-button>
+                      <md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex style="max-width: 116px;">Upgrade</md-button>
                     </div>
                   </div>
                   <div layout="row" ng-if="signupsuccess" flex>
@@ -380,42 +383,44 @@
                 <div flex="15"></div>
               </div>
               <md-card-content md-whiteframe="1dp">
-                <div layout="row" flex class="payment-details-row" ng-repeat="card in cardDetails">
-                  <!--<div class="prodMainInfo" layout="column" layout-align="center start" flex="30">-->
-                  <!--<div layout="column">-->
-                  <!--<span class="text-truncate">Customer{{card.customer}}</span>-->
-                  <!--<div class="code text-truncate">Card id : {{card.id}}</div>-->
-                  <!--</div>-->
-                  <!--</div>-->
-                  <div class="prodCost" flex layout="column" layout-align="center start">
-                    <span class="text-truncate">XXXX-XXXX-XXXX-{{card.last4}}</span>
-                  </div>
-                  <div class="prodCost" flex layout="row" layout-align="start center">
-                    <!-- <span> {{card.exp_month | parseDate | date: 'MMMM' | limitTo:3}} {{card.exp_year | parseDate | date: 'yyyy'}}</span> -->
-                    <span ng-if="card.exp_month==1">January</span>
-                    <span ng-if="card.exp_month==2">February</span>
-                    <span ng-if="card.exp_month==3">March</span>
-                    <span ng-if="card.exp_month==4">April</span>
-                    <span ng-if="card.exp_month==5">May</span>
-                    <span ng-if="card.exp_month==6">June</span>
-                    <span ng-if="card.exp_month==7">July</span>
-                    <span ng-if="card.exp_month==8">August</span>
-                    <span ng-if="card.exp_month==9">September</span>
-                    <span ng-if="card.exp_month==10">October</span>
-                    <span ng-if="card.exp_month==11">November</span>
-                    <span ng-if="card.exp_month==12">December</span>
-                    <span>&nbsp;{{card.exp_year}}</span>
-                  </div>
-                  <div class="prodCost" flex="20" layout="column" layout-align="center center">
-                    <span ng-class="card.brand"></span>
-                  </div>
-                  <div class="prodCost" flex="15" layout="column" layout-align="center end">
-                    <span class="default" ng-if="card.rowId===0">Default</span>
-                    <md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>
-                    <!--<md-button class="md-icon-button make-default" ng-if="isDefaultPayment!='1'" ng-click="defaultPayment('1')">-->
-                    <!--<md-icon md-font-icon="icon-check" class="md-accent"></md-icon>-->
-                    <!--<md-tooltip>Make This Default</md-tooltip>-->
-                    <!--</md-button>-->
+                <div>
+                  <div layout="row" flex class="payment-details-row" ng-repeat="card in cardDetails">
+                    <!--<div class="prodMainInfo" layout="column" layout-align="center start" flex="30">-->
+                    <!--<div layout="column">-->
+                    <!--<span class="text-truncate">Customer{{card.customer}}</span>-->
+                    <!--<div class="code text-truncate">Card id : {{card.id}}</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class="prodCost" flex layout="column" layout-align="center start">
+                      <span class="text-truncate">XXXX-XXXX-XXXX-{{card.last4}}</span>
+                    </div>
+                    <div class="prodCost" flex layout="row" layout-align="start center">
+                      <!-- <span> {{card.exp_month | parseDate | date: 'MMMM' | limitTo:3}} {{card.exp_year | parseDate | date: 'yyyy'}}</span> -->
+                      <span ng-if="card.exp_month==1">January</span>
+                      <span ng-if="card.exp_month==2">February</span>
+                      <span ng-if="card.exp_month==3">March</span>
+                      <span ng-if="card.exp_month==4">April</span>
+                      <span ng-if="card.exp_month==5">May</span>
+                      <span ng-if="card.exp_month==6">June</span>
+                      <span ng-if="card.exp_month==7">July</span>
+                      <span ng-if="card.exp_month==8">August</span>
+                      <span ng-if="card.exp_month==9">September</span>
+                      <span ng-if="card.exp_month==10">October</span>
+                      <span ng-if="card.exp_month==11">November</span>
+                      <span ng-if="card.exp_month==12">December</span>
+                      <span>&nbsp;{{card.exp_year}}</span>
+                    </div>
+                    <div class="prodCost" flex="20" layout="column" layout-align="center center">
+                      <span ng-class="card.brand"></span>
+                    </div>
+                    <div class="prodCost" flex="15" layout="column" layout-align="center end">
+                      <span class="default" ng-if="card.rowId===0">Default</span>
+                      <md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>
+                      <!--<md-button class="md-icon-button make-default" ng-if="isDefaultPayment!='1'" ng-click="defaultPayment('1')">-->
+                      <!--<md-icon md-font-icon="icon-check" class="md-accent"></md-icon>-->
+                      <!--<md-tooltip>Make This Default</md-tooltip>-->
+                      <!--</md-button>-->
+                    </div>
                   </div>
                 </div>
               </md-card-content>
@@ -434,25 +439,29 @@
                 <md-button class="md-icon-button" ng-click="getTenantPaymentHistory()"><md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Refresh list</md-tooltip></md-button>
               </md-card-title>
               <div class="list-header" layout="row">
-                <div flex layout-align="center start">Card ID</div>
-                <div flex layout-align="center start">Expire date</div>
-                <div flex="20" layout-align="center center" style="text-align:center">Card type</div>
-                <div flex="15"></div>
+                <div flex="30" layout-align="center start">Type</div>
+                <div flex class="text-right" layout-align="end center" layout="row"><span>Amount</span></div>
+                <div flex="10"></div>
+                <div flex layout-align="center start">Received Date</div>
+                <div flex="10" layout-align="center start">Status</div>
               </div>
               <md-card-content md-whiteframe="1dp">
-                <div layout="row" flex class="payment-history-row" ng-repeat="history in paymentHistoryList" ng-hide="isTenantPaymentHistoryClicked">
+                <div>
+                  <div layout="row" flex class="payment-history-row" ng-repeat="history in paymentHistoryList" ng-hide="isTenantPaymentHistoryClicked">
 
-                  <div class="prodCost" flex layout="row" layout-align="start center">
-                    <span class="text-truncate">{{history.type}}</span>
-                  </div>
-                  <div class="prodCost" flex layout="row" layout-align="start center">
-                    <span class="text-truncate">${{history.amount}}</span>
-                  </div>
-                  <div class="prodCost" flex layout="row" layout-align="start center">
-                    <span> {{history.receivedDate | limitTo:10}}</span>
-                  </div>
-                  <div class="prodCost" flex="10" layout="row" layout-align="start center">
-                    <span flex class="text-right"> {{history.status }}</span>
+                    <div class="prodCost" flex="30" layout="row" layout-align="start center">
+                      <span class="text-truncate">{{history.type}}</span>
+                    </div>
+                    <div class="prodCost" flex layout="row" layout-align="end center">
+                      <span class="text-truncate">${{history.amount}}</span>
+                    </div>
+                    <div flex="10"></div>
+                    <div class="prodCost" flex layout="row" layout-align="start center">
+                      <span> {{history.receivedDate | limitTo:10}}</span>
+                    </div>
+                    <div class="prodCost" flex="10" layout="row" layout-align="start center">
+                      <span flex class="text-right"> {{history.status }}</span>
+                    </div>
                   </div>
                 </div>
               </md-card-content>
