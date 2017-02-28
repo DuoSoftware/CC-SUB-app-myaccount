@@ -83,6 +83,16 @@
     };
 
 
+    //$scope.config = {
+      // // publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
+      //  title: 'Cloudcharge',
+      //  description: "for connected business",
+      //  email:'aaaaa@aaaa.com',
+      //  logo: 'app/main/account/img/loginDuo.png',
+      //  label: 'Pay amount'
+    //}
+
+
     function gst(name) {
       var nameEQ = name + "=";
       var ca = document.cookie.split(';');
@@ -358,6 +368,15 @@
           $scope.isUserAdmin = true;
         }
 
+      $scope.config = {
+          publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
+          title: 'Cloudcharge',
+          description: "for connected business",
+          email: response.data.Result.email,
+          logo: 'app/main/account/img/loginDuo.png',
+          label: 'Pay amount'
+      }
+
         console.log(response.data.Result.plan);
 
         selectPlan(response.data.Result.plan);
@@ -577,13 +596,7 @@
       });
     }
 
-    $scope.config = {
-      publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
-      title: 'Cloudcharge',
-      description: "for connected business",
-      logo: 'app/main/account/img/loginDuo.png',
-      label: 'Pay amount'
-    }
+
 
     $scope.$on('stripe-token-received', function(event, args) {
       console.log(args);
