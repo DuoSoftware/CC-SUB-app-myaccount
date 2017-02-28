@@ -368,7 +368,7 @@
 
           var convertedDate = new Date($scope.paidPlanExpireDate);
 
-          //$scope.remainingDays = (Math.round((convertedDate- today )/(1000*60*60*24))) + " Days remaining";
+         // $scope.remainingDays = (Math.round((convertedDate- today )/(1000*60*60*24))) + " Days remaining";
 
         }
       }
@@ -380,18 +380,6 @@
 
       $scope.isTenantPaymentHistoryClicked = true;
       $charge.paymentgateway().getAllPaymentByTenant(0, 100, 'cloudcharge').success(function (data) {
-
-      //$http({
-      //  method: 'GET',
-      //  url: 'http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/payinfo/getAllPaymentByTenant/?skip=0&take=100&type=cloudcharge',
-      //  headers: {
-      //    'Content-Type': 'application/json',
-      //    'idToken' : $scope.idToken
-      //  },
-      //  data:{
-      //
-      //  }
-      //}).success(function (data) {
 
         $scope.paymentHistoryList = null;
         $scope.paymentHistoryList = data;
@@ -422,16 +410,6 @@
         .cancel('No');
 
       $mdDialog.show(confirm).then(function() {
-
-        //$http({
-        //  method : 'POST',
-        //  url : "http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/stripe/permanentDisconnect",
-        //  headers: {
-        //    'Content-Type': 'application/json',
-        //    'idToken':$scope.idToken
-        //  },
-        //  data : {'action':'eod'}
-        //}).then(function(response) {
 
         var disconnectData = {'action':'eod'};
         $charge.paymentgateway().permanentDisconnect(disconnectData).success(function (data) {
@@ -955,15 +933,6 @@
 
     $scope.addMoreUsers = function () {
 
-      //$http({
-      //  method: 'GET',
-      //  url: 'http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/stripe/subscriberCheck',
-      //  headers: {
-      //    'Content-Type': 'application/json',
-      //    'idToken' : $scope.idToken
-      //  }
-      //}).success(function (data) {
-
       $charge.paymentgateway().subscriberCheck().success(function (data) {
 
         console.log(data);
@@ -986,6 +955,7 @@
         $scope.paidPlanExpireDate = planEndDate;
           //moment(convertedDate.toISOString()).format('LL');
 
+        $scope.calculateFreeTrialExpireDate();
 
       }).error(function (data) {
 
