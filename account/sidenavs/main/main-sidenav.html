@@ -1,0 +1,55 @@
+<!-- SIDENAV HEADER -->
+<div class="header" layout="column" layout-align="center center">
+
+    <div class="logo" layout="row" layout-align="start center">
+        <span class="logo-icon">
+          <img src="app/core/app_icons/account_app_icon.png" alt=""/>
+        </span>
+        <span class="logo-text">My account</span>
+    </div>
+
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<md-content ms-scroll class="content" flex>
+
+    <div class="compose-button">
+        <md-button class="md-accent md-raised" aria-label="compose"
+                   ng-click="saveProfileDetails(true)" ng-if="generalDetails && !vm.editableMode">Edit profile
+        </md-button>
+        <md-button class="md-accent md-raised" aria-label="compose"
+                   ng-click="vm.toggleinnerView(false)" ng-if="generalDetails && vm.editableMode">View profile
+        </md-button>
+    </div>
+
+    <div class="navigation-simple" layout="column" ng-if="!vm.editableMode">
+      <md-button class="item" ng-class="{'selected': generalDetails}" aria-label="starred" ng-click="switchInpageState('general-details')">
+        <div layout="row" layout-align="start center">
+          <md-icon md-font-icon="icon-account" class="s16"></md-icon>
+          <span class="title" flex>General details</span>
+        </div>
+      </md-button>
+      <md-button class="item" ng-class="{'selected': planDetails}" aria-label="starred" ng-click="switchInpageState('plan-details')">
+        <div layout="row" layout-align="start center">
+          <md-icon md-font-icon="icon-map" class="s16"></md-icon>
+          <span class="title" flex>Plan details</span>
+        </div>
+      </md-button>
+      <md-button class="item" ng-class="{'selected': passwordSettings}" aria-label="starred" ng-click="switchInpageState('password-settings')">
+        <div layout="row" layout-align="start center">
+          <md-icon md-font-icon="icon-lock" class="s16"></md-icon>
+          <span class="title" flex>Password Settings</span>
+        </div>
+      </md-button>
+      <md-button class="item" ng-class="{'selected': paymentHistory}" aria-label="starred" ng-click="switchInpageState('payment-history')">
+        <div layout="row" layout-align="start center">
+          <md-icon md-font-icon="icon-credit-card-multiple" class="s16"></md-icon>
+          <span class="title" flex>Payment history</span>
+        </div>
+      </md-button>
+    </div>
+
+
+</md-content>
+<!-- / SIDENAV CONTENT -->
