@@ -894,15 +894,6 @@
 
 
 
-        //$http({
-        //  method: 'GET',
-        //  url: 'http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/stripe/deactiveAcc',
-        //  headers: {
-        //    'Content-Type': 'application/json',
-        //    'idToken':$scope.idToken
-        //  }
-        //}).success(function (dataa) {
-
         $charge.paymentgateway().deactiveAcc().success(function (dataa) {
 
           console.log(dataa);
