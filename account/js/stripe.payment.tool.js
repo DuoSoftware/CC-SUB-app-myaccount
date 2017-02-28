@@ -21,8 +21,9 @@
 				var handler = (function() {
 
 					var handler = StripeCheckout.configure({
-						key: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
+						key: config.publishKey, //'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
 						image: config.logo,
+            email:config.email,
 						panelLabel: config.label,
 						token: function(token) {
 							$rootScope.$broadcast('stripe-token-received', token);
