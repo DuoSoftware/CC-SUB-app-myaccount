@@ -39,7 +39,9 @@
 					}
 
 					var close = function() {
-						handler.close();
+						handler.close().then(function(){
+              $scope.isPlanSelected = false;
+            });
 					}
 
 					return {

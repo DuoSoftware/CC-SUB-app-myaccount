@@ -585,6 +585,8 @@
       label: 'Pay amount'
     }
 
+
+
     $scope.$on('stripe-token-received', function(event, args) {
       console.log(args);
 
@@ -1043,6 +1045,14 @@
     $scope.cancelEdit = function(){
       vm.editableMode = false;
     }
+
+    //var elem = angular.element('.testOnClick');
+    //elem.onclick = function(){
+    //  console.log('Test clicked');
+    //}
+    //angular.element('.testOnClick').on('click', function(){
+    //  console.log('Test clicked');
+    //});
 
   }
 })();
