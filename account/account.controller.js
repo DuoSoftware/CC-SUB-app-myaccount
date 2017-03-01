@@ -366,6 +366,15 @@
 
         $scope.calculateFreeTrialExpireDate();
 
+      $scope.config = {
+        publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
+        title: 'Cloudcharge',
+        email:response.data.Result.email,
+        description: "for connected business",
+        logo: 'app/main/account/img/loginDuo.png',
+        label: 'Pay amount'
+      }
+
 
     }, function(response) {
       console.log(response);
@@ -575,14 +584,6 @@
         vm.editableMode = true;
         notifications.toast("Error updating details, " + response, "error");
       });
-    }
-
-    $scope.config = {
-      publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
-      title: 'Cloudcharge',
-      description: "for connected business",
-      logo: 'app/main/account/img/loginDuo.png',
-      label: 'Pay amount'
     }
 
 
