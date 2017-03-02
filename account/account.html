@@ -539,30 +539,24 @@
             <md-card flex class="input-block-gen">
               <md-card-title layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start center">
-                  <md-icon md-font-icon="icon-credit-card-multiple"></md-icon> <h3>My APIs</h3>
+                  <md-icon md-font-icon="icon-cloud"></md-icon> <h3>API management</h3>
                 </div>
               </md-card-title>
-              <div class="list-header" layout="row">
-                <div flex="30" layout-align="center start">Field</div>
-                <div flex class="text-right" layout-align="end center" layout="row"><span>Field</span></div>
-                <div flex="10"></div>
-                <div flex layout-align="center start">Field</div>
-                <div flex="10" layout="row" layout-align="end center">Field</div>
-              </div>
-              <md-card-content md-whiteframe="1dp" style="padding: 0">
-                <div>
-                </div>
+              <md-card-content md-whiteframe="1dp">
+                <md-button class="md-accent" href="https://cloudcharge.portal.azure-api.net" target="_blank"><md-icon md-font-icon="icon-link-variant"></md-icon> API Manager</md-button>
               </md-card-content>
             </md-card>
-
             <form name="vm.devPasswordForm" id="devPasswordForm" ng-submit="saveDevPassword()" novalidate>
               <md-card flex class="input-block-gen">
                 <md-card-title layout="row" layout-align="space-between center">
                   <div layout="row" layout-align="start center">
-                    <md-icon md-font-icon="icon-lock"></md-icon> <h3>Password settings</h3>
+                    <md-icon md-font-icon="icon-lock"></md-icon> <h3>API password</h3>
                   </div>
                 </md-card-title>
                 <md-card-content md-whiteframe="1dp">
+                  <div layout="row" layout-align="start center" class="group-sub-head" style="margin-top: 0">
+                    <span flex="30"><b>Set password</b></span>
+                  </div>
                   <div layout="row" layout-align="start center">
                     <md-input-container flex="30">
                       <label>New password</label>
