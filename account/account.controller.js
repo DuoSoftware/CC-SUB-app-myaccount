@@ -646,6 +646,7 @@
           .cancel('No');
         $mdDialog.show(confirm).then(function () {
 
+          $scope.isPlanSelected= true;
           $scope.getUserTenantData($scope.idToken, packaged);
 
         }, function () {
@@ -661,13 +662,13 @@
 
     $scope.getUserTenantData = function (secToken,pack) {
 
-      $scope.isPlanSelected= true;
+      //$scope.isPlanSelected= true;
 
-      submitTenantDetails(pack,'')
+      submitTenantDetails(pack)
     };
 
 
-    var submitTenantDetails = function (pack,dataa) {
+    var submitTenantDetails = function (pack) {
 
       $scope.paymentTenant = $scope.tenantId ;
       $scope.paymentPlan = pack.id;
@@ -686,6 +687,7 @@
             $scope.addUp = 2*10;   //one user into 12 months
           }
 
+          $scope.isPlanSelected= true;
 
           $http({
             method : 'POST',
@@ -702,7 +704,7 @@
               $scope.useRatingEngine($scope.userdata,($scope.userdata * $scope.addUp));
 
             }else{
-
+              $scope.isPlanSelected= false;
               notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
               $scope.clickCancel();
 
@@ -712,12 +714,13 @@
           }, function(response) {
             console.log(response);
             notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
-
+            $scope.isPlanSelected= false;
             $scope.clickCancel();
           });
 
         }else {
 
+          $scope.isPlanSelected= true;
           //$window.location.href = '/azureshell/app/main/account/paymentMethod/charge.php';
           $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ;
         }
@@ -805,15 +808,16 @@
 
     $scope.changePassword = function(){
 
-      if($scope.user.currentPassword === ''){
-        notifications.toast("Please enter your current password!", "Error");
-        return;
-      }
-      else if($scope.user.newPassword === ''){
+      //if($scope.user.currentPassword === ''){
+      //  notifications.toast("Please enter your current password!", "Error");
+      //  return;
+      //}
+      //else
+      if($scope.dev.newPassword === ''){
         notifications.toast("Please enter your new password!", "Error");
         return;
       }
-      else if($scope.user.newPassword != $scope.user.confirmNewPassword){
+      else if($scope.dev.newPassword != $scope.dev.cnfirmNewPassword){
         notifications.toast("Entered passwords does not match with each other!", "Error");
         return;
       }
@@ -821,24 +825,25 @@
       $scope.isChangePasswordSelected = true;
 
       $http({
-        method: 'GET',
-        url: '/apis/authorization/userauthorization/changepassword/'+$scope.user.currentPassword+'/'+$scope.user.newPassword,
-        //url: 'http://dev.cloudcharge.com/auth/resetAPIUserPassword',
+        method: 'POST',
+        //url: '/apis/authorization/userauthorization/changepassword/'+$scope.user.currentPassword+'/'+$scope.user.newPassword,
+        url: 'http://dev.cloudcharge.com:8001/auth/resetAPIUserPassword',
         headers: {
           'Content-Type': 'application/json',
           'id_token' : $scope.idToken
-        }
+        },
+        data : { "password" : $scope.dev.newPassword}
       })
         .success(function (dataa) {
           var title = "Error";
-          if(dataa.Success)
-          {
+          //if(dataa.Success)
+          //{
             title = "Success";
 
             $scope.clearPassword();
-          }
+          //}
 
-          displaycreateCompanyDetailsSubmissionError(dataa.Message , title);
+          displaycreateCompanyDetailsSubmissionError("Password successfully changed " , title);
           $scope.isChangePasswordSelected = false;
 
 

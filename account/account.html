@@ -239,6 +239,7 @@
                       <section id="successContainer" layout="row" layout-align="center center" >
                         <div flex="20" ng-if="planDuration == 'Yearly'"></div>
                         <div ng-hide="isPlanSelected" layout-align="top start" flex>
+                        <!--<div  layout-align="top start" flex>-->
                           <!-- Monthly-->
                           <div layout="row" layout-align="center center" ng-if="planDuration != 'Yearly'">
                             <md-card ng-repeat="plan in companyPricePlans" layout-align="center center" class="{{plan.id}} plan-card" ng-if="plan.no > 1 && plan.no < 5" flex ng-class="{'md-whiteframe-15dp':currentPlan == plan.no}" style="position:relative;">
@@ -560,7 +561,7 @@
                   <div layout="row" layout-align="start center">
                     <md-input-container flex="30">
                       <label>New password</label>
-                      <input type="text" ng-model="dev.newPassword" name="new_password" ng-pattern="dev.cnfirmNewPassword" required/>
+                      <input type="password" ng-model="dev.newPassword" name="new_password" ng-pattern="dev.cnfirmNewPassword" required/>
                       <div ng-messages="vm.devPasswordForm.new_password.$error">
                         <div ng-message="required"></div>
                         <div ng-message="pattern">Passwords do not match</div>
@@ -569,7 +570,7 @@
                     <div flex="5"></div>
                     <md-input-container flex="30">
                       <label>Confirm password</label>
-                      <input type="text" ng-model="dev.cnfirmNewPassword" name="confirm_password" ng-pattern="dev.newPassword" required/>
+                      <input type="password" ng-model="dev.cnfirmNewPassword" name="confirm_password" ng-pattern="dev.newPassword" required/>
                       <div ng-messages="vm.devPasswordForm.confirm_password.$error">
                         <div ng-message="required"></div>
                         <div ng-message="pattern">Passwords do not match</div>
@@ -580,7 +581,7 @@
                 <md-card-actions>
                   <div layout="row" layout-align="end center" class="plan_footer">
                     <md-button class="md-primary" ng-click="clearPasswordFields()">Clear</md-button>
-                    <md-button type="submit" class="md-warn md-raised" ng-disabled="onPasswordSubmit">Save</md-button>
+                    <md-button type="submit" class="md-warn md-raised" ng-disabled="isChangePasswordSelected" ng-click="changePassword()">Save</md-button>
                   </div>
                 </md-card-actions>
               </md-card>
