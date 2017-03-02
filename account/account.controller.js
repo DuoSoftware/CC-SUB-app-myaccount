@@ -18,27 +18,40 @@
     $scope.generalDetails = true;
     $scope.planDetails = false;
     $scope.paymentHistory = false;
+    $scope.onlinePayments = false;
+    $scope.apiDetails = false;
+
     $scope.switchInpageState = function (switchTo){
       if(switchTo == 'general-details'){
         $scope.generalDetails = true;
         $scope.planDetails = false;
         $scope.paymentHistory = false;
         $scope.onlinePayments = false;
+        $scope.apiDetails = false;
       }else if(switchTo == 'plan-details'){
         $scope.generalDetails = false;
         $scope.planDetails = true;
         $scope.paymentHistory = false;
         $scope.onlinePayments = false;
+        $scope.apiDetails = false;
       }else if(switchTo == 'payment-history'){
         $scope.generalDetails = false;
         $scope.planDetails = false;
         $scope.paymentHistory = true;
         $scope.onlinePayments = false;
+        $scope.apiDetails = false;
       }else if(switchTo == 'online-payments'){
         $scope.onlinePayments = true;
         $scope.generalDetails = false;
         $scope.planDetails = false;
         $scope.paymentHistory = false;
+        $scope.apiDetails = false;
+      }else if(switchTo == 'api-details'){
+        $scope.onlinePayments = false;
+        $scope.generalDetails = false;
+        $scope.planDetails = false;
+        $scope.paymentHistory = false;
+        $scope.apiDetails = true;
       }
     }
 
@@ -1047,10 +1060,27 @@
       vm.editableMode = false;
     }
 
-    //var elem = angular.element('.testOnClick');
-    //elem.onclick = function(){
-    //  console.log('Test clicked');
-    //}
+    $scope.dev = {};
+    $scope.clearPasswordFields = function () {
+      $scope.dev = {};
+      vm.devPasswordForm.$setPristine();
+      vm.devPasswordForm.$setDirty();
+    };
+
+    $scope.saveDevPassword = function () {
+      $scope.onPasswordSubmit = true;
+      if(vm.devPasswordForm.$valid){
+        $scope.onPasswordSubmit = false;
+      }else{
+        angular.element(document.querySelector('#devPasswordForm')).find('.ng-invalid:visible:first').focus();
+        $scope.onPasswordSubmit = false;
+      }
+    };
+
+    var elem = angular.element('.Header-navClose');
+    elem.onclick = function(){
+      console.log('Test clicked');
+    }
     //angular.element('.testOnClick').on('click', function(){
     //  console.log('Test clicked');
     //});

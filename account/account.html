@@ -100,7 +100,7 @@
                       </div>
                     </div>
                     <div><div layout="row" layout-align="end center">
-                      <md-button class="md-accent" href="/ccactiveb2c.onmicrosoft.com/B2C_1_DefaultPolicy/api/CombinedSigninAndSignup/forgotPassword?csrf_token=RTZYbkMxYmsxNW5leGthaGJRL3pzOHM3ZkFOcEhaRVROS1FSdW9VNFlTWDVDMm8yMCtiUHpuSlZneHB0THdsZWpwMmNhYWpCRWRua3lmcXFGVUJ1bFE9PTsyMDE3LTAyLTI4VDEyOjU4OjI2LjAzNTIxN1o7cmtMeHRPbm9zRTZJT0hQY09mTm5rQT09O3siT3JjaGVzdHJhdGlvblN0ZXAiOjF9&tx=eyJUSUQiOiJmNzQwNzMxMC00N2Q2LTRlMjQtOTQ3ZS1mMTVlNGMxNTc2YWQifQ&p=B2C_1_DefaultPolicy"><md-icon md-font-icon="icon-refresh"></md-icon> Reset password</md-button>
+                      <md-button class="md-accent" href="https://login.microsoftonline.com/ccactiveb2c.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_ccPasswordReset&client_Id=d084a227-bb52-4992-889d-6e4835610e76&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fcloudcharge.com%2Fazuresignup%2FccAzure.php%2FreLogin&scope=openid&response_type=id_token&prompt=login"><md-icon md-font-icon="icon-refresh"></md-icon> Reset password</md-button>
                     </div></div>
                   </md-card-content>
                 </md-card>
@@ -213,8 +213,8 @@
                     </div>
 
                     <div flex="30" layout-align="end center" layout="row">
-                      <md-button class="md-warn md-raised" ng-show="selectedPlan.no > 2 && isTempDeactive " ng-click="deactiveCurrentPlan()">Deactivate</md-button>
-                      <md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex style="max-width: 116px;">Upgrade</md-button>
+                      <md-button class="md-warn md-raised" ng-show="selectedPlan.no > 2 && isTempDeactive " ng-click="deactiveCurrentPlan()" style="max-width: 108px;" flex>Deactivate</md-button>
+                      <md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex style="max-width: 108px;" flex>Upgrade</md-button>
                     </div>
                   </div>
                   <div layout="row" ng-if="signupsuccess" flex>
@@ -280,7 +280,7 @@
                               <md-card-actions layout="row" layout-align="center center" flex>
 
                                 <div ng-if="selectedPlan.no < plan.no && plan.price > 0">
-                                  <md-button   class="md-raised {{plan.id}}" ng-if="selectedPlan.price === '0' && paymentStatus != 'canceled' " stripe-payment="config" ng-click="selectPlan(plan)"> Select Plan</md-button>
+                                  <md-button   class="md-raised {{plan.id}}" ng-if="selectedPlan.price === '0' && paymentStatus != 'canceled'" stripe-payment="config" ng-click="selectPlan(plan)"> Select Plan</md-button>
                                   <md-button   class="md-raised {{plan.id}}" ng-if="selectedPlan.price != '0' || paymentStatus === 'canceled'" ng-click="selectPlan(plan)"> Select Plan</md-button>
                                 </div>
                                 <div ng-if="selectedPlan.no >= plan.no || plan.price <= 0">
@@ -347,9 +347,9 @@
                           </div>
                         </div>
                         <div flex="20" ng-if="planDuration == 'Yearly'"></div>
-                        <div layout="row" layout-sm="column" layout-align="space-around" ng-show="isPlanSelected">
-                          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                        </div>
+                        <!--<div layout="row" layout-sm="column" layout-align="space-around" ng-show="isPlanSelected">-->
+                          <!--<md-progress-circular md-mode="indeterminate"></md-progress-circular>-->
+                        <!--</div>-->
                       </section>
                       <md-card-actions layout="row" layout-align="end end" flex ng-show="isPlanSelected">
                         <md-button ng-click="clickCancel()">Cancel</md-button>
@@ -443,9 +443,9 @@
                 <div flex class="text-right" layout-align="end center" layout="row"><span>Amount</span></div>
                 <div flex="10"></div>
                 <div flex layout-align="center start">Received Date</div>
-                <div flex="10" layout-align="center start">Status</div>
+                <div flex="10" layout="row" layout-align="end center">Status</div>
               </div>
-              <md-card-content md-whiteframe="1dp">
+              <md-card-content md-whiteframe="1dp" style="padding: 0">
                 <div>
                   <div layout="row" flex class="payment-history-row" ng-repeat="history in paymentHistoryList" ng-hide="isTenantPaymentHistoryClicked">
 
@@ -533,6 +533,64 @@
                 </div>
               </md-card>
             </md-content>
+          </div>
+
+          <div layout="column" ng-if="apiDetails">
+            <md-card flex class="input-block-gen">
+              <md-card-title layout="row" layout-align="space-between center">
+                <div layout="row" layout-align="start center">
+                  <md-icon md-font-icon="icon-credit-card-multiple"></md-icon> <h3>My APIs</h3>
+                </div>
+              </md-card-title>
+              <div class="list-header" layout="row">
+                <div flex="30" layout-align="center start">Field</div>
+                <div flex class="text-right" layout-align="end center" layout="row"><span>Field</span></div>
+                <div flex="10"></div>
+                <div flex layout-align="center start">Field</div>
+                <div flex="10" layout="row" layout-align="end center">Field</div>
+              </div>
+              <md-card-content md-whiteframe="1dp" style="padding: 0">
+                <div>
+                </div>
+              </md-card-content>
+            </md-card>
+
+            <form name="vm.devPasswordForm" id="devPasswordForm" ng-submit="saveDevPassword()" novalidate>
+              <md-card flex class="input-block-gen">
+                <md-card-title layout="row" layout-align="space-between center">
+                  <div layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-lock"></md-icon> <h3>Password settings</h3>
+                  </div>
+                </md-card-title>
+                <md-card-content md-whiteframe="1dp">
+                  <div layout="row" layout-align="start center">
+                    <md-input-container flex="30">
+                      <label>New password</label>
+                      <input type="text" ng-model="dev.newPassword" name="new_password" ng-pattern="dev.cnfirmNewPassword" required/>
+                      <div ng-messages="vm.devPasswordForm.new_password.$error">
+                        <div ng-message="required"></div>
+                        <div ng-message="pattern">Passwords do not match</div>
+                      </div>
+                    </md-input-container>
+                    <div flex="5"></div>
+                    <md-input-container flex="30">
+                      <label>Confirm password</label>
+                      <input type="text" ng-model="dev.cnfirmNewPassword" name="confirm_password" ng-pattern="dev.newPassword" required/>
+                      <div ng-messages="vm.devPasswordForm.confirm_password.$error">
+                        <div ng-message="required"></div>
+                        <div ng-message="pattern">Passwords do not match</div>
+                      </div>
+                    </md-input-container>
+                    </div>
+                </md-card-content>
+                <md-card-actions>
+                  <div layout="row" layout-align="end center" class="plan_footer">
+                    <md-button class="md-primary" ng-click="clearPasswordFields()">Clear</md-button>
+                    <md-button type="submit" class="md-warn md-raised" ng-disabled="onPasswordSubmit">Save</md-button>
+                  </div>
+                </md-card-actions>
+              </md-card>
+            </form>
           </div>
 
           <!--<div layout="column" ng-if="passwordSettings">-->
