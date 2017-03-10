@@ -1097,8 +1097,8 @@
       value: 0,
       options: {
         floor: 0,
-        ceil: 5000,
-        step: 1000,
+        ceil: 0,
+        step: 0,
         showSelectionBar: true,
         selectionBarGradient: {
           from: 'white',
@@ -1107,9 +1107,19 @@
       }
     };
 
-    $scope.subscriptionRate = 0;
-    $scope.activeSubscriptions = 0;
-    $scope.currentPlanName = 'starter';
+    $scope.subUsage = {
+      value: 0,
+      options: {
+        floor: 0,
+        ceil: 0,
+        showSelectionBar: true,
+        disabled: true,
+        selectionBarGradient: {
+          from: '#76d2ff',
+          to: '#e28989'
+        }
+      }
+    };
 
     $scope.businessSlider = {
       value: 0,
@@ -1125,11 +1135,16 @@
       }
     };
 
+    $scope.subscriptionRate = 0;
+    $scope.activeSubscriptions = 0;
+    $scope.currentPlanName = 'starter';
+    var oneDay = 24*60*60*1000;
+
     function parseJwt (token) {
       var base64Url = token.split('.')[1];
       var base64 = base64Url.replace('-', '+').replace('_', '/');
       return JSON.parse(window.atob(base64));
-    };
+    }
 
     var oid = parseJwt($scope.idToken).oid;
 
@@ -1158,6 +1173,20 @@
             }
           }
         };
+
+        $scope.subUsage = {
+          value: $scope.currentPlanUsed,
+          options: {
+            floor: 0,
+            ceil: $scope.currentPlanAmount,
+            showSelectionBar: true,
+            disabled: true,
+            selectionBarGradient: {
+              from: '#76d2ff',
+              to: '#e28989'
+            }
+          }
+        };
       },function (response) {
         console.log(response);
       });
@@ -1177,6 +1206,7 @@
         $scope.currentPlanRate = response.data.rate;
         $scope.currentPlanUsed = response.data.used;
         $scope.currentPlanCreatedDate = response.data.createdDate;
+        $scope.currentPlanExpiryDate = response.data.expiry;
         callback();
       }, function (response) {
         console.log(response);
@@ -1184,14 +1214,19 @@
     };
 
     $scope.getCurrentPlansByUser(function () {
+      var firstDate = new Date($scope.currentPlanCreatedDate);
+      var secondDate = new Date($scope.currentPlanExpiryDate);
+      $scope.remainingDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
       $scope.getAllPlansByUser();
     });
 
     $scope.$watch(function () {
-      for(i=0;i<$scope.allSubscriptionPlans.length;i++){
-        if($scope.starterSlider.value == parseInt($scope.allSubscriptionPlans[i].range.split('-')[1])){
-          $scope.subscriptionRate = parseInt($scope.allSubscriptionPlans[i].rate);
-          $scope.activeSubscriptions = parseInt($scope.allSubscriptionPlans[i].range.split('-')[1]);
+      if($scope.allSubscriptionPlans != undefined){
+        for(i=0;i<$scope.allSubscriptionPlans.length;i++){
+          if($scope.starterSlider.value == parseInt($scope.allSubscriptionPlans[i].range.split('-')[1])){
+            $scope.subscriptionRate = parseInt($scope.allSubscriptionPlans[i].rate);
+            $scope.activeSubscriptions = parseInt($scope.allSubscriptionPlans[i].range.split('-')[1]);
+          }
         }
       }
     });

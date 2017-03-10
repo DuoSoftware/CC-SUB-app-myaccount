@@ -207,16 +207,16 @@
                       <div class="sub-info">
                         <div>Amount : <b>{{currentPlanAmount}}</b></div>
                         <div>Rate : <b>{{currentPlanRate}}</b></div>
-                        <div>Used : <b>{{currentPlanUsed}}</b></div>
-                        <div>Days remaining : <b>{{currentPlanName}}</b></div>
+                        <div>Days remaining : <b>{{remainingDays}}</b></div>
                       </div>
                     </div>
 
-                    <!--<div class="subscription-usage" flex="20">-->
-                      <!--<rzslider rz-slider-model="subUsage.value" rz-slider-options="subUsage.options"></rzslider>-->
-                    <!--</div>-->
+                    <div class="subscription-usage" layout="column" layout-align="center center" flex="20">
+                      <rzslider rz-slider-model="subUsage.value" rz-slider-options="subUsage.options"></rzslider>
+                      <span>Usage</span>
+                    </div>
 
-                    <div flex="30" layout-align="end center" layout="row">
+                    <div flex="20" layout-align="end center" layout="row">
                       <md-button class="md-warn md-raised" ng-show="selectedPlan.no > 2 && isTempDeactive " ng-click="deactiveCurrentPlan()" style="max-width: 108px;" flex>Deactivate</md-button>
                       <md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex style="max-width: 108px;" flex>Upgrade</md-button>
                     </div>

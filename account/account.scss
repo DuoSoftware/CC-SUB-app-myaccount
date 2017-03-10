@@ -247,13 +247,27 @@ form{
     }
     .subscription-usage{
       .rzslider {
-        margin: 0;
-        clip-path: circle(100px at center);
-        .rz-pointer,.rz-bubble{
+        height: 50px;
+        pointer-events: none;
+        -webkit-clip-path: polygon(100% 45%, 0% 100%, 100% 100%);
+        clip-path: polygon(100% 45%, -50% 130%, 100% 140%);
+        margin: 20px 0 0;
+        .rz-pointer{
           display: none;
         }
-        .rz-bar {
+        .rz-bubble{
+          z-index: 9999;
+          bottom: -20px;
         }
+        .rz-bar {
+          height: 50px;
+          background: #f4f4f4;
+        }
+      }
+      >span{
+        color: #039be5;
+        margin-top: 20px;
+        font-size: 13px;
       }
     }
   }
@@ -287,15 +301,16 @@ form{
     position: relative;
     .selected-plan-ico{
       position: absolute;
-      right: -27px;
-      width: 75px;
+      right: -31px;
+      width: 105px;
       border: solid 15px transparent;
-      border-bottom: solid 15px #adf351;
-      top: -7px;
+      border-bottom: solid 15px #c0ff36;
+      top: 4px;
       color: #ffffff;
       background: transparent;
       padding-top: 6px;
       padding-left: 4px;
+      -webkit-transform: rotate(45deg);
       transform: rotate(45deg);
       box-shadow: 0px 2px 0px rgba(64, 64, 64, 0.18);
     }
