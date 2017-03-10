@@ -111,7 +111,7 @@
     $scope.idToken= gst('securityToken');
 
     if(!$scope.idToken)
-      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODc5OTI1OTgsIm5iZiI6MTQ4NzkwOTc5OCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjY5MGNjMmIxLTk4N2UtNDc0YS05ZjM4LWNmNGZmZGIxMjU0OCIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg3OTA5Nzk4LCJhdXRoX3RpbWUiOjE0ODc5MDk3OTgsIm9pZCI6IjY5MGNjMmIxLTk4N2UtNDc0YS05ZjM4LWNmNGZmZGIxMjU0OCIsImdpdmVuX25hbWUiOiJ6YXJpemF2aW5hIiwibmFtZSI6Inphcml6YXZpbmEiLCJjb3VudHJ5IjoiU3QgSGVsZW5hLCBBc2NlbnNpb24sIFRyaXN0YW4gZGEgQ3VuaGEiLCJleHRlbnNpb25fRG9tYWluIjoiemFyaXphdmluYS5jbG91ZGNoYXJnZS5jb20iLCJmYW1pbHlfbmFtZSI6ImZyZWVfdHJpYWwiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbInphcml6YXZpbmFAMTJzdG9yYWdlLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.mh27mcrcAePt1IiBwyOREmqEG1Ok1DLJUsDODUkm-OzgLKrCg7OjrcrSUul4sZsbniNehbVfNJ4GMXOng9TEN6K7cMLLa7dfLQSjtsGY5YfACVExMoEiGvXMepP0ReiKFZ0bwSxQD7IHNyysnhrT1UysPtUDmmBvnp86mEzh-6ZE4F0iFYSoCZv7fAMtOy-EJwUwt2O0er8cpkwyrvqdzFo2Op0YhuWHaQFiOJegbI784iPxsWbX6MJ2HP7DX47P5q7uGFV5_xXpgpZ_8Bme1HPY65XVTZOBhemfqC3s1U1da4G7Kc0X1gKq5RG1XEIC83rDEhyYD2k1YvRMQDk9Zg";//gst('idToken');
+      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODkxNDQ5NzksIm5iZiI6MTQ4OTA1ODU3OSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5MDU4NTc5LCJhdXRoX3RpbWUiOjE0ODkwNTg1NzksIm9pZCI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImdpdmVuX25hbWUiOiJmYWZhIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyaWFsIiwibmFtZSI6InBpYmEiLCJqb2JUaXRsZSI6ImFkbWluIiwiY291bnRyeSI6IkFuZ3VpbGxhIiwiZXh0ZW5zaW9uX0RvbWFpbiI6ImZhZmFwaWJhLmNsb3VkY2hhcmdlLmNvbSIsImVtYWlscyI6WyJmYWZhcGliYUBnYW1nbGluZy5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFNpZ25JbiJ9.sJj5ZfhDBb27BEYfDTuSMg9zCkoS62eOcWC2XbyzCYcRfsQjKtPB_1BeeESQwhyHekUSvgwt0tgpJAYIZvmMt-aWcKvhwJa02cG3BzUV-LFuGakCMFADXzDzs2qyRjL0cWnW1MQlvm1roBmnEUpeifGoGmfFwhWyKGF7-Asmq00W6tml7u_IOVUkPs-0pRE-31srM2QX1DZsYsJB3P0j8k02zjVgbMoaX3z31GY0Ez-Va0GzukDm9AQHeZUo-D1hU9vzFYD2Nk7pTxbPTi58ktxTN1_LNZ_sRXGooOZmuONayHwmLbvOBvdAT4mfYN0HrKIEVEz9NgRNFT6AOoTWLw";//gst('idToken');
 
     (function (){
       $http({
@@ -1089,6 +1089,126 @@
     //angular.element('.testOnClick').on('click', function(){
     //  console.log('Test clicked');
     //});
+
+
+
+    // DYNAMIC PLANS
+    $scope.starterSlider = {
+      value: 0,
+      options: {
+        floor: 0,
+        ceil: 5000,
+        step: 1000,
+        showSelectionBar: true,
+        selectionBarGradient: {
+          from: 'white',
+          to: '#039be5'
+        }
+      }
+    };
+
+    $scope.subUsage = {
+      value: 1000,
+      options: {
+        floor: 0,
+        ceil: 5000,
+        showSelectionBar: true,
+        selectionBarGradient: {
+          from: 'white',
+          to: '#039be5'
+        }
+      }
+    };
+    $scope.subscriptionRate = 0;
+    $scope.activeSubscriptions = 0;
+    $scope.currentPlanName = 'starter';
+
+    $scope.businessSlider = {
+      value: 0,
+      options: {
+        floor: 0,
+        ceil: 5000,
+        step: 1000,
+        showSelectionBar: true,
+        selectionBarGradient: {
+          from: 'white',
+          to: '#039be5'
+        }
+      }
+    };
+
+    function parseJwt (token) {
+      var base64Url = token.split('.')[1];
+      var base64 = base64Url.replace('-', '+').replace('_', '/');
+      return JSON.parse(window.atob(base64));
+    };
+
+    var oid = parseJwt($scope.idToken).oid;
+
+    $scope.getAllPlansByUser = function () {
+      $http({
+        method: 'GET',
+        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAllRatesForApp?appID=invoice",
+        headers: {
+          'Content-Type': 'application/json',
+          'securityToken': oid
+        }
+      }).then(function (response) {
+        $scope.allSubscriptionPlans = response.data;
+        $scope.subscriptionMaxAmount = parseInt($scope.allSubscriptionPlans[$scope.allSubscriptionPlans.length-1].range.split('-')[1]);
+        $scope.subscriptionStep = parseInt($scope.allSubscriptionPlans[0].range.split('-')[1]);
+        $scope.starterSlider = {
+          value: $scope.currentPlanAmount,
+          options: {
+            floor: 0,
+            ceil: $scope.subscriptionMaxAmount,
+            step: $scope.subscriptionStep,
+            showSelectionBar: true,
+            selectionBarGradient: {
+              from: 'white',
+              to: '#039be5'
+            }
+          }
+        };
+      },function (response) {
+        console.log(response);
+      });
+    };
+
+    $scope.getCurrentPlansByUser = function (callback) {
+      $http({
+        method: 'GET',
+        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice",
+        headers: {
+          'Content-Type': 'application/json',
+          'securityToken': oid
+        }
+      }).then(function (response) {
+        //$scope.currentPlanName = response.data.name;
+        $scope.currentPlanAmount = parseInt(response.data.amount);
+        $scope.currentPlanRate = response.data.rate;
+        $scope.currentPlanUsed = response.data.used;
+        $scope.currentPlanCreatedDate = response.data.createdDate;
+        callback();
+      }, function (response) {
+        console.log(response);
+      });
+    };
+
+    $scope.getCurrentPlansByUser(function () {
+      $scope.getAllPlansByUser();
+    });
+
+    $scope.$watch(function () {
+      for(i=0;i<$scope.allSubscriptionPlans.length;i++){
+        if($scope.starterSlider.value == parseInt($scope.allSubscriptionPlans[i].range.split('-')[1])){
+          $scope.subscriptionRate = parseInt($scope.allSubscriptionPlans[i].rate);
+          $scope.activeSubscriptions = parseInt($scope.allSubscriptionPlans[i].range.split('-')[1]);
+        }
+      }
+    });
+
+    // / DYNAMIC PLANS
 
   }
 })();
