@@ -1106,7 +1106,7 @@
         }
       }
     };
-    
+
     $scope.subscriptionRate = 0;
     $scope.activeSubscriptions = 0;
     $scope.currentPlanName = 'starter';
