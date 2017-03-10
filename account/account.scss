@@ -282,24 +282,26 @@ form{
   }
   .subscription-plan{
     max-width: 300px;
-    min-height: 478px;
+    min-height: 495px;
     border-radius: 3px;
     position: relative;
     .selected-plan-ico{
       position: absolute;
-      right: -5px;
-      font-size: 25px;
-      width: 35px;
-      height: 35px;
-      top: -6px;
+      right: -27px;
+      width: 75px;
+      border: solid 15px transparent;
+      border-bottom: solid 15px #adf351;
+      top: -7px;
       color: #ffffff;
-      border-radius: 50%;
-      background: #039be5;
+      background: transparent;
       padding-top: 6px;
       padding-left: 4px;
+      transform: rotate(45deg);
+      box-shadow: 0px 2px 0px rgba(64, 64, 64, 0.18);
     }
     md-card-title{
-      max-height: 40px;
+      max-height: 80px;
+      height: 80px;
       padding: 0;
       background: #eaf2f6;
       border-top-left-radius: 3px;
@@ -307,10 +309,11 @@ form{
       overflow: hidden;
       border-bottom: solid 1px #c3d8e2;
       h3{
-        font-size: 20px;
+        font-size: 25px;
         font-weight: 400;
         color: #039be5;
         margin: 0;
+        text-transform: uppercase;
       }
     }
     md-card-content{
@@ -332,7 +335,7 @@ form{
         }
       }
       .rate-container{
-        height: 150px;
+        height: 130px;
         background: #fff;
         color: #039be5;
         >.layout-row{

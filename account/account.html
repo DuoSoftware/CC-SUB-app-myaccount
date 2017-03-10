@@ -350,7 +350,7 @@
                             <!--</md-card>-->
                           <!--</div>-->
                           <md-card flex class="subscription-plan free" ng-class="{'md-whiteframe-10dp':currentPlanName == 'free'}">
-                            <md-icon md-font-icon="icon-check" class="selected-plan-ico" md-whiteframe="2dp" ng-if="currentPlanName == 'free'"></md-icon>
+                            <div  class="selected-plan-ico" md-whiteframe="2dp" ng-if="currentPlanName == 'free'"></div>
                             <md-card-title flex layout="row" layout-align="center center" ng-class="{'blue-title':currentPlanName == 'free'}">
                               <h3 ng-class="{'white':currentPlanName == 'free'}">Free</h3>
                             </md-card-title>
@@ -376,7 +376,7 @@
                             </md-card-footer>
                           </md-card>
                           <md-card flex class="subscription-plan" ng-class="{'md-whiteframe-10dp':currentPlanName == 'starter'}">
-                            <md-icon md-font-icon="icon-check" class="selected-plan-ico" md-whiteframe="2dp" ng-if="currentPlanName == 'starter'"></md-icon>
+                            <div class="selected-plan-ico" ng-if="currentPlanName == 'starter'"></div>
 
                             <md-card-title flex layout="row" layout-align="center center" ng-class="{'blue-title':currentPlanName == 'starter'}">
                               <h3 ng-class="{'white':currentPlanName == 'starter'}">Starter</h3>
