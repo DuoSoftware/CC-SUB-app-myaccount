@@ -1106,19 +1106,7 @@
         }
       }
     };
-
-    $scope.subUsage = {
-      value: 1000,
-      options: {
-        floor: 0,
-        ceil: 5000,
-        showSelectionBar: true,
-        selectionBarGradient: {
-          from: 'white',
-          to: '#039be5'
-        }
-      }
-    };
+    
     $scope.subscriptionRate = 0;
     $scope.activeSubscriptions = 0;
     $scope.currentPlanName = 'starter';
