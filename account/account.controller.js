@@ -96,6 +96,57 @@
     };
 
 
+
+    // DYNAMIC PLANS
+    $scope.starterSlider = {
+      value: 0,
+      options: {
+        floor: 0,
+        ceil: 0,
+        step: 0,
+        showSelectionBar: true,
+        selectionBarGradient: {
+          from: 'white',
+          to: '#039be5'
+        }
+      }
+    };
+
+    $scope.subUsage = {
+      value: 0,
+      options: {
+        floor: 0,
+        ceil: 0,
+        showSelectionBar: true,
+        disabled: true,
+        selectionBarGradient: {
+          from: '#76d2ff',
+          to: '#e28989'
+        }
+      }
+    };
+
+    $scope.businessSlider = {
+      value: 0,
+      options: {
+        floor: 0,
+        ceil: 5000,
+        step: 1000,
+        showSelectionBar: true,
+        selectionBarGradient: {
+          from: 'white',
+          to: '#039be5'
+        }
+      }
+    };
+
+    $scope.subscriptionRate = 0;
+    $scope.activeSubscriptions = 0;
+    var oneDay = 24*60*60*1000;
+
+
+
+
     function gst(name) {
       var nameEQ = name + "=";
       var ca = document.cookie.split(';');
@@ -278,6 +329,11 @@
       success(function (data, status, headers, config) {
         $scope.companyPricePlans = data;
 
+        for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
+          $scope.getAllPlansByUser($scope.companyPricePlans[i]);
+        }
+
+
       }).
       error(function (data, status, headers, config) {
         $scope.companyPricePlans = null;
@@ -290,6 +346,8 @@
       for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
         if($scope.companyPricePlans[i].id === planId){
           $scope.selectedPlan = $scope.companyPricePlans[i];
+
+          $scope.currentPlanName = $scope.selectedPlan.name;
         }
       }
     }
@@ -1090,56 +1148,6 @@
     //  console.log('Test clicked');
     //});
 
-
-
-    // DYNAMIC PLANS
-    $scope.starterSlider = {
-      value: 0,
-      options: {
-        floor: 0,
-        ceil: 0,
-        step: 0,
-        showSelectionBar: true,
-        selectionBarGradient: {
-          from: 'white',
-          to: '#039be5'
-        }
-      }
-    };
-
-    $scope.subUsage = {
-      value: 0,
-      options: {
-        floor: 0,
-        ceil: 0,
-        showSelectionBar: true,
-        disabled: true,
-        selectionBarGradient: {
-          from: '#76d2ff',
-          to: '#e28989'
-        }
-      }
-    };
-
-    $scope.businessSlider = {
-      value: 0,
-      options: {
-        floor: 0,
-        ceil: 5000,
-        step: 1000,
-        showSelectionBar: true,
-        selectionBarGradient: {
-          from: 'white',
-          to: '#039be5'
-        }
-      }
-    };
-
-    $scope.subscriptionRate = 0;
-    $scope.activeSubscriptions = 0;
-    $scope.currentPlanName = 'starter';
-    var oneDay = 24*60*60*1000;
-
     function parseJwt (token) {
       var base64Url = token.split('.')[1];
       var base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -1148,25 +1156,25 @@
 
     var oid = parseJwt($scope.idToken).oid;
 
-    $scope.getAllPlansByUser = function () {
-      $http({
-        method: 'GET',
-        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAllRatesForApp?appID=invoice",
-        headers: {
-          'Content-Type': 'application/json',
-          'securityToken': oid
-        }
-      }).then(function (response) {
-        $scope.allSubscriptionPlans = response.data;
-        $scope.subscriptionMaxAmount = parseInt($scope.allSubscriptionPlans[$scope.allSubscriptionPlans.length-1].range.split('-')[1]);
-        $scope.subscriptionStep = parseInt($scope.allSubscriptionPlans[0].range.split('-')[1]);
+    $scope.getAllPlansByUser = function (plan) {
+      //$http({
+      //  method: 'GET',
+      //  url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAllRatesForApp?appID=invoice",
+      //  headers: {
+      //    'Content-Type': 'application/json',
+      //    'securityToken': oid
+      //  }
+      //}).then(function (response) {debugger;
+        $scope.allSubscriptionPlans = plan.data;
+        plan.subscriptionMaxAmount = parseInt($scope.allSubscriptionPlans[$scope.allSubscriptionPlans.length-1].range.split('-')[1]);
+        plan.subscriptionStep = parseInt($scope.allSubscriptionPlans[0].range.split('-')[1]);
         $scope.starterSlider = {
           value: $scope.currentPlanAmount,
           options: {
             floor: 0,
-            ceil: $scope.subscriptionMaxAmount,
-            step: $scope.subscriptionStep,
-            showSelectionBar: true,
+            ceil: plan.subscriptionMaxAmount,
+            step: plan.subscriptionStep,
+            showSelectionBar: false,
             selectionBarGradient: {
               from: 'white',
               to: '#039be5'
@@ -1187,9 +1195,10 @@
             }
           }
         };
-      },function (response) {
-        console.log(response);
-      });
+
+      //},function (response) {
+      //  console.log(response);
+      //});
     };
 
     $scope.getCurrentPlansByUser = function (callback) {
@@ -1220,16 +1229,26 @@
       $scope.getAllPlansByUser();
     });
 
-    $scope.$watch(function () {
-      if($scope.allSubscriptionPlans != undefined){
-        for(i=0;i<$scope.allSubscriptionPlans.length;i++){
-          if($scope.starterSlider.value == parseInt($scope.allSubscriptionPlans[i].range.split('-')[1])){
-            $scope.subscriptionRate = parseInt($scope.allSubscriptionPlans[i].rate);
-            $scope.activeSubscriptions = parseInt($scope.allSubscriptionPlans[i].range.split('-')[1]);
-          }
+    //$scope.$watch(function () {
+    //  if($scope.allSubscriptionPlans != undefined){
+    //    for(i=0;i<$scope.allSubscriptionPlans.length;i++){
+    //      if($scope.starterSlider.value == parseInt($scope.allSubscriptionPlans[i].range.split('-')[1])){
+    //        $scope.subscriptionRate = parseInt($scope.allSubscriptionPlans[i].rate);
+    //        $scope.activeSubscriptions = parseInt($scope.allSubscriptionPlans[i].range.split('-')[1]);
+    //      }
+    //    }
+    //  }
+    //});
+
+
+    $scope.changeSubscription = function(plan){
+      for(i=0;i<$scope.allSubscriptionPlans.length;i++) {
+        if(plan.sliderValue == parseInt($scope.allSubscriptionPlans[i].range.split('-')[1])){
+          plan.subscriptionRate = parseInt($scope.allSubscriptionPlans[i].rate);
+         plan.activeSubscriptions = parseInt($scope.allSubscriptionPlans[i].range.split('-')[1]);
         }
       }
-    });
+    }
 
     // / DYNAMIC PLANS
 

@@ -212,7 +212,7 @@
                     </div>
 
                     <div class="subscription-usage" layout="column" layout-align="center center" flex="20">
-                      <rzslider rz-slider-model="subUsage.value" rz-slider-options="subUsage.options"></rzslider>
+                      <rzslider rz-slider-model="currentPlanAmount" rz-slider-options="subUsage.options"></rzslider>
                       <span>Usage</span>
                     </div>
 
@@ -349,95 +349,96 @@
                               <!--</md-card-actions>-->
                             <!--</md-card>-->
                           <!--</div>-->
-                          <md-card flex class="subscription-plan free" ng-class="{'md-whiteframe-10dp':currentPlanName == 'free'}">
-                            <div  class="selected-plan-ico" md-whiteframe="2dp" ng-if="currentPlanName == 'free'"></div>
-                            <md-card-title flex layout="row" layout-align="center center" ng-class="{'blue-title':currentPlanName == 'free'}">
-                              <h3 ng-class="{'white':currentPlanName == 'free'}">Free</h3>
+                          <!--<md-card flex class="subscription-plan free" ng-class="{'md-whiteframe-10dp':currentPlanName == 'free'}">-->
+                            <!--<div  class="selected-plan-ico" md-whiteframe="2dp" ng-if="currentPlanName == 'free'"></div>-->
+                            <!--<md-card-title flex layout="row" layout-align="center center" ng-class="{'blue-title':currentPlanName == 'free'}">-->
+                              <!--<h3 ng-class="{'white':currentPlanName == 'free'}">Free</h3>-->
+                            <!--</md-card-title>-->
+
+                            <!--<md-card-content flex>-->
+                              <!--<div class="rate-container" layout="column" layout-align="center center">-->
+                                <!--<div layout="row" layout-align="center end"><span>$0 /</span> <span>month</span></div>-->
+                              <!--</div>-->
+
+                              <!--<div class="feature-container" layout="column" layout-align="center center">-->
+                                <!--<div layout="row" layout-align="center center">-->
+                                  <!--<div><span>1000</span><span> Active Subscriptions</span></div>-->
+                                <!--</div>-->
+                                <!--<div layout="row" layout-align="center center">-->
+                                  <!--<div><span>$5</span><span> per Additional Subscription</span></div>-->
+                                <!--</div>-->
+                              <!--</div>-->
+
+                            <!--</md-card-content>-->
+
+                            <!--<md-card-footer layout="row" layout-align="center center" flex>-->
+                              <!--<md-button class="md-raised md-accent">Select</md-button>-->
+                            <!--</md-card-footer>-->
+                          <!--</md-card>-->
+                          <md-card ng-repeat="plan in companyPricePlans"  flex class="subscription-plan" ng-class="{'md-whiteframe-10dp':plan.id == selectedPlan.id}">
+                            <div class="selected-plan-ico" ng-if="plan.id == selectedPlan.id"></div>
+
+                            <md-card-title flex layout="row" layout-align="center center" ng-class="{'blue-title': plan.id == selectedPlan.id}">
+                              <h3 ng-class="{'white':plan.id == selectedPlan.id}">{{plan.name}}</h3>
                             </md-card-title>
 
                             <md-card-content flex>
                               <div class="rate-container" layout="column" layout-align="center center">
-                                <div layout="row" layout-align="center end"><span>$0 /</span> <span>month</span></div>
+                                <div layout="row" layout-align="center end"><span>${{plan.subscriptionRate}} </span> <span>{{plan.per}}</span></div>
                               </div>
 
                               <div class="feature-container" layout="column" layout-align="center center">
                                 <div layout="row" layout-align="center center">
-                                  <div><span>1000</span><span> Active Subscriptions</span></div>
+                                  <div><span>{{plan.activeSubscriptions}}</span><span> Active Subscriptions</span></div>
                                 </div>
                                 <div layout="row" layout-align="center center">
-                                  <div><span>$5</span><span> per Additional Subscription</span></div>
-                                </div>
-                              </div>
-
-                            </md-card-content>
-
-                            <md-card-footer layout="row" layout-align="center center" flex>
-                              <md-button class="md-raised md-accent">Select</md-button>
-                            </md-card-footer>
-                          </md-card>
-                          <md-card flex class="subscription-plan" ng-class="{'md-whiteframe-10dp':currentPlanName == 'starter'}">
-                            <div class="selected-plan-ico" ng-if="currentPlanName == 'starter'"></div>
-
-                            <md-card-title flex layout="row" layout-align="center center" ng-class="{'blue-title':currentPlanName == 'starter'}">
-                              <h3 ng-class="{'white':currentPlanName == 'starter'}">Starter</h3>
-                            </md-card-title>
-
-                            <md-card-content flex>
-                              <div class="rate-container" layout="column" layout-align="center center">
-                                <div layout="row" layout-align="center end"><span>${{subscriptionRate}} /</span> <span>month</span></div>
-                              </div>
-
-                              <div class="feature-container" layout="column" layout-align="center center">
-                                <div layout="row" layout-align="center center">
-                                  <div><span>{{activeSubscriptions}}</span><span> Active Subscriptions</span></div>
-                                </div>
-                                <div layout="row" layout-align="center center">
-                                  <div><span>$5</span><span> per Additional Subscription</span></div>
+                                  <div><span>${{plan.additionalSubPrice}}</span><span> per Additional Subscription</span></div>
                                 </div>
                               </div>
 
                               <div class="slider">
-                                <rzslider rz-slider-model="starterSlider.value" rz-slider-options="starterSlider.options"></rzslider>
+                                <rzslider id="cont{{plan.id}}" rz-slider-model="plan.sliderValue" ng-click="changeSubscription(plan)" rz-slider-options="starterSlider.options"></rzslider>
                               </div>
 
                               <div layout="row" layout-align="center center" class="slider-msg">Slide to change the rate</div>
                             </md-card-content>
 
                             <md-card-footer layout="row" layout-align="center center" flex>
-                              <md-button class="md-raised md-accent">Select</md-button>
+                              <md-button class="md-raised md-accent" ng-disabled="selectedPlan.id === plan.id" ng-if="selectedPlan.price < 1" stripe-payment="config" ng-click="selectPlan(plan)">Select</md-button>
+                              <md-button class="md-raised md-accent" ng-if="selectedPlan.price > 0" ng-click="selectPlan(plan)">Select</md-button>
                             </md-card-footer>
                           </md-card>
-                          <md-card flex class="subscription-plan business" ng-class="{'md-whiteframe-10dp':currentPlanName == 'business'}">
-                            <md-icon md-font-icon="icon-check" class="selected-plan-ico" md-whiteframe="2dp" ng-if="currentPlanName == 'business'"></md-icon>
-                            <md-card-title flex layout="row" layout-align="center center" ng-class="{'blue-title':currentPlanName == 'business'}">
-                              <h3 ng-class="{'white':currentPlanName == 'business'}">Business</h3>
-                            </md-card-title>
+                          <!--<md-card flex class="subscription-plan business" ng-class="{'md-whiteframe-10dp':currentPlanName == 'business'}">-->
+                            <!--<md-icon md-font-icon="icon-check" class="selected-plan-ico" md-whiteframe="2dp" ng-if="currentPlanName == 'business'"></md-icon>-->
+                            <!--<md-card-title flex layout="row" layout-align="center center" ng-class="{'blue-title':currentPlanName == 'business'}">-->
+                              <!--<h3 ng-class="{'white':currentPlanName == 'business'}">Business</h3>-->
+                            <!--</md-card-title>-->
 
-                            <md-card-content flex>
-                              <div class="rate-container" layout="column" layout-align="center center">
-                                <div layout="row" layout-align="center end"><span>$10 /</span> <span>month</span></div>
-                              </div>
+                            <!--<md-card-content flex>-->
+                              <!--<div class="rate-container" layout="column" layout-align="center center">-->
+                                <!--<div layout="row" layout-align="center end"><span>$10 /</span> <span>month</span></div>-->
+                              <!--</div>-->
 
-                              <div class="feature-container" layout="column" layout-align="center center">
-                                <div layout="row" layout-align="center center">
-                                  <div><span>1000</span><span> Active Subcriptions</span></div>
-                                </div>
-                                <div layout="row" layout-align="center center">
-                                  <div><span>$0.5</span><span> per Additional Subscription</span></div>
-                                </div>
-                              </div>
+                              <!--<div class="feature-container" layout="column" layout-align="center center">-->
+                                <!--<div layout="row" layout-align="center center">-->
+                                  <!--<div><span>1000</span><span> Active Subcriptions</span></div>-->
+                                <!--</div>-->
+                                <!--<div layout="row" layout-align="center center">-->
+                                  <!--<div><span>$0.5</span><span> per Additional Subscription</span></div>-->
+                                <!--</div>-->
+                              <!--</div>-->
 
-                              <div class="slider">
-                                <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
-                              </div>
+                              <!--<div class="slider">-->
+                                <!--<rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>-->
+                              <!--</div>-->
 
-                              <div layout="row" layout-align="center center" class="slider-msg">Slide to change the rate</div>
-                            </md-card-content>
+                              <!--<div layout="row" layout-align="center center" class="slider-msg">Slide to change the rate</div>-->
+                            <!--</md-card-content>-->
 
-                            <md-card-footer layout="row" layout-align="center center" flex>
-                              <md-button class="md-raised md-accent">Select</md-button>
-                            </md-card-footer>
-                          </md-card>
+                            <!--<md-card-footer layout="row" layout-align="center center" flex>-->
+                              <!--<md-button class="md-raised md-accent">Select</md-button>-->
+                            <!--</md-card-footer>-->
+                          <!--</md-card>-->
                         </div>
                         <!--<div layout="row" layout-sm="column" layout-align="space-around" ng-show="isPlanSelected">-->
                           <!--<md-progress-circular md-mode="indeterminate"></md-progress-circular>-->
