@@ -143,12 +143,10 @@ if(!isset($_COOKIE['planId'])) {
 
                       $planId = str_replace("_year","",$planId);
 
-                     curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
+                     curl_setopt($chp, CURLOPT_URL, "http://azure.cloudcharge.com/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
+                     //curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
 
-					 $urlss = "http://". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId;
-print_r($urlss);
-
-                      // receive server response ...
+					     // receive server response ...
                       curl_setopt($chp, CURLOPT_RETURNTRANSFER, 1);
 
                       $outputp = curl_exec ($chp);
@@ -181,10 +179,9 @@ print_r($urlss);
 
 					            curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
 
-                     curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule");
+                     curl_setopt($chp, CURLOPT_URL, "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/createRule");
+                     //curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule");
 
-$urls = "http://". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule";
-print_r($urls);
                       // receive server response ...
                       curl_setopt($cho, CURLOPT_RETURNTRANSFER, 1);
 
