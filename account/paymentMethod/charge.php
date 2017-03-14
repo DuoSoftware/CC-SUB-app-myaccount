@@ -188,6 +188,12 @@ if(!isset($_COOKIE['planId'])) {
                       curl_close ($cho);
 
 
+                      print_r($output);
+                      print_r($outputp);
+                      print_r($outputo);
+                      exit();
+
+
              header('Location: ../../../../#/account');
 //          $message = "You have successfully Updated to ".$name." Package. Please re login to active new features.";
 //                     echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account';</script></body></html>";
