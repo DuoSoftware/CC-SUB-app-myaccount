@@ -145,7 +145,8 @@ if(!isset($_COOKIE['planId'])) {
 
                      curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
 
-					// $urlss = "http://". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId;
+					 $urlss = "http://". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId;
+print_r($urlss);
 
                       // receive server response ...
                       curl_setopt($chp, CURLOPT_RETURNTRANSFER, 1);
@@ -182,6 +183,8 @@ if(!isset($_COOKIE['planId'])) {
 
                      curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule");
 
+$urls = "http://". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule";
+print_r($urls);
                       // receive server response ...
                       curl_setopt($cho, CURLOPT_RETURNTRANSFER, 1);
 
