@@ -154,7 +154,7 @@ if(!isset($_COOKIE['planId'])) {
 
                       curl_close ($chp);
 
-/*
+
 //           Subscription Update
 
                 $cho = curl_init();
@@ -178,15 +178,15 @@ if(!isset($_COOKIE['planId'])) {
 					            curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
 
 
-                     curl_setopt($cho, CURLOPT_URL, $_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/data/ratingengineservice.php/?method=updaterule&&data=' . $data . '&&meta=' . $meta.");
+                     curl_setopt($cho, CURLOPT_URL, $_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/data/ratingengineservice.php/?method=updaterule&&data=' . $data . '&&meta=' . $meta);
 
                       // receive server response ...
                       curl_setopt($cho, CURLOPT_RETURNTRANSFER, 1);
 
-                      $outputp = curl_exec ($cho);
+                      $outputo = curl_exec ($cho);
 
                       curl_close ($cho);
-*/
+
 
              header('Location: ../../../../#/account');
 //          $message = "You have successfully Updated to ".$name." Package. Please re login to active new features.";
