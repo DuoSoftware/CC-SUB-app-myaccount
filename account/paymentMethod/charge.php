@@ -188,8 +188,11 @@ if(!isset($_COOKIE['planId'])) {
                       curl_close ($cho);
 
 
+                      echo '**%%%';
                       print_r($output);
+                      echo '**@@@';
                       print_r($outputp);
+                      echo '**===';
                       print_r($outputo);
                       exit();
 
