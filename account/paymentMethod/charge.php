@@ -169,16 +169,18 @@ if(!isset($_COOKIE['planId'])) {
                                               "sign"=> "<=");
                     $data_string = json_encode($data);
 
-                    $meta = array("domainUrl" => 'azure.cloudcharge.com',
-                                              "idToken"=> $st);
-                    $meta_string = json_encode($meta);
+//                    $meta = array("domainUrl" => 'azure.cloudcharge.com',
+//                                              "idToken"=> $st);
+//                    $meta_string = json_encode($meta);
 
                       curl_setopt($cho, CURLOPT_HTTPHEADER,$headr);
 
+                      curl_setopt($cho, CURLOPT_POST, 1);
+                      curl_setopt($cho, CURLOPT_POSTFIELDS,$data_string);
+
 					            curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
 
-
-                     curl_setopt($cho, CURLOPT_URL, $_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/data/ratingengineservice.php/?method=updaterule&&data=' . $data . '&&meta=' . $meta);
+                     curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule");
 
                       // receive server response ...
                       curl_setopt($cho, CURLOPT_RETURNTRANSFER, 1);
