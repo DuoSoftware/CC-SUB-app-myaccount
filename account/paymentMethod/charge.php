@@ -154,7 +154,7 @@ if(!isset($_COOKIE['planId'])) {
 
                       curl_close ($chp);
 
-
+/*
 //           Subscription Update
 
                 $cho = curl_init();
@@ -177,11 +177,8 @@ if(!isset($_COOKIE['planId'])) {
 
 					            curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
 
-//require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
 
                      curl_setopt($cho, CURLOPT_URL, $_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/data/ratingengineservice.php/?method=updaterule&&data=' . $data . '&&meta=' . $meta.");
-
-					// $urlss = "http://". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId;
 
                       // receive server response ...
                       curl_setopt($cho, CURLOPT_RETURNTRANSFER, 1);
@@ -189,7 +186,7 @@ if(!isset($_COOKIE['planId'])) {
                       $outputp = curl_exec ($cho);
 
                       curl_close ($cho);
-
+*/
 
              header('Location: ../../../../#/account');
 //          $message = "You have successfully Updated to ".$name." Package. Please re login to active new features.";
