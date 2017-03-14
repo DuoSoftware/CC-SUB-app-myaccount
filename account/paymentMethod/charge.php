@@ -100,8 +100,8 @@ if(!isset($_COOKIE['planId'])) {
     }
 }
 
-print_r($resp);
-       exit();
+//print_r($resp);
+//       exit();
 
 
     if($resp->status)
@@ -155,16 +155,53 @@ print_r($resp);
                       curl_close ($chp);
 
 
-          $message = "You have successfully Updated to ".$name." Package. Please re login to active new features.";
-                     echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account';</script></body></html>";
+//           Subscription Update
+
+                $cho = curl_init();
+
+                    $headr = array();
+                    $headr[] = 'Content-Type: application/json';
+                    $headr[] = 'idToken: '.$st;
+
+                    $data = array("appId"=> "invoice",
+                                              "amount"=>"999",
+                                              "expiry"=> "",
+                                              "sign"=> "<=");
+                    $data_string = json_encode($data);
+
+                    $meta = array("domainUrl" => 'azure.cloudcharge.com',
+                                              "securityToken"=> $st);
+                    $meta_string = json_encode($meta);
+
+                      curl_setopt($cho, CURLOPT_HTTPHEADER,$headr);
+
+					            curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
+
+//require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
+
+                     curl_setopt($cho, CURLOPT_URL, $_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/data/ratingengineservice.php/?method=updaterule&&data=' . $data . '&&meta=' . $meta.");
+
+					// $urlss = "http://". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId;
+
+                      // receive server response ...
+                      curl_setopt($cho, CURLOPT_RETURNTRANSFER, 1);
+
+                      $outputp = curl_exec ($cho);
+
+                      curl_close ($cho);
+
+
+             header('Location: ../../../../#/account');
+//          $message = "You have successfully Updated to ".$name." Package. Please re login to active new features.";
+//                     echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account';</script></body></html>";
 
         }
         else
         {
+           print_r("Error : ".$resp);
+
            $message = "Error while make payment, ".$resp->result.",  Please choose again to update new package.";
            echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account' </script></body></html>";
-
-
         }
 
 }

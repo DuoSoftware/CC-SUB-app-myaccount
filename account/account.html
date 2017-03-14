@@ -375,7 +375,7 @@
                               <!--<md-button class="md-raised md-accent">Select</md-button>-->
                             <!--</md-card-footer>-->
                           <!--</md-card>-->
-                          <md-card ng-repeat="plan in companyPricePlans"  flex class="subscription-plan" ng-class="{'md-whiteframe-10dp':plan.id == selectedPlan.id}">
+                          <md-card ng-repeat="plan in companyPricePlans"  flex class="subscription-plan" ng-if="plan.no > 1" ng-class="{'md-whiteframe-10dp':plan.id == selectedPlan.id}">
                             <div class="selected-plan-ico" ng-if="plan.id == selectedPlan.id"></div>
 
                             <md-card-title flex layout="row" layout-align="center center" ng-class="{'blue-title': plan.id == selectedPlan.id}">
@@ -404,7 +404,7 @@
                             </md-card-content>
 
                             <md-card-footer layout="row" layout-align="center center" flex>
-                              <md-button class="md-raised md-accent" ng-disabled="selectedPlan.id === plan.id" ng-if="selectedPlan.price < 1" stripe-payment="config" ng-click="selectPlan(plan)">Select</md-button>
+                              <md-button class="md-raised md-accent" ng-disabled="selectedPlan.id < plan.id && plan.price < 1" ng-if="selectedPlan.price < 1" stripe-payment="config" ng-click="selectPlan(plan)">Select</md-button>
                               <md-button class="md-raised md-accent" ng-if="selectedPlan.price > 0" ng-click="selectPlan(plan)">Select</md-button>
                             </md-card-footer>
                           </md-card>
