@@ -170,7 +170,7 @@ if(!isset($_COOKIE['planId'])) {
                     $data_string = json_encode($data);
 
                     $meta = array("domainUrl" => 'azure.cloudcharge.com',
-                                              "securityToken"=> $st);
+                                              "idToken"=> $st);
                     $meta_string = json_encode($meta);
 
                       curl_setopt($cho, CURLOPT_HTTPHEADER,$headr);
