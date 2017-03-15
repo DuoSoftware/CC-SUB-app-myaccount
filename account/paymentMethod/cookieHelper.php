@@ -7,6 +7,7 @@ setcookie("name", $_GET['name']);
 setcookie("tenantID", $_GET['tenantID']);
 setcookie("selectedPlan", $_GET['selectedPlan']);
 setcookie("paymentStatus", $_GET['paymentStatus']);
+setcookie("subscriptionAmount", $_GET['subscriptionAmount']);
 
 if(isset($_GET['stripeToken']))
   setcookie("stripeToken", $_GET['stripeToken']);

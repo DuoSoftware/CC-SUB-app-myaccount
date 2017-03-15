@@ -52,6 +52,7 @@ if(!isset($_COOKIE['planId'])) {
     $name = $_COOKIE['name'];
     $tenantID = $_COOKIE['tenantID'];
     $selectedPlan = $_COOKIE['selectedPlan'];
+    $subscriptionAmount = $_COOKIE['subscriptionAmount'];
 
     $paymentStatus = "";
 
@@ -163,7 +164,7 @@ if(!isset($_COOKIE['planId'])) {
                     $headr[] = 'idToken: '.$st;
 
                     $data = array("appId"=> "invoice",
-                                              "amount"=>"999",
+                                              "amount"=> $subscriptionAmount,
                                               "expiry"=> "",
                                               "sign"=> "<=");
                     $data_string = json_encode($data);
@@ -179,8 +180,8 @@ if(!isset($_COOKIE['planId'])) {
 
 					            curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
 
-                     curl_setopt($chp, CURLOPT_URL, "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/createRule");
-                     //curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule");
+                     curl_setopt($cho, CURLOPT_URL, "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/createRule");
+                     //curl_setopt($cho, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule");
 
                       // receive server response ...
                       curl_setopt($cho, CURLOPT_RETURNTRANSFER, 1);
@@ -188,6 +189,14 @@ if(!isset($_COOKIE['planId'])) {
                       $outputo = curl_exec ($cho);
 
                       curl_close ($cho);
+
+                      echo '<br/> %%%%';
+                      print_r($output);
+                      echo '<br/> ****';
+                      print_r($outputp);
+                                            echo '<br/> &&&&&';
+                                            print_r($outputo);
+                       exit();
 
 
              header('Location: ../../../../#/account');

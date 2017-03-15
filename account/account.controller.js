@@ -1,3 +1,4 @@
+
 (function ()
 {
    'use strict';
@@ -680,7 +681,7 @@
       } else {
         $scope.isPlanSelected = true;
 
-        $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.id + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus ;
+        $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.id + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount ;
         //$window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?plan=' +  $scope.paymentPlan + '&st=' +  $scope.paymentSecurityToken + '&price=' + ( $scope.paymentPrice ) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&stripeToken=' +  args.id;
       }
 
@@ -780,7 +781,7 @@
 
           $scope.isPlanSelected= true;
           //$window.location.href = '/azureshell/app/main/account/paymentMethod/charge.php';
-          $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ;
+          $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount;
         }
 
       }
@@ -1217,6 +1218,13 @@
         $scope.currentPlanCreatedDate = response.data.createdDate;
         $scope.currentPlanExpiryDate = response.data.expiry;
         callback();
+
+
+        if($scope.selectedPlan){
+          $scope.selectedPlan.subscriptionRate = response.data.rate;
+          $scope.selectedPlan.sliderValue = $scope.currentPlanAmount;
+        }
+
       }, function (response) {
         console.log(response);
       });
@@ -1226,7 +1234,6 @@
       var firstDate = new Date($scope.currentPlanCreatedDate);
       var secondDate = new Date($scope.currentPlanExpiryDate);
       $scope.remainingDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-      $scope.getAllPlansByUser();
     });
 
     //$scope.$watch(function () {

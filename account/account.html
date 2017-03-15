@@ -211,8 +211,8 @@
                       </div>
                     </div>
 
-                    <div class="subscription-usage" layout="column" layout-align="center center" flex="20">
-                      <rzslider rz-slider-model="currentPlanAmount" rz-slider-options="subUsage.options"></rzslider>
+                    <div class="subscription-usage" layout="column" layout-align="center center" flex="20"  ng-if="selectedPlan.price > 0">
+                      <rzslider rz-slider-model="currentPlanAmount" data-rz-slider-high="selectedPlan.subscriptionMaxAmount" rz-slider-options="subUsage.options"></rzslider>
                       <span>Usage</span>
                     </div>
 
