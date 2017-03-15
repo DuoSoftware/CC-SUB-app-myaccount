@@ -101,8 +101,9 @@ if(!isset($_COOKIE['planId'])) {
     }
 }
 
-//print_r($resp);
-//       exit();
+print_r($planInfo);echo '<br/>';
+print_r($resp);
+       exit();
 
 
     if($resp->status)
@@ -190,13 +191,13 @@ if(!isset($_COOKIE['planId'])) {
 
                       curl_close ($cho);
 
-                      echo '<br/> %%%%';
-                      print_r($output);
-                      echo '<br/> ****';
-                      print_r($outputp);
-                                            echo '<br/> &&&&&';
-                                            print_r($outputo);
-                       exit();
+//                      echo '<br/> %%%%';
+//                      print_r($output);
+//                      echo '<br/> ****';
+//                      print_r($outputp);
+//                      echo '<br/> &&&&&';
+//                      print_r($outputo);
+//                       exit();
 
 
              header('Location: ../../../../#/account');

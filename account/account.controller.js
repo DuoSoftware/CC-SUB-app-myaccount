@@ -695,6 +695,8 @@
 
     $scope.selectPlan = function (packaged)
     {
+      $scope.currentPlanAmount = packaged.sliderValue;
+
       if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
 
         var confirm = $mdDialog.confirm()
