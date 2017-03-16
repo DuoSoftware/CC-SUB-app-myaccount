@@ -60,8 +60,8 @@ if(!isset($_COOKIE['planId'])) {
       $paymentStatus = $_COOKIE['paymentStatus'];
 
 
-      print_r($planId.' '.$st. ' '.$price.' '.$name.' '.$tenantID.' '.$selectedPlan.' '.$paymentStatus);
-      exit();
+//      print_r($planId.' '.$st. ' '.$price.' '.$name.' '.$tenantID.' '.$selectedPlan.' '.$paymentStatus);
+//      exit();
 
     $resp = new stdClass();
     $resp->status = 0;
@@ -101,7 +101,8 @@ if(!isset($_COOKIE['planId'])) {
     }
 }
 
-
+print_r($resp);
+    exit();
     if($resp->status)
         {
            // header('Location: ../#/proceed?plan='.$planId.'&st='.$st.'&tenantID='.$tenantID);
