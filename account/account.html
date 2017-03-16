@@ -250,7 +250,7 @@
 
                             <md-card-footer layout="row" layout-align="center center" flex>
                               <md-button class="md-raised md-accent" ng-disabled="plan.planNo < selectedPlan.planNo " ng-if=" selectedPlan.price < 1 " stripe-payment="config" ng-click="selectPlan(plan)">Select</md-button>
-                              <md-button class="md-raised md-accent" ng-if="selectedPlan.price > 0 " ng-click="selectPlan(plan)">Select</md-button>
+                              <md-button class="md-raised md-accent" ng-disabled="plan.planNo < selectedPlan.planNo " ng-if="selectedPlan.price > 0 " ng-click="selectPlan(plan)">Select</md-button>
                             </md-card-footer>
                           </md-card>
 

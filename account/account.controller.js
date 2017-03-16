@@ -164,7 +164,8 @@
     $scope.idToken= gst('securityToken');
 
     if(!$scope.idToken)
-      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODkxNDQ5NzksIm5iZiI6MTQ4OTA1ODU3OSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5MDU4NTc5LCJhdXRoX3RpbWUiOjE0ODkwNTg1NzksIm9pZCI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImdpdmVuX25hbWUiOiJmYWZhIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyaWFsIiwibmFtZSI6InBpYmEiLCJqb2JUaXRsZSI6ImFkbWluIiwiY291bnRyeSI6IkFuZ3VpbGxhIiwiZXh0ZW5zaW9uX0RvbWFpbiI6ImZhZmFwaWJhLmNsb3VkY2hhcmdlLmNvbSIsImVtYWlscyI6WyJmYWZhcGliYUBnYW1nbGluZy5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFNpZ25JbiJ9.sJj5ZfhDBb27BEYfDTuSMg9zCkoS62eOcWC2XbyzCYcRfsQjKtPB_1BeeESQwhyHekUSvgwt0tgpJAYIZvmMt-aWcKvhwJa02cG3BzUV-LFuGakCMFADXzDzs2qyRjL0cWnW1MQlvm1roBmnEUpeifGoGmfFwhWyKGF7-Asmq00W6tml7u_IOVUkPs-0pRE-31srM2QX1DZsYsJB3P0j8k02zjVgbMoaX3z31GY0Ez-Va0GzukDm9AQHeZUo-D1hU9vzFYD2Nk7pTxbPTi58ktxTN1_LNZ_sRXGooOZmuONayHwmLbvOBvdAT4mfYN0HrKIEVEz9NgRNFT6AOoTWLw";//gst('idToken');
+      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODk3NDI1NzgsIm5iZiI6MTQ4OTY1NjE3OCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjUzN2I0MDU3LWYyNGQtNGI5MS04ZmM1LTY1ODQwZDQ5MDNjYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5NjU2MTc4LCJhdXRoX3RpbWUiOjE0ODk2NTYxNzgsIm9pZCI6IjUzN2I0MDU3LWYyNGQtNGI5MS04ZmM1LTY1ODQwZDQ5MDNjYiIsImdpdmVuX25hbWUiOiJrYWRpcHVtbyIsImZhbWlseV9uYW1lIjoiZnJlZV90cmlhbCIsIm5hbWUiOiJrYWRpcHVtbyIsImpvYlRpdGxlIjoiYWRtaW4iLCJjb3VudHJ5IjoiU2FiYSIsImV4dGVuc2lvbl9Eb21haW4iOiJrYWRpcHVtby5jbG91ZGNoYXJnZS5jb20iLCJlbWFpbHMiOlsia2FkaXB1bW9AbGlsbGVtYXAubmV0Il0sInRmcCI6IkIyQ18xX0RlZmF1bHRTaWduSW4ifQ.UHEfpEpPwbYqisSy4v5u84tAXnS3-aqjBEBSZDvB9IiAmLJjd2OpVra9BBa49j1I7DZsbe-KGKUgfCwTHX4J8dr0DA2y4rxmH_JButcvyAyKFAkmvzfyzXfZ_BDwhiimS1R9zp4TTCv8nGLimoZI_ODM-yACioyjWluIErBNI7RpRqHVAyfDoetGvN0ASGxjqGpndVcEwPxVLpvSfVy-vBW6Hb7E60SBSb-G8C7-HOqqu_ARKIwLq1wb4xlMC19Z0JzfA2IIuvcEC4Q2NXCgfCN9uvwulgIfhM0h69a-CsWrCYRVbqGY8TXzaQ6bKqDYLS7I5Pq-EEH2Zxw2BZCIxg";//gst('idToken');
+     // $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODkxNDQ5NzksIm5iZiI6MTQ4OTA1ODU3OSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5MDU4NTc5LCJhdXRoX3RpbWUiOjE0ODkwNTg1NzksIm9pZCI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImdpdmVuX25hbWUiOiJmYWZhIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyaWFsIiwibmFtZSI6InBpYmEiLCJqb2JUaXRsZSI6ImFkbWluIiwiY291bnRyeSI6IkFuZ3VpbGxhIiwiZXh0ZW5zaW9uX0RvbWFpbiI6ImZhZmFwaWJhLmNsb3VkY2hhcmdlLmNvbSIsImVtYWlscyI6WyJmYWZhcGliYUBnYW1nbGluZy5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFNpZ25JbiJ9.sJj5ZfhDBb27BEYfDTuSMg9zCkoS62eOcWC2XbyzCYcRfsQjKtPB_1BeeESQwhyHekUSvgwt0tgpJAYIZvmMt-aWcKvhwJa02cG3BzUV-LFuGakCMFADXzDzs2qyRjL0cWnW1MQlvm1roBmnEUpeifGoGmfFwhWyKGF7-Asmq00W6tml7u_IOVUkPs-0pRE-31srM2QX1DZsYsJB3P0j8k02zjVgbMoaX3z31GY0Ez-Va0GzukDm9AQHeZUo-D1hU9vzFYD2Nk7pTxbPTi58ktxTN1_LNZ_sRXGooOZmuONayHwmLbvOBvdAT4mfYN0HrKIEVEz9NgRNFT6AOoTWLw";//gst('idToken');
 
     (function (){
       $http({
@@ -359,7 +360,7 @@
 
       $scope.userPrice = ($scope.selectedPlan.planNo > 4) ? 20 : 2;
 
-      if($scope.selectedPlan.PlanNo > 1)
+      if($scope.selectedPlan.planNo > 1)
         $scope.getSelectedPlanSubscriptionDetails();
 
     }
@@ -584,6 +585,7 @@
         }
       }).then(function (response) {
         //$scope.currentPlanName = response.data.name;
+        if(response.status != 204){
         $scope.currentPlanAmount = parseInt(response.data.amount);
         $scope.currentPlanRate = response.data.rate;
         $scope.currentPlanUsed = response.data.used;
@@ -592,9 +594,10 @@
         //callback();
 
 
-        if($scope.selectedPlan){
-          $scope.selectedPlan.subscriptionRate = response.data.rate;
-          $scope.selectedPlan.sliderValue = $scope.currentPlanAmount;
+          if($scope.selectedPlan){
+            $scope.selectedPlan.subscriptionRate = response.data.rate;
+            $scope.selectedPlan.sliderValue = $scope.currentPlanAmount;
+          }
         }
 
       }, function (response) {
