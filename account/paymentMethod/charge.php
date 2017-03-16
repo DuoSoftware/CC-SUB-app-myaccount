@@ -101,8 +101,7 @@ if(!isset($_COOKIE['planId'])) {
     }
 }
 
-print_r($resp);
-    exit();
+
     if($resp->status)
         {
            // header('Location: ../#/proceed?plan='.$planId.'&st='.$st.'&tenantID='.$tenantID);
@@ -199,7 +198,7 @@ print_r($resp);
         {
            print_r("Error : ".$resp);
 
-           $message = "Error while make payment, ".$resp->result.",  Please choose again to update new package.";
+           $message = "Error while make payment, ".$resp->response.",  Please choose again to update new package.";
            echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account' </script></body></html>";
         }
 
