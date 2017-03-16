@@ -101,7 +101,9 @@ if(!isset($_COOKIE['planId'])) {
     }
 }
 
-
+print_r($resp);
+print_r($resp->status);
+    exit();
     if($resp->status)
         {
            // header('Location: ../#/proceed?plan='.$planId.'&st='.$st.'&tenantID='.$tenantID);
@@ -180,7 +182,6 @@ if(!isset($_COOKIE['planId'])) {
                      curl_setopt($cho, CURLOPT_URL, "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/createRule");
                      //curl_setopt($cho, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule");
 
-                      // receive server response ...
                       curl_setopt($cho, CURLOPT_RETURNTRANSFER, 1);
 
                       $outputo = curl_exec ($cho);
@@ -190,8 +191,6 @@ if(!isset($_COOKIE['planId'])) {
 
 
              header('Location: ../../../../#/account');
-//          $message = "You have successfully Updated to ".$name." Package. Please re login to active new features.";
-//                     echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account';</script></body></html>";
 
         }
         else
