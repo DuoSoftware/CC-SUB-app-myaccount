@@ -190,12 +190,12 @@ print_r($resp->status);
 
 
 
-             header('Location: ../../../../#/account');
+              header('Location: ../../../../#/account');
 
         }
         else
         {
-           print_r("Error : ".$resp);
+           //print_r("Error : ".$resp);
 
            $message = "Error while make payment, ".$resp->response.",  Please choose again to update new package.";
            echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account' </script></body></html>";
