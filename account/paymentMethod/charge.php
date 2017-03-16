@@ -52,6 +52,7 @@ if(!isset($_COOKIE['planId'])) {
     $name = $_COOKIE['name'];
     $tenantID = $_COOKIE['tenantID'];
     $selectedPlan = $_COOKIE['selectedPlan'];
+    $subscriptionAmount = $_COOKIE['subscriptionAmount'];
 
     $paymentStatus = "";
 
@@ -100,10 +101,6 @@ if(!isset($_COOKIE['planId'])) {
     }
 }
 
-//print_r($resp);
-//       exit();
-
-
     if($resp->status)
         {
            // header('Location: ../#/proceed?plan='.$planId.'&st='.$st.'&tenantID='.$tenantID);
@@ -143,11 +140,10 @@ if(!isset($_COOKIE['planId'])) {
 
                       $planId = str_replace("_year","",$planId);
 
-                     curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
+                     curl_setopt($chp, CURLOPT_URL, "http://azure.cloudcharge.com/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
+                     //curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
 
-					// $urlss = "http://". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId;
-
-                      // receive server response ...
+					     // receive server response ...
                       curl_setopt($chp, CURLOPT_RETURNTRANSFER, 1);
 
                       $outputp = curl_exec ($chp);
@@ -155,16 +151,51 @@ if(!isset($_COOKIE['planId'])) {
                       curl_close ($chp);
 
 
-          $message = "You have successfully Updated to ".$name." Package. Please re login to active new features.";
-                     echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account';</script></body></html>";
+//           Subscription Update
+
+                $cho = curl_init();
+
+                    $headr = array();
+                    $headr[] = 'Content-Type: application/json';
+                    $headr[] = 'idToken: '.$st;
+
+                    $data = array("appId"=> "invoice",
+                                              "amount"=> $subscriptionAmount,
+                                              "expiry"=> "",
+                                              "sign"=> "<=");
+                    $data_string = json_encode($data);
+
+//                    $meta = array("domainUrl" => 'azure.cloudcharge.com',
+//                                              "idToken"=> $st);
+//                    $meta_string = json_encode($meta);
+
+                      curl_setopt($cho, CURLOPT_HTTPHEADER,$headr);
+
+                      curl_setopt($cho, CURLOPT_POST, 1);
+                      curl_setopt($cho, CURLOPT_POSTFIELDS,$data_string);
+
+					            curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
+
+                     curl_setopt($cho, CURLOPT_URL, "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/createRule");
+                     //curl_setopt($cho, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule");
+
+                      curl_setopt($cho, CURLOPT_RETURNTRANSFER, 1);
+
+                      $outputo = curl_exec ($cho);
+
+                      curl_close ($cho);
+
+
+
+              header('Location: ../../../../#/account');
 
         }
         else
         {
-           $message = "Error while make payment, ".$resp->result.",  Please choose again to update new package.";
+           //print_r("Error : ".$resp);
+
+           $message = "Error while make payment, ".$resp->response.",  Please choose again to update new package.";
            echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account' </script></body></html>";
-
-
         }
 
 }

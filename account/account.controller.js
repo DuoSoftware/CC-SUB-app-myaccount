@@ -1,3 +1,4 @@
+
 (function ()
 {
    'use strict';
@@ -18,27 +19,41 @@
     $scope.generalDetails = true;
     $scope.planDetails = false;
     $scope.paymentHistory = false;
+    $scope.onlinePayments = false;
+    $scope.apiDetails = false;
+
     $scope.switchInpageState = function (switchTo){
       if(switchTo == 'general-details'){
         $scope.generalDetails = true;
         $scope.planDetails = false;
         $scope.paymentHistory = false;
         $scope.onlinePayments = false;
+        $scope.apiDetails = false;
       }else if(switchTo == 'plan-details'){
         $scope.generalDetails = false;
         $scope.planDetails = true;
         $scope.paymentHistory = false;
         $scope.onlinePayments = false;
+        $scope.apiDetails = false;
+
       }else if(switchTo == 'payment-history'){
         $scope.generalDetails = false;
         $scope.planDetails = false;
         $scope.paymentHistory = true;
         $scope.onlinePayments = false;
+        $scope.apiDetails = false;
       }else if(switchTo == 'online-payments'){
         $scope.onlinePayments = true;
         $scope.generalDetails = false;
         $scope.planDetails = false;
         $scope.paymentHistory = false;
+        $scope.apiDetails = false;
+      }else if(switchTo == 'api-details'){
+        $scope.onlinePayments = false;
+        $scope.generalDetails = false;
+        $scope.planDetails = false;
+        $scope.paymentHistory = false;
+        $scope.apiDetails = true;
       }
     }
 
@@ -83,6 +98,57 @@
     };
 
 
+
+    // DYNAMIC PLANS
+    $scope.starterSlider = {
+      value: 0,
+      options: {
+        floor: 0,
+        ceil: 0,
+        step: 0,
+        showSelectionBar: true,
+        selectionBarGradient: {
+          from: 'white',
+          to: '#039be5'
+        }
+      }
+    };
+
+    $scope.subUsage = {
+      value: 0,
+      options: {
+        floor: 0,
+        ceil: 0,
+        showSelectionBar: true,
+        disabled: true,
+        selectionBarGradient: {
+          from: '#76d2ff',
+          to: '#e28989'
+        }
+      }
+    };
+
+    $scope.businessSlider = {
+      value: 0,
+      options: {
+        floor: 0,
+        ceil: 5000,
+        step: 1000,
+        showSelectionBar: true,
+        selectionBarGradient: {
+          from: 'white',
+          to: '#039be5'
+        }
+      }
+    };
+
+    $scope.subscriptionRate = 0;
+    $scope.activeSubscriptions = 0;
+    var oneDay = 24*60*60*1000;
+
+
+
+
     function gst(name) {
       var nameEQ = name + "=";
       var ca = document.cookie.split(';');
@@ -98,7 +164,8 @@
     $scope.idToken= gst('securityToken');
 
     if(!$scope.idToken)
-      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODc5OTI1OTgsIm5iZiI6MTQ4NzkwOTc5OCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjY5MGNjMmIxLTk4N2UtNDc0YS05ZjM4LWNmNGZmZGIxMjU0OCIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg3OTA5Nzk4LCJhdXRoX3RpbWUiOjE0ODc5MDk3OTgsIm9pZCI6IjY5MGNjMmIxLTk4N2UtNDc0YS05ZjM4LWNmNGZmZGIxMjU0OCIsImdpdmVuX25hbWUiOiJ6YXJpemF2aW5hIiwibmFtZSI6Inphcml6YXZpbmEiLCJjb3VudHJ5IjoiU3QgSGVsZW5hLCBBc2NlbnNpb24sIFRyaXN0YW4gZGEgQ3VuaGEiLCJleHRlbnNpb25fRG9tYWluIjoiemFyaXphdmluYS5jbG91ZGNoYXJnZS5jb20iLCJmYW1pbHlfbmFtZSI6ImZyZWVfdHJpYWwiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbInphcml6YXZpbmFAMTJzdG9yYWdlLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.mh27mcrcAePt1IiBwyOREmqEG1Ok1DLJUsDODUkm-OzgLKrCg7OjrcrSUul4sZsbniNehbVfNJ4GMXOng9TEN6K7cMLLa7dfLQSjtsGY5YfACVExMoEiGvXMepP0ReiKFZ0bwSxQD7IHNyysnhrT1UysPtUDmmBvnp86mEzh-6ZE4F0iFYSoCZv7fAMtOy-EJwUwt2O0er8cpkwyrvqdzFo2Op0YhuWHaQFiOJegbI784iPxsWbX6MJ2HP7DX47P5q7uGFV5_xXpgpZ_8Bme1HPY65XVTZOBhemfqC3s1U1da4G7Kc0X1gKq5RG1XEIC83rDEhyYD2k1YvRMQDk9Zg";//gst('idToken');
+      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODk3NDI1NzgsIm5iZiI6MTQ4OTY1NjE3OCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjUzN2I0MDU3LWYyNGQtNGI5MS04ZmM1LTY1ODQwZDQ5MDNjYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5NjU2MTc4LCJhdXRoX3RpbWUiOjE0ODk2NTYxNzgsIm9pZCI6IjUzN2I0MDU3LWYyNGQtNGI5MS04ZmM1LTY1ODQwZDQ5MDNjYiIsImdpdmVuX25hbWUiOiJrYWRpcHVtbyIsImZhbWlseV9uYW1lIjoiZnJlZV90cmlhbCIsIm5hbWUiOiJrYWRpcHVtbyIsImpvYlRpdGxlIjoiYWRtaW4iLCJjb3VudHJ5IjoiU2FiYSIsImV4dGVuc2lvbl9Eb21haW4iOiJrYWRpcHVtby5jbG91ZGNoYXJnZS5jb20iLCJlbWFpbHMiOlsia2FkaXB1bW9AbGlsbGVtYXAubmV0Il0sInRmcCI6IkIyQ18xX0RlZmF1bHRTaWduSW4ifQ.UHEfpEpPwbYqisSy4v5u84tAXnS3-aqjBEBSZDvB9IiAmLJjd2OpVra9BBa49j1I7DZsbe-KGKUgfCwTHX4J8dr0DA2y4rxmH_JButcvyAyKFAkmvzfyzXfZ_BDwhiimS1R9zp4TTCv8nGLimoZI_ODM-yACioyjWluIErBNI7RpRqHVAyfDoetGvN0ASGxjqGpndVcEwPxVLpvSfVy-vBW6Hb7E60SBSb-G8C7-HOqqu_ARKIwLq1wb4xlMC19Z0JzfA2IIuvcEC4Q2NXCgfCN9uvwulgIfhM0h69a-CsWrCYRVbqGY8TXzaQ6bKqDYLS7I5Pq-EEH2Zxw2BZCIxg";//gst('idToken');
+     // $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODkxNDQ5NzksIm5iZiI6MTQ4OTA1ODU3OSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5MDU4NTc5LCJhdXRoX3RpbWUiOjE0ODkwNTg1NzksIm9pZCI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImdpdmVuX25hbWUiOiJmYWZhIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyaWFsIiwibmFtZSI6InBpYmEiLCJqb2JUaXRsZSI6ImFkbWluIiwiY291bnRyeSI6IkFuZ3VpbGxhIiwiZXh0ZW5zaW9uX0RvbWFpbiI6ImZhZmFwaWJhLmNsb3VkY2hhcmdlLmNvbSIsImVtYWlscyI6WyJmYWZhcGliYUBnYW1nbGluZy5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFNpZ25JbiJ9.sJj5ZfhDBb27BEYfDTuSMg9zCkoS62eOcWC2XbyzCYcRfsQjKtPB_1BeeESQwhyHekUSvgwt0tgpJAYIZvmMt-aWcKvhwJa02cG3BzUV-LFuGakCMFADXzDzs2qyRjL0cWnW1MQlvm1roBmnEUpeifGoGmfFwhWyKGF7-Asmq00W6tml7u_IOVUkPs-0pRE-31srM2QX1DZsYsJB3P0j8k02zjVgbMoaX3z31GY0Ez-Va0GzukDm9AQHeZUo-D1hU9vzFYD2Nk7pTxbPTi58ktxTN1_LNZ_sRXGooOZmuONayHwmLbvOBvdAT4mfYN0HrKIEVEz9NgRNFT6AOoTWLw";//gst('idToken');
 
     (function (){
       $http({
@@ -120,6 +187,15 @@
         console.log(errorResponse);
       });
     })();
+
+    function parseJwt (token) {
+      var base64Url = token.split('.')[1];
+      var base64 = base64Url.replace('-', '+').replace('_', '/');
+      return JSON.parse(window.atob(base64));
+    }
+
+    var oid = parseJwt($scope.idToken).oid;
+
 
 
     $scope.freeTrialStartDate = '';
@@ -223,15 +299,6 @@
 
     $scope.checkPaymentMethodRegistry = function(){
 
-      //$http({
-      //  method: 'GET',
-      //  url: 'http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/commongateway/connectedGateways',
-      //  headers: {
-      //    'Content-Type': 'application/json',
-      //    'idToken' : $scope.idToken
-      //  }
-      //}).success(function (data) {
-
       $charge.paymentgateway().stripeCheckAccount().success(function (data) {
 
         if(data.status) {
@@ -261,22 +328,144 @@
     $scope.checkPaymentMethodRegistry();
 
 
-    $http.get('app/main/account/data/plans.json').
-      success(function (data, status, headers, config) {
-        $scope.companyPricePlans = data;
+    //$http.get('app/main/account/data/plans.json').
+    //  success(function (data, status, headers, config) {
+    //    $scope.companyPricePlans = data;
+    //
+    //    for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
+    //      $scope.getAllPlansByUser($scope.companyPricePlans[i]);
+    //    }
+    //
+    //
+    //  }).
+    //  error(function (data, status, headers, config) {
+    //    $scope.companyPricePlans = null;
+    //    console.log('cant load Plans !');
+    //  });
 
-      }).
-      error(function (data, status, headers, config) {
-        $scope.companyPricePlans = null;
-        console.log('cant load Plans !');
+
+    $scope.loadPlanDetails = function(){
+
+      if($scope.companyPricePlans != null){
+
+        for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
+          $scope.getPlansubscription($scope.companyPricePlans[i],$scope.planSubscriptions);
+        }
+      }
+
+      if(!$scope.selectedPlan && $scope.currentPlanName)
+      {
+        selectPlan($scope.currentPlanName);
+      }
+
+      $scope.userPrice = ($scope.selectedPlan.planNo > 4) ? 20 : 2;
+
+      if($scope.selectedPlan.planNo > 1)
+        $scope.getSelectedPlanSubscriptionDetails();
+
+    }
+
+    $scope.planSubscriptions= null;
+
+    $scope.getAllPlans = function () {
+
+      $http({
+        method: 'GET',
+        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetRatePlansForSubscription",
+        headers: {
+          'Content-Type': 'application/json',
+          'securityToken': oid
+        }
+      }).then(function (response) {
+
+        $scope.planSubscriptions= response.data;
+
+
+        if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+            $scope.loadPlanDetails();
+        }
+
+      }, function (response) {
+        console.log(response);
+      });
+
+      $http({
+        method: 'GET',
+        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetPlanDetails",
+        headers: {
+          'Content-Type': 'application/json',
+          'securityToken': oid
+        }
+      }).then(function (response) {
+
+        $scope.companyPricePlans = response.data;
+
+        if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+          $scope.loadPlanDetails();
+        }
+
+      }, function (response) {
+        console.log(response);
       });
 
 
+    };
+
+    $scope.getPlansubscription = function (plan,subscriptData) {
+
+      for(var i = 0 ; i <subscriptData.length;i++) {
+        if(subscriptData[i].type === plan.name)
+        {
+
+          var subscript = subscriptData[i].rateDetails;
+          plan.allSubscriptionPlans = subscript;
+
+          for(var ii = 0 ; ii <subscript.length;ii++) {
+            if(ii === 0)
+            {
+              plan.subscriptionMinAmount = subscript[ii].rangeFrom;
+              plan.subscriptionStep = subscript[ii].rangeTo;
+            }
+
+            if(ii === (subscript.length - 1))
+            {
+              plan.subscriptionMaxAmount = subscript[ii].rangeTo;
+            }
+          }
+
+          //plan.subscriptionMaxAmount = parseInt($scope.allSubscriptionPlans[$scope.allSubscriptionPlans.length-1].range.split('-')[1]);
+          //plan.subscriptionStep = parseInt($scope.allSubscriptionPlans[0].range.split('-')[1]);
+          $scope.starterSlider = {
+            value: $scope.currentPlanAmount,
+            options: {
+              floor: 0,
+              ceil: plan.subscriptionMaxAmount,
+              step: plan.subscriptionStep,
+              showSelectionBar: false,
+              selectionBarGradient: {
+                from: 'white',
+                to: '#039be5'
+              }
+            }
+          };
+        }
+      }
+
+
+
+    };
+
+    $scope.getAllPlans();
+
     var selectPlan = function(planId)
     {
-      for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
-        if($scope.companyPricePlans[i].id === planId){
-          $scope.selectedPlan = $scope.companyPricePlans[i];
+      if($scope.companyPricePlans != null) {
+        for (var i = 0; i < $scope.companyPricePlans.length; i++) {
+          if ($scope.companyPricePlans[i].code === planId) {
+            $scope.selectedPlan = $scope.companyPricePlans[i];
+
+            $scope.currentPlanName = $scope.selectedPlan.name;
+          }
         }
       }
     }
@@ -307,35 +496,22 @@
     }
 
     $scope.showCurrPlan = function() {
-      //$mdDialog.show({
-      //  controller: 'AccountDialogController',
-      //  templateUrl: 'app/main/account/current-plan-dialog.html',
-      //  parent: angular.element(document.body),
-      //  targetEvent: ev,
-      //  clickOutsideToClose:true,
-      //  locals:{
-      //    selectedPlanDetails:$scope.selectedPlan
-      //  }
-      //})
-      //  .then(function(answer) {
-      //
-      //  }, function() {
-      //
-      //  });
 
-      if($scope.selectedPlan.per == "/ Mo" || $scope.selectedPlan.no == 1 || $scope.selectedPlan.no == 2 ){
-        $scope.signupsuccess = true;
-        $scope.$watch(function () {
-          $scope.planDuration = "Monthly";
-        });
-        $scope.currentPlan = $scope.selectedPlan.no;
-      }else if($scope.selectedPlan.per == "/ Yr"){
-        $scope.signupsuccess = true;
-        $scope.$watch(function () {
-          $scope.planDuration = "Yearly";
-        });
-        $scope.currentPlan = $scope.selectedPlan.no;
-      }
+      //if($scope.selectedPlan.per == "/ Mo" || $scope.selectedPlan.no == 1 || $scope.selectedPlan.no == 2 ){
+      //  $scope.signupsuccess = true;
+      //  $scope.$watch(function () {
+      //    $scope.planDuration = "Monthly";
+      //  });
+      //  $scope.currentPlan = $scope.selectedPlan.no;
+      //}else if($scope.selectedPlan.per == "/ Yr"){
+      //  $scope.signupsuccess = true;
+      //  $scope.$watch(function () {
+      //    $scope.planDuration = "Yearly";
+      //  });
+      //  $scope.currentPlan = $scope.selectedPlan.no;
+      //}
+
+      $scope.currentPlan = $scope.selectedPlan.planNo;
     };
 
 
@@ -358,19 +534,74 @@
           $scope.isUserAdmin = true;
         }
 
-        console.log(response.data.Result.plan);
+      $scope.currentPlanName = response.data.Result.plan;
 
         selectPlan(response.data.Result.plan);
 
-        $scope.userPrice = ($scope.selectedPlan.no > 4) ? 20 : 2;
-
         $scope.calculateFreeTrialExpireDate();
+
+      $scope.config = {
+        publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
+        title: 'Cloudcharge',
+        email:response.data.Result.email,
+        description: "for connected business",
+        logo: 'app/main/account/img/loginDuo.png',
+        label: 'Pay amount'
+      }
+
+      if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+        $scope.loadPlanDetails();
+      }
 
 
     }, function(response) {
       console.log(response);
     });
 
+
+    $scope.getSelectedPlanSubscriptionDetails = function () {
+
+      $http({
+        method: 'GET',
+        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice?plan="+$scope.selectedPlan.code,
+        headers: {
+          'Content-Type': 'application/json',
+          'securityToken': oid
+        }
+      }).then(function (response) {
+        //$scope.currentPlanName = response.data.name;
+        if(response.status != 204){
+        $scope.currentPlanAmount = parseInt(response.data.amount);
+        $scope.currentPlanRate = response.data.rate;
+        $scope.currentPlanUsed = response.data.used;
+        $scope.currentPlanCreatedDate = response.data.createdDate;
+        $scope.currentPlanExpiryDate = response.data.expiry;
+        //callback();
+
+          $scope.subUsage = {
+            value: $scope.currentPlanUsed,
+            options: {
+              floor: 0,
+              ceil: $scope.currentPlanAmount,
+              showSelectionBar: true,
+              disabled: true,
+              selectionBarGradient: {
+                from: '#76d2ff',
+                to: '#e28989'
+              }
+            }
+          };
+
+          if($scope.selectedPlan){
+            $scope.selectedPlan.subscriptionRate = response.data.rate;
+            $scope.selectedPlan.sliderValue = $scope.currentPlanAmount;
+          }
+        }
+
+      }, function (response) {
+        console.log(response);
+      });
+    }
 
 
     $scope.calculateFreeTrialExpireDate = function(){
@@ -381,7 +612,7 @@
         $scope.remainingDays = 0;
         var today = new Date();
 
-        if($scope.selectedPlan.id === 'free_trial' && $scope.freeTrialStartDate != '')
+        if($scope.selectedPlan.code === 'free_trial' && $scope.freeTrialStartDate != '')
         {
           var convertedDate = new Date($scope.freeTrialStartDate);
 
@@ -577,13 +808,7 @@
       });
     }
 
-    $scope.config = {
-      publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
-      title: 'Cloudcharge',
-      description: "for connected business",
-      logo: 'app/main/account/img/loginDuo.png',
-      label: 'Pay amount'
-    }
+
 
     $scope.$on('stripe-token-received', function(event, args) {
       console.log(args);
@@ -606,7 +831,7 @@
       } else {
         $scope.isPlanSelected = true;
 
-        $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.id + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus ;
+        $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.code + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount ;
         //$window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?plan=' +  $scope.paymentPlan + '&st=' +  $scope.paymentSecurityToken + '&price=' + ( $scope.paymentPrice ) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&stripeToken=' +  args.id;
       }
 
@@ -620,6 +845,8 @@
 
     $scope.selectPlan = function (packaged)
     {
+      $scope.currentPlanAmount = packaged.sliderValue;
+
       if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
 
         var confirm = $mdDialog.confirm()
@@ -630,6 +857,7 @@
           .cancel('No');
         $mdDialog.show(confirm).then(function () {
 
+          $scope.isPlanSelected= true;
           $scope.getUserTenantData($scope.idToken, packaged);
 
         }, function () {
@@ -645,16 +873,16 @@
 
     $scope.getUserTenantData = function (secToken,pack) {
 
-      $scope.isPlanSelected= true;
+      //$scope.isPlanSelected= true;
 
-      submitTenantDetails(pack,'')
+      submitTenantDetails(pack)
     };
 
 
-    var submitTenantDetails = function (pack,dataa) {
+    var submitTenantDetails = function (pack) {
 
       $scope.paymentTenant = $scope.tenantId ;
-      $scope.paymentPlan = pack.id;
+      $scope.paymentPlan = pack.code;
       $scope.paymentSecurityToken = $scope.idToken;
       $scope.paymentPrice = (pack.price);
       $scope.paymentName = pack.name;
@@ -666,14 +894,15 @@
 
           $scope.addUp = 2; // additionalUserPrice
 
-          if(pack.no > 4){
+          if(pack.planNo > 4){
             $scope.addUp = 2*10;   //one user into 12 months
           }
 
+          $scope.isPlanSelected= true;
 
           $http({
             method : 'POST',
-            url : '/azureshell/app/main/account/paymentMethod/alarcartHandler.php?view=updatePackageWithAddAdditionalUsers&userCount='+$scope.userdata+'&userPrice='+($scope.userdata * $scope.addUp)+ '&selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ,
+            url : '/azureshell/app/main/account/paymentMethod/alarcartHandler.php?view=updatePackageWithAddAdditionalUsers&userCount='+$scope.userdata+'&userPrice='+($scope.userdata * $scope.addUp)+ '&selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ,
             headers: {
               'Content-Type': 'application/json'
             }
@@ -686,7 +915,7 @@
               $scope.useRatingEngine($scope.userdata,($scope.userdata * $scope.addUp));
 
             }else{
-
+              $scope.isPlanSelected= false;
               notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
               $scope.clickCancel();
 
@@ -696,14 +925,15 @@
           }, function(response) {
             console.log(response);
             notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
-
+            $scope.isPlanSelected= false;
             $scope.clickCancel();
           });
 
         }else {
 
+          $scope.isPlanSelected= true;
           //$window.location.href = '/azureshell/app/main/account/paymentMethod/charge.php';
-          $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ;
+          $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount;
         }
 
       }
@@ -789,15 +1019,16 @@
 
     $scope.changePassword = function(){
 
-      if($scope.user.currentPassword === ''){
-        notifications.toast("Please enter your current password!", "Error");
-        return;
-      }
-      else if($scope.user.newPassword === ''){
+      //if($scope.user.currentPassword === ''){
+      //  notifications.toast("Please enter your current password!", "Error");
+      //  return;
+      //}
+      //else
+      if($scope.dev.newPassword === ''){
         notifications.toast("Please enter your new password!", "Error");
         return;
       }
-      else if($scope.user.newPassword != $scope.user.confirmNewPassword){
+      else if($scope.dev.newPassword != $scope.dev.cnfirmNewPassword){
         notifications.toast("Entered passwords does not match with each other!", "Error");
         return;
       }
@@ -805,24 +1036,25 @@
       $scope.isChangePasswordSelected = true;
 
       $http({
-        method: 'GET',
-        url: '/apis/authorization/userauthorization/changepassword/'+$scope.user.currentPassword+'/'+$scope.user.newPassword,
-        //url: 'http://dev.cloudcharge.com/auth/resetAPIUserPassword',
+        method: 'POST',
+        //url: '/apis/authorization/userauthorization/changepassword/'+$scope.user.currentPassword+'/'+$scope.user.newPassword,
+        url: 'http://dev.cloudcharge.com:8001/auth/resetAPIUserPassword',
         headers: {
           'Content-Type': 'application/json',
           'id_token' : $scope.idToken
-        }
+        },
+        data : { "password" : $scope.dev.newPassword}
       })
         .success(function (dataa) {
           var title = "Error";
-          if(dataa.Success)
-          {
+          //if(dataa.Success)
+          //{
             title = "Success";
 
             $scope.clearPassword();
-          }
+          //}
 
-          displaycreateCompanyDetailsSubmissionError(dataa.Message , title);
+          displaycreateCompanyDetailsSubmissionError("Password successfully changed " , title);
           $scope.isChangePasswordSelected = false;
 
 
@@ -1043,6 +1275,65 @@
     $scope.cancelEdit = function(){
       vm.editableMode = false;
     }
+
+    $scope.dev = {};
+    $scope.clearPasswordFields = function () {
+      $scope.dev = {};
+      vm.devPasswordForm.$setPristine();
+      vm.devPasswordForm.$setDirty();
+    };
+
+    $scope.saveDevPassword = function () {
+      $scope.onPasswordSubmit = true;
+      if(vm.devPasswordForm.$valid){
+        $scope.onPasswordSubmit = false;
+      }else{
+        angular.element(document.querySelector('#devPasswordForm')).find('.ng-invalid:visible:first').focus();
+        $scope.onPasswordSubmit = false;
+      }
+    };
+
+    var elem = angular.element('.Header-navClose');
+    elem.onclick = function(){
+      console.log('Test clicked');
+    }
+    //angular.element('.testOnClick').on('click', function(){
+    //  console.log('Test clicked');
+    //});
+
+
+    $scope.getCurrentPlansByUser = function (callback) {
+
+    };
+
+    $scope.getCurrentPlansByUser(function () {
+      var firstDate = new Date($scope.currentPlanCreatedDate);
+      var secondDate = new Date($scope.currentPlanExpiryDate);
+      $scope.remainingDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+    });
+
+    //$scope.$watch(function () {
+    //  if($scope.allSubscriptionPlans != undefined){
+    //    for(i=0;i<$scope.allSubscriptionPlans.length;i++){
+    //      if($scope.starterSlider.value == parseInt($scope.allSubscriptionPlans[i].range.split('-')[1])){
+    //        $scope.subscriptionRate = parseInt($scope.allSubscriptionPlans[i].rate);
+    //        $scope.activeSubscriptions = parseInt($scope.allSubscriptionPlans[i].range.split('-')[1]);
+    //      }
+    //    }
+    //  }
+    //});
+
+
+    $scope.changeSubscription = function(plan){
+      for(i=0;i<plan.allSubscriptionPlans.length;i++) {
+        if(plan.sliderValue == parseInt(plan.allSubscriptionPlans[i].rangeTo)){
+          plan.subscriptionRate = parseInt(plan.allSubscriptionPlans[i].rate);
+         plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeTo);
+        }
+      }
+    }
+
+    // / DYNAMIC PLANS
 
   }
 })();

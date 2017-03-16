@@ -8,15 +8,23 @@
     "price": "0",
     "period" : "60",
     "Description": "desc",
-    "features":[
-      "Dashboard",
-      "Product Management",
-      "Quotation",
-      "Payments Management",
-      "Report",
-      "Up to 25 profiles",
-      "100 Invoices/Month"
-    ]
+    "data":[{
+      "range":"0-1000",
+      "rate":"3"
+    },{
+      "range":"1001-2000",
+      "rate":"5"
+    },{
+      "range":"2001-3000",
+      "rate":"7"
+    }
+    ],
+    "subscriptionRate":0,
+    "activeSubscriptions":0,
+    "additionalSubPrice":"5",
+    "sliderValue":0,
+    "subscriptionMaxAmount":"0",
+    "subscriptionStep":"0"
   },
   {
     "no":"2",
@@ -27,15 +35,23 @@
     "price": "0",
     "period" : "Unlimited",
     "Description": "desc",
-    "features":[
-      "Dashboard",
-      "Product Management",
-      "Quotation",
-      "Payments Management",
-      "Reports",
-      "Up to 25 profiles",
-      "100 Invoices/Month"
-    ]
+    "data":[{
+      "range":"0-1000",
+      "rate":"3"
+    },{
+      "range":"1001-2000",
+      "rate":"5"
+    },{
+      "range":"2001-3000",
+      "rate":"7"
+    }
+    ],
+    "subscriptionRate":3,
+    "activeSubscriptions":1000,
+    "additionalSubPrice":"5",
+    "sliderValue":1000,
+    "subscriptionMaxAmount":"0",
+    "subscriptionStep":"0"
   },
   {
     "no":"3",
@@ -47,18 +63,23 @@
     "period" : "30",
     "per": "/ Mo",
     "Description": "desc",
-    "features":[
-      "Dashboard",
-      "Product Management",
-      "Quotation",
-      "Payments Management",
-      "Report",
-      "Unlimited Profiles",
-      "Unlimited Invoices/Month",
-      "360 profile view",
-      "Adjustment",
-      "Bulk Upload"
-    ]
+    "data":[{
+      "range":"0-1000",
+      "rate":"3"
+    },{
+      "range":"1001-2000",
+      "rate":"5"
+    },{
+      "range":"2001-3000",
+      "rate":"7"
+    }
+    ],
+    "subscriptionRate":3,
+    "activeSubscriptions":1000,
+    "additionalSubPrice":"5",
+    "sliderValue":1000,
+    "subscriptionMaxAmount":"0",
+    "subscriptionStep":"0"
   },
   {
     "no":"4",
@@ -70,67 +91,23 @@
     "period" : "30",
     "per": "/ Mo",
     "Description": "desc",
-    "features":[
-      "Dashboard",
-      "Product Management",
-      "Quotation",
-      "Payments Management",
-      "Reports",
-      "Unlimited Profiles",
-      "Unlimited Invoices/Month",
-      "360 profile view",
-      "Adjustment",
-      "Promotion Management",
-      "Inventory Management",
-      "Bulk Upload"
-    ]
-  },
-  {
-    "no":"5",
-    "id": "mini_team_year",
-    "name": "Just Growing",
-    "numberOfUsers": "5",
-    "numberOfApps": "10",
-    "price": "199.99",
-    "period" : "365",
-    "per": "/ Yr",
-    "Description": "desc",
-    "features":[
-      "Dashboard",
-      "Product Management",
-      "Quotation",
-      "Payments Management",
-      "Reports",
-      "Unlimited Profiles",
-      "Unlimited Invoices/Month",
-      "360 profile view",
-      "Adjustment",
-      "Bulk Upload"
-    ]
-  },
-  {
-    "no":"6",
-    "id": "world_year",
-    "name": "I am Big",
-    "numberOfUsers": "10",
-    "numberOfApps": "12",
-    "price": "399.99",
-    "period" : "365",
-    "per": "/ Yr",
-    "Description": "desc",
-    "features":[
-      "Dashboard",
-      "Product Management",
-      "Quotation",
-      "Payments Management",
-      "Reports",
-      "Unlimited Profiles",
-      "Unlimited Invoices/Month",
-      "360 profile view",
-      "Adjustment",
-      "Promotion Management",
-      "Inventory Management",
-      "Bulk Upload"
-    ]
+    "data":[{
+      "range":"0-1000",
+      "rate":"3"
+    },{
+      "range":"1001-2000",
+      "rate":"5"
+    },{
+      "range":"2001-3000",
+      "rate":"7"
+    }
+    ],
+    "subscriptionRate":3,
+    "activeSubscriptions":1000,
+    "additionalSubPrice":"5",
+    "sliderValue":1000,
+    "subscriptionMaxAmount":"0",
+    "subscriptionStep":"0"
   }
+
 ]

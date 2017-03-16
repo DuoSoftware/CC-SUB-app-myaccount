@@ -102,6 +102,12 @@ form{
     width: 140px;
   }
 }
+.blue-title{
+  background: #039be5!important;
+}
+.white{
+  color: #fff!important;
+}
 .input-block-gen{
   margin: 10px 10px 20px 10px;
   overflow: hidden;
@@ -239,6 +245,31 @@ form{
         opacity: 0.5!important;
       }
     }
+    .subscription-usage{
+      .rzslider {
+        height: 50px;
+        pointer-events: none;
+        -webkit-clip-path: polygon(100% 45%, 0% 100%, 100% 100%);
+        clip-path: polygon(100% 45%, -50% 130%, 100% 140%);
+        margin: 20px 0 0;
+        .rz-pointer{
+          display: none;
+        }
+        .rz-bubble{
+          z-index: 9999;
+          bottom: -20px;
+        }
+        .rz-bar {
+          height: 50px;
+          background: #f4f4f4;
+        }
+      }
+      >span{
+        color: #039be5;
+        margin-top: 20px;
+        font-size: 13px;
+      }
+    }
   }
   md-card-actions{
     margin: 0;
@@ -262,6 +293,127 @@ form{
         }
       }
     }
+  }
+  .subscription-plan{
+    max-width: 300px;
+    min-height: 495px;
+    border-radius: 3px;
+    position: relative;
+    .selected-plan-ico{
+      position: absolute;
+      right: -31px;
+      width: 105px;
+      border: solid 15px transparent;
+      border-bottom: solid 15px #c0ff36;
+      top: 4px;
+      color: #ffffff;
+      background: transparent;
+      padding-top: 6px;
+      padding-left: 4px;
+      -webkit-transform: rotate(45deg);
+      transform: rotate(45deg);
+      box-shadow: 0px 2px 0px rgba(64, 64, 64, 0.18);
+    }
+    md-card-title{
+      max-height: 80px;
+      height: 80px;
+      padding: 0;
+      background: #eaf2f6;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      overflow: hidden;
+      border-bottom: solid 1px #c3d8e2;
+      h3{
+        font-size: 25px;
+        font-weight: 400;
+        color: #039be5;
+        margin: 0;
+        text-transform: uppercase;
+      }
+    }
+    md-card-content{
+      background: #fff;
+      padding: 0;
+      .rzslider .rz-bubble{
+        display: none;
+      }
+      .rzslider .rz-pointer {
+        top: -12px;
+        width: 27px;
+        height: 27px;
+        &:after{
+          top: 10px;
+          left: 9px;
+        }
+        &.rz-active:after{
+          background: #eaf2f6;
+        }
+      }
+      .rate-container{
+        height: 130px;
+        background: #fff;
+        color: #039be5;
+        >.layout-row{
+          span:first-child{
+            font-size: 40px;
+            font-weight: 500;
+          }
+          span:last-child{
+            font-size: 17px;
+            margin-bottom: 8px;
+          }
+        }
+      }
+      .feature-container{
+        margin: 20px 0;
+        >.layout-row{
+          color: #888;
+          margin-bottom: 10px;
+          span:first-child{
+            margin-right: 3px;
+            font-weight: 500;
+          }
+        }
+      }
+      .slider{
+        padding: 0 20px;
+      }
+      .slider-msg{
+        height: auto;
+        font-size: 11px;
+        color: #ccc;
+        font-weight: 300;
+        margin: 10px 0 30px 0;
+      }
+    }
+    md-card-footer{
+      border-top: solid 1px #ddd;
+      max-height: 80px;
+    }
+//    &.free{
+//      md-card-title{
+//        h3{
+//          color: #aaa;
+//        }
+//      }
+//      md-card-content {
+//        .rate-container {
+//          background: #bbb;
+//        }
+//      }
+//    }
+//    &.business{
+//      md-card-content {
+//        .rate-container {
+//          background: #3e84a7;
+//        }
+//        .slider{
+//          .rzslider .rz-pointer{
+//            background: #3e84a7;
+//          }
+//        }
+//      }
+//    }
   }
 }
 .group-sub-head{
@@ -413,6 +565,7 @@ form{
 }
 .heading-lev2{
   font-size: 18px;
+  text-transform: capitalize;
 }
 .heading-lev3{
   font-size: 16px;
@@ -505,6 +658,7 @@ form{
 }
 .commonContentShell{
   background: #ffffff;
+  margin-top: 20px;
   md-radio-group{
     padding: 15px 15px;
     md-radio-button{
