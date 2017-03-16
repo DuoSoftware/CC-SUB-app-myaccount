@@ -36,24 +36,6 @@
         $scope.onlinePayments = false;
         $scope.apiDetails = false;
 
-        if($scope.companyPricePlans != null){
-
-          for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
-            $scope.getPlansubscription($scope.companyPricePlans[i],$scope.planSubscriptions);
-          }
-        }
-
-        if(!$scope.selectedPlan && $scope.currentPlanName)
-        {
-          selectPlan($scope.currentPlanName);
-        }
-
-        $scope.userPrice = ($scope.selectedPlan.planNo > 4) ? 20 : 2;
-
-        if($scope.selectedPlan.PlanNo > 1)
-           $scope.getSelectedPlanSubscriptionDetails();
-
-
       }else if(switchTo == 'payment-history'){
         $scope.generalDetails = false;
         $scope.planDetails = false;
@@ -360,6 +342,28 @@
     //    console.log('cant load Plans !');
     //  });
 
+
+    $scope.loadPlanDetails = function(){
+
+      if($scope.companyPricePlans != null){
+
+        for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
+          $scope.getPlansubscription($scope.companyPricePlans[i],$scope.planSubscriptions);
+        }
+      }
+
+      if(!$scope.selectedPlan && $scope.currentPlanName)
+      {
+        selectPlan($scope.currentPlanName);
+      }
+
+      $scope.userPrice = ($scope.selectedPlan.planNo > 4) ? 20 : 2;
+
+      if($scope.selectedPlan.PlanNo > 1)
+        $scope.getSelectedPlanSubscriptionDetails();
+
+    }
+
     $scope.planSubscriptions= null;
 
     $scope.getAllPlans = function () {
@@ -374,6 +378,11 @@
       }).then(function (response) {
 
         $scope.planSubscriptions= response.data;
+
+
+        if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+            $scope.loadPlanDetails();
+        }
 
       }, function (response) {
         console.log(response);
@@ -390,6 +399,9 @@
 
         $scope.companyPricePlans = response.data;
 
+        if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+          $scope.loadPlanDetails();
+        }
 
       }, function (response) {
         console.log(response);
@@ -549,6 +561,10 @@
         description: "for connected business",
         logo: 'app/main/account/img/loginDuo.png',
         label: 'Pay amount'
+      }
+
+      if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+        $scope.loadPlanDetails();
       }
 
 
