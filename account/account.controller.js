@@ -448,21 +448,6 @@
               }
             }
           };
-
-          $scope.subUsage = {
-            value: $scope.currentPlanUsed,
-            options: {
-              floor: 0,
-              ceil: $scope.currentPlanAmount,
-              showSelectionBar: true,
-              disabled: true,
-              selectionBarGradient: {
-                from: '#76d2ff',
-                to: '#e28989'
-              }
-            }
-          };
-
         }
       }
 
@@ -593,6 +578,19 @@
         $scope.currentPlanExpiryDate = response.data.expiry;
         //callback();
 
+          $scope.subUsage = {
+            value: $scope.currentPlanUsed,
+            options: {
+              floor: 0,
+              ceil: $scope.currentPlanAmount,
+              showSelectionBar: true,
+              disabled: true,
+              selectionBarGradient: {
+                from: '#76d2ff',
+                to: '#e28989'
+              }
+            }
+          };
 
           if($scope.selectedPlan){
             $scope.selectedPlan.subscriptionRate = response.data.rate;
