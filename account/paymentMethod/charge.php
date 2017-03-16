@@ -101,9 +101,6 @@ if(!isset($_COOKIE['planId'])) {
     }
 }
 
-print_r($resp);
-print_r($resp->status);
-    exit();
     if($resp->status)
         {
            // header('Location: ../#/proceed?plan='.$planId.'&st='.$st.'&tenantID='.$tenantID);
