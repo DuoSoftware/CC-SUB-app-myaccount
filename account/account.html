@@ -210,7 +210,7 @@
                     </div>
 
                     <div flex="20" layout-align="end center" layout="row">
-                      <md-button class="md-warn md-raised" ng-show="selectedPlan.planNo > 2 && isTempDeactive " ng-click="deactiveCurrentPlan()" style="max-width: 108px;" flex>Deactivate</md-button>
+                      <md-button class="md-warn md-raised" ng-show="selectedPlan.planNo > 1 && isTempDeactive " ng-click="deactiveCurrentPlan()" style="max-width: 108px;" flex>Deactivate</md-button>
                       <md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex style="max-width: 108px;" flex>Upgrade</md-button>
                     </div>
                   </div>
@@ -229,7 +229,7 @@
 
                             <md-card-content flex>
                               <div class="rate-container" layout="column" layout-align="center center">
-                                <div layout="row" layout-align="center end"><span>${{plan.price}} </span> <span> / {{plan.type}}</span></div>
+                                <div layout="row" layout-align="center end"><span>$ {{ selectedPlan.price <1}} </span> <span> / {{plan.type}}</span></div>
                               </div>
 
                               <div class="feature-container" layout="column" layout-align="center center">
@@ -249,8 +249,8 @@
                             </md-card-content>
 
                             <md-card-footer layout="row" layout-align="center center" flex>
-                              <md-button class="md-raised md-accent" ng-disabled="selectedPlan.planNo < plan.planNo && plan.price < 1" ng-if="plan.price < 1" stripe-payment="config" ng-click="selectPlan(plan)">Select</md-button>
-                              <md-button class="md-raised md-accent" ng-if="plan.price > 0" ng-click="selectPlan(plan)">Select</md-button>
+                              <md-button class="md-raised md-accent" ng-disabled="plan.planNo < selectedPlan.planNo && plan.price === '' " ng-if=" selectedPlan.price < 1 " stripe-payment="config" ng-click="selectPlan(plan)">Select</md-button>
+                              <md-button class="md-raised md-accent" ng-if="selectedPlan.price > 0 " ng-click="selectPlan(plan)">Select</md-button>
                             </md-card-footer>
                           </md-card>
 

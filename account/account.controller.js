@@ -48,6 +48,8 @@
           selectPlan($scope.currentPlanName);
         }
 
+        $scope.userPrice = ($scope.selectedPlan.planNo > 4) ? 20 : 2;
+
         if($scope.selectedPlan.PlanNo > 1)
            $scope.getSelectedPlanSubscriptionDetails();
 
@@ -537,8 +539,6 @@
       $scope.currentPlanName = response.data.Result.plan;
 
         selectPlan(response.data.Result.plan);
-
-        $scope.userPrice = ($scope.selectedPlan.planNo > 4) ? 20 : 2;
 
         $scope.calculateFreeTrialExpireDate();
 
