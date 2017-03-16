@@ -35,6 +35,23 @@
         $scope.paymentHistory = false;
         $scope.onlinePayments = false;
         $scope.apiDetails = false;
+
+        if($scope.companyPricePlans != null){
+
+          for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
+            $scope.getPlansubscription($scope.companyPricePlans[i],$scope.planSubscriptions);
+          }
+        }
+
+        if(!$scope.selectedPlan && $scope.currentPlanName)
+        {
+          selectPlan($scope.currentPlanName);
+        }
+
+        if($scope.selectedPlan.PlanNo > 1)
+           $scope.getSelectedPlanSubscriptionDetails();
+
+
       }else if(switchTo == 'payment-history'){
         $scope.generalDetails = false;
         $scope.planDetails = false;
@@ -186,6 +203,15 @@
       });
     })();
 
+    function parseJwt (token) {
+      var base64Url = token.split('.')[1];
+      var base64 = base64Url.replace('-', '+').replace('_', '/');
+      return JSON.parse(window.atob(base64));
+    }
+
+    var oid = parseJwt($scope.idToken).oid;
+
+
 
     $scope.freeTrialStartDate = '';
     $scope.displayExpireDate = '';
@@ -288,15 +314,6 @@
 
     $scope.checkPaymentMethodRegistry = function(){
 
-      //$http({
-      //  method: 'GET',
-      //  url: 'http://azure.cloudcharge.com/services/duosoftware.paymentgateway.service/commongateway/connectedGateways',
-      //  headers: {
-      //    'Content-Type': 'application/json',
-      //    'idToken' : $scope.idToken
-      //  }
-      //}).success(function (data) {
-
       $charge.paymentgateway().stripeCheckAccount().success(function (data) {
 
         if(data.status) {
@@ -326,29 +343,129 @@
     $scope.checkPaymentMethodRegistry();
 
 
-    $http.get('app/main/account/data/plans.json').
-      success(function (data, status, headers, config) {
-        $scope.companyPricePlans = data;
+    //$http.get('app/main/account/data/plans.json').
+    //  success(function (data, status, headers, config) {
+    //    $scope.companyPricePlans = data;
+    //
+    //    for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
+    //      $scope.getAllPlansByUser($scope.companyPricePlans[i]);
+    //    }
+    //
+    //
+    //  }).
+    //  error(function (data, status, headers, config) {
+    //    $scope.companyPricePlans = null;
+    //    console.log('cant load Plans !');
+    //  });
 
-        for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
-          $scope.getAllPlansByUser($scope.companyPricePlans[i]);
+    $scope.planSubscriptions= null;
+
+    $scope.getAllPlans = function () {
+
+      $http({
+        method: 'GET',
+        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetRatePlansForSubscription",
+        headers: {
+          'Content-Type': 'application/json',
+          'securityToken': oid
         }
+      }).then(function (response) {
+
+        $scope.planSubscriptions= response.data;
+
+      }, function (response) {
+        console.log(response);
+      });
+
+      $http({
+        method: 'GET',
+        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetPlanDetails",
+        headers: {
+          'Content-Type': 'application/json',
+          'securityToken': oid
+        }
+      }).then(function (response) {
+
+        $scope.companyPricePlans = response.data;
 
 
-      }).
-      error(function (data, status, headers, config) {
-        $scope.companyPricePlans = null;
-        console.log('cant load Plans !');
+      }, function (response) {
+        console.log(response);
       });
 
 
+    };
+
+    $scope.getPlansubscription = function (plan,subscriptData) {
+
+      for(var i = 0 ; i <subscriptData.length;i++) {
+        if(subscriptData[i].type === plan.name)
+        {
+
+          var subscript = subscriptData[i].rateDetails;
+          plan.allSubscriptionPlans = subscript;
+
+          for(var ii = 0 ; ii <subscript.length;ii++) {
+            if(ii === 0)
+            {
+              plan.subscriptionMinAmount = subscript[ii].rangeFrom;
+              plan.subscriptionStep = subscript[ii].rangeTo;
+            }
+
+            if(ii === (subscript.length - 1))
+            {
+              plan.subscriptionMaxAmount = subscript[ii].rangeTo;
+            }
+          }
+
+          //plan.subscriptionMaxAmount = parseInt($scope.allSubscriptionPlans[$scope.allSubscriptionPlans.length-1].range.split('-')[1]);
+          //plan.subscriptionStep = parseInt($scope.allSubscriptionPlans[0].range.split('-')[1]);
+          $scope.starterSlider = {
+            value: $scope.currentPlanAmount,
+            options: {
+              floor: 0,
+              ceil: plan.subscriptionMaxAmount,
+              step: plan.subscriptionStep,
+              showSelectionBar: false,
+              selectionBarGradient: {
+                from: 'white',
+                to: '#039be5'
+              }
+            }
+          };
+
+          $scope.subUsage = {
+            value: $scope.currentPlanUsed,
+            options: {
+              floor: 0,
+              ceil: $scope.currentPlanAmount,
+              showSelectionBar: true,
+              disabled: true,
+              selectionBarGradient: {
+                from: '#76d2ff',
+                to: '#e28989'
+              }
+            }
+          };
+
+        }
+      }
+
+
+
+    };
+
+    $scope.getAllPlans();
+
     var selectPlan = function(planId)
     {
-      for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
-        if($scope.companyPricePlans[i].id === planId){
-          $scope.selectedPlan = $scope.companyPricePlans[i];
+      if($scope.companyPricePlans != null) {
+        for (var i = 0; i < $scope.companyPricePlans.length; i++) {
+          if ($scope.companyPricePlans[i].code === planId) {
+            $scope.selectedPlan = $scope.companyPricePlans[i];
 
-          $scope.currentPlanName = $scope.selectedPlan.name;
+            $scope.currentPlanName = $scope.selectedPlan.name;
+          }
         }
       }
     }
@@ -379,35 +496,22 @@
     }
 
     $scope.showCurrPlan = function() {
-      //$mdDialog.show({
-      //  controller: 'AccountDialogController',
-      //  templateUrl: 'app/main/account/current-plan-dialog.html',
-      //  parent: angular.element(document.body),
-      //  targetEvent: ev,
-      //  clickOutsideToClose:true,
-      //  locals:{
-      //    selectedPlanDetails:$scope.selectedPlan
-      //  }
-      //})
-      //  .then(function(answer) {
-      //
-      //  }, function() {
-      //
-      //  });
 
-      if($scope.selectedPlan.per == "/ Mo" || $scope.selectedPlan.no == 1 || $scope.selectedPlan.no == 2 ){
-        $scope.signupsuccess = true;
-        $scope.$watch(function () {
-          $scope.planDuration = "Monthly";
-        });
-        $scope.currentPlan = $scope.selectedPlan.no;
-      }else if($scope.selectedPlan.per == "/ Yr"){
-        $scope.signupsuccess = true;
-        $scope.$watch(function () {
-          $scope.planDuration = "Yearly";
-        });
-        $scope.currentPlan = $scope.selectedPlan.no;
-      }
+      //if($scope.selectedPlan.per == "/ Mo" || $scope.selectedPlan.no == 1 || $scope.selectedPlan.no == 2 ){
+      //  $scope.signupsuccess = true;
+      //  $scope.$watch(function () {
+      //    $scope.planDuration = "Monthly";
+      //  });
+      //  $scope.currentPlan = $scope.selectedPlan.no;
+      //}else if($scope.selectedPlan.per == "/ Yr"){
+      //  $scope.signupsuccess = true;
+      //  $scope.$watch(function () {
+      //    $scope.planDuration = "Yearly";
+      //  });
+      //  $scope.currentPlan = $scope.selectedPlan.no;
+      //}
+
+      $scope.currentPlan = $scope.selectedPlan.planNo;
     };
 
 
@@ -430,11 +534,11 @@
           $scope.isUserAdmin = true;
         }
 
-        console.log(response.data.Result.plan);
+      $scope.currentPlanName = response.data.Result.plan;
 
         selectPlan(response.data.Result.plan);
 
-        $scope.userPrice = ($scope.selectedPlan.no > 4) ? 20 : 2;
+        $scope.userPrice = ($scope.selectedPlan.planNo > 4) ? 20 : 2;
 
         $scope.calculateFreeTrialExpireDate();
 
@@ -453,6 +557,35 @@
     });
 
 
+    $scope.getSelectedPlanSubscriptionDetails = function () {
+
+      $http({
+        method: 'GET',
+        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice?plan="+$scope.selectedPlan.code,
+        headers: {
+          'Content-Type': 'application/json',
+          'securityToken': oid
+        }
+      }).then(function (response) {
+        //$scope.currentPlanName = response.data.name;
+        $scope.currentPlanAmount = parseInt(response.data.amount);
+        $scope.currentPlanRate = response.data.rate;
+        $scope.currentPlanUsed = response.data.used;
+        $scope.currentPlanCreatedDate = response.data.createdDate;
+        $scope.currentPlanExpiryDate = response.data.expiry;
+        //callback();
+
+
+        if($scope.selectedPlan){
+          $scope.selectedPlan.subscriptionRate = response.data.rate;
+          $scope.selectedPlan.sliderValue = $scope.currentPlanAmount;
+        }
+
+      }, function (response) {
+        console.log(response);
+      });
+    }
+
 
     $scope.calculateFreeTrialExpireDate = function(){
 
@@ -462,7 +595,7 @@
         $scope.remainingDays = 0;
         var today = new Date();
 
-        if($scope.selectedPlan.id === 'free_trial' && $scope.freeTrialStartDate != '')
+        if($scope.selectedPlan.code === 'free_trial' && $scope.freeTrialStartDate != '')
         {
           var convertedDate = new Date($scope.freeTrialStartDate);
 
@@ -681,7 +814,7 @@
       } else {
         $scope.isPlanSelected = true;
 
-        $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.id + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount ;
+        $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.code + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount ;
         //$window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?plan=' +  $scope.paymentPlan + '&st=' +  $scope.paymentSecurityToken + '&price=' + ( $scope.paymentPrice ) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&stripeToken=' +  args.id;
       }
 
@@ -732,7 +865,7 @@
     var submitTenantDetails = function (pack) {
 
       $scope.paymentTenant = $scope.tenantId ;
-      $scope.paymentPlan = pack.id;
+      $scope.paymentPlan = pack.code;
       $scope.paymentSecurityToken = $scope.idToken;
       $scope.paymentPrice = (pack.price);
       $scope.paymentName = pack.name;
@@ -744,7 +877,7 @@
 
           $scope.addUp = 2; // additionalUserPrice
 
-          if(pack.no > 4){
+          if(pack.planNo > 4){
             $scope.addUp = 2*10;   //one user into 12 months
           }
 
@@ -752,7 +885,7 @@
 
           $http({
             method : 'POST',
-            url : '/azureshell/app/main/account/paymentMethod/alarcartHandler.php?view=updatePackageWithAddAdditionalUsers&userCount='+$scope.userdata+'&userPrice='+($scope.userdata * $scope.addUp)+ '&selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ,
+            url : '/azureshell/app/main/account/paymentMethod/alarcartHandler.php?view=updatePackageWithAddAdditionalUsers&userCount='+$scope.userdata+'&userPrice='+($scope.userdata * $scope.addUp)+ '&selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ,
             headers: {
               'Content-Type': 'application/json'
             }
@@ -783,7 +916,7 @@
 
           $scope.isPlanSelected= true;
           //$window.location.href = '/azureshell/app/main/account/paymentMethod/charge.php';
-          $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount;
+          $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount;
         }
 
       }
@@ -1151,85 +1284,9 @@
     //  console.log('Test clicked');
     //});
 
-    function parseJwt (token) {
-      var base64Url = token.split('.')[1];
-      var base64 = base64Url.replace('-', '+').replace('_', '/');
-      return JSON.parse(window.atob(base64));
-    }
-
-    var oid = parseJwt($scope.idToken).oid;
-
-    $scope.getAllPlansByUser = function (plan) {
-      //$http({
-      //  method: 'GET',
-      //  url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAllRatesForApp?appID=invoice",
-      //  headers: {
-      //    'Content-Type': 'application/json',
-      //    'securityToken': oid
-      //  }
-      //}).then(function (response) {debugger;
-        $scope.allSubscriptionPlans = plan.data;
-        plan.subscriptionMaxAmount = parseInt($scope.allSubscriptionPlans[$scope.allSubscriptionPlans.length-1].range.split('-')[1]);
-        plan.subscriptionStep = parseInt($scope.allSubscriptionPlans[0].range.split('-')[1]);
-        $scope.starterSlider = {
-          value: $scope.currentPlanAmount,
-          options: {
-            floor: 0,
-            ceil: plan.subscriptionMaxAmount,
-            step: plan.subscriptionStep,
-            showSelectionBar: false,
-            selectionBarGradient: {
-              from: 'white',
-              to: '#039be5'
-            }
-          }
-        };
-
-        $scope.subUsage = {
-          value: $scope.currentPlanUsed,
-          options: {
-            floor: 0,
-            ceil: $scope.currentPlanAmount,
-            showSelectionBar: true,
-            disabled: true,
-            selectionBarGradient: {
-              from: '#76d2ff',
-              to: '#e28989'
-            }
-          }
-        };
-
-      //},function (response) {
-      //  console.log(response);
-      //});
-    };
 
     $scope.getCurrentPlansByUser = function (callback) {
-      $http({
-        method: 'GET',
-        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice",
-        headers: {
-          'Content-Type': 'application/json',
-          'securityToken': oid
-        }
-      }).then(function (response) {
-        //$scope.currentPlanName = response.data.name;
-        $scope.currentPlanAmount = parseInt(response.data.amount);
-        $scope.currentPlanRate = response.data.rate;
-        $scope.currentPlanUsed = response.data.used;
-        $scope.currentPlanCreatedDate = response.data.createdDate;
-        $scope.currentPlanExpiryDate = response.data.expiry;
-        callback();
 
-
-        if($scope.selectedPlan){
-          $scope.selectedPlan.subscriptionRate = response.data.rate;
-          $scope.selectedPlan.sliderValue = $scope.currentPlanAmount;
-        }
-
-      }, function (response) {
-        console.log(response);
-      });
     };
 
     $scope.getCurrentPlansByUser(function () {
@@ -1251,10 +1308,10 @@
 
 
     $scope.changeSubscription = function(plan){
-      for(i=0;i<$scope.allSubscriptionPlans.length;i++) {
-        if(plan.sliderValue == parseInt($scope.allSubscriptionPlans[i].range.split('-')[1])){
-          plan.subscriptionRate = parseInt($scope.allSubscriptionPlans[i].rate);
-         plan.activeSubscriptions = parseInt($scope.allSubscriptionPlans[i].range.split('-')[1]);
+      for(i=0;i<plan.allSubscriptionPlans.length;i++) {
+        if(plan.sliderValue == parseInt(plan.allSubscriptionPlans[i].rangeTo)){
+          plan.subscriptionRate = parseInt(plan.allSubscriptionPlans[i].rate);
+         plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeTo);
         }
       }
     }
