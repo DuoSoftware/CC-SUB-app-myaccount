@@ -205,7 +205,7 @@
                     </div>
 
                     <div class="subscription-usage" layout="column" layout-align="center center" flex="20"  ng-if="selectedPlan.price > 0">
-                      <rzslider rz-slider-model="currentPlanAmount" data-rz-slider-high="selectedPlan.subscriptionMaxAmount" rz-slider-options="subUsage.options"></rzslider>
+                      <rzslider rz-slider-model="subUsage.value"  rz-slider-options="subUsage.options"></rzslider>
                       <span>Usage</span>
                     </div>
 
@@ -229,7 +229,7 @@
 
                             <md-card-content flex>
                               <div class="rate-container" layout="column" layout-align="center center">
-                                <div layout="row" layout-align="center end"><span>$ {{ plan.price}} </span> <span> / {{plan.type}}</span></div>
+                                <div layout="row" layout-align="center end"><span>$ {{ plan.changingPrice}} </span> <span> / {{plan.type}}</span></div>
                               </div>
 
                               <div class="feature-container" layout="column" layout-align="center center">
@@ -242,7 +242,7 @@
                               </div>
 
                               <div class="slider">
-                                <rzslider id="cont{{plan.code}}" rz-slider-model="plan.sliderValue" ng-click="changeSubscription(plan)" rz-slider-options="starterSlider.options"></rzslider>
+                                <rzslider id="cont{{plan.code}}" rz-slider-model="plan.sliderValue" ng-click="changeSubscription(plan)" rz-slider-options="plan.starterSlider.options"></rzslider>
                               </div>
 
                               <div layout="row" layout-align="center center" class="slider-msg">Slide to change the rate </div>
@@ -271,7 +271,7 @@
                     <span flex style="width: auto"><b>Number of additional users</b></span>
                     <span>: {{userdata}}</span>
                   </div>
-                  <md-button class="md-icon-button md-accent" ng-disabled="selectedPlan.price === '0'" ng-click="addMoreUsersDialog($event)"><md-icon md-font-icon="icon-plus-circle"></md-icon> </md-button>
+                  <md-button class="md-icon-button md-accent" ng-disabled="selectedPlan.price < 0 " ng-click="addMoreUsersDialog($event)"><md-icon md-font-icon="icon-plus-circle"></md-icon> </md-button>
                 </div>
               </md-card-actions>
             </md-card>
