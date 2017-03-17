@@ -388,7 +388,8 @@
             if(ii === 0)
             {
               plan.subscriptionMinAmount = subscript[ii].rangeFrom;
-              //plan.subscriptionStep = 10;
+              plan.activeSubscriptions = subscript[ii].rangeFrom-1;
+
             }
 
             if(ii === (subscript.length - 1))
@@ -1308,7 +1309,8 @@ $scope.initPlanSliderValue = null;
       for(i=0;i<plan.allSubscriptionPlans.length;i++) {
         if(plan.sliderValue <= plan.subscriptionMinAmount){
           plan.subscriptionRate = 0;
-          plan.activeSubscriptions = 1000;
+          if(i===0)
+            plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeFrom)-1;
         }
         if(plan.sliderValue >= parseInt(plan.allSubscriptionPlans[i].rangeFrom) && plan.sliderValue <= parseInt(plan.allSubscriptionPlans[i].rangeTo)){
           plan.subscriptionRate = parseInt(plan.allSubscriptionPlans[i].rate);
