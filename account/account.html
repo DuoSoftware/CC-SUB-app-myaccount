@@ -220,7 +220,7 @@
                       <section id="successContainer" layout="row" layout-align="center center" >
                         <div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>
 
-                          <md-card ng-repeat="plan in companyPricePlans"  flex class="subscription-plan" ng-if="plan.planNo > 1" ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">
+                          <md-card ng-repeat="plan in companyPricePlans"  flex class="subscription-plan"  ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">
                             <div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>
 
                             <md-card-title flex layout="row" layout-align="center center" ng-class="{'blue-title': plan.code == selectedPlan.code}">
@@ -229,9 +229,10 @@
 
                             <md-card-content flex>
                               <div class="rate-container" layout="column" layout-align="center center">
-                                <div layout="row" layout-align="center end"><span>$ {{ plan.changingPrice}} </span> <span> / {{plan.type}}</span></div>
+                                <div layout="row" ng-if="plan.planNo === 1" layout-align="center end"><span>Free</span></div>
+                                <div layout="row" ng-if="plan.planNo > 1" layout-align="center end"><span>$ {{ plan.changingPrice}} </span> <span> / {{plan.type}}</span></div>
                               </div>
-
+                      <div ng-if="plan.planNo > 1">
                               <div class="feature-container" layout="column" layout-align="center center">
                                 <div layout="row" layout-align="center center">
                                   <div><span>{{plan.activeSubscriptions}}</span><span> Active Subscriptions</span></div>
@@ -246,6 +247,7 @@
                               </div>
 
                               <div layout="row" layout-align="center center" class="slider-msg">Slide to change the rate </div>
+                      </div>
                             </md-card-content>
 
                             <md-card-footer layout="row" layout-align="center center" flex>
