@@ -1309,15 +1309,15 @@ $scope.initPlanSliderValue = null;
       for(i=0;i<plan.allSubscriptionPlans.length;i++) {
         if(plan.sliderValue <= plan.subscriptionMinAmount){
           plan.subscriptionRate = 0;
+          plan.changingPrice =  parseFloat( plan.price ) ;
           if(i===0)
             plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeFrom)-1;
         }
         if(plan.sliderValue >= parseInt(plan.allSubscriptionPlans[i].rangeFrom) && plan.sliderValue <= parseInt(plan.allSubscriptionPlans[i].rangeTo)){
           plan.subscriptionRate = parseInt(plan.allSubscriptionPlans[i].rate);
          plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeTo);
+         plan.changingPrice = parseFloat(plan.allSubscriptionPlans[i].price);
         }
-
-        plan.changingPrice = parseFloat( plan.price ) + parseInt(plan.subscriptionRate);
       }
     }
 
