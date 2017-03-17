@@ -251,8 +251,8 @@
                             </md-card-content>
 
                             <md-card-footer layout="row" layout-align="center center" flex>
-                              <md-button class="md-raised md-accent" ng-disabled="plan.planNo < selectedPlan.planNo " ng-if=" selectedPlan.price < 1 " stripe-payment="config" ng-click="selectPlan(plan)">Select</md-button>
-                              <md-button class="md-raised md-accent" ng-disabled="plan.planNo < selectedPlan.planNo " ng-if="selectedPlan.price > 0 " ng-click="selectPlan(plan)">Select</md-button>
+                              <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || isPlanSelected" ng-if=" selectedPlan.price < 1 " stripe-payment="config" ng-click="selectPlan(plan)">Select</md-button>
+                              <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || isPlanSelected" ng-if="selectedPlan.price > 0 " ng-click="selectPlan(plan)">Select</md-button>
                             </md-card-footer>
                           </md-card>
 
@@ -273,7 +273,7 @@
                     <span flex style="width: auto"><b>Number of additional users</b></span>
                     <span>: {{userdata}}</span>
                   </div>
-                  <md-button class="md-icon-button md-accent" ng-disabled="selectedPlan.price < 0 " ng-click="addMoreUsersDialog($event)"><md-icon md-font-icon="icon-plus-circle"></md-icon> </md-button>
+                  <md-button class="md-icon-button md-accent" ng-disabled="selectedPlan.price < 1 " ng-click="addMoreUsersDialog($event)"><md-icon md-font-icon="icon-plus-circle"></md-icon> </md-button>
                 </div>
               </md-card-actions>
             </md-card>

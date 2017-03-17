@@ -99,35 +99,6 @@
 
 
 
-    // DYNAMIC PLANS
-    //$scope.starterSlider = {
-    //  value: 0,
-    //  options: {
-    //    floor: 0,
-    //    ceil: 0,
-    //    step: 0,
-    //    showSelectionBar: true,
-    //    selectionBarGradient: {
-    //      from: 'white',
-    //      to: '#039be5'
-    //    }
-    //  }
-    //};
-
-    //$scope.subUsage = {
-    //  value: 0,
-    //  options: {
-    //    floor: 0,
-    //    ceil: 0,
-    //    showSelectionBar: true,
-    //    disabled: true,
-    //    selectionBarGradient: {
-    //      from: '#76d2ff',
-    //      to: '#e28989'
-    //    }
-    //  }
-    //};
-
     $scope.businessSlider = {
       value: 0,
       options: {
@@ -549,7 +520,7 @@
       console.log(response);
     });
 
-
+$scope.initPlanSliderValue = null;
     $scope.getSelectedPlanSubscriptionDetails = function () {
 
       $http({
@@ -563,6 +534,8 @@
         //$scope.currentPlanName = response.data.name;
         if(response.status != 204){
         $scope.currentPlanAmount = parseInt(response.data.amount);
+
+        $scope.initPlanSliderValue = parseInt(response.data.amount);
         $scope.currentPlanRate = response.data.rate;
         $scope.currentPlanUsed = response.data.used;
         $scope.currentPlanCreatedDate = response.data.createdDate;
@@ -845,6 +818,24 @@
 
     $scope.selectPlan = function (packaged)
     {
+
+      if($scope.selectedPlan.code === packaged.code && $scope.initPlanSliderValue === packaged.sliderValue)
+      {
+        $mdDialog.show(
+          $mdDialog.alert()
+            .parent(angular.element(document.body))
+            .clickOutsideToClose(true)
+            .title('Wrong package update')
+            .textContent('You cannot update to the same package you already selected')
+            .ariaLabel('Wrong package update')
+            .ok('Got it!')
+        );
+
+        return;
+      }
+
+      packaged.sliderValue = isNaN( packaged.sliderValue ) ? packaged.activeSubscriptions : packaged.sliderValue;
+
       $scope.currentPlanAmount = packaged.sliderValue;
 
       if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
