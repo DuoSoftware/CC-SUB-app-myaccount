@@ -99,35 +99,6 @@
 
 
 
-    // DYNAMIC PLANS
-    $scope.starterSlider = {
-      value: 0,
-      options: {
-        floor: 0,
-        ceil: 0,
-        step: 0,
-        showSelectionBar: true,
-        selectionBarGradient: {
-          from: 'white',
-          to: '#039be5'
-        }
-      }
-    };
-
-    $scope.subUsage = {
-      value: 0,
-      options: {
-        floor: 0,
-        ceil: 0,
-        showSelectionBar: true,
-        disabled: true,
-        selectionBarGradient: {
-          from: '#76d2ff',
-          to: '#e28989'
-        }
-      }
-    };
-
     $scope.businessSlider = {
       value: 0,
       options: {
@@ -328,27 +299,16 @@
     $scope.checkPaymentMethodRegistry();
 
 
-    //$http.get('app/main/account/data/plans.json').
-    //  success(function (data, status, headers, config) {
-    //    $scope.companyPricePlans = data;
-    //
-    //    for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
-    //      $scope.getAllPlansByUser($scope.companyPricePlans[i]);
-    //    }
-    //
-    //
-    //  }).
-    //  error(function (data, status, headers, config) {
-    //    $scope.companyPricePlans = null;
-    //    console.log('cant load Plans !');
-    //  });
-
-
     $scope.loadPlanDetails = function(){
 
       if($scope.companyPricePlans != null){
 
         for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
+          $scope.companyPricePlans[i].changingPrice = $scope.companyPricePlans[i].price;
+          if($scope.companyPricePlans[i].type === 'Yearly')
+          {
+            $scope.companyPricePlans[i].code = $scope.companyPricePlans[i].code+'_year';
+          }
           $scope.getPlansubscription($scope.companyPricePlans[i],$scope.planSubscriptions);
         }
       }
@@ -362,6 +322,7 @@
 
       if($scope.selectedPlan.planNo > 1)
         $scope.getSelectedPlanSubscriptionDetails();
+
 
     }
 
@@ -413,6 +374,9 @@
 
     $scope.getPlansubscription = function (plan,subscriptData) {
 
+      plan.activeSubscriptions = 1000;
+      plan.subscriptionRate = 0;
+
       for(var i = 0 ; i <subscriptData.length;i++) {
         if(subscriptData[i].type === plan.name)
         {
@@ -424,7 +388,8 @@
             if(ii === 0)
             {
               plan.subscriptionMinAmount = subscript[ii].rangeFrom;
-              plan.subscriptionStep = subscript[ii].rangeTo;
+              plan.activeSubscriptions = subscript[ii].rangeFrom-1;
+
             }
 
             if(ii === (subscript.length - 1))
@@ -433,14 +398,12 @@
             }
           }
 
-          //plan.subscriptionMaxAmount = parseInt($scope.allSubscriptionPlans[$scope.allSubscriptionPlans.length-1].range.split('-')[1]);
-          //plan.subscriptionStep = parseInt($scope.allSubscriptionPlans[0].range.split('-')[1]);
-          $scope.starterSlider = {
+          plan.starterSlider = {
             value: $scope.currentPlanAmount,
             options: {
-              floor: 0,
+              floor: parseInt(plan.subscriptionMinAmount)-1,
               ceil: plan.subscriptionMaxAmount,
-              step: plan.subscriptionStep,
+              //step: plan.subscriptionStep,
               showSelectionBar: false,
               selectionBarGradient: {
                 from: 'white',
@@ -558,12 +521,12 @@
       console.log(response);
     });
 
-
+$scope.initPlanSliderValue = null;
     $scope.getSelectedPlanSubscriptionDetails = function () {
 
       $http({
         method: 'GET',
-        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice?plan="+$scope.selectedPlan.code,
+        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice&plan="+$scope.selectedPlan.code,
         headers: {
           'Content-Type': 'application/json',
           'securityToken': oid
@@ -572,6 +535,8 @@
         //$scope.currentPlanName = response.data.name;
         if(response.status != 204){
         $scope.currentPlanAmount = parseInt(response.data.amount);
+
+        $scope.initPlanSliderValue = parseInt(response.data.amount);
         $scope.currentPlanRate = response.data.rate;
         $scope.currentPlanUsed = response.data.used;
         $scope.currentPlanCreatedDate = response.data.createdDate;
@@ -582,7 +547,7 @@
             value: $scope.currentPlanUsed,
             options: {
               floor: 0,
-              ceil: $scope.currentPlanAmount,
+              ceil: parseInt(response.data.amount),
               showSelectionBar: true,
               disabled: true,
               selectionBarGradient: {
@@ -594,7 +559,16 @@
 
           if($scope.selectedPlan){
             $scope.selectedPlan.subscriptionRate = response.data.rate;
-            $scope.selectedPlan.sliderValue = $scope.currentPlanAmount;
+            $scope.selectedPlan.sliderValue = response.data.amount;
+          }
+
+          for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
+            if($scope.companyPricePlans[i].planNo === $scope.selectedPlan.planNo)
+            {
+              $scope.companyPricePlans[i]= $scope.selectedPlan;
+
+              $scope.changeSubscription($scope.companyPricePlans[i]);
+            }
           }
         }
 
@@ -845,13 +819,31 @@
 
     $scope.selectPlan = function (packaged)
     {
-      $scope.currentPlanAmount = packaged.sliderValue;
+
+      if($scope.selectedPlan.code === packaged.code && $scope.initPlanSliderValue === packaged.activeSubscriptions)
+      {
+        $mdDialog.show(
+          $mdDialog.alert()
+            .parent(angular.element(document.body))
+            .clickOutsideToClose(true)
+            .title('Wrong package update')
+            .textContent('You cannot update to the same package you already selected')
+            .ariaLabel('Wrong package update')
+            .ok('Got it!')
+        );
+
+        return;
+      }
+
+      $scope.currentPlanAmount = isNaN( packaged.sliderValue ) ? packaged.subscriptionMinAmount : packaged.activeSubscriptions;
+
+      //$scope.currentPlanAmount = packaged.sliderValue;
 
       if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
 
         var confirm = $mdDialog.confirm()
           .title('Update Package')
-          .textContent('You are going to change your current plan to ' + packaged.name + ' and it will cost amount of $' + packaged.price + ', Do you want to proceed with the update ?')
+          .textContent('You are going to change your current plan to ' + packaged.name + ' and it will cost amount of $' + packaged.changingPrice + ', Do you want to proceed with the update ?')
           .ariaLabel('Lucky day')
           .ok('Yes')
           .cancel('No');
@@ -884,7 +876,7 @@
       $scope.paymentTenant = $scope.tenantId ;
       $scope.paymentPlan = pack.code;
       $scope.paymentSecurityToken = $scope.idToken;
-      $scope.paymentPrice = (pack.price);
+      $scope.paymentPrice = (pack.changingPrice);
       $scope.paymentName = pack.name;
 
       if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
@@ -894,7 +886,7 @@
 
           $scope.addUp = 2; // additionalUserPrice
 
-          if(pack.planNo > 4){
+          if(pack.type === "Yearly"){
             $scope.addUp = 2*10;   //one user into 12 months
           }
 
@@ -1312,23 +1304,19 @@
       $scope.remainingDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
     });
 
-    //$scope.$watch(function () {
-    //  if($scope.allSubscriptionPlans != undefined){
-    //    for(i=0;i<$scope.allSubscriptionPlans.length;i++){
-    //      if($scope.starterSlider.value == parseInt($scope.allSubscriptionPlans[i].range.split('-')[1])){
-    //        $scope.subscriptionRate = parseInt($scope.allSubscriptionPlans[i].rate);
-    //        $scope.activeSubscriptions = parseInt($scope.allSubscriptionPlans[i].range.split('-')[1]);
-    //      }
-    //    }
-    //  }
-    //});
-
 
     $scope.changeSubscription = function(plan){
       for(i=0;i<plan.allSubscriptionPlans.length;i++) {
-        if(plan.sliderValue == parseInt(plan.allSubscriptionPlans[i].rangeTo)){
+        if(plan.sliderValue <= plan.subscriptionMinAmount){
+          plan.subscriptionRate = 0;
+          plan.changingPrice =  parseFloat( plan.price ) ;
+          if(i===0)
+            plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeFrom)-1;
+        }
+        if(plan.sliderValue >= parseInt(plan.allSubscriptionPlans[i].rangeFrom) && plan.sliderValue <= parseInt(plan.allSubscriptionPlans[i].rangeTo)){
           plan.subscriptionRate = parseInt(plan.allSubscriptionPlans[i].rate);
          plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeTo);
+         plan.changingPrice = parseFloat(plan.allSubscriptionPlans[i].price);
         }
       }
     }
