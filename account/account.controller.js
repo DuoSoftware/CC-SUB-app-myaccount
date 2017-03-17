@@ -374,7 +374,7 @@
 
     $scope.getPlansubscription = function (plan,subscriptData) {
 
-      plan.activeSubscriptions = 0;
+      plan.activeSubscriptions = 1000;
       plan.subscriptionRate = 0;
 
       for(var i = 0 ; i <subscriptData.length;i++) {
@@ -388,7 +388,7 @@
             if(ii === 0)
             {
               plan.subscriptionMinAmount = subscript[ii].rangeFrom;
-              plan.subscriptionStep = subscript[ii].rangeTo;
+              //plan.subscriptionStep = 10;
             }
 
             if(ii === (subscript.length - 1))
@@ -400,9 +400,9 @@
           plan.starterSlider = {
             value: $scope.currentPlanAmount,
             options: {
-              floor: 0,
+              floor: parseInt(plan.subscriptionMinAmount)-1,
               ceil: plan.subscriptionMaxAmount,
-              step: plan.subscriptionStep,
+              //step: plan.subscriptionStep,
               showSelectionBar: false,
               selectionBarGradient: {
                 from: 'white',
@@ -819,7 +819,7 @@ $scope.initPlanSliderValue = null;
     $scope.selectPlan = function (packaged)
     {
 
-      if($scope.selectedPlan.code === packaged.code && $scope.initPlanSliderValue === packaged.sliderValue)
+      if($scope.selectedPlan.code === packaged.code && $scope.initPlanSliderValue === packaged.activeSubscriptions)
       {
         $mdDialog.show(
           $mdDialog.alert()
@@ -834,15 +834,15 @@ $scope.initPlanSliderValue = null;
         return;
       }
 
-      packaged.sliderValue = isNaN( packaged.sliderValue ) ? packaged.activeSubscriptions : packaged.sliderValue;
+      $scope.currentPlanAmount = isNaN( packaged.sliderValue ) ? packaged.subscriptionMinAmount : packaged.activeSubscriptions;
 
-      $scope.currentPlanAmount = packaged.sliderValue;
+      //$scope.currentPlanAmount = packaged.sliderValue;
 
       if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
 
         var confirm = $mdDialog.confirm()
           .title('Update Package')
-          .textContent('You are going to change your current plan to ' + packaged.name + ' and it will cost amount of $' + packaged.price + ', Do you want to proceed with the update ?')
+          .textContent('You are going to change your current plan to ' + packaged.name + ' and it will cost amount of $' + packaged.changingPrice + ', Do you want to proceed with the update ?')
           .ariaLabel('Lucky day')
           .ok('Yes')
           .cancel('No');
@@ -875,7 +875,7 @@ $scope.initPlanSliderValue = null;
       $scope.paymentTenant = $scope.tenantId ;
       $scope.paymentPlan = pack.code;
       $scope.paymentSecurityToken = $scope.idToken;
-      $scope.paymentPrice = (pack.price);
+      $scope.paymentPrice = (pack.changingPrice);
       $scope.paymentName = pack.name;
 
       if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
@@ -885,7 +885,7 @@ $scope.initPlanSliderValue = null;
 
           $scope.addUp = 2; // additionalUserPrice
 
-          if(pack.planNo > 4){
+          if(pack.type === "Yearly"){
             $scope.addUp = 2*10;   //one user into 12 months
           }
 
@@ -1306,10 +1306,11 @@ $scope.initPlanSliderValue = null;
 
     $scope.changeSubscription = function(plan){
       for(i=0;i<plan.allSubscriptionPlans.length;i++) {
-        if(plan.sliderValue < 1){
+        if(plan.sliderValue <= plan.subscriptionMinAmount){
           plan.subscriptionRate = 0;
-          plan.activeSubscriptions = 0;
-        }if(plan.sliderValue == parseInt(plan.allSubscriptionPlans[i].rangeTo)){
+          plan.activeSubscriptions = 1000;
+        }
+        if(plan.sliderValue >= parseInt(plan.allSubscriptionPlans[i].rangeFrom) && plan.sliderValue <= parseInt(plan.allSubscriptionPlans[i].rangeTo)){
           plan.subscriptionRate = parseInt(plan.allSubscriptionPlans[i].rate);
          plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeTo);
         }
