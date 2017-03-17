@@ -1318,7 +1318,7 @@ $scope.initPlanSliderValue = null;
          plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeTo);
          plan.changingPrice = parseFloat(plan.allSubscriptionPlans[i].price);
         }
-      }
+      }  
     }
 
     // / DYNAMIC PLANS
