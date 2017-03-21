@@ -14,14 +14,16 @@
 <!-- SIDENAV CONTENT -->
 <md-content ms-scroll class="content" flex>
 
-    <div class="compose-button">
+    <div class="compose-button" ng-if="generalDetails && !vm.editableMode">
         <md-button class="md-accent md-raised" aria-label="compose"
-                   ng-click="saveProfileDetails(true)" ng-if="generalDetails && !vm.editableMode">Edit profile
-        </md-button>
-        <md-button class="md-accent md-raised" aria-label="compose"
-                   ng-click="cancelEdit()" ng-if="generalDetails && vm.editableMode">View profile
+                   ng-click="saveProfileDetails(true)">Edit profile
         </md-button>
     </div>
+  <div class="compose-button" ng-if="generalDetails && vm.editableMode">
+    <md-button class="md-accent md-raised" aria-label="compose"
+               ng-click="cancelEdit()" >View profile
+    </md-button>
+  </div>
 
     <div class="navigation-simple" layout="column" ng-if="!vm.editableMode">
       <md-button class="item" ng-class="{'selected': generalDetails}" aria-label="starred" ng-click="switchInpageState('general-details')">
