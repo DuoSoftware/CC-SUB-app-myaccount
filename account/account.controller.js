@@ -8,7 +8,7 @@
     .controller('AccountController', AccountController);
 
   /** @ngInject */
-  function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout) {
+  function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse) {
     $scope.acc = "";
     //console.log("Profile Controller Called.");
     var vm = this;
@@ -97,6 +97,12 @@
       });
     };
 
+    $scope.monthEndDate = function(_date){
+      var date = new Date(_date);
+      var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      return lastDay;
+    };
+
 
 
     $scope.businessSlider = {
@@ -113,10 +119,85 @@
       }
     };
 
+    // $scope.sliders = [
+    // {
+    //   value: 1000,
+    //   options: {
+    //     floor: 0,
+    //     ceil: 5000,
+    //     step: 1000,
+    //     showSelectionBar: true,
+    //     selectionBarGradient: {
+    //       from: 'white',
+    //       to: '#039be5'
+    //     }
+    //   }
+    // },{
+    //   value: 1000,
+    //   options: {
+    //     floor: 0,
+    //     ceil: 5000,
+    //     step: 1000,
+    //     showSelectionBar: true,
+    //     selectionBarGradient: {
+    //       from: 'white',
+    //       to: '#039be5'
+    //     }
+    //   }
+    // },
+    //   $scope.slider2 = {
+    //   value: 1000,
+    //   options: {
+    //     floor: 0,
+    //     ceil: 5000,
+    //     step: 1000,
+    //     showSelectionBar: true,
+    //     selectionBarGradient: {
+    //       from: 'white',
+    //       to: '#039be5'
+    //     }
+    //   }
+    // }, {
+    //   value: 1000,
+    //   options: {
+    //     floor: 0,
+    //     ceil: 5000,
+    //     step: 1000,
+    //     showSelectionBar: true,
+    //     selectionBarGradient: {
+    //       from: 'white',
+    //       to: '#039be5'
+    //     }
+    //   }
+    // }, {
+    //   value: 1000,
+    //   options: {
+    //     floor: 0,
+    //     ceil: 5000,
+    //     step: 1000,
+    //     showSelectionBar: true,
+    //     selectionBarGradient: {
+    //       from: 'white',
+    //       to: '#039be5'
+    //     }
+    //   }
+    // }, {
+    //   value: 1000,
+    //   options: {
+    //     floor: 0,
+    //     ceil: 5000,
+    //     step: 1000,
+    //     showSelectionBar: true,
+    //     selectionBarGradient: {
+    //       from: 'white',
+    //       to: '#039be5'
+    //     }
+    //   }
+    // }];
+
     $scope.subscriptionRate = 0;
     $scope.activeSubscriptions = 0;
     var oneDay = 24*60*60*1000;
-
 
 
 
@@ -135,7 +216,7 @@
     $scope.idToken= gst('securityToken');
 
     if(!$scope.idToken)
-      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODk3NDI1NzgsIm5iZiI6MTQ4OTY1NjE3OCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjUzN2I0MDU3LWYyNGQtNGI5MS04ZmM1LTY1ODQwZDQ5MDNjYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5NjU2MTc4LCJhdXRoX3RpbWUiOjE0ODk2NTYxNzgsIm9pZCI6IjUzN2I0MDU3LWYyNGQtNGI5MS04ZmM1LTY1ODQwZDQ5MDNjYiIsImdpdmVuX25hbWUiOiJrYWRpcHVtbyIsImZhbWlseV9uYW1lIjoiZnJlZV90cmlhbCIsIm5hbWUiOiJrYWRpcHVtbyIsImpvYlRpdGxlIjoiYWRtaW4iLCJjb3VudHJ5IjoiU2FiYSIsImV4dGVuc2lvbl9Eb21haW4iOiJrYWRpcHVtby5jbG91ZGNoYXJnZS5jb20iLCJlbWFpbHMiOlsia2FkaXB1bW9AbGlsbGVtYXAubmV0Il0sInRmcCI6IkIyQ18xX0RlZmF1bHRTaWduSW4ifQ.UHEfpEpPwbYqisSy4v5u84tAXnS3-aqjBEBSZDvB9IiAmLJjd2OpVra9BBa49j1I7DZsbe-KGKUgfCwTHX4J8dr0DA2y4rxmH_JButcvyAyKFAkmvzfyzXfZ_BDwhiimS1R9zp4TTCv8nGLimoZI_ODM-yACioyjWluIErBNI7RpRqHVAyfDoetGvN0ASGxjqGpndVcEwPxVLpvSfVy-vBW6Hb7E60SBSb-G8C7-HOqqu_ARKIwLq1wb4xlMC19Z0JzfA2IIuvcEC4Q2NXCgfCN9uvwulgIfhM0h69a-CsWrCYRVbqGY8TXzaQ6bKqDYLS7I5Pq-EEH2Zxw2BZCIxg";//gst('idToken');
+      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0OTAxNTk0MTEsIm5iZiI6MTQ5MDA3NjYxMSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkwMDc2NjExLCJhdXRoX3RpbWUiOjE0OTAwNzY2MTEsIm9pZCI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImdpdmVuX25hbWUiOiJpc3MiLCJuYW1lIjoiaXNzIiwiY291bnRyeSI6IlNhYmEiLCJleHRlbnNpb25fRG9tYWluIjoiaXNzLmNsb3VkY2hhcmdlLmNvbSIsImZhbWlseV9uYW1lIjoiYnVzaW5lc3MiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbImd1bmF0aGlsYWthaXNoYXJhQGdtYWlsLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.aHkjg58win7uz5aUUwfuM-BISxTiBF_awiq4LA2QEtdf6I9TybGWomvfoq0FsWEmjZL3qN5C1Mm1Lisq4rHX0rqF3fDE8Bb88xN40QdByRnaMW5iSfgGIkZoZbQ4gUp0U4PVJu9YEj1zHS_EwTc4sHNVIgxLv2l3r0oBEGhnXJhAEkWSBVIUL-A3mtrSlAsDVTaDmc882D-0yjKFJxZcZTyxZonP7YmDMTPeyzKLFjHjKcddUomdRn52WrKDeFRGqpwO2Bs656EMg27LCZKTN6c_PhlJ7FaGp4qrqjK9SyZR6eG2dFOurQv8Xi-e2LHosKEt8O2MZB7a7kZZwqTkLQ";//gst('idToken');
      // $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODkxNDQ5NzksIm5iZiI6MTQ4OTA1ODU3OSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5MDU4NTc5LCJhdXRoX3RpbWUiOjE0ODkwNTg1NzksIm9pZCI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImdpdmVuX25hbWUiOiJmYWZhIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyaWFsIiwibmFtZSI6InBpYmEiLCJqb2JUaXRsZSI6ImFkbWluIiwiY291bnRyeSI6IkFuZ3VpbGxhIiwiZXh0ZW5zaW9uX0RvbWFpbiI6ImZhZmFwaWJhLmNsb3VkY2hhcmdlLmNvbSIsImVtYWlscyI6WyJmYWZhcGliYUBnYW1nbGluZy5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFNpZ25JbiJ9.sJj5ZfhDBb27BEYfDTuSMg9zCkoS62eOcWC2XbyzCYcRfsQjKtPB_1BeeESQwhyHekUSvgwt0tgpJAYIZvmMt-aWcKvhwJa02cG3BzUV-LFuGakCMFADXzDzs2qyRjL0cWnW1MQlvm1roBmnEUpeifGoGmfFwhWyKGF7-Asmq00W6tml7u_IOVUkPs-0pRE-31srM2QX1DZsYsJB3P0j8k02zjVgbMoaX3z31GY0Ez-Va0GzukDm9AQHeZUo-D1hU9vzFYD2Nk7pTxbPTi58ktxTN1_LNZ_sRXGooOZmuONayHwmLbvOBvdAT4mfYN0HrKIEVEz9NgRNFT6AOoTWLw";//gst('idToken');
 
     (function (){
@@ -327,7 +408,6 @@
     }
 
     $scope.planSubscriptions= null;
-
     $scope.getAllPlans = function () {
 
       $http({
@@ -398,23 +478,21 @@
             }
           }
 
-          plan.starterSlider = {
-            value: $scope.currentPlanAmount,
-            options: {
-              floor: parseInt(plan.subscriptionMinAmount)-1,
-              ceil: plan.subscriptionMaxAmount,
-              //step: plan.subscriptionStep,
-              showSelectionBar: false,
-              selectionBarGradient: {
-                from: 'white',
-                to: '#039be5'
-              }
-            }
-          };
+          // plan.starterSlider = {
+          //   value: $scope.currentPlanAmount,
+          //   options: {
+          //     floor: parseInt(plan.subscriptionMinAmount)-1,
+          //     ceil: plan.subscriptionMaxAmount,
+          //     step: plan.subscriptionStep,
+          //     showSelectionBar: false,
+          //     selectionBarGradient: {
+          //       from: 'white',
+          //       to: '#039be5'
+          //     }
+          //   }
+          // };
         }
       }
-
-
 
     };
 
@@ -618,6 +696,14 @@ $scope.initPlanSliderValue = null;
 
         $scope.paymentHistoryList = null;
         $scope.paymentHistoryList = data;
+
+        for(i=0;i<$scope.paymentHistoryList.length;i++){
+          var date = new Date($scope.paymentHistoryList[i].receivedDate);
+          var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+          $scope.paymentHistoryList[i].receivedDate = new Date($scope.paymentHistoryList[i].receivedDate);
+          $scope.paymentHistoryList[i].lastDate = lastDay;
+          $scope.paymentHistoryList[i].infomation = JSON.parse($scope.paymentHistoryList[i].infomation)[0];
+        }
 
         $scope.isTenantPaymentHistoryClicked = false;
 
@@ -835,7 +921,7 @@ $scope.initPlanSliderValue = null;
         return;
       }
 
-      $scope.currentPlanAmount = isNaN( packaged.sliderValue ) ? packaged.subscriptionMinAmount : packaged.activeSubscriptions;
+      $scope.currentPlanAmount = packaged.activeSubscriptions;
 
       //$scope.currentPlanAmount = packaged.sliderValue;
 
@@ -1304,7 +1390,6 @@ $scope.initPlanSliderValue = null;
       $scope.remainingDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
     });
 
-
     $scope.changeSubscription = function(plan){
       for(i=0;i<plan.allSubscriptionPlans.length;i++) {
         if(plan.sliderValue <= plan.subscriptionMinAmount){
@@ -1320,6 +1405,69 @@ $scope.initPlanSliderValue = null;
         }
       }
     }
+
+    $scope.setRating = function () {
+      console.log(this);
+    }
+
+    $scope.sliders = [{}];
+    $scope.$watch(function () {
+      if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null && !$scope.isSlidersLoaded) {
+        for (i = 0; i < $scope.companyPricePlans.length; i++) {
+          if (i > 0) {
+            var tickArr=[];
+            tickArr[0] = $scope.companyPricePlans[i].subscriptionMinAmount;
+            for(var j=0;j<$scope.companyPricePlans[i].allSubscriptionPlans.length;j++){
+              tickArr.push($scope.companyPricePlans[i].allSubscriptionPlans[j].rangeTo);
+            }
+            $scope.sliders.push({
+              sliderValue: $scope.companyPricePlans[i].subscriptionMinAmount,
+              options: {
+                id: $scope.companyPricePlans[i].code,
+                floor: 0,
+                enforceStep:true,
+                ceil: $scope.companyPricePlans[i].subscriptionMaxAmount,
+                step: parseInt($scope.companyPricePlans[i].allSubscriptionPlans[0].rangeTo),
+                showSelectionBar: true,
+                stepsArray: tickArr,
+                selectionBarGradient: {
+                  from: 'white',
+                  to: '#039be5'
+                }
+              }
+            });
+          }
+        }
+        $scope.isSlidersLoaded = true;
+      }
+    });
+
+    $scope.$on("slideEnded", function(value) {
+
+      for(i=0;i<$scope.companyPricePlans.length;i++){
+        if($scope.companyPricePlans[i].code == value.targetScope.slider.options.id){
+          for(var a=0;a<$scope.companyPricePlans[i].allSubscriptionPlans.length;a++){
+            if($scope.companyPricePlans[i].allSubscriptionPlans[a].rangeTo == value.targetScope.modelLabel){
+              $scope.$apply(function () {
+                $scope.companyPricePlans[i].subscriptionRate = $scope.companyPricePlans[i].allSubscriptionPlans[a].rate;
+                $scope.companyPricePlans[i].changingPrice = $scope.companyPricePlans[i].allSubscriptionPlans[a].price;
+                $scope.companyPricePlans[i].activeSubscriptions = $scope.companyPricePlans[i].allSubscriptionPlans[a].rangeTo ;
+              });
+            }else if(value.targetScope.modelLabel == $scope.companyPricePlans[i].subscriptionMinAmount){
+              $scope.$apply(function () {
+                $scope.companyPricePlans[i].subscriptionRate = '0';
+                $scope.companyPricePlans[i].changingPrice = $scope.companyPricePlans[i].price;
+                $scope.companyPricePlans[i].activeSubscriptions = $scope.companyPricePlans[i].subscriptionMinAmount-1 ;
+              });
+              console.log($scope.companyPricePlans[i].subscriptionRate);
+              console.log($scope.companyPricePlans[i].changingPrice);
+              console.log($scope.companyPricePlans[i].activeSubscriptions);
+            }
+          }
+        }
+      }
+
+    });
 
     // / DYNAMIC PLANS
 
