@@ -8,6 +8,8 @@ setcookie("tenantID", $_GET['tenantID']);
 setcookie("selectedPlan", $_GET['selectedPlan']);
 setcookie("paymentStatus", $_GET['paymentStatus']);
 setcookie("subscriptionAmount", $_GET['subscriptionAmount']);
+setcookie("additionalUserQty", $_GET['additionalUserQty']);
+setcookie("additionalUserTotalPrice", $_GET['additionalUserTotalPrice']);
 
 if(isset($_GET['stripeToken']))
   setcookie("stripeToken", $_GET['stripeToken']);

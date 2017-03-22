@@ -216,7 +216,8 @@
     $scope.idToken= gst('securityToken');
 
     if(!$scope.idToken)
-      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0OTAxNTk0MTEsIm5iZiI6MTQ5MDA3NjYxMSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkwMDc2NjExLCJhdXRoX3RpbWUiOjE0OTAwNzY2MTEsIm9pZCI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImdpdmVuX25hbWUiOiJpc3MiLCJuYW1lIjoiaXNzIiwiY291bnRyeSI6IlNhYmEiLCJleHRlbnNpb25fRG9tYWluIjoiaXNzLmNsb3VkY2hhcmdlLmNvbSIsImZhbWlseV9uYW1lIjoiYnVzaW5lc3MiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbImd1bmF0aGlsYWthaXNoYXJhQGdtYWlsLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.aHkjg58win7uz5aUUwfuM-BISxTiBF_awiq4LA2QEtdf6I9TybGWomvfoq0FsWEmjZL3qN5C1Mm1Lisq4rHX0rqF3fDE8Bb88xN40QdByRnaMW5iSfgGIkZoZbQ4gUp0U4PVJu9YEj1zHS_EwTc4sHNVIgxLv2l3r0oBEGhnXJhAEkWSBVIUL-A3mtrSlAsDVTaDmc882D-0yjKFJxZcZTyxZonP7YmDMTPeyzKLFjHjKcddUomdRn52WrKDeFRGqpwO2Bs656EMg27LCZKTN6c_PhlJ7FaGp4qrqjK9SyZR6eG2dFOurQv8Xi-e2LHosKEt8O2MZB7a7kZZwqTkLQ";//gst('idToken');
+      $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0OTAyMzY4NDEsIm5iZiI6MTQ5MDE1NDA0MSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkwMTU0MDQxLCJhdXRoX3RpbWUiOjE0OTAxNTQwNDEsIm9pZCI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImdpdmVuX25hbWUiOiJpc3MiLCJuYW1lIjoiaXNzIiwiY291bnRyeSI6IlNhYmEiLCJleHRlbnNpb25fRG9tYWluIjoiaXNzLmNsb3VkY2hhcmdlLmNvbSIsImZhbWlseV9uYW1lIjoic3RhcnRlciIsImpvYlRpdGxlIjoiYWRtaW4iLCJlbWFpbHMiOlsiZ3VuYXRoaWxha2Fpc2hhcmFAZ21haWwuY29tIl0sInRmcCI6IkIyQ18xX0RlZmF1bHRQb2xpY3kifQ.VjSTkrSCnY13yn5mN5PGd3e92h9YTVLDP7EX2Njbegm-ffaYQ3JyWP-zy7L_WFBv0Pj79GdZMZg8gG12vp31zJoBKOk1c6xyPn37FACrLXkNiKpBKDxokIP-yxjWkzQGkuBjltxkQKv-Vh9apqtxwryZsL8JGslk5YdlbGjzKyOXrxRRtwjt7Ge_WANYcUXjFOK6SNVJz6T9TUthK3P-0xfVWCDgZwMzQZYRJK4KP07TYPK4LBYoAWtKi74h9ZWTVCGzeqC6tC6Z3ygv8rJIjhG9DFdvz3SUZ6bg-gtVIqyarW3p-kANvTgkvob7GVJ7VsPPPksL0mgowVY8MYdtrg";
+      //$scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0OTAxNTk0MTEsIm5iZiI6MTQ5MDA3NjYxMSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkwMDc2NjExLCJhdXRoX3RpbWUiOjE0OTAwNzY2MTEsIm9pZCI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImdpdmVuX25hbWUiOiJpc3MiLCJuYW1lIjoiaXNzIiwiY291bnRyeSI6IlNhYmEiLCJleHRlbnNpb25fRG9tYWluIjoiaXNzLmNsb3VkY2hhcmdlLmNvbSIsImZhbWlseV9uYW1lIjoiYnVzaW5lc3MiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbImd1bmF0aGlsYWthaXNoYXJhQGdtYWlsLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.aHkjg58win7uz5aUUwfuM-BISxTiBF_awiq4LA2QEtdf6I9TybGWomvfoq0FsWEmjZL3qN5C1Mm1Lisq4rHX0rqF3fDE8Bb88xN40QdByRnaMW5iSfgGIkZoZbQ4gUp0U4PVJu9YEj1zHS_EwTc4sHNVIgxLv2l3r0oBEGhnXJhAEkWSBVIUL-A3mtrSlAsDVTaDmc882D-0yjKFJxZcZTyxZonP7YmDMTPeyzKLFjHjKcddUomdRn52WrKDeFRGqpwO2Bs656EMg27LCZKTN6c_PhlJ7FaGp4qrqjK9SyZR6eG2dFOurQv8Xi-e2LHosKEt8O2MZB7a7kZZwqTkLQ";//gst('idToken');
      // $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODkxNDQ5NzksIm5iZiI6MTQ4OTA1ODU3OSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5MDU4NTc5LCJhdXRoX3RpbWUiOjE0ODkwNTg1NzksIm9pZCI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImdpdmVuX25hbWUiOiJmYWZhIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyaWFsIiwibmFtZSI6InBpYmEiLCJqb2JUaXRsZSI6ImFkbWluIiwiY291bnRyeSI6IkFuZ3VpbGxhIiwiZXh0ZW5zaW9uX0RvbWFpbiI6ImZhZmFwaWJhLmNsb3VkY2hhcmdlLmNvbSIsImVtYWlscyI6WyJmYWZhcGliYUBnYW1nbGluZy5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFNpZ25JbiJ9.sJj5ZfhDBb27BEYfDTuSMg9zCkoS62eOcWC2XbyzCYcRfsQjKtPB_1BeeESQwhyHekUSvgwt0tgpJAYIZvmMt-aWcKvhwJa02cG3BzUV-LFuGakCMFADXzDzs2qyRjL0cWnW1MQlvm1roBmnEUpeifGoGmfFwhWyKGF7-Asmq00W6tml7u_IOVUkPs-0pRE-31srM2QX1DZsYsJB3P0j8k02zjVgbMoaX3z31GY0Ez-Va0GzukDm9AQHeZUo-D1hU9vzFYD2Nk7pTxbPTi58ktxTN1_LNZ_sRXGooOZmuONayHwmLbvOBvdAT4mfYN0HrKIEVEz9NgRNFT6AOoTWLw";//gst('idToken');
 
     (function (){
@@ -455,7 +456,7 @@
     $scope.getPlansubscription = function (plan,subscriptData) {
 
       plan.activeSubscriptions = 1000;
-      plan.subscriptionRate = 0;
+     // plan.subscriptionRate = 0;
 
       for(var i = 0 ; i <subscriptData.length;i++) {
         if(subscriptData[i].type === plan.name)
@@ -467,11 +468,11 @@
           for(var ii = 0 ; ii <subscript.length;ii++) {
             if(ii === 0)
             {
-              plan.subscriptionMinAmount = subscript[ii].rangeFrom;
-              plan.activeSubscriptions = subscript[ii].rangeFrom-1;
+              plan.subscriptionMinAmount = subscript[ii].rangeTo;
+              plan.activeSubscriptions = subscript[ii].rangeTo;
+              plan.subscriptionRate = subscript[ii].rate;
 
             }
-
             if(ii === (subscript.length - 1))
             {
               plan.subscriptionMaxAmount = subscript[ii].rangeTo;
@@ -616,6 +617,7 @@ $scope.initPlanSliderValue = null;
 
         $scope.initPlanSliderValue = parseInt(response.data.amount);
         $scope.currentPlanRate = response.data.rate;
+        $scope.additionalCharge = response.data.additionalCharge;
         $scope.currentPlanUsed = response.data.used;
         $scope.currentPlanCreatedDate = response.data.createdDate;
         $scope.currentPlanExpiryDate = response.data.expiry;
@@ -891,7 +893,7 @@ $scope.initPlanSliderValue = null;
       } else {
         $scope.isPlanSelected = true;
 
-        $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.code + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount ;
+        $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.code + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount+ '&additionalUserQty=0&additionalUserTotalPrice=0' ;
         //$window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?plan=' +  $scope.paymentPlan + '&st=' +  $scope.paymentSecurityToken + '&price=' + ( $scope.paymentPrice ) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&stripeToken=' +  args.id;
       }
 
@@ -900,6 +902,26 @@ $scope.initPlanSliderValue = null;
 
     $scope.addNewCard = function(){
       $scope.newCardSelected = true;
+    }
+
+
+    $scope.calculatePlanCharges = function(selectedPlan){
+
+      var planAmount =parseFloat(selectedPlan.changingPrice);
+      if(parseFloat($scope.currentPlanUsed) != parseFloat(selectedPlan.activeSubscriptions))
+      {
+        var differece = parseFloat($scope.currentPlanUsed) - parseFloat(selectedPlan.activeSubscriptions);
+
+        if(differece > 0){
+
+          $scope.userdata = differece;
+          var excessPrice = differece * parseFloat(selectedPlan.subscriptionRate);
+
+            planAmount = planAmount+excessPrice;
+        }
+      }
+
+      return planAmount;
     }
 
 
@@ -923,13 +945,15 @@ $scope.initPlanSliderValue = null;
 
       $scope.currentPlanAmount = packaged.activeSubscriptions;
 
-      //$scope.currentPlanAmount = packaged.sliderValue;
+      var totalPlanAmount = ($scope.calculatePlanCharges(packaged));
+
+      var amount = totalPlanAmount > parseFloat(packaged.changingPrice) ? totalPlanAmount : parseFloat(packaged.changingPrice);
 
       if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
 
         var confirm = $mdDialog.confirm()
           .title('Update Package')
-          .textContent('You are going to change your current plan to ' + packaged.name + ' and it will cost amount of $' + packaged.changingPrice + ', Do you want to proceed with the update ?')
+          .textContent('You are going to change your current plan to ' + packaged.name + ' and it will cost amount of $' + amount + ', Do you want to proceed with the update ?')
           .ariaLabel('Lucky day')
           .ok('Yes')
           .cancel('No');
@@ -965,56 +989,72 @@ $scope.initPlanSliderValue = null;
       $scope.paymentPrice = (pack.changingPrice);
       $scope.paymentName = pack.name;
 
-      if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
-
-        if($scope.userdata > 0 && $scope.paymentStatus != 'canceled')
-        {
-
-          $scope.addUp = 2; // additionalUserPrice
-
-          if(pack.type === "Yearly"){
-            $scope.addUp = 2*10;   //one user into 12 months
-          }
-
-          $scope.isPlanSelected= true;
-
-          $http({
-            method : 'POST',
-            url : '/azureshell/app/main/account/paymentMethod/alarcartHandler.php?view=updatePackageWithAddAdditionalUsers&userCount='+$scope.userdata+'&userPrice='+($scope.userdata * $scope.addUp)+ '&selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ,
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then(function(response) {
-
-            console.log(response);
-
-            if(response.data.status){
-
-              $scope.useRatingEngine($scope.userdata,($scope.userdata * $scope.addUp));
-
-            }else{
-              $scope.isPlanSelected= false;
-              notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
-              $scope.clickCancel();
-
-            }
 
 
-          }, function(response) {
-            console.log(response);
-            notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
-            $scope.isPlanSelected= false;
-            $scope.clickCancel();
-          });
+      if($scope.selectedPlan.price > 0)
+      {
+        $scope.addUp = pack.subscriptionRate; // additionalUserPrice
 
-        }else {
-
-          $scope.isPlanSelected= true;
-          //$window.location.href = '/azureshell/app/main/account/paymentMethod/charge.php';
-          $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount;
-        }
-
+        $scope.isPlanSelected= true;
+        //$window.location.href = '/azureshell/app/main/account/paymentMethod/charge.php';
+        $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount+ '&additionalUserQty='+ $scope.userdata+ '&additionalUserTotalPrice='+($scope.addUp* $scope.userdata);
       }
+
+
+
+
+/// Commented because 03/22 onwards no payment cancel been done, if user cannot pay user wil auto assigned to free plan
+
+      //if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
+      //
+      //  if($scope.userdata > 0 && $scope.paymentStatus != 'canceled')
+      //  {
+      //
+      //    $scope.addUp = pack.subscriptionRate; // additionalUserPrice
+      //
+      //    //if(pack.type === "Yearly"){
+      //    //  $scope.addUp = 2*10;   //one user into 12 months
+      //    //}
+      //
+      //    $scope.isPlanSelected= true;
+      //
+      //    $http({
+      //      method : 'POST',
+      //      url : '/azureshell/app/main/account/paymentMethod/alarcartHandler.php?view=updatePackageWithAddAdditionalUsers&userCount='+$scope.userdata+'&userPrice='+($scope.userdata * $scope.addUp)+ '&selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ,
+      //      headers: {
+      //        'Content-Type': 'application/json'
+      //      }
+      //    }).then(function(response) {
+      //
+      //      console.log(response);
+      //
+      //      if(response.data.status){
+      //
+      //        $scope.useRatingEngine($scope.userdata,($scope.userdata * $scope.addUp));
+      //
+      //      }else{
+      //        $scope.isPlanSelected= false;
+      //        notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
+      //        $scope.clickCancel();
+      //
+      //      }
+      //
+      //
+      //    }, function(response) {
+      //      console.log(response);
+      //      notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
+      //      $scope.isPlanSelected= false;
+      //      $scope.clickCancel();
+      //    });
+      //
+      //  }else {
+      //
+      //    $scope.isPlanSelected= true;
+      //    //$window.location.href = '/azureshell/app/main/account/paymentMethod/charge.php';
+      //    $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount;
+      //  }
+      //
+      //}
     }
 
 
@@ -1396,7 +1436,7 @@ $scope.initPlanSliderValue = null;
           plan.subscriptionRate = 0;
           plan.changingPrice =  parseFloat( plan.price ) ;
           if(i===0)
-            plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeFrom)-1;
+            plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeTo);
         }
         if(plan.sliderValue >= parseInt(plan.allSubscriptionPlans[i].rangeFrom) && plan.sliderValue <= parseInt(plan.allSubscriptionPlans[i].rangeTo)){
           plan.subscriptionRate = parseInt(plan.allSubscriptionPlans[i].rate);
@@ -1453,16 +1493,17 @@ $scope.initPlanSliderValue = null;
                 $scope.companyPricePlans[i].changingPrice = $scope.companyPricePlans[i].allSubscriptionPlans[a].price;
                 $scope.companyPricePlans[i].activeSubscriptions = $scope.companyPricePlans[i].allSubscriptionPlans[a].rangeTo ;
               });
-            }else if(value.targetScope.modelLabel == $scope.companyPricePlans[i].subscriptionMinAmount){
-              $scope.$apply(function () {
-                $scope.companyPricePlans[i].subscriptionRate = '0';
-                $scope.companyPricePlans[i].changingPrice = $scope.companyPricePlans[i].price;
-                $scope.companyPricePlans[i].activeSubscriptions = $scope.companyPricePlans[i].subscriptionMinAmount-1 ;
-              });
-              console.log($scope.companyPricePlans[i].subscriptionRate);
-              console.log($scope.companyPricePlans[i].changingPrice);
-              console.log($scope.companyPricePlans[i].activeSubscriptions);
             }
+            //else if(value.targetScope.modelLabel == $scope.companyPricePlans[i].subscriptionMinAmount){
+            //  $scope.$apply(function () {
+            //    $scope.companyPricePlans[i].subscriptionRate = '0';
+            //    $scope.companyPricePlans[i].changingPrice = $scope.companyPricePlans[i].price;
+            //    $scope.companyPricePlans[i].activeSubscriptions = $scope.companyPricePlans[i].activeSubscriptions ;
+            //  });
+            //  console.log($scope.companyPricePlans[i].subscriptionRate);
+            //  console.log($scope.companyPricePlans[i].changingPrice);
+            //  console.log($scope.companyPricePlans[i].activeSubscriptions);
+            //}
           }
         }
       }
