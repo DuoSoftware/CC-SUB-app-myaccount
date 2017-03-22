@@ -53,6 +53,8 @@ if(!isset($_COOKIE['planId'])) {
     $tenantID = $_COOKIE['tenantID'];
     $selectedPlan = $_COOKIE['selectedPlan'];
     $subscriptionAmount = $_COOKIE['subscriptionAmount'];
+    $additionalUserQty = $_COOKIE['additionalUserQty'];
+    $additionalUserTotalPrice = $_COOKIE['additionalUserTotalPrice'];
 
     $paymentStatus = "";
 
@@ -66,10 +68,30 @@ if(!isset($_COOKIE['planId'])) {
     $resp = new stdClass();
     $resp->status = 0;
 
+//"attributes": [
+//					{"tag":"storage","feature": "25GB storage","quantity":0,"amount": 30,"action":"remove"},
+//					{"tag":"user","feature": "Additional users","amount": 15,"quantity":5,"action":"add"}
+//				],
+//				"subscription": "month",
+//				"quantity":	1
+//			}
+
     $planInfo = new stdClass();
     $planInfo->plan = $planId;
     $planInfo->quantity = 1;
     $planInfo->amount = $price;
+    $planInfo->subscription = "month";
+
+    if(strpos($planId,'_year')){
+      $planInfo->subscription = "year";
+    }
+
+      $planInfo->attributes[0] = new stdClass();
+      $planInfo->attributes[0]->tag = "Package";
+      $planInfo->attributes[0]->feature = $name;
+      $planInfo->attributes[0]->amount = $price;
+      $planInfo->attributes[0]->quantity = 1;
+      $planInfo->attributes[0]->action = "add";
 
     if($paymentStatus == 'canceled')
     {
@@ -85,28 +107,30 @@ if(!isset($_COOKIE['planId'])) {
     $token  = $_COOKIE['stripeToken'];//$_POST['stripeToken'];
 
 
-//        $actual_link = "http://$_SERVER[HTTP_HOST]";
-//        print_r($actual_link);
-//        print_r($_COOKIE);
-//        print_r($token);
-//        exit();
-
        $planInfo->token = $token;
 
-      $resp = (new CloudCharge())->plan()->subscribeToFixedplan($token ,$planInfo);
+      //$resp = (new CloudCharge())->plan()->subscribeToFixedplan($token ,$planInfo); // commented on 3/22 because all plans saving as custormized plan
+      $resp = (new CloudCharge())->plan()->subscribeToCustomplan($token ,$planInfo);
 
     }else{
-         $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);
+
+        $planInfo->plan = 'custom';
+
+              $planInfo->attributes[1] = new stdClass();
+             $planInfo->attributes[1]->tag = "user";
+             $planInfo->attributes[1]->feature = "Additional users";
+             $planInfo->attributes[1]->amount = $additionalUserQty;
+             $planInfo->attributes[1]->quantity = $additionalUserTotalPrice;  // full amount
+             $planInfo->attributes[1]->action = "add";
+
+        $resp = (new CloudCharge())->plan()->upgradeToCustomplan($planInfo);
+        // $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo); // commented on 3/22 because all plans saving as custormized plan
 
     }
 }
 
     if($resp->status)
         {
-           // header('Location: ../#/proceed?plan='.$planId.'&st='.$st.'&tenantID='.$tenantID);
-
-
-         // $authData = $_COOKIE['authData'];
 
            $ch = curl_init();
 
