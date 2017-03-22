@@ -119,8 +119,8 @@ if(!isset($_COOKIE['planId'])) {
               $planInfo->attributes[1] = new stdClass();
              $planInfo->attributes[1]->tag = "user";
              $planInfo->attributes[1]->feature = "Additional users";
-             $planInfo->attributes[1]->amount = $additionalUserQty;
-             $planInfo->attributes[1]->quantity = $additionalUserTotalPrice;  // full amount
+             $planInfo->attributes[1]->amount = $additionalUserTotalPrice;
+             $planInfo->attributes[1]->quantity = $additionalUserQty;  // full amount
              $planInfo->attributes[1]->action = "add";
 
         $resp = (new CloudCharge())->plan()->upgradeToCustomplan($planInfo);
