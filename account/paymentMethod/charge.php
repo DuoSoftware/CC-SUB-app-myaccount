@@ -86,19 +86,12 @@ if(!isset($_COOKIE['planId'])) {
       $planInfo->subscription = "year";
     }
 
-     $planInfo->attributes[0] = new stdClass();
-     $planInfo->attributes[0]->tag = "user";
-     $planInfo->attributes[0]->feature = "Additional users";
-     $planInfo->attributes[0]->amount = $additionalUserQty;
-     $planInfo->attributes[0]->quantity = $additionalUserTotalPrice;  // full amount
-     $planInfo->attributes[0]->action = "add";
-
-     $planInfo->attributes[0]->planDetails[0] = new stdClass();
-      $planInfo->attributes[0]->planDetails[0]->tag = "Package";
-      $planInfo->attributes[0]->planDetails[0]->feature = $name;
-      $planInfo->attributes[0]->planDetails[0]->amount = $price;
-      $planInfo->attributes[0]->planDetails[0]->quantity = 1;
-      $planInfo->attributes[0]->planDetails[0]->action = "add";
+      $planInfo->attributes[0] = new stdClass();
+      $planInfo->attributes[0]->tag = "Package";
+      $planInfo->attributes[0]->feature = $name;
+      $planInfo->attributes[0]->amount = $price;
+      $planInfo->attributes[0]->quantity = 1;
+      $planInfo->attributes[0]->action = "add";
 
     if($paymentStatus == 'canceled')
     {
@@ -122,6 +115,13 @@ if(!isset($_COOKIE['planId'])) {
     }else{
 
         $planInfo->plan = 'custom';
+
+              $planInfo->attributes[1] = new stdClass();
+             $planInfo->attributes[1]->tag = "user";
+             $planInfo->attributes[1]->feature = "Additional users";
+             $planInfo->attributes[1]->amount = $additionalUserQty;
+             $planInfo->attributes[1]->quantity = $additionalUserTotalPrice;  // full amount
+             $planInfo->attributes[1]->action = "add";
 
         $resp = (new CloudCharge())->plan()->upgradeToCustomplan($planInfo);
         // $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo); // commented on 3/22 because all plans saving as custormized plan
