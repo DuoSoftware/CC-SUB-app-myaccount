@@ -608,7 +608,7 @@ $scope.initPlanSliderValue = null;
         url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice&plan="+$scope.selectedPlan.code,
         headers: {
           'Content-Type': 'application/json',
-          'securityToken': oid
+          'idToken': $scope.idToken
         }
       }).then(function (response) {
         //$scope.currentPlanName = response.data.name;
