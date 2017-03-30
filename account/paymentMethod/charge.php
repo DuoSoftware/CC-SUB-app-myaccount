@@ -1,12 +1,12 @@
 <?php
 
 require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
-
+print_r($_SERVER["DOCUMENT_ROOT"]);
+exit();
 $doc = $_SERVER ['DOCUMENT_ROOT'];
 define('DOC_ROOT', $doc);
 require_once ($doc.'/services/config/settings.php');
-print_r($doc);
-exit();
+
                   echo '  <!DOCTYPE html>  <html>  <head> <style> ';
                           /* Center the loader */
                    echo '       #loader { '.
