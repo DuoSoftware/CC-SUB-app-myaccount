@@ -223,7 +223,7 @@
     (function (){
       $http({
         method: 'GET',
-        url: 'http://dev.cloudcharge.com:8001/auth/getSubscriptionInfo',
+        url: 'http://app.cloudcharge.com:8001/auth/getSubscriptionInfo',
         headers: {
           'Content-Type': 'application/json',
           'id_token' : $scope.idToken
@@ -413,7 +413,7 @@
 
       $http({
         method: 'GET',
-        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetRatePlansForSubscription",
+        url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetRatePlansForSubscription",
         headers: {
           'Content-Type': 'application/json',
           'securityToken': oid
@@ -433,7 +433,7 @@
 
       $http({
         method: 'GET',
-        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetPlanDetails",
+        url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetPlanDetails",
         headers: {
           'Content-Type': 'application/json',
           'securityToken': oid
@@ -560,7 +560,7 @@
 
     $http({
       method: 'GET',
-      url: 'http://dev.cloudcharge.com:8001/auth/getUserInfoByID',
+      url: 'http://app.cloudcharge.com:8001/auth/getUserInfoByID',
       headers: {
         'id_token':$scope.idToken
       }
@@ -605,7 +605,7 @@ $scope.initPlanSliderValue = null;
 
       $http({
         method: 'GET',
-        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice&plan="+$scope.selectedPlan.code,
+        url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice&plan="+$scope.selectedPlan.code,
         headers: {
           'Content-Type': 'application/json',
           'idToken': $scope.idToken
@@ -1202,7 +1202,7 @@ $scope.initPlanSliderValue = null;
       $http({
         method: 'POST',
         //url: '/apis/authorization/userauthorization/changepassword/'+$scope.user.currentPassword+'/'+$scope.user.newPassword,
-        url: 'http://dev.cloudcharge.com:8001/auth/resetAPIUserPassword',
+        url: 'http://app.cloudcharge.com:8001/auth/resetAPIUserPassword',
         headers: {
           'Content-Type': 'application/json',
           'id_token' : $scope.idToken
