@@ -1,5 +1,6 @@
 <?php
-
+print_r($_SERVER ['DOCUMENT_ROOT']);
+exit();
 require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
 
 $doc = $_SERVER ['DOCUMENT_ROOT'];
