@@ -93,6 +93,9 @@ if(!isset($_COOKIE['planId'])) {
       $planInfo->attributes[0]->quantity = 1;
       $planInfo->attributes[0]->action = "add";
 
+print_r($planInfo);
+exit();
+
     if($paymentStatus == 'canceled')
     {
 
