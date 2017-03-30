@@ -223,7 +223,7 @@
     (function (){
       $http({
         method: 'GET',
-        url: 'http://dev.cloudcharge.com:8001/auth/getSubscriptionInfo',
+        url: 'http://app.cloudcharge.com:8001/auth/getSubscriptionInfo',
         headers: {
           'Content-Type': 'application/json',
           'id_token' : $scope.idToken
@@ -413,7 +413,7 @@
 
       $http({
         method: 'GET',
-        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetRatePlansForSubscription",
+        url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetRatePlansForSubscription",
         headers: {
           'Content-Type': 'application/json',
           'securityToken': oid
@@ -433,7 +433,7 @@
 
       $http({
         method: 'GET',
-        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetPlanDetails",
+        url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetPlanDetails",
         headers: {
           'Content-Type': 'application/json',
           'securityToken': oid
@@ -560,7 +560,7 @@
 
     $http({
       method: 'GET',
-      url: 'http://dev.cloudcharge.com:8001/auth/getUserInfoByID',
+      url: 'http://app.cloudcharge.com:8001/auth/getUserInfoByID',
       headers: {
         'id_token':$scope.idToken
       }
@@ -605,7 +605,7 @@ $scope.initPlanSliderValue = null;
 
       $http({
         method: 'GET',
-        url: "http://azure.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice&plan="+$scope.selectedPlan.code,
+        url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice&plan="+$scope.selectedPlan.code,
         headers: {
           'Content-Type': 'application/json',
           'idToken': $scope.idToken
@@ -636,6 +636,52 @@ $scope.initPlanSliderValue = null;
               }
             }
           };
+
+          //Usage
+          vm.usageChart = {
+              title    : 'Usage',
+              chart: {
+                options: {
+                  chart: {
+                    type     : 'pieChart',
+                    donut: true,
+                    color    : ['#039be5','#f7fcff'],
+                    height   : 320,
+                    // labelsOutside: true,
+                    showLegend: false,
+                    pie: {
+                      startAngle: function(d) { return d.startAngle/2 -Math.PI/2 },
+                      endAngle: function(d) { return d.endAngle/2 -Math.PI/2 }
+                    },
+                    margin   : {
+                      top   : 0,
+                      right : 0,
+                      bottom: 0,
+                      left  : 0
+                    },
+                    x        : function (d)
+                    {
+                      return d.label;
+                    },
+                    y        : function (d)
+                    {
+                      return d.value;
+                    },
+                    tooltip  : {
+                      gravity: 's',
+                      classes: 'gravity-s'
+                    }
+                  }
+                },
+                data   : [{
+                  'label':'Used',
+                  'value':$scope.currentPlanUsed
+                },{
+                  'label':'Free',
+                  'value':$scope.initPlanSliderValue - $scope.currentPlanUsed
+                }]
+              }
+            };
 
           if($scope.selectedPlan){
             $scope.selectedPlan.subscriptionRate = response.data.rate;
@@ -1156,7 +1202,7 @@ $scope.initPlanSliderValue = null;
       $http({
         method: 'POST',
         //url: '/apis/authorization/userauthorization/changepassword/'+$scope.user.currentPassword+'/'+$scope.user.newPassword,
-        url: 'http://dev.cloudcharge.com:8001/auth/resetAPIUserPassword',
+        url: 'http://app.cloudcharge.com:8001/auth/resetAPIUserPassword',
         headers: {
           'Content-Type': 'application/json',
           'id_token' : $scope.idToken
@@ -1366,16 +1412,16 @@ $scope.initPlanSliderValue = null;
       window.getSelection().empty();
       var ID = "#"+id;
       var notifParent = document.getElementById(id);
-      var notif = notifParent.getElementsByClassName('copy-msg')[0];
+      var notif = notifParent.getElementsByClassName('copied-to-clipboard')[0];
       var copyField = document.getElementById(id);
       var range = document.createRange();
       range.selectNode(copyField);
       window.getSelection().addRange(range);
       if(notif != null || notif != undefined){
         notif.remove();
-        copyField.insertAdjacentHTML('beforeend', '<span class="copy-msg">Copied</span>');
+        copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
       }else{
-        copyField.insertAdjacentHTML('beforeend', '<span class="copy-msg">Copied</span>');
+        copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
       }
       document.execCommand('copy');
     }

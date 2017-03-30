@@ -30,7 +30,7 @@
       <!-- CONTENT WRAPPER -->
       <div class="content-wrapper" layout="row" flex>
 
-        <md-content flex class="md-padding" style="padding: 10px" ms-scroll>
+        <md-content flex ms-scroll>
 
           <div layout="column" ng-if="generalDetails">
             <div layout="column" flex>
@@ -42,60 +42,54 @@
                     </div>
                   </md-card-title>
                   <md-card-content md-whiteframe="1dp">
-                    <div layout="column">
-                      <div class="cust-name" layout="row" layout-align="start center" flex>
-                        <span>{{vm.dummy.Data.givenName}} {{vm.dummy.Data.surName}}</span>
-                      </div>
+                    <div>
                       <div layout="row">
-                        <md-input-container class="md-block md-default-theme user-info-block" flex layout="row">
-                          <div layout="row" layout-align="start center">
-                            <md-icon md-font-icon="icon-account-location" class="user-info-ico"></md-icon> <span flex class="info-head">User type</span>
+                        <div layout="column" layout-align="center center" flex class="user">
+                          <img src="assets/icons/ic_face_black_24px.svg" alt="vm.dummy.Data.givenName">
+                          <div class="user-name">
+                            <span>{{vm.dummy.Data.givenName}} {{vm.dummy.Data.surName}}</span>
                           </div>
-                          <div layout="row" class="user-info-body">
-                            {{vm.dummy.Data.UserType}}
+                        </div>
+                        <div flex="50">
+                          <div layout="column">
+                            <div layout="row" layout-align="start center" class="info-grid-row bordered">
+                              <div class="iconed-label" layout="row" layout-align="start center" flex="30">
+                                <md-icon md-font-icon="icon-account-location"></md-icon> <span flex>User type</span>
+                              </div>
+                              <div flex class="">{{vm.dummy.Data.UserType}}</div>
+                            </div>
+                            <div layout="row" layout-align="start center" class="info-grid-row bordered">
+                              <div class="iconed-label" layout="row" layout-align="start center" flex="30">
+                                <md-icon md-font-icon="icon-email"></md-icon> <span flex>Email</span>
+                              </div>
+                              <div flex class="">{{vm.dummy.Data.email}}</div>
+                            </div>
+                            <div layout="row" layout-align="start center" class="info-grid-row bordered">
+                              <div class="iconed-label" layout="row" layout-align="start center" flex="30">
+                                <md-icon md-font-icon="icon-map"></md-icon> <span flex>Plan</span>
+                              </div>
+                              <div flex class="">{{selectedPlan.name}}</div>
+                            </div>
+                            <div layout="row" layout-align="start center" class="info-grid-row bordered">
+                              <div class="iconed-label" layout="row" layout-align="start center" flex="30">
+                                <md-icon md-font-icon="icon-domain"></md-icon> <span flex>Domain</span>
+                              </div>
+                              <div flex class="">{{vm.dummy.Data.domain}}</div>
+                            </div>
+                            <div layout="row" layout-align="start center" class="info-grid-row">
+                              <div class="iconed-label" layout="row" layout-align="start center" flex="30">
+                                <md-icon md-font-icon="icon-google-maps"></md-icon> <span flex>Country</span>
+                              </div>
+                              <div flex class="">{{vm.dummy.Data.country}}</div>
+                            </div>
                           </div>
-                        </md-input-container>
-                        <md-input-container class="md-block md-default-theme user-info-block" flex layout="row">
-                          <div layout="row" layout-align="start center">
-                            <md-icon md-font-icon="icon-email" class="user-info-ico"></md-icon> <span flex class="info-head">Email</span>
-                          </div>
-                          <div layout="row" class="user-info-body">
-                            {{vm.dummy.Data.email}}
-                          </div>
-                        </md-input-container>
+                        </div>
                       </div>
-                      <div layout="row">
-                        <md-input-container class="md-block md-default-theme user-info-block" flex layout="row">
-                          <div layout="row" layout-align="start center">
-                            <md-icon md-font-icon="icon-map" class="user-info-ico"></md-icon> <span flex class="info-head">Current plan</span>
-                          </div>
-                          <div layout="row" class="user-info-body">
-                            {{selectedPlan.name}}
-                          </div>
-                        </md-input-container>
-                        <md-input-container class="md-block md-default-theme user-info-block" flex layout="row">
-                          <div layout="row" layout-align="start center">
-                            <md-icon md-font-icon="icon-domain" class="user-info-ico"></md-icon> <span flex class="info-head">Domain</span>
-                          </div>
-                          <div layout="row" class="user-info-body">
-                            {{vm.dummy.Data.domain}}
-                          </div>
-                        </md-input-container>
-                      </div>
-                      <div layout="row">
-                        <md-input-container class="md-block md-default-theme user-info-block" flex layout="row">
-                          <div layout="row" layout-align="start center">
-                            <md-icon md-font-icon="icon-google-maps" class="user-info-ico"></md-icon> <span flex class="info-head">Country</span>
-                          </div>
-                          <div layout="row" class="user-info-body">
-                            {{vm.dummy.Data.country}}
-                          </div>
-                        </md-input-container>
+                      <md-divider style="margin: 10px 0;"></md-divider>
+                      <div layout="row" layout-align="end center">
+                        <md-button class="md-accent" href="https://login.microsoftonline.com/ccactiveb2c.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_ccPasswordReset&client_Id=d084a227-bb52-4992-889d-6e4835610e76&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fcloudcharge.com%2Fazuresignup%2FccAzure.php%2FreLogin&scope=openid&response_type=id_token&prompt=login"><md-icon md-font-icon="icon-refresh"></md-icon> Reset password</md-button>
                       </div>
                     </div>
-                    <div><div layout="row" layout-align="end center">
-                      <md-button class="md-accent" href="https://login.microsoftonline.com/ccactiveb2c.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_ccPasswordReset&client_Id=d084a227-bb52-4992-889d-6e4835610e76&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fcloudcharge.com%2Fazuresignup%2FccAzure.php%2FreLogin&scope=openid&response_type=id_token&prompt=login"><md-icon md-font-icon="icon-refresh"></md-icon> Reset password</md-button>
-                    </div></div>
                   </md-card-content>
                 </md-card>
 
@@ -106,15 +100,15 @@
                     </div>
                   </md-card-title>
                   <md-card-content md-whiteframe="1dp">
-                    <div layout="column" class="inpage-readpane">
+                    <div layout="column">
 
-                      <div flex class="inpage-readpane-body">
+                      <div flex>
                         <div layout="row" layout-align="space-between center" class="detail-row" ng-repeat="key in access_keys">
                           <div flex>
                             <div layout="row" layout-align="start center" class="group-sub-head" style="margin-top: 0">
                               <span flex="30"><b>{{key.name}}</b></span>
                             </div>
-                            <div layout="row" layout-align="space-between center" class="add-item-row">
+                            <div layout="row" layout-align="space-between center" class="dashed-highlight-blue">
                               <span class="access-key" id="{{key.key}}" flex>{{xfiedKey | limitTo: key.key.length}}</span>
                               <div layout="row">
                                 <div class="keyDisplay{{key.key}}">
@@ -191,33 +185,78 @@
               </md-card-title>
               <md-card-content md-whiteframe="1dp">
                 <div>
-                  <div layout="row" class="plan_footer">
-                    <div flex class="heading-lev2" layout="column" layout-align="center start">
-                      <span>{{currentPlanName}}
-                        <md-button class="md-icon-button show-plan" ng-click="showCurrPlan()">
-                          <md-icon md-font-icon="icon-information"></md-icon>
-                        </md-button>
-                      </span>
-                      <div class="sub-info" ng-if="selectedPlan.planNo > 1">
-                        <div>Amount : <b>{{currentPlanAmount}}</b></div>
-                        <div>Rate : <b>{{currentPlanRate}}</b></div>
-                        <div>Additional Charge : <b>{{additionalCharge}}</b></div>
-                        <div>Days remaining : <b>{{currentPlanExpiryDate}}</b></div>
-                      </div>
-                    </div>
-
-                    <div class="subscription-usage" layout="column" layout-align="center center" flex="20"  ng-if="selectedPlan.price > 0">
-                      <rzslider rz-slider-model="subUsage.value"  rz-slider-options="subUsage.options"></rzslider>
-                      <span>Usage</span>
-                    </div>
-
-                    <div flex="20" layout-align="end center" layout="row">
-                      <md-button class="md-warn md-raised" ng-show="selectedPlan.planNo > 1 && isTempDeactive " ng-click="deactiveCurrentPlan()" style="max-width: 108px;" flex>Deactivate</md-button>
-                      <md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex style="max-width: 108px;" flex>Upgrade</md-button>
+                  <div layout="row">
+                    <h3 flex>{{currentPlanName}}</h3>
+                    <div layout-align="end center" layout="row">
+                      <md-button class="md-accent md-raised" ng-show="selectedPlan.planNo > 1 && isTempDeactive " ng-click="deactiveCurrentPlan()" flex>Deactivate</md-button>
+                      <!--<md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex>Upgrade</md-button>-->
                     </div>
                   </div>
-                  <div layout="row" ng-if="signupsuccess" flex>
-                    <md-card class="commonContentShell" flex style="position:relative;background: rgba(0, 0, 0, 0.1);" md-whiteframe="1dp">
+                  <md-divider class="mt-10 mb-10"></md-divider>
+                  <div layout="row">
+                    <div flex layout="column">
+                        <div layout="row" layout-align="start center" class="info-grid-row bordered">
+                          <div class="iconed-label" layout="row" layout-align="start center" flex="30">
+                            <md-icon md-font-icon="icon-package"></md-icon> <span flex>Amount</span>
+                          </div>
+                          <div class="text-right" flex>{{currentPlanAmount}}</div>
+                        </div>
+                        <div layout="row" layout-align="start center" class="info-grid-row bordered">
+                          <div class="iconed-label" layout="row" layout-align="start center" flex="30">
+                            <md-icon md-font-icon="icon-account-location"></md-icon> <span flex>Additional charge</span>
+                          </div>
+                          <div class="text-right" flex>{{additionalCharge}}</div>
+                        </div>
+                        <div layout="row" layout-align="start center" class="info-grid-row bordered">
+                          <div class="iconed-label" layout="row" layout-align="start center" flex="30">
+                            <md-icon md-font-icon="icon-account-location"></md-icon> <span flex>Additional feature</span>
+                          </div>
+                          <div class="text-right" flex>Additional feature</div>
+                        </div>
+                        <div layout="row" layout-align="start center" class="info-grid-row bordered">
+                          <div class="iconed-label" layout="row" layout-align="start center" flex="30">
+                            <md-icon md-font-icon="icon-account-location"></md-icon> <span flex>Additional feature</span>
+                          </div>
+                          <div class="text-right" flex>Additional feature</div>
+                        </div>
+                      <div layout="row" layout-align="start center" class="info-grid-row mt-10">
+                        <div class="iconed-label" layout="row" layout-align="start center" flex="30">
+                          <md-icon md-font-icon="icon-calendar-check"></md-icon> <span flex>Created date</span>
+                        </div>
+                        <div class="text-right" flex>{{currentPlanCreatedDate | limitTo:10}}</div>
+                      </div>
+                      <div layout="row" layout-align="start center" class="info-grid-row">
+                        <div class="iconed-label" layout="row" layout-align="start center" flex="30">
+                          <md-icon md-font-icon="icon-calendar-remove"></md-icon> <span flex>Expire date</span>
+                        </div>
+                        <div class="text-right" flex>{{currentPlanExpiryDate | limitTo:10}}</div>
+                      </div>
+                        <!--<div layout="row" layout-align="start center" class="info-grid-row">-->
+                          <!--<div class="iconed-label" layout="row" layout-align="start center" flex="30">-->
+                            <!--<md-icon md-font-icon="icon-email"></md-icon> <span flex>Rate</span>-->
+                          <!--</div>-->
+                          <!--<div>{{currentPlanRate}}</div>-->
+                        <!--</div>-->
+                        <!--<div layout="row" layout-align="start center" class="info-grid-row">-->
+                          <!--<div class="iconed-label" layout="row" layout-align="start center" flex="30">-->
+                            <!--<md-icon md-font-icon="icon-map"></md-icon> <span flex>Days remaining</span>-->
+                          <!--</div>-->
+                          <!--<div>{{selectedPlan.name}}</div>-->
+                        <!--</div>-->
+                      </div>
+                    <!--<div class="subscription-usage" layout="column" layout-align="center center" flex ng-if="selectedPlan.price > 0">-->
+                      <!--<rzslider rz-slider-model="subUsage.value" rz-slider-options="subUsage.options"></rzslider>-->
+                      <!--<span>Usage</span>-->
+                    <!--</div>-->
+                    <div class="usage-meter" layout="column" layout-align="center center" flex>
+                      <nvd3 options="vm.usageChart.chart.options"
+                            data="vm.usageChart.chart.data">
+                      </nvd3>
+                      <span class="label-large">Usage</span>
+                    </div>
+                  </div>
+                  <div layout="row" flex class="mt-20">
+                    <div class="commonContentShell solid-highlight-gray pb-10" flex>
 
                       <section id="successContainer" layout="column" layout-align="center center" >
                         <div layout="row">
@@ -231,8 +270,8 @@
                             <md-card ng-repeat="plan in companyPricePlans" flex class="subscription-plan" ng-if="plan.type == selectedPlanDuration || plan.code == 'free_trial'" ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">
                               <!--<div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>-->
 
-                              <md-card-title flex layout="row" layout-align="center center" ng-class="{'blue-title': plan.code == selectedPlan.code}">
-                                <h3 ng-class="{'white':plan.code == selectedPlan.code}">{{plan.name}}</h3>
+                              <md-card-title flex layout="row" layout-align="center center" ng-class="{'solid-washer-blue': plan.code == selectedPlan.code}">
+                                <h3 ng-class="{'f-white':plan.code == selectedPlan.code}">{{plan.name}}</h3>
                               </md-card-title>
 
                               <md-card-content flex>
@@ -282,7 +321,7 @@
                       <md-card-actions layout="row" layout-align="end end" flex ng-show="isPlanSelected">
                         <md-button ng-click="clickCancel()">Cancel</md-button>
                       </md-card-actions>
-                    </md-card>
+                    </div>
 
                   </div>
                 </div>
@@ -310,9 +349,12 @@
                 <div flex="20" layout-align="center center" style="text-align:center">Card Type</div>
                 <div flex="15"></div>
               </div>
-              <md-card-content md-whiteframe="1dp">
-                <div>
-                  <div layout="row" flex class="payment-details-row" ng-repeat="card in cardDetails">
+              <md-card-content md-whiteframe="1dp" class="p-0">
+                <div class="sub-list">
+                  <div layout="row" layout-align="center center" class="msg-empty-list" ng-if="cardDetails.length == 0 || cardDetails == null">
+                    <span><md-icon md-font-icon="icon-information-outline"></md-icon> No method has added yet</span>
+                  </div>
+                  <div layout="row" flex class="list-item" ng-repeat="card in cardDetails">
 
                     <div class="prodCost" flex layout="column" layout-align="center start">
                       <span class="text-truncate">XXXX-XXXX-XXXX-{{card.last4}}</span>
@@ -351,7 +393,7 @@
           </div>
 
           <div layout="column" ng-if="paymentHistory">
-            <md-card flex class="input-block-gen">
+            <md-card flex class="input-block-gen eq-margin" layout="column">
               <md-card-title layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start center">
                   <md-icon md-font-icon="icon-credit-card-multiple"></md-icon> <h3>Payment history</h3>
@@ -365,25 +407,28 @@
                 <div flex="20"></div>
                 <div flex="10" layout="row" layout-align="start center">Status</div>
               </div>
-              <md-card-content md-whiteframe="1dp" style="padding: 0">
-                <div>
-                  <div layout="row" flex class="payment-history-row" ng-repeat="history in paymentHistoryList" ng-hide="isTenantPaymentHistoryClicked">
+              <md-card-content md-whiteframe="1dp" class="p-0" flex>
+                <md-content class="sub-list list-content" ms-scroll>
+                  <div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 || paymentHistoryList == null">
+                    <span><md-icon md-font-icon="icon-information-outline"></md-icon> No record has been created yet</span>
+                  </div>
+                  <div layout="row" flex class="list-item" ng-repeat="history in paymentHistoryList" ng-hide="isTenantPaymentHistoryClicked">
 
-                    <div class="prodCost" flex="20" layout="row" layout-align="start center">
-                      <span class="text-truncate" style="text-transform: capitalize">{{history.infomation.feature}}</span>
+                    <div flex="20" layout="row" layout-align="start center">
+                      <span>{{history.infomation.feature}}</span>
                     </div>
-                    <div class="prodCost" flex layout="row" layout-align="start center">
-                      <span> {{history.receivedDate | date:'yyyy.MM.dd'}} -- </span><span> {{history.lastDate | date:'yyyy.MM.dd'}}</span>
+                    <div flex layout="row" layout-align="start center">
+                      <span> {{history.receivedDate | date:'yyyy.MM.dd'}} -</span><span>- {{history.lastDate | date:'yyyy.MM.dd'}}</span>
                     </div>
-                    <div class="prodCost" flex layout="row" layout-align="end center">
-                      <span class="text-truncate">${{history.amount}}</span>
+                    <div flex layout="row" layout-align="end center">
+                      <span>${{history.amount}}</span>
                     </div>
                     <div flex="20"></div>
-                    <div class="prodCost" flex="10" layout="row" layout-align="start center">
-                      <span flex style="text-transform: capitalize"> {{history.status }}</span>
+                    <div flex="10" layout="row" layout-align="start center">
+                      <span flex>{{history.status }}</span>
                     </div>
                   </div>
-                </div>
+                </md-content>
               </md-card-content>
             </md-card>
           </div>
