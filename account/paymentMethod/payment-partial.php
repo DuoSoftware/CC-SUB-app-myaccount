@@ -74,7 +74,7 @@ require_once ($doc.'/services/config/settings.php');
        'client_id' => CLIENT_ID,
        'state' => $_SERVER['SERVER_NAME'].'@'.$_COOKIE['securityToken']
        //,'redirect_uri'=> MAIN_DOMAIN .'/azureshell/app/main/account/paymentMethod/payment-partial.php'
-       ,'redirect_uri'=> 'http://cloudcharge.com/azureshell/app/main/account/paymentMethod/payment-partial.php'
+       ,'redirect_uri'=> 'http://app.cloudcharge.com/azureshell/app/main/account/paymentMethod/payment-partial.php'
      );
 
    $url = AUTHORIZE_URI . '?' . http_build_query($authorize_request_body);
