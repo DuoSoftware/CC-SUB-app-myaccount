@@ -129,6 +129,8 @@ if(!isset($_COOKIE['planId'])) {
 
     }
 }
+
+print_r($resp);
     if($resp->status)
         {
 
@@ -149,7 +151,8 @@ if(!isset($_COOKIE['planId'])) {
            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
            $output = curl_exec ($ch);
-
+           print_r('updateSubscription');
+           print_r($output);
            curl_close ($ch);
 
 //           Permission Update
@@ -173,7 +176,8 @@ if(!isset($_COOKIE['planId'])) {
                       curl_setopt($chp, CURLOPT_RETURNTRANSFER, 1);
 
                       $outputp = curl_exec ($chp);
-
+           print_r('switchPlan');
+           print_r($outputp);
                       curl_close ($chp);
 
 
@@ -208,10 +212,11 @@ if(!isset($_COOKIE['planId'])) {
                       curl_setopt($cho, CURLOPT_RETURNTRANSFER, 1);
 
                       $outputo = curl_exec ($cho);
-
+           print_r('createRule');
+           print_r($outputo);
                       curl_close ($cho);
 
-
+exit();
 
               header('Location: ../../../../#/account');
 
