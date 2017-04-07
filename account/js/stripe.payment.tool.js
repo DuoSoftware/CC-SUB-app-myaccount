@@ -9,11 +9,12 @@
 		return {
 			restrict: 'A',
 			scope: {
-				config: '=stripePayment'
+				config: '=stripePayment',
+        ishara: '@'
 			},
 			controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
-
-				var config = $scope.config;
+        console.log($scope.ishara);
+				var config = $scope.config;debugger;
 				if(!config.hasOwnProperty('publishKey')){
 					console.error("Stripe api key not provided."); return;
 				}
@@ -23,7 +24,7 @@
 					var handler = StripeCheckout.configure({
 						key: config.publishKey,//'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
 						image: config.logo,
-						panelLabel: config.label,
+						//panelLabel: angular.isUndefined($rootScope.planPrice)? config.label : $rootScope.planPrice,
             email:config.email,
 						token: function(token) {
 							$rootScope.$broadcast('stripe-token-received', token);
@@ -33,7 +34,8 @@
 					var open = function(ev) {
 						handler.open({
 							name: config.title,
-							description: config.description
+							description: config.description,
+              panelLabel: angular.isUndefined($scope.ishara) ? config.label : "Pay $"+$scope.ishara
 						});
 
 						ev.preventDefault();
