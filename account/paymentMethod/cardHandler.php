@@ -36,6 +36,13 @@ switch ($view) {
 
 		break;
 
+		case "removeCard" :
+        $cardId = $_GET ["cardId"];
+      $rawData = (new CloudCharge())->card()->remove($cardId);;
+      echo json_encode($rawData);
+
+        break;
+
 
 	case "" :
 		header ( 'HTTP/1.1 404 Not Found' );
