@@ -212,6 +212,7 @@ if(!isset($_COOKIE['planId'])) {
                       curl_close ($cho);
 
 
+
               header('Location: ../../../../#/account');
 
         }

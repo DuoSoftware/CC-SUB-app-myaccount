@@ -67,7 +67,7 @@
                               <div class="iconed-label" layout="row" layout-align="start center" flex="50">
                                 <md-icon md-font-icon="icon-map"></md-icon> <span flex>Current subscription</span>
                               </div>
-                              <div flex class=""><a href="" ng-click="switchInpageState('plan-details')">{{selectedPlan.name}}</a></div>
+                              <div flex class=""><a href="" ng-click="switchInpageState('plan-details')"><u>{{selectedPlan.name}}</u></a></div>
                             </div>
                           </div>
                           <div layout="row">
@@ -205,9 +205,9 @@
                 </div>
               </md-card-title>
               <md-card-content md-whiteframe="1dp">
-                <!--<div class="preloader-input-block animate-fade-in-out" layout="column" layout-align="space-around" ng-hide="accSubscriptionDetailsLoaded">-->
-                  <!--<md-progress-circular md-mode="indeterminate"></md-progress-circular>-->
-                <!--</div>-->
+                <div class="preloader-input-block animate-fade-in-out" layout="column" layout-align="space-around" ng-if="!accSubscriptionDetailsLoaded">
+                  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                </div>
                 <div>
                   <div layout="row" layout-align="start center">
                     <span class="fs-18">{{currentPlanName}} </span><span class="op-5" flex> / {{selectedPlanDuration}}</span>
@@ -242,16 +242,34 @@
                           <md-icon md-font-icon="icon-credit-card"></md-icon> <span flex>Cards</span>
                           <md-button class="md-accent md-icon-button" stripe-payment="config" ng-click="addNewCard()" layout-align="center center"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add card</md-tooltip></md-button>
                         </div>
-                        <div layout="row" layout-align="start center" style="width: 100%;">
+                        <div layout="column" layout-align="center center" style="width: 100%;" class="mt-10">
                           <div flex layout="row" layout-align="center center" class="msg-empty-list m-0" ng-if="cardDetails.length == 0 || paymentHistoryList == null">
                             <span><md-icon md-font-icon="icon-information-outline"></md-icon> No card has been added yet</span>
                           </div>
-                          <div layout="row" flex class="list-item" ng-repeat="card in cardDetails">
+                          <!--<div fill-width layout="row" flex class="list-item">-->
+
+                            <!--<div class="prodCost" flex layout="row" layout-align="start center">-->
+                              <!--<span class="MasterCard"></span> <span class="text-truncate card-no">XXXX-XXXX-XXXX-4242</span>-->
+                              <!--<md-tooltip>XXXX-XXXX-XXXX-4242</md-tooltip>-->
+                            <!--</div>-->
+                            <!--<div class="prodCost" flex="30" layout="row" layout-align="start center">-->
+                              <!--&lt;!&ndash; <span> {{card.exp_month | parseDate | date: 'MMMM' | limitTo:3}} {{card.exp_year | parseDate | date: 'yyyy'}}</span> &ndash;&gt;-->
+                              <!--<span>January</span>-->
+                              <!--<span>&nbsp;2017</span>-->
+                            <!--</div>-->
+                            <!--<div class="prodCost" layout="column" layout-align="center end">-->
+                              <!--<span class="default" ng-if="card.rowId===0">Default</span>-->
+                              <!--<md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>-->
+                            <!--</div>-->
+                            <!--<md-button class="md-warn md-icon-button" ng-click="removeCard()" layout-align="center center" style="margin-right: -10px"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove card</md-tooltip></md-button>-->
+                          <!--</div>-->
+                          <div layout="row" fill-width class="list-item" ng-repeat="card in cardDetails" modal-animation-class="mt-20">
 
                             <div class="prodCost" flex layout="row" layout-align="start center">
-                              <span ng-class="card.brand"></span> <span class="text-truncate">XXXX-XXXX-XXXX-{{card.last4}}</span>
+                              <span ng-class="card.brand"></span> <span class="text-truncate card-no">XXXX-XXXX-XXXX-{{card.last4}}</span>
+                              <md-tooltip>XXXX-XXXX-XXXX-{{card.last4}}</md-tooltip>
                             </div>
-                            <div class="prodCost" flex layout="row" layout-align="start center">
+                            <div class="prodCost" flex="30" layout="row" layout-align="start center">
                               <!-- <span> {{card.exp_month | parseDate | date: 'MMMM' | limitTo:3}} {{card.exp_year | parseDate | date: 'yyyy'}}</span> -->
                               <span ng-if="card.exp_month==1">January</span>
                               <span ng-if="card.exp_month==2">February</span>
@@ -267,10 +285,11 @@
                               <span ng-if="card.exp_month==12">December</span>
                               <span>&nbsp;{{card.exp_year}}</span>
                             </div>
-                            <div class="prodCost" flex="15" layout="column" layout-align="center end">
+                            <div class="prodCost" layout="column" layout-align="center end">
                               <span class="default" ng-if="card.rowId===0">Default</span>
                               <md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>
                             </div>
+                            <md-button class="md-warn md-icon-button" ng-click="removeCard()" layout-align="center center" style="margin-right: -10px"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove card</md-tooltip></md-button>
                           </div>
                         </div>
                       </div>
@@ -293,8 +312,8 @@
                       <!--<div>{{selectedPlan.name}}</div>-->
                       <!--</div>-->
                     </div>
-                    <div flex="5"></div>
-                    <md-divider></md-divider>
+                    <!--<div flex="5"></div>-->
+                    <!--<md-divider></md-divider>-->
                     <!--<div class="subscription-usage" layout="column" layout-align="center center" flex ng-if="selectedPlan.price > 0">-->
                     <!--<rzslider rz-slider-model="subUsage.value" rz-slider-options="subUsage.options"></rzslider>-->
                     <!--<span>Usage</span>-->
@@ -310,7 +329,7 @@
                   <div layout="row" layout-align="center center" flex class="mt-10 animate-fade-in-out" ng-if="paymentHistory">
                     <div flex class="list-offset" md-whiteframe="1dp">
                       <div class="list-header" layout="row" flex md-whiteframe="1dp">
-                        <div flex="20" layout-align="start center">Plan</div>
+                        <div flex="30" layout-align="start center">Plan</div>
                         <div flex layout-align="start center">Period</div>
                         <div flex class="text-right" layout-align="end center" layout="row"><span>Amount</span></div>
                         <div flex="20"></div>
@@ -323,7 +342,7 @@
                           </div>
                           <div layout="row" flex class="list-item" ng-repeat="history in paymentHistoryList" ng-hide="isTenantPaymentHistoryClicked">
 
-                            <div flex="20" layout="row" layout-align="start center">
+                            <div flex="30" layout="row" layout-align="start center">
                               <span>{{history.infomation.feature}}</span>
                             </div>
                             <div flex layout="row" layout-align="start center">
@@ -400,7 +419,7 @@
                               </md-card-content>
 
                               <md-card-footer layout="row" layout-align="center center" flex>
-                                <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || isPlanSelected" ng-if="selectedPlan.price < 1 " stripe-payment="config" ng-click="selectPlan(plan)">Select</md-button>
+                                <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || isPlanSelected" ng-if="selectedPlan.price < 1 " stripe-payment="config" ishara="{{plan.changingPrice}}" ng-click="selectPlan(plan)">Select</md-button>
                                 <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || isPlanSelected" ng-if="selectedPlan.price > 0 " ng-click="selectPlan(plan)">Select</md-button>
                               </md-card-footer>
                             </md-card>
@@ -555,7 +574,7 @@
                     <md-icon md-font-icon="icon-lock"></md-icon> <h3>API password</h3>
                   </div>
                 </md-card-title>
-                <md-card-content md-whiteframe="1dp">
+                <md-card-content>
                   <div layout="row" layout-align="start center" class="group-sub-head" style="margin-top: 0">
                     <span flex="30"><b>Set password</b></span>
                   </div>

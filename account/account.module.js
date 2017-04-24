@@ -1,8 +1,8 @@
 ////////////////////////////////
 // App : MyAccount / MyProfile
 // Owner : Ishara Gunathilaka
-// Last changed date : 2017/03/30
-// Version : 6.1.0.12
+// Last changed date : 2017/04/23
+// Version : 6.1.0.10
 // Modified By : Kasun
 /////////////////////////////////
 
@@ -36,7 +36,7 @@
       });
 
     msNavigationServiceProvider.saveItem('account', {
-       title    : 'My Account',
+       // title    : 'My Account',
       state    : 'app.account',
       /*stateParams: {
        'param1': 'page'
