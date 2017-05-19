@@ -14,7 +14,7 @@
 			},
 			controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
         console.log($scope.ishara);
-				var config = $scope.config;debugger;
+				var config = $scope.config;
 				if(!config.hasOwnProperty('publishKey')){
 					console.error("Stripe api key not provided."); return;
 				}
