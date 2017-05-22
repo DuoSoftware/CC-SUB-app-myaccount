@@ -632,12 +632,10 @@
 						$scope.currentPlanExpiryDate=moment.unix(data.response[0].currentPeriodEnd).format("YYYY.MM.DD hh:mm a");
 						// $scope.currentPlanCreatedDate = new Date(data.response[0].currentPeriod).toString();
 						// $scope.currentPlanExpiryDate= new Date(data.response[0].currentPeriodEnd).toString();
-
-						$scope.accSubscriptionDetailsLoaded = true;
 					}).error(function (data) {
 						console.log(data);
-						$scope.accSubscriptionDetailsLoaded = true;
 					});
+					$scope.accSubscriptionDetailsLoaded = true;
 				}
 
 			}, function (response) {
@@ -1540,7 +1538,7 @@
 					"type": "PDF",
 					"id": record.id,
 					"amount": record.amount,
-					"email": "suvethan@duosoftware.com",
+					"email": parseJwt($scope.idToken).emails[0],
 					"currency": "usd",
 					"infomation": JSON.stringify([record.infomation]),
 					"domain": window.location.hostname,
