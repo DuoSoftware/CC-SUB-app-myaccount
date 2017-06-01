@@ -357,7 +357,7 @@
                                                             <span flex>{{history.status }}</span>
                                                         </div>
                                                         <div flex="10" layout="row" layout-align="end center">
-                                                            <md-button md-no-ink class="md-icon-button p-0 w-40 h-25" ng-click="downloadSubscriptionPDF(history)"><md-icon md-font-icon="icon-file-pdf w-25 h-25 fs-20 md-accent"></md-icon><md-tooltip>Download PDF</md-tooltip> </md-button>
+                                                            <md-button ng-disabled="history.downloading" md-no-ink class="md-icon-button p-0 w-40 h-25" ng-click="downloadSubscriptionPDF(history)"><md-icon md-font-icon="icon-file-pdf w-25 h-25 fs-20 md-accent"></md-icon><md-tooltip>Download PDF</md-tooltip> </md-button>
                                                             <md-progress-circular class="list-action-preloader" ng-if="history.downloading"></md-progress-circular>
                                                         </div>
                                                     </div>
