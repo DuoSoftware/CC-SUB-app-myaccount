@@ -10,7 +10,7 @@
 	/** @ngInject */
 	function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse) {
 		$scope.acc = "";
-		//console.log("Profile Controller Called.");
+		//// console.log("Profile Controller Called.");
 		var vm = this;
 
 		vm.appInnerState = 'default';
@@ -164,7 +164,7 @@
 			// 	}];
 			// 	$scope.accAccessKeysLoaded = true;
 			// }).error(function (errorResponse) {
-			// 	console.log(errorResponse);
+			// 	// console.log(errorResponse);
 			// });
 
       $charge.myAccountEngine().getSubscriptionInfo().success(function (response) {
@@ -178,7 +178,7 @@
         	$scope.accAccessKeysLoaded = true;
 
       }).error(function(data) {
-         console.log(data);
+         // console.log(data);
       });
 
 		})();
@@ -268,7 +268,7 @@
 				}
 
 			}, function (response) {
-				console.log(response);
+				// console.log(response);
 				$scope.cardDetails = null;
 
 			});
@@ -302,7 +302,7 @@
 				}
 
 			}).error(function(data) {
-				console.log( data);
+				// console.log( data);
 
 				$scope.isRegisteredWithStripe = false;
 				$scope.isRegisteredWith2checkout = false;
@@ -364,7 +364,7 @@
 			// 	}
             //
 			// }, function (response) {
-			// 	console.log(response);
+			// 	// console.log(response);
 			// });
 
 
@@ -378,7 +378,7 @@
 
 
       }).error(function(data) {
-        console.log( data);
+        // console.log( data);
       });
 
 
@@ -398,7 +398,7 @@
 			// 	}
           //
 			// }, function (response) {
-			// 	console.log(response);
+			// 	// console.log(response);
 			// });
 
       $charge.ratingengine().GetPlanDetails().success(function (response) {
@@ -410,7 +410,7 @@
         	}
 
       }).error(function(data) {
-        console.log( data);
+        // console.log( data);
       });
 
 
@@ -493,7 +493,7 @@
 				notifications.toast("Default card has been changed", "success");
 
 			}, function(response) {
-				console.log('set card function returned an error '+response);
+				// console.log('set card function returned an error '+response);
 				notifications.toast("Error, unable to proceed with the operation", "error");
 
 
@@ -529,7 +529,7 @@
 		// 	}
 		// }).then(function(response) {
         //
-		// 	console.log(response);
+		// 	// console.log(response);
         //
 		// 	vm.dummy.Data =response.data.Result;
         //
@@ -562,13 +562,13 @@
         //
         //
 		// }, function(response) {
-		// 	console.log(response);
+		// 	// console.log(response);
 		// });
 
 
     $charge.myAccountEngine().getUserInfoByID().success(function (response) {
 
-      	console.log(response);
+      	// console.log(response);
       response.data = response;
       	vm.dummy.Data =response.data.Result;
 
@@ -602,7 +602,7 @@
 
 
     }).error(function(data) {
-      console.log(data);
+      // console.log(data);
     });
 
 
@@ -715,14 +715,14 @@
 						// $scope.currentPlanCreatedDate = new Date(data.response[0].currentPeriod).toString();
 						// $scope.currentPlanExpiryDate= new Date(data.response[0].currentPeriodEnd).toString();
 					}).error(function (data) {
-						console.log(data);
+						// console.log(data);
 					});
 					$scope.accSubscriptionDetailsLoaded = true;
 
 
         }).error(function(data) {
 
-          console.log(response);
+          // console.log(response);
 				$scope.accSubscriptionDetailsLoaded = true;
 			});
 		}
@@ -784,7 +784,7 @@
 
 
 			}).error(function (data) {
-				console.log(data);
+				// console.log(data);
 				//$scope.paymentHistoryList = null;
 				$scope.isTenantPaymentHistoryClicked = false;
 				$scope.showPaymentHistoryPane = true;
@@ -823,7 +823,7 @@
 
 
 				}).error(function (response) {
-					console.log(response);
+					// // console.log(response);
 
 					notifications.toast("Subscription disconnection not completed", "error");
 
@@ -895,7 +895,7 @@
 
 
 				}).error(function (response) {
-					console.log(response);
+					// // console.log(response);
 					notifications.toast("2Checkout disconnection failed", "error");
 
 				});
@@ -924,7 +924,7 @@
 				data : vm.dummy.Data
 
 			}).then(function(response) {
-				console.log(response);
+				// // console.log(response);
 
 				if (response.data.Data.IsSuccess) {
 
@@ -937,7 +937,7 @@
 				}
 
 			}, function(response) {
-				console.log(response);
+				// // console.log(response);
 				vm.editableMode = true;
 				notifications.toast("Error updating details, " + response, "error");
 			});
@@ -946,7 +946,7 @@
 
 
 		$scope.$on('stripe-token-received', function(event, args) {
-			console.log(args);
+			// // console.log(args);
 
 			if($scope.newCardSelected){
 
@@ -960,7 +960,7 @@
 					$scope.loadCardDetails();
 
 				}, function(response) {
-					console.log('add card function returned an error '+response);
+					// console.log('add card function returned an error '+response);
 				});
 
 			} else {
@@ -988,7 +988,7 @@
 				$scope.loadCardDetails();
 
 			}, function(response) {
-				console.log('add card function returned an error '+response);
+				// console.log('add card function returned an error '+response);
 			});
 		};
 
@@ -1114,7 +1114,7 @@
 			//      }
 			//    }).then(function(response) {
 			//
-			//      console.log(response);
+			//      // console.log(response);
 			//
 			//      if(response.data.status){
 			//
@@ -1129,7 +1129,7 @@
 			//
 			//
 			//    }, function(response) {
-			//      console.log(response);
+			//      // console.log(response);
 			//      notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
 			//      $scope.isPlanSelected= false;
 			//      $scope.clickCancel();
@@ -1174,11 +1174,11 @@
 				$http.get('app/main/account/data/ratingengineservice.php/?method=updaterule&&data=' + data + '&&meta=' + meta).then(function (response) {
 					if (response.data.success) {
 
-						console.log("Rule updated! ");
+						// console.log("Rule updated! ");
 
 					}else{
 
-						console.log("update rule failed! " + response.data);
+						// console.log("update rule failed! " + response.data);
 
 					}
 
@@ -1187,14 +1187,14 @@
 					$window.location.reload();
 
 				}, function (response) {
-					console.log("update rule failed! " + response.data);
+					// console.log("update rule failed! " + response.data);
 
 				});
 
 
 
 			}).error(function (data) {
-				console.log(data);
+				// console.log(data);
 				$scope.isSubmitClicked = false;
 				//$scope.addedUsers += $scope.numberOfUsers;
 				notifications.toast("Error, unable to proceed with the operation", "error");
@@ -1353,7 +1353,7 @@
 
 				$charge.paymentgateway().deactiveAcc().success(function (dataa) {
 
-					console.log(dataa);
+					// console.log(dataa);
 
 					if(dataa.status)
 					{
@@ -1366,7 +1366,7 @@
 					$scope.isRegButtonsShow= false;
 
 				}).error(function (data) {
-					console.log(data);
+					// console.log(data);
 					$scope.isRegButtonsShow= false;
 					notifications.toast("There is a problem, Please try again", "Error");
 
@@ -1413,7 +1413,7 @@
 
 			$charge.paymentgateway().subscriberCheck().success(function (data) {
 
-				console.log(data);
+				// console.log(data);
 
 
 				$scope.paymentStatus = data.response[0].status;
@@ -1521,10 +1521,10 @@
 
 		var elem = angular.element('.Header-navClose');
 		elem.onclick = function(){
-			console.log('Test clicked');
+			// console.log('Test clicked');
 		}
 		//angular.element('.testOnClick').on('click', function(){
-		//  console.log('Test clicked');
+		//  // console.log('Test clicked');
 		//});
 
 
@@ -1556,7 +1556,7 @@
 		}
 
 		$scope.setRating = function () {
-			console.log(this);
+			// console.log(this);
 		}
 
 		$scope.sliders = [{}];
@@ -1609,9 +1609,9 @@
 						//    $scope.companyPricePlans[i].changingPrice = $scope.companyPricePlans[i].price;
 						//    $scope.companyPricePlans[i].activeSubscriptions = $scope.companyPricePlans[i].activeSubscriptions ;
 						//  });
-						//  console.log($scope.companyPricePlans[i].subscriptionRate);
-						//  console.log($scope.companyPricePlans[i].changingPrice);
-						//  console.log($scope.companyPricePlans[i].activeSubscriptions);
+						//  // console.log($scope.companyPricePlans[i].subscriptionRate);
+						//  // console.log($scope.companyPricePlans[i].changingPrice);
+						//  // console.log($scope.companyPricePlans[i].activeSubscriptions);
 						//}
 					}
 				}
@@ -1660,7 +1660,7 @@
 				},100);
 				record.downloading = false;
 			}, function (errorResponse) {
-				console.log(errorResponse)
+				// console.log(errorResponse)
 				record.downloading = false;
 			});
 		}
