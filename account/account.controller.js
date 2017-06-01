@@ -1529,7 +1529,7 @@
 
 			$http({
 				method: 'POST',
-				url: 'http://azure.cloudcharge.com/services/duosoftware.EmailGatewayAPI/email/downloadSubscriptionPDF',
+				url: 'http://cloudcharge.com/services/duosoftware.EmailGatewayAPI/email/downloadSubscriptionPDF',
 				headers: {
 					'Content-Type': 'application/json',
 					'idToken' : $scope.idToken
