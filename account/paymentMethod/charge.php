@@ -130,9 +130,7 @@ if(!isset($_COOKIE['planId'])) {
 
     }
 }
-echo "http://".host.":8001/auth/updateSubscription?planCode=".$planId;
-print_r($resp);
-exit();
+
     if($resp->status)
         {
 
