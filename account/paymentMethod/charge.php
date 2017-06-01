@@ -143,7 +143,7 @@ if(!isset($_COOKIE['planId'])) {
            $planId = str_replace("_year","",$planId);
 
            //curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
-           curl_setopt($ch, CURLOPT_URL, "http://app.cloudcharge.com:8001/auth/updateSubscription?planCode=".$planId);
+           curl_setopt($ch, CURLOPT_URL, "http://cloudcharge.com:8001/auth/updateSubscription?planCode=".$planId);
 
            // receive server response ...
            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -166,7 +166,7 @@ if(!isset($_COOKIE['planId'])) {
 
                       $planId = str_replace("_year","",$planId);
 
-                     curl_setopt($chp, CURLOPT_URL, "http://app.cloudcharge.com/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
+                     curl_setopt($chp, CURLOPT_URL, "http://cloudcharge.com/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
                      //curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
 
 					     // receive server response ...
@@ -191,7 +191,7 @@ if(!isset($_COOKIE['planId'])) {
                                               "sign"=> "<=");
                     $data_string = json_encode($data);
 
-//                    $meta = array("domainUrl" => 'app.cloudcharge.com',
+//                    $meta = array("domainUrl" => 'cloudcharge.com',
 //                                              "idToken"=> $st);
 //                    $meta_string = json_encode($meta);
 
@@ -202,7 +202,7 @@ if(!isset($_COOKIE['planId'])) {
 
 					            curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
 
-                     curl_setopt($cho, CURLOPT_URL, "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/createRule");
+                     curl_setopt($cho, CURLOPT_URL, "http://cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/createRule");
                      //curl_setopt($cho, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule");
 
                       curl_setopt($cho, CURLOPT_RETURNTRANSFER, 1);
