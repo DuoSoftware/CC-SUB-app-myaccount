@@ -142,32 +142,12 @@
 		// $scope.idToken= gst('securityToken');
         //
 		// if(!$scope.idToken)
-			//$scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InQ4elBBYm9Ga0NKOWItbkZKenp5SWlrSmdTSkFrQTJwMDh5a3dSWV8xQW8ifQ.eyJleHAiOjE0OTI1MDU0MzAsIm5iZiI6MTQ5MjQyMjYzMCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkyNDIyNjMwLCJhdXRoX3RpbWUiOjE0OTI0MjI2MzAsIm9pZCI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImdpdmVuX25hbWUiOiJTdXZldGhhbiIsIm5hbWUiOiJOYW50aGEiLCJjb3VudHJ5IjoiU3JpIExhbmthIiwiZXh0ZW5zaW9uX0RvbWFpbiI6InN1dmV0aGFuTi5hcHAuY2xvdWRjaGFyZ2UuY29tIiwiZmFtaWx5X25hbWUiOiJzdGFydGVyIiwiam9iVGl0bGUiOiJhZG1pbiIsImVtYWlscyI6WyJzdXZldGhhbkBkdW9zb2Z0d2FyZS5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFBvbGljeSJ9.Co4MgJSYgPCL12M-l2ASWQM4rQJhTk0RimSYOlABaILnJvjbq9rujDNd4Dsv-hFR3du4VY2hxydpoSu1tTFAWndpZH2NmRYevXN4uLNKA7O4DGy7kjnHltL26h47RpzNRIsOg5Ih1RD7l2KPE_aTpTlvNZNZsfIaKOa-8OtAqUpm_GLTMZNqxxJT6mE-HXynWsgu9bU1slSOH3kGbcDld1aQfjkJrU8BX7cGSA5kbh2CIAszSvJmodtHtfUJmEWd8RV3uDXTEcziQpRaElYjH0I_wT4gCSgvD___W1_cPOi1ocrTv5eYnf0LmjxdgbqvvJFCrYnhrFbXI3J6L8j8Pg";
+		//	$scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InQ4elBBYm9Ga0NKOWItbkZKenp5SWlrSmdTSkFrQTJwMDh5a3dSWV8xQW8ifQ.eyJleHAiOjE0OTI1MDU0MzAsIm5iZiI6MTQ5MjQyMjYzMCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkyNDIyNjMwLCJhdXRoX3RpbWUiOjE0OTI0MjI2MzAsIm9pZCI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImdpdmVuX25hbWUiOiJTdXZldGhhbiIsIm5hbWUiOiJOYW50aGEiLCJjb3VudHJ5IjoiU3JpIExhbmthIiwiZXh0ZW5zaW9uX0RvbWFpbiI6InN1dmV0aGFuTi5hcHAuY2xvdWRjaGFyZ2UuY29tIiwiZmFtaWx5X25hbWUiOiJzdGFydGVyIiwiam9iVGl0bGUiOiJhZG1pbiIsImVtYWlscyI6WyJzdXZldGhhbkBkdW9zb2Z0d2FyZS5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFBvbGljeSJ9.Co4MgJSYgPCL12M-l2ASWQM4rQJhTk0RimSYOlABaILnJvjbq9rujDNd4Dsv-hFR3du4VY2hxydpoSu1tTFAWndpZH2NmRYevXN4uLNKA7O4DGy7kjnHltL26h47RpzNRIsOg5Ih1RD7l2KPE_aTpTlvNZNZsfIaKOa-8OtAqUpm_GLTMZNqxxJT6mE-HXynWsgu9bU1slSOH3kGbcDld1aQfjkJrU8BX7cGSA5kbh2CIAszSvJmodtHtfUJmEWd8RV3uDXTEcziQpRaElYjH0I_wT4gCSgvD___W1_cPOi1ocrTv5eYnf0LmjxdgbqvvJFCrYnhrFbXI3J6L8j8Pg";
 		// $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0OTAxNTk0MTEsIm5iZiI6MTQ5MDA3NjYxMSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkwMDc2NjExLCJhdXRoX3RpbWUiOjE0OTAwNzY2MTEsIm9pZCI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImdpdmVuX25hbWUiOiJpc3MiLCJuYW1lIjoiaXNzIiwiY291bnRyeSI6IlNhYmEiLCJleHRlbnNpb25fRG9tYWluIjoiaXNzLmNsb3VkY2hhcmdlLmNvbSIsImZhbWlseV9uYW1lIjoiYnVzaW5lc3MiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbImd1bmF0aGlsYWthaXNoYXJhQGdtYWlsLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.aHkjg58win7uz5aUUwfuM-BISxTiBF_awiq4LA2QEtdf6I9TybGWomvfoq0FsWEmjZL3qN5C1Mm1Lisq4rHX0rqF3fDE8Bb88xN40QdByRnaMW5iSfgGIkZoZbQ4gUp0U4PVJu9YEj1zHS_EwTc4sHNVIgxLv2l3r0oBEGhnXJhAEkWSBVIUL-A3mtrSlAsDVTaDmc882D-0yjKFJxZcZTyxZonP7YmDMTPeyzKLFjHjKcddUomdRn52WrKDeFRGqpwO2Bs656EMg27LCZKTN6c_PhlJ7FaGp4qrqjK9SyZR6eG2dFOurQv8Xi-e2LHosKEt8O2MZB7a7kZZwqTkLQ";//gst('idToken');
 		// $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODkxNDQ5NzksIm5iZiI6MTQ4OTA1ODU3OSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5MDU4NTc5LCJhdXRoX3RpbWUiOjE0ODkwNTg1NzksIm9pZCI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImdpdmVuX25hbWUiOiJmYWZhIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyaWFsIiwibmFtZSI6InBpYmEiLCJqb2JUaXRsZSI6ImFkbWluIiwiY291bnRyeSI6IkFuZ3VpbGxhIiwiZXh0ZW5zaW9uX0RvbWFpbiI6ImZhZmFwaWJhLmNsb3VkY2hhcmdlLmNvbSIsImVtYWlscyI6WyJmYWZhcGliYUBnYW1nbGluZy5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFNpZ25JbiJ9.sJj5ZfhDBb27BEYfDTuSMg9zCkoS62eOcWC2XbyzCYcRfsQjKtPB_1BeeESQwhyHekUSvgwt0tgpJAYIZvmMt-aWcKvhwJa02cG3BzUV-LFuGakCMFADXzDzs2qyRjL0cWnW1MQlvm1roBmnEUpeifGoGmfFwhWyKGF7-Asmq00W6tml7u_IOVUkPs-0pRE-31srM2QX1DZsYsJB3P0j8k02zjVgbMoaX3z31GY0Ez-Va0GzukDm9AQHeZUo-D1hU9vzFYD2Nk7pTxbPTi58ktxTN1_LNZ_sRXGooOZmuONayHwmLbvOBvdAT4mfYN0HrKIEVEz9NgRNFT6AOoTWLw";//gst('idToken');
 
 		(function (){
-			// $http({
-			// 	method: 'GET',
-			// 	url: 'http://app.cloudcharge.com:8001/auth/getSubscriptionInfo',
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 		'id_token' : $scope.idToken
-			// 	}
-			// }).success(function (response) {
-			// 	$scope.access_keys = [{
-			// 		name: "Primary key",
-			// 		key: response.Result.primaryKey
-			// 	},{
-			// 		name: "Secondary key",
-			// 		key: response.Result.secondaryKey
-			// 	}];
-			// 	$scope.accAccessKeysLoaded = true;
-			// }).error(function (errorResponse) {
-			// 	// console.log(errorResponse);
-			// });
-
-      $charge.myAccountEngine().getSubscriptionInfo().success(function (response) {
+			$charge.myAccountEngine().getSubscriptionInfo().success(function (response) {
         	$scope.access_keys = [{
         		name: "Primary key",
         		key: response.Result.primaryKey
@@ -179,6 +159,7 @@
 
       }).error(function(data) {
          // console.log(data);
+        $scope.accAccessKeysLoaded = true;
       });
 
 		})();
@@ -347,27 +328,6 @@
 		$scope.planSubscriptions= null;
 		$scope.getAllPlans = function () {
 
-			// $http({
-			// 	method: 'GET',
-			// 	url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetRatePlansForSubscription",
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 		'idToken': $scope.idToken
-			// 	}
-			// }).then(function (response) {
-            //
-			// 	$scope.planSubscriptions= response.data;
-            //
-            //
-			// 	if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
-			// 		$scope.loadPlanDetails();
-			// 	}
-            //
-			// }, function (response) {
-			// 	// console.log(response);
-			// });
-
-
       $charge.ratingengine().GetRatePlansForSubscription().success(function (response) {
 
         	$scope.planSubscriptions= response;
@@ -382,24 +342,6 @@
       });
 
 
-			// $http({
-			// 	method: 'GET',
-			// 	url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetPlanDetails",
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-          // 'idToken': $scope.idToken
-			// 	}
-			// }).then(function (response) {
-          //
-			// 	$scope.companyPricePlans = response.data;
-          //
-			// 	if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
-			// 		$scope.loadPlanDetails();
-			// 	}
-          //
-			// }, function (response) {
-			// 	// console.log(response);
-			// });
 
       $charge.ratingengine().GetPlanDetails().success(function (response) {
 
@@ -502,68 +444,8 @@
 
 		$scope.showCurrPlan = function() {
 
-			//if($scope.selectedPlan.per == "/ Mo" || $scope.selectedPlan.no == 1 || $scope.selectedPlan.no == 2 ){
-			//  $scope.signupsuccess = true;
-			//  $scope.$watch(function () {
-			//    $scope.planDuration = "Monthly";
-			//  });
-			//  $scope.currentPlan = $scope.selectedPlan.no;
-			//}else if($scope.selectedPlan.per == "/ Yr"){
-			//  $scope.signupsuccess = true;
-			//  $scope.$watch(function () {
-			//    $scope.planDuration = "Yearly";
-			//  });
-			//  $scope.currentPlan = $scope.selectedPlan.no;
-			//}
-
-			$scope.currentPlan = $scope.selectedPlan.planNo;
+					$scope.currentPlan = $scope.selectedPlan.planNo;
 		};
-
-
-
-		// $http({
-		// 	method: 'GET',
-		// 	url: 'http://app.cloudcharge.com:8001/auth/getUserInfoByID',
-		// 	headers: {
-		// 		'id_token':$scope.idToken
-		// 	}
-		// }).then(function(response) {
-        //
-		// 	// console.log(response);
-        //
-		// 	vm.dummy.Data =response.data.Result;
-        //
-		// 	$scope.tenantId = response.data.Result.domain.split('.')[0];
-        //
-		// 	if(response.data.Result.UserType === "admin"){
-		// 		$scope.isUserAdmin = true;
-		// 	}
-        //
-		// 	$scope.currentPlanName = response.data.Result.plan;
-        //
-		// 	selectPlan(response.data.Result.plan);
-        //
-		// 	$scope.calculateFreeTrialExpireDate();
-        //
-		// 	$scope.config = {
-		// 		publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
-		// 		title: 'Cloudcharge',
-		// 		email:response.data.Result.email,
-		// 		description: "for connected business",
-		// 		logo: 'app/main/account/img/loginDuo.png',
-		// 		label: 'Add Card'
-		// 	}
-        //
-		// 	if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
-		// 		$scope.loadPlanDetails();
-		// 	}
-        //
-		// 	$scope.accGeneralLoaded = true;
-        //
-        //
-		// }, function(response) {
-		// 	// console.log(response);
-		// });
 
 
     $charge.myAccountEngine().getUserInfoByID().success(function (response) {
@@ -1630,39 +1512,69 @@
 			// var lastDateTimestamp = lastDate[1]+"/"+lastDate[2]+"/"+lastDate[0];
 			// alert(new Date(newDate).getTime());
 
-			$http({
-				method: 'POST',
-				url: 'http://azure.cloudcharge.com/services/duosoftware.EmailGatewayAPI/email/downloadSubscriptionPDF',
-				headers: {
-					'Content-Type': 'application/json',
-					'idToken' : $scope.idToken
-				},
-				data:[{
-					"type": "PDF",
-					"id": record.id,
-					"amount": record.amount,
-					"email": parseJwt($scope.idToken).emails[0],
-					"currency": "usd",
-					"infomation": JSON.stringify([record.infomation]),
-					"domain": window.location.hostname,
-					"currentPeriod": receivedDateTimestamp,
-					"currentPeriodEnd": lastDateTimestamp,
-					"createdDate": receivedDateTimestamp,
-					"gatewayType": "stripe"
-				}]
-			}).then(function (successResponse) {
-				$scope.subscriptionDateForPDF = record.receivedDate;
-				var pdf = 'data:application/octet-stream;base64,' + successResponse.data.encodedResult;
-				var dlnk = document.getElementById('hidden-donwload-anchor');
-				$timeout(function(){
-					dlnk.href = pdf;
-					dlnk.click();
-				},100);
-				record.downloading = false;
-			}, function (errorResponse) {
-				// console.log(errorResponse)
-				record.downloading = false;
-			});
+			// $http({
+			// 	method: 'POST',
+			// 	url: 'http://azure.cloudcharge.com/services/duosoftware.EmailGatewayAPI/email/downloadSubscriptionPDF',
+			// 	headers: {
+			// 		'Content-Type': 'application/json',
+			// 		'idToken' : $scope.idToken
+			// 	},
+			// 	data:[{
+			// 		"type": "PDF",
+			// 		"id": record.id,
+			// 		"amount": record.amount,
+			// 		"email": parseJwt($scope.idToken).emails[0],
+			// 		"currency": "usd",
+			// 		"infomation": JSON.stringify([record.infomation]),
+			// 		"domain": window.location.hostname,
+			// 		"currentPeriod": receivedDateTimestamp,
+			// 		"currentPeriodEnd": lastDateTimestamp,
+			// 		"createdDate": receivedDateTimestamp,
+			// 		"gatewayType": "stripe"
+			// 	}]
+			// }).then(function (successResponse) {
+			// 	$scope.subscriptionDateForPDF = record.receivedDate;
+			// 	var pdf = 'data:application/octet-stream;base64,' + successResponse.data.encodedResult;
+			// 	var dlnk = document.getElementById('hidden-donwload-anchor');
+			// 	$timeout(function(){
+			// 		dlnk.href = pdf;
+			// 		dlnk.click();
+			// 	},100);
+			// 	record.downloading = false;
+			// }, function (errorResponse) {
+			// 	// console.log(errorResponse)
+			// 	record.downloading = false;
+			// });
+
+      $scope.data=[{
+        		"type": "PDF",
+        		"id": record.id,
+        		"amount": record.amount,
+        		"email": vm.dummy.Data.email,
+        		"currency": "usd",
+        		"infomation": JSON.stringify([record.infomation]),
+        		"domain": window.location.hostname,
+        		"currentPeriod": receivedDateTimestamp,
+        		"currentPeriodEnd": lastDateTimestamp,
+        		"createdDate": receivedDateTimestamp,
+        		"gatewayType": "stripe"
+        	}];
+      $charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
+
+        	$scope.subscriptionDateForPDF = record.receivedDate;
+        	var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
+        	var dlnk = document.getElementById('hidden-donwload-anchor');
+        	$timeout(function(){
+        		dlnk.href = pdf;
+        		dlnk.click();
+        	},100);
+        	record.downloading = false;
+
+      }).error(function(errorResponse) {
+        record.downloading = false;
+      });
+
+
 		}
 		// SUBSCRIPTION HISTORY PDF DOWNLOADER
 
