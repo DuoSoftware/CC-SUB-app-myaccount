@@ -1,7 +1,7 @@
 <?php
 
 require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
-//require_once('../data/accountConfig.php');
+require_once('../data/accountConfig.php');
 
 $doc = $_SERVER ['DOCUMENT_ROOT'];
 require_once ($doc.'/services/config/settings.php');
@@ -73,8 +73,8 @@ switch ($view) {
 
                        curl_setopt($ch, CURLOPT_HTTPHEADER,$head);
 
-                   //curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
-                   curl_setopt($ch, CURLOPT_URL, "http://cloudcharge.com:8001/auth/updateSubscription?planCode=".$planId);
+                   curl_setopt($ch, CURLOPT_URL, "http://".host.":8001/auth/updateSubscription?planCode=".$planId);
+                   //curl_setopt($ch, CURLOPT_URL, "http://app.cloudcharge.com:8001/auth/updateSubscription?planCode=".$planId);
 
                    // receive server response ...
                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

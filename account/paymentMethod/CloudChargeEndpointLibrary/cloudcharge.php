@@ -499,7 +499,7 @@ class CloudCharge {
 				$paygateway = PAYMENT_GATWAY;
 
 		//$this->invoker = new WsInvoker("http://". $GLOBALS['mainDomain'] ."/services/duosoftware.paymentgateway.service/" . $paygateway);
-		$this->invoker = new WsInvoker("http://cloudcharge.com/services/duosoftware.paymentgateway.service/" . $paygateway);
+		$this->invoker = new WsInvoker("http://app.cloudcharge.com/services/duosoftware.paymentgateway.service/" . $paygateway);
 		$this->invoker->addHeader("securityToken", $_COOKIE['securityToken']);
 		$this->invoker->addHeader("idToken", $_COOKIE['securityToken']);
 	}

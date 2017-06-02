@@ -3,11 +3,12 @@
 
 $doc = $_SERVER ['DOCUMENT_ROOT'];
 require_once ($doc.'/services/config/settings.php');
+require_once('../data/accountConfig.php');
 
 
  define('CLIENT_ID', 'ca_9PpA3YTuMERCqYWgdj2ORagy9THaCOVO');
  //define('TOKEN_URI', ''. MAIN_DOMAIN .'/services/duosoftware.paymentgateway.service/stripe/insertAccKeys');
- define('TOKEN_URI', 'http://cloudcharge.com/services/duosoftware.paymentgateway.service/stripe/insertAccKeys');
+ define('TOKEN_URI', 'http://'.host.'/services/duosoftware.paymentgateway.service/stripe/insertAccKeys');
  define('AUTHORIZE_URI', 'https://connect.stripe.com/oauth/authorize');
    if (isset($_GET['code'])) {
      $code = $_GET['code'];
@@ -74,7 +75,7 @@ require_once ($doc.'/services/config/settings.php');
        'client_id' => CLIENT_ID,
        'state' => $_SERVER['SERVER_NAME'].'@'.$_COOKIE['securityToken']
        //,'redirect_uri'=> MAIN_DOMAIN .'/azureshell/app/main/account/paymentMethod/payment-partial.php'
-       ,'redirect_uri'=> 'http://cloudcharge.com/azureshell/app/main/account/paymentMethod/payment-partial.php'
+       ,'redirect_uri'=> 'http://'.host.'/azureshell/app/main/account/paymentMethod/payment-partial.php'
      );
 
    $url = AUTHORIZE_URI . '?' . http_build_query($authorize_request_body);
