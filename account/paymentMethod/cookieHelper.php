@@ -1,5 +1,6 @@
 <?php
 
+
 setcookie("planId", $_GET['plan']);
 setcookie("price", $_GET['price']);
 setcookie("name", $_GET['name']);

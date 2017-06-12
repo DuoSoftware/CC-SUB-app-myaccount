@@ -8,13 +8,13 @@ $server_environment = 'dev'; // local/live
 switch ($server_environment) {
 
 	case 'dev' :
-	    define('host','app.cloudcharge.com');
+	    define('host','dev.cloudcharge.com');
 
 
 		break;
 
 	case 'qa' :
-	    define('host','cloudcharge.com');
+	    define('host','qa.cloudcharge.com');
 
 		break;
 

@@ -32,7 +32,7 @@
 
         }).error(function (response) {
 
-          //console.log(response);
+          console.log(response);
           notifications.toast("2Checkout registration failed", "error");
         });
       }
