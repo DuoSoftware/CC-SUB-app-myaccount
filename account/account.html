@@ -9,7 +9,7 @@
 <div id="account" class="page-layout carded left-sidenav" layout="row" ng-switch="vm.appInnerState">
 
     <!-- TOP BACKGROUND -->
-    <div class="top-bg md-accent-bg"></div>
+    <div class="top-bg md-accent-bg h-55"></div>
     <!-- / TOP BACKGROUND -->
 
     <!-- SIDENAV -->
@@ -24,7 +24,7 @@
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->
-        <div class="content-card" layout="column" ng-class="{'flex-30':showInpageReadpane}" flex>
+        <div class="content-card content-card-offset" layout="column" ng-class="{'flex-30':showInpageReadpane}" flex>
 
 
             <!-- CONTENT WRAPPER -->
@@ -46,11 +46,14 @@
                                             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
                                         </div>
                                         <div>
-                                            <div layout="row" layout-align="start center" flex class="user">
-                                                <img src="assets/icons/ic_face_black_24px.svg" alt="vm.dummy.Data.givenName" class="mr-10">
-                                                <div class="user-name">
-                                                    <span>{{vm.dummy.Data.givenName}} {{vm.dummy.Data.surName}}</span>
+                                            <div layout="row">
+                                                <div layout="row" layout-align="start center" flex class="user">
+                                                    <img src="assets/icons/ic_face_black_24px.svg" alt="vm.dummy.Data.givenName" class="mr-10">
+                                                    <div class="user-name">
+                                                        <span>{{vm.dummy.Data.givenName}} {{vm.dummy.Data.surName}}</span>
+                                                    </div>
                                                 </div>
+                                                <md-button ng-click="saveProfileDetails(true)" class="md-icon-button edit-icon"><md-icon md-font-icon="icon-pencil"></md-icon><md-tooltip>Edit profile</md-tooltip> </md-button>
                                             </div>
                                             <md-divider class="mv-10"></md-divider>
                                             <div layout="row" flex>
@@ -104,8 +107,8 @@
                                             </div>
                                             <div layout="row" layout-align="end center">
                                                 <md-button class="md-accent" href="https://login.microsoftonline.com/ccactiveb2c.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_ccPasswordReset&client_Id=d084a227-bb52-4992-889d-6e4835610e76&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fcloudcharge.com%2Fazuresignup%2FccAzure.php%2FreLogin&scope=openid&response_type=id_token&prompt=login"><md-icon md-font-icon="icon-refresh"></md-icon> Reset password</md-button>
-                                                <md-button class="md-accent md-raised" aria-label="compose"
-                                                           ng-click="saveProfileDetails(true)">Edit profile</md-button>
+                                                <!--<md-button class="md-accent md-raised" aria-label="compose"-->
+                                                           <!--ng-click="saveProfileDetails(true)">Edit profile</md-button>-->
                                             </div>
                                         </div>
                                     </md-card-content>
@@ -129,15 +132,19 @@
                                                         <div layout="row" layout-align="start center" class="group-sub-head" style="margin-top: 0">
                                                             <span flex="30"><b>{{key.name}}</b></span>
                                                         </div>
-                                                        <div layout="row" layout-align="space-between center" class="dashed-highlight-blue">
-                                                            <span class="access-key" id="{{key.key}}" flex>{{xfiedKey | limitTo: key.key.length}}</span>
+                                                        <div layout="row" layout-align="space-between center" class="dashed-highlight-blue pos-rel">
+                                                            <div flex layout="row" layout-align="start center">
+                                                                <span class="access-key" id="{{key.key}}">{{xfiedKey | limitTo: key.key.length}}</span>
+                                                                <span class="copied-to-clipboard animate-fade-in-out" ng-if="$index == 0 && primaryCopied" ng-hide="coppiedTimeout">Copied</span>
+                                                                <span class="copied-to-clipboard animate-fade-in-out" ng-if="$index == 1 && secondaryCopied" ng-hide="coppiedTimeout">Copied</span>
+                                                            </div>
                                                             <div layout="row">
                                                                 <div class="keyDisplay{{key.key}}">
                                                                     <md-button id="show" class="md-icon-button md-accent" ng-click="showAccessKey(key, $index)"><md-icon md-font-icon="icon-eye" class="copy-icon"></md-icon><md-tooltip>Show Key</md-tooltip> </md-button>
                                                                     <md-button id="hide" class="md-icon-button md-accent" ng-click="hideAccessKey(key, $index)"><md-icon md-font-icon="icon-eye-off" class="copy-icon"></md-icon><md-tooltip>Hide Key</md-tooltip> </md-button>
                                                                 </div>
 
-                                                                <md-button class="md-icon-button md-accent" ng-click="copyToClipboard(key.key)"><md-icon md-font-icon="icon-content-copy" class="copy-icon" style="font-size: 18px"></md-icon><md-tooltip>Copy key</md-tooltip> </md-button>
+                                                                <md-button class="md-icon-button md-accent" ng-click="copyToClipboard(key.key, key.name)"><md-icon md-font-icon="icon-content-copy" class="copy-icon" style="font-size: 18px"></md-icon><md-tooltip>Copy key</md-tooltip> </md-button>
                                                                 <md-button class="md-icon-button md-accent" ng-disabled="isKeyResetting" ng-click="resetKey(key.key, key.name)"><md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
                                                             </div>
                                                         </div>
@@ -151,7 +158,16 @@
 
                             </div>
 
-                            <div layout="column" ng-if="vm.editableMode" style="padding-bottom: 40px">
+                            <div layout="column" ng-if="vm.editableMode" class="pb-40">
+                                <div layout="row" layout-align="space-between center" class="h-35 light-gray pl-16" ng-if="vm.editableMode">
+                                    <h3 class="group-sub-head m-0" layout="row" layout-align="start center">Edit profile</h3>
+                                    <div layout="row">
+                                        <md-button class="md-icon-button" ng-click="cancelEdit()">
+                                            <md-icon md-font-icon="icon-close"></md-icon>
+                                            <md-tooltip>Close</md-tooltip>
+                                        </md-button>
+                                    </div>
+                                </div>
                                 <md-content style="background-color: transparent">
                                     <form name="vm.myaccForm" id="myAcc" ng-submit="saveProfileDetails(false)" novalidate>
                                         <md-card flex class="input-block-gen">
@@ -611,7 +627,7 @@
                                 <md-card-actions>
                                     <div layout="row" layout-align="end center" class="plan_footer">
                                         <md-button class="md-primary" ng-click="clearPasswordFields()">Clear</md-button>
-                                        <md-button type="submit" class="md-warn md-raised" ng-disabled="isChangePasswordSelected" ng-click="changePassword()">Save</md-button>
+                                        <md-button type="submit" class="md-accent md-raised" ng-disabled="isChangePasswordSelected" ng-click="changePassword()">Save</md-button>
                                     </div>
                                 </md-card-actions>
                             </md-card>
@@ -622,7 +638,7 @@
                 </md-content>
                 <div layout="row" layout-align="end center" md-whiteframe="8dp" class="bottom-fixed-bar" ng-show="generalDetails && vm.editableMode">
                     <md-button ng-click="clearFields()">Clear</md-button>
-                    <md-button type="submit" form="myAcc" class="md-raised md-warn">Save</md-button>
+                    <md-button type="submit" form="myAcc" class="md-raised md-accent">Save</md-button>
                 </div>
                 <!--<div layout="row" layout-align="end center" md-whiteframe="8dp" class="bottom-fixed-bar" ng-show="passwordSettings">-->
                 <!--<md-button ng-click="clearPasswordFields()" ng-disabled="!isEditablePassword">Clear</md-button>-->

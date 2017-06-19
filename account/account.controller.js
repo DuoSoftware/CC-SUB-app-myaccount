@@ -1352,22 +1352,38 @@
 			document.querySelector('.keyDisplay'+key.key+' #hide').style.display='none';
 		};
 
-		$scope.copyToClipboard = function (id) {
+		$scope.copyToClipboard = function (id, elem) {
+			$scope.coppiedTimeout = false;
+			$scope.copyStarted = true;
+			$scope.secondaryCopied = false;
+			$scope.primaryCopied = false;
 			window.getSelection().empty();
 			var ID = "#"+id;
-			var notifParent = document.getElementById(id);
-			var notif = notifParent.getElementsByClassName('copied-to-clipboard')[0];
+			// var notifParent = document.getElementById(id);
+			// var notif = notifParent.getElementsByClassName('copied-to-clipboard')[0];
 			var copyField = document.getElementById(id);
 			var range = document.createRange();
 			range.selectNode(copyField);
 			window.getSelection().addRange(range);
-			if(notif != null || notif != undefined){
-				notif.remove();
-				copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
-			}else{
-				copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
-			}
 			document.execCommand('copy');
+			if(elem.split(' ')[0].toLowerCase() == 'primary'){
+				$timeout(function(){
+					$scope.primaryCopied = true;
+				});
+			}else{
+				$timeout(function() {
+					$scope.secondaryCopied = true;
+				});
+			}
+			$timeout(function(){
+				$scope.coppiedTimeout = true;
+			},2000);
+			// if(notif != null || notif != undefined){
+			// 	notif.remove();
+			// 	copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
+			// }else{
+			// 	copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
+			// }
 		}
 
 		$scope.showMoreUserInfo=false;

@@ -1,5 +1,5 @@
 <!-- SIDENAV HEADER -->
-<div class="header" layout="column" layout-align="center center">
+<div class="header header-offset" layout="column" layout-align="center start">
 
     <div class="logo" layout="row" layout-align="start center">
         <span class="logo-icon">
@@ -14,16 +14,16 @@
 <!-- SIDENAV CONTENT -->
 <md-content ms-scroll class="content" flex>
 
-    <div class="compose-button" ng-if="generalDetails && !vm.editableMode">
-        <!--<md-button class="md-accent md-raised" aria-label="compose"-->
-                   <!--ng-click="saveProfileDetails(true)">Edit profile-->
-        <!--</md-button>-->
-    </div>
-  <div class="compose-button" ng-if="generalDetails && vm.editableMode">
-    <md-button class="md-accent md-raised" aria-label="compose"
-               ng-click="cancelEdit()" >View profile
-    </md-button>
-  </div>
+    <!--<div class="compose-button" ng-if="generalDetails && !vm.editableMode">-->
+        <!--&lt;!&ndash;<md-button class="md-accent md-raised" aria-label="compose"&ndash;&gt;-->
+                   <!--&lt;!&ndash;ng-click="saveProfileDetails(true)">Edit profile&ndash;&gt;-->
+        <!--&lt;!&ndash;</md-button>&ndash;&gt;-->
+    <!--</div>-->
+  <!--<div class="compose-button" ng-if="generalDetails && vm.editableMode">-->
+    <!--<md-button class="md-accent md-raised" aria-label="compose"-->
+               <!--ng-click="cancelEdit()" >View profile-->
+    <!--</md-button>-->
+  <!--</div>-->
 
     <div class="navigation-simple" layout="column" ng-if="!vm.editableMode">
       <md-button class="item" ng-class="{'selected': generalDetails}" aria-label="starred" ng-click="switchInpageState('general-details')">
