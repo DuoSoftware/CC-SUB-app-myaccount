@@ -10,7 +10,7 @@
 	/** @ngInject */
 	function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse) {
 		$scope.acc = "";
-		//console.log("Profile Controller Called.");
+		//// console.log("Profile Controller Called.");
 		var vm = this;
 
 		vm.appInnerState = 'default';
@@ -139,42 +139,30 @@
 			return null;
 		}
 
-		$scope.idToken= gst('securityToken');
-
-		if(!$scope.idToken)
-			$scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InQ4elBBYm9Ga0NKOWItbkZKenp5SWlrSmdTSkFrQTJwMDh5a3dSWV8xQW8ifQ.eyJleHAiOjE0OTI1MDU0MzAsIm5iZiI6MTQ5MjQyMjYzMCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkyNDIyNjMwLCJhdXRoX3RpbWUiOjE0OTI0MjI2MzAsIm9pZCI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImdpdmVuX25hbWUiOiJTdXZldGhhbiIsIm5hbWUiOiJOYW50aGEiLCJjb3VudHJ5IjoiU3JpIExhbmthIiwiZXh0ZW5zaW9uX0RvbWFpbiI6InN1dmV0aGFuTi5hcHAuY2xvdWRjaGFyZ2UuY29tIiwiZmFtaWx5X25hbWUiOiJzdGFydGVyIiwiam9iVGl0bGUiOiJhZG1pbiIsImVtYWlscyI6WyJzdXZldGhhbkBkdW9zb2Z0d2FyZS5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFBvbGljeSJ9.Co4MgJSYgPCL12M-l2ASWQM4rQJhTk0RimSYOlABaILnJvjbq9rujDNd4Dsv-hFR3du4VY2hxydpoSu1tTFAWndpZH2NmRYevXN4uLNKA7O4DGy7kjnHltL26h47RpzNRIsOg5Ih1RD7l2KPE_aTpTlvNZNZsfIaKOa-8OtAqUpm_GLTMZNqxxJT6mE-HXynWsgu9bU1slSOH3kGbcDld1aQfjkJrU8BX7cGSA5kbh2CIAszSvJmodtHtfUJmEWd8RV3uDXTEcziQpRaElYjH0I_wT4gCSgvD___W1_cPOi1ocrTv5eYnf0LmjxdgbqvvJFCrYnhrFbXI3J6L8j8Pg";
+		 $scope.idToken= gst('securityToken');
+        //
+		// if(!$scope.idToken)
+		//	$scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InQ4elBBYm9Ga0NKOWItbkZKenp5SWlrSmdTSkFrQTJwMDh5a3dSWV8xQW8ifQ.eyJleHAiOjE0OTI1MDU0MzAsIm5iZiI6MTQ5MjQyMjYzMCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkyNDIyNjMwLCJhdXRoX3RpbWUiOjE0OTI0MjI2MzAsIm9pZCI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImdpdmVuX25hbWUiOiJTdXZldGhhbiIsIm5hbWUiOiJOYW50aGEiLCJjb3VudHJ5IjoiU3JpIExhbmthIiwiZXh0ZW5zaW9uX0RvbWFpbiI6InN1dmV0aGFuTi5hcHAuY2xvdWRjaGFyZ2UuY29tIiwiZmFtaWx5X25hbWUiOiJzdGFydGVyIiwiam9iVGl0bGUiOiJhZG1pbiIsImVtYWlscyI6WyJzdXZldGhhbkBkdW9zb2Z0d2FyZS5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFBvbGljeSJ9.Co4MgJSYgPCL12M-l2ASWQM4rQJhTk0RimSYOlABaILnJvjbq9rujDNd4Dsv-hFR3du4VY2hxydpoSu1tTFAWndpZH2NmRYevXN4uLNKA7O4DGy7kjnHltL26h47RpzNRIsOg5Ih1RD7l2KPE_aTpTlvNZNZsfIaKOa-8OtAqUpm_GLTMZNqxxJT6mE-HXynWsgu9bU1slSOH3kGbcDld1aQfjkJrU8BX7cGSA5kbh2CIAszSvJmodtHtfUJmEWd8RV3uDXTEcziQpRaElYjH0I_wT4gCSgvD___W1_cPOi1ocrTv5eYnf0LmjxdgbqvvJFCrYnhrFbXI3J6L8j8Pg";
 		// $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0OTAxNTk0MTEsIm5iZiI6MTQ5MDA3NjYxMSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkwMDc2NjExLCJhdXRoX3RpbWUiOjE0OTAwNzY2MTEsIm9pZCI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImdpdmVuX25hbWUiOiJpc3MiLCJuYW1lIjoiaXNzIiwiY291bnRyeSI6IlNhYmEiLCJleHRlbnNpb25fRG9tYWluIjoiaXNzLmNsb3VkY2hhcmdlLmNvbSIsImZhbWlseV9uYW1lIjoiYnVzaW5lc3MiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbImd1bmF0aGlsYWthaXNoYXJhQGdtYWlsLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.aHkjg58win7uz5aUUwfuM-BISxTiBF_awiq4LA2QEtdf6I9TybGWomvfoq0FsWEmjZL3qN5C1Mm1Lisq4rHX0rqF3fDE8Bb88xN40QdByRnaMW5iSfgGIkZoZbQ4gUp0U4PVJu9YEj1zHS_EwTc4sHNVIgxLv2l3r0oBEGhnXJhAEkWSBVIUL-A3mtrSlAsDVTaDmc882D-0yjKFJxZcZTyxZonP7YmDMTPeyzKLFjHjKcddUomdRn52WrKDeFRGqpwO2Bs656EMg27LCZKTN6c_PhlJ7FaGp4qrqjK9SyZR6eG2dFOurQv8Xi-e2LHosKEt8O2MZB7a7kZZwqTkLQ";//gst('idToken');
 		// $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODkxNDQ5NzksIm5iZiI6MTQ4OTA1ODU3OSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5MDU4NTc5LCJhdXRoX3RpbWUiOjE0ODkwNTg1NzksIm9pZCI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImdpdmVuX25hbWUiOiJmYWZhIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyaWFsIiwibmFtZSI6InBpYmEiLCJqb2JUaXRsZSI6ImFkbWluIiwiY291bnRyeSI6IkFuZ3VpbGxhIiwiZXh0ZW5zaW9uX0RvbWFpbiI6ImZhZmFwaWJhLmNsb3VkY2hhcmdlLmNvbSIsImVtYWlscyI6WyJmYWZhcGliYUBnYW1nbGluZy5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFNpZ25JbiJ9.sJj5ZfhDBb27BEYfDTuSMg9zCkoS62eOcWC2XbyzCYcRfsQjKtPB_1BeeESQwhyHekUSvgwt0tgpJAYIZvmMt-aWcKvhwJa02cG3BzUV-LFuGakCMFADXzDzs2qyRjL0cWnW1MQlvm1roBmnEUpeifGoGmfFwhWyKGF7-Asmq00W6tml7u_IOVUkPs-0pRE-31srM2QX1DZsYsJB3P0j8k02zjVgbMoaX3z31GY0Ez-Va0GzukDm9AQHeZUo-D1hU9vzFYD2Nk7pTxbPTi58ktxTN1_LNZ_sRXGooOZmuONayHwmLbvOBvdAT4mfYN0HrKIEVEz9NgRNFT6AOoTWLw";//gst('idToken');
 
 		(function (){
-			$http({
-				method: 'GET',
-				url: 'http://app.cloudcharge.com:8001/auth/getSubscriptionInfo',
-				headers: {
-					'Content-Type': 'application/json',
-					'id_token' : $scope.idToken
-				}
-			}).success(function (response) {
-				$scope.access_keys = [{
-					name: "Primary key",
-					key: response.Result.primaryKey
-				},{
-					name: "Secondary key",
-					key: response.Result.secondaryKey
-				}];
-				$scope.accAccessKeysLoaded = true;
-			}).error(function (errorResponse) {
-				console.log(errorResponse);
-			});
+			$charge.myAccountEngine().getSubscriptionInfo().success(function (response) {
+        	$scope.access_keys = [{
+        		name: "Primary key",
+        		key: response.Result.primaryKey
+        	},{
+        		name: "Secondary key",
+        		key: response.Result.secondaryKey
+        	}];
+        	$scope.accAccessKeysLoaded = true;
+
+      }).error(function(data) {
+         // console.log(data);
+        $scope.accAccessKeysLoaded = true;
+      });
+
 		})();
-
-		function parseJwt (token) {
-			var base64Url = token.split('.')[1];
-			var base64 = base64Url.replace('-', '+').replace('_', '/');
-			return JSON.parse(window.atob(base64));
-		}
-
-		var oid = parseJwt($scope.idToken).oid;
 
 
 
@@ -261,7 +249,7 @@
 				}
 
 			}, function (response) {
-				console.log(response);
+				// console.log(response);
 				$scope.cardDetails = null;
 
 			});
@@ -295,7 +283,7 @@
 				}
 
 			}).error(function(data) {
-				console.log( data);
+				// console.log( data);
 
 				$scope.isRegisteredWithStripe = false;
 				$scope.isRegisteredWith2checkout = false;
@@ -331,6 +319,8 @@
 
 			if($scope.selectedPlan.planNo > 1)
 				$scope.getSelectedPlanSubscriptionDetails();
+			else
+        $scope.accSubscriptionDetailsLoaded = true;
 
 
 		}
@@ -338,44 +328,32 @@
 		$scope.planSubscriptions= null;
 		$scope.getAllPlans = function () {
 
-			$http({
-				method: 'GET',
-				url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetRatePlansForSubscription",
-				headers: {
-					'Content-Type': 'application/json',
-					'securityToken': oid
-				}
-			}).then(function (response) {
+      $charge.ratingengine().GetRatePlansForSubscription().success(function (response) {
 
-				$scope.planSubscriptions= response.data;
+        	$scope.planSubscriptions= response;
+
+        	if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+        		$scope.loadPlanDetails();
+        	}
 
 
-				if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
-					$scope.loadPlanDetails();
-				}
+      }).error(function(data) {
+        // console.log( data);
+      });
 
-			}, function (response) {
-				console.log(response);
-			});
 
-			$http({
-				method: 'GET',
-				url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/GetPlanDetails",
-				headers: {
-					'Content-Type': 'application/json',
-					'securityToken': oid
-				}
-			}).then(function (response) {
 
-				$scope.companyPricePlans = response.data;
+      $charge.ratingengine().GetPlanDetails().success(function (response) {
 
-				if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
-					$scope.loadPlanDetails();
-				}
+        	$scope.companyPricePlans = response;
 
-			}, function (response) {
-				console.log(response);
-			});
+        	if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+        		$scope.loadPlanDetails();
+        	}
+
+      }).error(function(data) {
+        // console.log( data);
+      });
 
 
 		};
@@ -457,7 +435,7 @@
 				notifications.toast("Default card has been changed", "success");
 
 			}, function(response) {
-				console.log('set card function returned an error '+response);
+				// console.log('set card function returned an error '+response);
 				notifications.toast("Error, unable to proceed with the operation", "error");
 
 
@@ -466,82 +444,68 @@
 
 		$scope.showCurrPlan = function() {
 
-			//if($scope.selectedPlan.per == "/ Mo" || $scope.selectedPlan.no == 1 || $scope.selectedPlan.no == 2 ){
-			//  $scope.signupsuccess = true;
-			//  $scope.$watch(function () {
-			//    $scope.planDuration = "Monthly";
-			//  });
-			//  $scope.currentPlan = $scope.selectedPlan.no;
-			//}else if($scope.selectedPlan.per == "/ Yr"){
-			//  $scope.signupsuccess = true;
-			//  $scope.$watch(function () {
-			//    $scope.planDuration = "Yearly";
-			//  });
-			//  $scope.currentPlan = $scope.selectedPlan.no;
-			//}
-
-			$scope.currentPlan = $scope.selectedPlan.planNo;
+					$scope.currentPlan = $scope.selectedPlan.planNo;
 		};
 
 
+    $charge.myAccountEngine().getUserInfoByID().success(function (response) {
 
-		$http({
-			method: 'GET',
-			url: 'http://app.cloudcharge.com:8001/auth/getUserInfoByID',
-			headers: {
-				'id_token':$scope.idToken
-			}
-		}).then(function(response) {
+      	// console.log(response);
+      response.data = response;
+      	vm.dummy.Data =response.data.Result;
 
-			console.log(response);
+      	$scope.tenantId = response.data.Result.domain.split('.')[0];
 
-			vm.dummy.Data =response.data.Result;
+      	if(response.data.Result.UserType === "admin"){
+      		$scope.isUserAdmin = true;
+      	}
 
-			$scope.tenantId = response.data.Result.domain.split('.')[0];
+      	$scope.currentPlanName = response.data.Result.plan;
 
-			if(response.data.Result.UserType === "admin"){
-				$scope.isUserAdmin = true;
-			}
+      	selectPlan(response.data.Result.plan);
 
-			$scope.currentPlanName = response.data.Result.plan;
+      	$scope.calculateFreeTrialExpireDate();
 
-			selectPlan(response.data.Result.plan);
+      	$scope.config = {
+      		publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
+      		title: 'Cloudcharge',
+      		email:response.data.Result.email,
+      		description: "for connected business",
+      		logo: 'app/main/account/img/loginDuo.png',
+      		label: 'Add Card'
+      	}
 
-			$scope.calculateFreeTrialExpireDate();
+      	if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+      		$scope.loadPlanDetails();
+      	}
 
-			$scope.config = {
-				publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
-				title: 'Cloudcharge',
-				email:response.data.Result.email,
-				description: "for connected business",
-				logo: 'app/main/account/img/loginDuo.png',
-				label: 'Add Card'
-			}
-
-			if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
-				$scope.loadPlanDetails();
-			}
-
-			$scope.accGeneralLoaded = true;
+      	$scope.accGeneralLoaded = true;
 
 
-		}, function(response) {
-			console.log(response);
-		});
+
+    }).error(function(data) {
+      // console.log(data);
+    });
+
+
 
 		$scope.initPlanSliderValue = null;
 		$scope.getSelectedPlanSubscriptionDetails = function () {
 
-			$http({
-				method: 'GET',
-				url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice&plan="+$scope.selectedPlan.code,
-				headers: {
-					'Content-Type': 'application/json',
-					'idToken': $scope.idToken
-				}
-			}).then(function (response) {
-				//$scope.currentPlanName = response.data.name;
-				if(response.status != 204){
+			// $http({
+			// 	method: 'GET',
+			// 	url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice&plan="+$scope.selectedPlan.code,
+			// 	headers: {
+			// 		'Content-Type': 'application/json',
+			// 		'idToken': $scope.idToken
+			// 	}
+			// }).then(function (response) {
+
+
+        $charge.ratingengine().getAppRule("invoice",$scope.selectedPlan.code).success(function (response) {
+
+          //$scope.currentPlanName = response.data.name;
+          response.data = response;
 					$scope.currentPlanAmount = parseInt(response.data.amount);
 
 					$scope.initPlanSliderValue = parseInt(response.data.amount);
@@ -633,13 +597,14 @@
 						// $scope.currentPlanCreatedDate = new Date(data.response[0].currentPeriod).toString();
 						// $scope.currentPlanExpiryDate= new Date(data.response[0].currentPeriodEnd).toString();
 					}).error(function (data) {
-						console.log(data);
+						// console.log(data);
 					});
 					$scope.accSubscriptionDetailsLoaded = true;
-				}
 
-			}, function (response) {
-				console.log(response);
+
+        }).error(function(data) {
+
+          // console.log(response);
 				$scope.accSubscriptionDetailsLoaded = true;
 			});
 		}
@@ -701,7 +666,7 @@
 
 
 			}).error(function (data) {
-				console.log(data);
+				// console.log(data);
 				//$scope.paymentHistoryList = null;
 				$scope.isTenantPaymentHistoryClicked = false;
 				$scope.showPaymentHistoryPane = true;
@@ -740,7 +705,7 @@
 
 
 				}).error(function (response) {
-					console.log(response);
+					// // console.log(response);
 
 					notifications.toast("Subscription disconnection not completed", "error");
 
@@ -812,7 +777,7 @@
 
 
 				}).error(function (response) {
-					console.log(response);
+					// // console.log(response);
 					notifications.toast("2Checkout disconnection failed", "error");
 
 				});
@@ -841,7 +806,7 @@
 				data : vm.dummy.Data
 
 			}).then(function(response) {
-				console.log(response);
+				// // console.log(response);
 
 				if (response.data.Data.IsSuccess) {
 
@@ -854,7 +819,7 @@
 				}
 
 			}, function(response) {
-				console.log(response);
+				// // console.log(response);
 				vm.editableMode = true;
 				notifications.toast("Error updating details, " + response, "error");
 			});
@@ -863,7 +828,7 @@
 
 
 		$scope.$on('stripe-token-received', function(event, args) {
-			console.log(args);
+			// // console.log(args);
 
 			if($scope.newCardSelected){
 
@@ -877,7 +842,7 @@
 					$scope.loadCardDetails();
 
 				}, function(response) {
-					console.log('add card function returned an error '+response);
+					// console.log('add card function returned an error '+response);
 				});
 
 			} else {
@@ -905,7 +870,7 @@
 				$scope.loadCardDetails();
 
 			}, function(response) {
-				console.log('add card function returned an error '+response);
+				// console.log('add card function returned an error '+response);
 			});
 		};
 
@@ -1031,7 +996,7 @@
 			//      }
 			//    }).then(function(response) {
 			//
-			//      console.log(response);
+			//      // console.log(response);
 			//
 			//      if(response.data.status){
 			//
@@ -1046,7 +1011,7 @@
 			//
 			//
 			//    }, function(response) {
-			//      console.log(response);
+			//      // console.log(response);
 			//      notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
 			//      $scope.isPlanSelected= false;
 			//      $scope.clickCancel();
@@ -1091,11 +1056,11 @@
 				$http.get('app/main/account/data/ratingengineservice.php/?method=updaterule&&data=' + data + '&&meta=' + meta).then(function (response) {
 					if (response.data.success) {
 
-						console.log("Rule updated! ");
+						// console.log("Rule updated! ");
 
 					}else{
 
-						console.log("update rule failed! " + response.data);
+						// console.log("update rule failed! " + response.data);
 
 					}
 
@@ -1104,14 +1069,14 @@
 					$window.location.reload();
 
 				}, function (response) {
-					console.log("update rule failed! " + response.data);
+					// console.log("update rule failed! " + response.data);
 
 				});
 
 
 
 			}).error(function (data) {
-				console.log(data);
+				// console.log(data);
 				$scope.isSubmitClicked = false;
 				//$scope.addedUsers += $scope.numberOfUsers;
 				notifications.toast("Error, unable to proceed with the operation", "error");
@@ -1158,35 +1123,55 @@
 
 			$scope.isChangePasswordSelected = true;
 
-			$http({
-				method: 'POST',
-				//url: '/apis/authorization/userauthorization/changepassword/'+$scope.user.currentPassword+'/'+$scope.user.newPassword,
-				url: 'http://app.cloudcharge.com:8001/auth/resetAPIUserPassword',
-				headers: {
-					'Content-Type': 'application/json',
-					'id_token' : $scope.idToken
-				},
-				data : { "password" : $scope.dev.newPassword}
-			})
-				.success(function (dataa) {
-					var title = "Error";
-					//if(dataa.Success)
-					//{
-					title = "Success";
+			// $http({
+			// 	method: 'POST',
+			// 	//url: '/apis/authorization/userauthorization/changepassword/'+$scope.user.currentPassword+'/'+$scope.user.newPassword,
+			// 	url: 'http://app.cloudcharge.com:8001/auth/resetAPIUserPassword',
+			// 	headers: {
+			// 		'Content-Type': 'application/json',
+			// 		'id_token' : $scope.idToken
+			// 	},
+			// 	data : { "password" : $scope.dev.newPassword}
+			// })
+			// 	.success(function (dataa) {
+			// 		var title = "Error";
+			// 		//if(dataa.Success)
+			// 		//{
+			// 		title = "Success";
+            //
+			// 		$scope.clearPassword();
+			// 		//}
+            //
+			// 		displaycreateCompanyDetailsSubmissionError("Password successfully changed " , title);
+			// 		$scope.isChangePasswordSelected = false;
+            //
+            //
+			// 	})
+			// 	.error(function (data) {
+			// 		displaycreateCompanyDetailsSubmissionError('Password not been changed duo to '+data ,'Failed to change password');
+			// 		$scope.isChangePasswordSelected = false;
+            //
+			// 	});
 
-					$scope.clearPassword();
-					//}
+      $scope.data = { "password" : $scope.dev.newPassword}
+      $charge.myAccountEngine().resetAPIUserPassword($scope.data).success(function (response) {
 
-					displaycreateCompanyDetailsSubmissionError("Password successfully changed " , title);
-					$scope.isChangePasswordSelected = false;
+        var title = "Error";
+        		//if(dataa.Success)
+        		//{
+        		title = "Success";
+
+        		$scope.clearPassword();
+        		//}
+
+        		displaycreateCompanyDetailsSubmissionError("Password successfully changed " , title);
+        		$scope.isChangePasswordSelected = false;
 
 
-				})
-				.error(function (data) {
-					displaycreateCompanyDetailsSubmissionError('Password not been changed duo to '+data ,'Failed to change password');
-					$scope.isChangePasswordSelected = false;
-
-				});
+      }).error(function(data) {
+        		displaycreateCompanyDetailsSubmissionError('Password not been changed duo to '+data ,'Failed to change password');
+        		$scope.isChangePasswordSelected = false;
+      });
 
 		}
 
@@ -1250,7 +1235,7 @@
 
 				$charge.paymentgateway().deactiveAcc().success(function (dataa) {
 
-					console.log(dataa);
+					// console.log(dataa);
 
 					if(dataa.status)
 					{
@@ -1263,7 +1248,7 @@
 					$scope.isRegButtonsShow= false;
 
 				}).error(function (data) {
-					console.log(data);
+					// console.log(data);
 					$scope.isRegButtonsShow= false;
 					notifications.toast("There is a problem, Please try again", "Error");
 
@@ -1310,7 +1295,7 @@
 
 			$charge.paymentgateway().subscriberCheck().success(function (data) {
 
-				console.log(data);
+				// console.log(data);
 
 
 				$scope.paymentStatus = data.response[0].status;
@@ -1367,22 +1352,38 @@
 			document.querySelector('.keyDisplay'+key.key+' #hide').style.display='none';
 		};
 
-		$scope.copyToClipboard = function (id) {
+		$scope.copyToClipboard = function (id, elem) {
+			$scope.coppiedTimeout = false;
+			$scope.copyStarted = true;
+			$scope.secondaryCopied = false;
+			$scope.primaryCopied = false;
 			window.getSelection().empty();
 			var ID = "#"+id;
-			var notifParent = document.getElementById(id);
-			var notif = notifParent.getElementsByClassName('copied-to-clipboard')[0];
+			// var notifParent = document.getElementById(id);
+			// var notif = notifParent.getElementsByClassName('copied-to-clipboard')[0];
 			var copyField = document.getElementById(id);
 			var range = document.createRange();
 			range.selectNode(copyField);
 			window.getSelection().addRange(range);
-			if(notif != null || notif != undefined){
-				notif.remove();
-				copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
-			}else{
-				copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
-			}
 			document.execCommand('copy');
+			if(elem.split(' ')[0].toLowerCase() == 'primary'){
+				$timeout(function(){
+					$scope.primaryCopied = true;
+				});
+			}else{
+				$timeout(function() {
+					$scope.secondaryCopied = true;
+				});
+			}
+			$timeout(function(){
+				$scope.coppiedTimeout = true;
+			},2000);
+			// if(notif != null || notif != undefined){
+			// 	notif.remove();
+			// 	copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
+			// }else{
+			// 	copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
+			// }
 		}
 
 		$scope.showMoreUserInfo=false;
@@ -1418,10 +1419,10 @@
 
 		var elem = angular.element('.Header-navClose');
 		elem.onclick = function(){
-			console.log('Test clicked');
+			// console.log('Test clicked');
 		}
 		//angular.element('.testOnClick').on('click', function(){
-		//  console.log('Test clicked');
+		//  // console.log('Test clicked');
 		//});
 
 
@@ -1453,7 +1454,7 @@
 		}
 
 		$scope.setRating = function () {
-			console.log(this);
+			// console.log(this);
 		}
 
 		$scope.sliders = [{}];
@@ -1506,9 +1507,9 @@
 						//    $scope.companyPricePlans[i].changingPrice = $scope.companyPricePlans[i].price;
 						//    $scope.companyPricePlans[i].activeSubscriptions = $scope.companyPricePlans[i].activeSubscriptions ;
 						//  });
-						//  console.log($scope.companyPricePlans[i].subscriptionRate);
-						//  console.log($scope.companyPricePlans[i].changingPrice);
-						//  console.log($scope.companyPricePlans[i].activeSubscriptions);
+						//  // console.log($scope.companyPricePlans[i].subscriptionRate);
+						//  // console.log($scope.companyPricePlans[i].changingPrice);
+						//  // console.log($scope.companyPricePlans[i].activeSubscriptions);
 						//}
 					}
 				}
@@ -1527,39 +1528,69 @@
 			// var lastDateTimestamp = lastDate[1]+"/"+lastDate[2]+"/"+lastDate[0];
 			// alert(new Date(newDate).getTime());
 
-			$http({
-				method: 'POST',
-				url: 'http://azure.cloudcharge.com/services/duosoftware.EmailGatewayAPI/email/downloadSubscriptionPDF',
-				headers: {
-					'Content-Type': 'application/json',
-					'idToken' : $scope.idToken
-				},
-				data:[{
-					"type": "PDF",
-					"id": record.id,
-					"amount": record.amount,
-					"email": parseJwt($scope.idToken).emails[0],
-					"currency": "usd",
-					"infomation": JSON.stringify([record.infomation]),
-					"domain": window.location.hostname,
-					"currentPeriod": receivedDateTimestamp,
-					"currentPeriodEnd": lastDateTimestamp,
-					"createdDate": receivedDateTimestamp,
-					"gatewayType": "stripe"
-				}]
-			}).then(function (successResponse) {
-				$scope.subscriptionDateForPDF = record.receivedDate;
-				var pdf = 'data:application/octet-stream;base64,' + successResponse.data.encodedResult;
-				var dlnk = document.getElementById('hidden-donwload-anchor');
-				$timeout(function(){
-					dlnk.href = pdf;
-					dlnk.click();
-				},100);
-				record.downloading = false;
-			}, function (errorResponse) {
-				console.log(errorResponse)
-				record.downloading = false;
-			});
+			// $http({
+			// 	method: 'POST',
+			// 	url: 'http://azure.cloudcharge.com/services/duosoftware.EmailGatewayAPI/email/downloadSubscriptionPDF',
+			// 	headers: {
+			// 		'Content-Type': 'application/json',
+			// 		'idToken' : $scope.idToken
+			// 	},
+			// 	data:[{
+			// 		"type": "PDF",
+			// 		"id": record.id,
+			// 		"amount": record.amount,
+			// 		"email": parseJwt($scope.idToken).emails[0],
+			// 		"currency": "usd",
+			// 		"infomation": JSON.stringify([record.infomation]),
+			// 		"domain": window.location.hostname,
+			// 		"currentPeriod": receivedDateTimestamp,
+			// 		"currentPeriodEnd": lastDateTimestamp,
+			// 		"createdDate": receivedDateTimestamp,
+			// 		"gatewayType": "stripe"
+			// 	}]
+			// }).then(function (successResponse) {
+			// 	$scope.subscriptionDateForPDF = record.receivedDate;
+			// 	var pdf = 'data:application/octet-stream;base64,' + successResponse.data.encodedResult;
+			// 	var dlnk = document.getElementById('hidden-donwload-anchor');
+			// 	$timeout(function(){
+			// 		dlnk.href = pdf;
+			// 		dlnk.click();
+			// 	},100);
+			// 	record.downloading = false;
+			// }, function (errorResponse) {
+			// 	// console.log(errorResponse)
+			// 	record.downloading = false;
+			// });
+
+      $scope.data=[{
+        		"type": "PDF",
+        		"id": record.id,
+        		"amount": record.amount,
+        		"email": vm.dummy.Data.email,
+        		"currency": "usd",
+        		"infomation": JSON.stringify([record.infomation]),
+        		"domain": window.location.hostname,
+        		"currentPeriod": receivedDateTimestamp,
+        		"currentPeriodEnd": lastDateTimestamp,
+        		"createdDate": receivedDateTimestamp,
+        		"gatewayType": "stripe"
+        	}];
+      $charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
+
+        	$scope.subscriptionDateForPDF = record.receivedDate;
+        	var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
+        	var dlnk = document.getElementById('hidden-donwload-anchor');
+        	$timeout(function(){
+        		dlnk.href = pdf;
+        		dlnk.click();
+        	},100);
+        	record.downloading = false;
+
+      }).error(function(errorResponse) {
+        record.downloading = false;
+      });
+
+
 		}
 		// SUBSCRIPTION HISTORY PDF DOWNLOADER
 
