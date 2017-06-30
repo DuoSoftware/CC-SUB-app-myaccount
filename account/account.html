@@ -180,7 +180,7 @@
                                                 <div layout="row" layout-align="start center">
                                                     <md-input-container class="acc-input-container" flex="30">
                                                         <label>First name</label>
-                                                        <input type="text" ng-model="vm.dummy.Data.givenName" ng-maxlength="20" name="first_name" required>
+                                                        <input type="text" ng-model="tenantUser.firstName" ng-maxlength="20" name="first_name" required>
                                                         <div ng-messages="vm.myaccForm.first_name.$error">
                                                             <div ng-message="required"></div>
                                                             <div ng-message="maxlength">First name must be between 1-20 characters</div>
@@ -188,17 +188,17 @@
                                                     </md-input-container>
                                                     <div flex="5"></div>
                                                     <md-input-container class="acc-input-container" flex="30">
-                                                        <label>Sure name</label>
-                                                        <input type="text" ng-model="vm.dummy.Data.sureName" ng-maxlength="30" name="sure_name" required>
-                                                        <div ng-messages="vm.myaccForm.sure_name.$error">
+                                                        <label>Sur name</label>
+                                                        <input type="text" ng-model="tenantUser.surName" ng-maxlength="30" name="sur_name" required>
+                                                        <div ng-messages="vm.myaccForm.sur_name.$error">
                                                             <div ng-message="required"></div>
-                                                            <div ng-message="maxlength">Sure name must be between 1-30 characters</div>
+                                                            <div ng-message="maxlength">Sur name must be between 1-30 characters</div>
                                                         </div>
                                                     </md-input-container>
                                                     <div flex="5"></div>
                                                     <md-input-container class="acc-input-container" flex="30">
                                                         <label>Country</label>
-                                                        <input type="text" ng-model="vm.dummy.Data.country" name="country" ng-maxlength="30">
+                                                        <input type="text" ng-model="tenantUser.country" name="country" ng-maxlength="30">
                                                         <div ng-messages="vm.myaccForm.country.$error">
                                                             <div ng-message="maxlength">Country must be between 1-30 characters</div>
                                                         </div>
@@ -637,7 +637,7 @@
 
                 </md-content>
                 <div layout="row" layout-align="end center" md-whiteframe="8dp" class="bottom-fixed-bar" ng-show="generalDetails && vm.editableMode">
-                    <md-button ng-click="clearFields()">Clear</md-button>
+                    <!--<md-button ng-click="clearFields()">Clear</md-button>-->
                     <md-button type="submit" form="myAcc" class="md-raised md-accent">Save</md-button>
                 </div>
                 <!--<div layout="row" layout-align="end center" md-whiteframe="8dp" class="bottom-fixed-bar" ng-show="passwordSettings">-->
