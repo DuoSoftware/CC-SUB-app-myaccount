@@ -447,46 +447,53 @@
 					$scope.currentPlan = $scope.selectedPlan.planNo;
 		};
 
+$scope.tenantUser = [];
 
-    $charge.myAccountEngine().getUserInfoByID().success(function (response) {
+    $scope.getUserInfoByID = function() {
 
-      	// console.log(response);
-      response.data = response;
-      	vm.dummy.Data =response.data.Result;
+      $charge.myAccountEngine().getUserInfoByID().success(function (response) {
 
-      	$scope.tenantId = response.data.Result.domain.split('.')[0];
+        // console.log(response);
+        response.data = response;
+        vm.dummy.Data = response.data.Result;
+        $scope.tenantUser.firstName = vm.dummy.Data.givenName;
+        $scope.tenantUser.surName = vm.dummy.Data.surName;
+        $scope.tenantUser.country = vm.dummy.Data.country;
 
-      	if(response.data.Result.UserType === "admin"){
-      		$scope.isUserAdmin = true;
-      	}
+        $scope.tenantId = response.data.Result.domain.split('.')[0];
 
-      	$scope.currentPlanName = response.data.Result.plan;
+        if (response.data.Result.UserType === "admin") {
+          $scope.isUserAdmin = true;
+        }
 
-      	selectPlan(response.data.Result.plan);
+        $scope.currentPlanName = response.data.Result.plan;
 
-      	$scope.calculateFreeTrialExpireDate();
+        selectPlan(response.data.Result.plan);
 
-      	$scope.config = {
-      		publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
-      		title: 'Cloudcharge',
-      		email:response.data.Result.email,
-      		description: "for connected business",
-      		logo: 'app/main/account/img/loginDuo.png',
-      		label: 'Add Card'
-      	}
+        $scope.calculateFreeTrialExpireDate();
 
-      	if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
-      		$scope.loadPlanDetails();
-      	}
+        $scope.config = {
+          publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
+          title: 'Cloudcharge',
+          email: response.data.Result.email,
+          description: "for connected business",
+          logo: 'app/main/account/img/loginDuo.png',
+          label: 'Add Card'
+        }
 
-      	$scope.accGeneralLoaded = true;
+        if ($scope.planSubscriptions != null && $scope.companyPricePlans != null && $scope.currentPlanName != null) {
+          $scope.loadPlanDetails();
+        }
+
+        $scope.accGeneralLoaded = true;
 
 
+      }).error(function (data) {
+        // console.log(data);
+      });
+    }
 
-    }).error(function(data) {
-      // console.log(data);
-    });
-
+    $scope.getUserInfoByID();
 
 
 		$scope.initPlanSliderValue = null;
@@ -796,33 +803,59 @@
 			if(isEdit)
 				return;
 
-			$http({
-				method : 'POST',
-				url : "/apis/profile/userprofile",
-				headers: {
-					'Content-Type': 'application/json',
-					'idToken':$scope.idToken
-				},
-				data : vm.dummy.Data
+			//$http({
+			//	method : 'POST',
+			//	url : "/apis/profile/userprofile",
+			//	headers: {
+			//		'Content-Type': 'application/json',
+			//		'idToken':$scope.idToken
+			//	},
+			//	data : vm.dummy.Data
+            //
+			//}).then(function(response) {
+			//	// // console.log(response);
+            //
+			//	if (response.data.Data.IsSuccess) {
+            //
+			//		vm.editableMode = false;
+			//		notifications.toast("User profile updated", "success");
+            //
+			//	}else{
+			//		vm.editableMode = true;
+			//		notifications.toast("Error updating details, " + response.data.Message, "error");
+			//	}
+            //
+			//}, function(response) {
+			//	// // console.log(response);
+			//	vm.editableMode = true;
+			//	notifications.toast("Error updating details, " + response, "error");
+			//});
 
-			}).then(function(response) {
-				// // console.log(response);
 
-				if (response.data.Data.IsSuccess) {
+      var data = {
+        "firstName": $scope.tenantUser.firstName,
+        "lastName": $scope.tenantUser.surName,
+        "country": $scope.tenantUser.country
+      }
 
-					vm.editableMode = false;
-					notifications.toast("User profile updated", "success");
+      $charge.myAccountEngine().updateUser(data).success(function (response) {
+        	if (response.Result) {
 
-				}else{
-					vm.editableMode = true;
-					notifications.toast("Error updating details, " + response.data.Message, "error");
-				}
+        		vm.editableMode = false;
+        		notifications.toast("User profile updated", "success");
+            $scope.getUserInfoByID();
+        	}else{
+        		vm.editableMode = true;
+        		notifications.toast("Error updating details, " + response.data.Message, "error");
+        	}
 
-			}, function(response) {
-				// // console.log(response);
-				vm.editableMode = true;
-				notifications.toast("Error updating details, " + response, "error");
-			});
+
+      }).error(function(response) {
+        	// // console.log(response);
+        	vm.editableMode = true;
+        	notifications.toast("Error updating details, " + response, "error");
+      });
+
 		}
 
 
