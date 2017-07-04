@@ -803,33 +803,13 @@ $scope.tenantUser = [];
 			if(isEdit)
 				return;
 
-			//$http({
-			//	method : 'POST',
-			//	url : "/apis/profile/userprofile",
-			//	headers: {
-			//		'Content-Type': 'application/json',
-			//		'idToken':$scope.idToken
-			//	},
-			//	data : vm.dummy.Data
-            //
-			//}).then(function(response) {
-			//	// // console.log(response);
-            //
-			//	if (response.data.Data.IsSuccess) {
-            //
-			//		vm.editableMode = false;
-			//		notifications.toast("User profile updated", "success");
-            //
-			//	}else{
-			//		vm.editableMode = true;
-			//		notifications.toast("Error updating details, " + response.data.Message, "error");
-			//	}
-            //
-			//}, function(response) {
-			//	// // console.log(response);
-			//	vm.editableMode = true;
-			//	notifications.toast("Error updating details, " + response, "error");
-			//});
+      $scope.tenantUser.country = document.getElementById('autocomplete').value ;
+
+      if(angular.isUndefined($scope.tenantUser.country) ||  $scope.tenantUser.country === "" ){
+        vm.editableMode = true;
+        document.getElementById('autocomplete').focus();
+        return;
+      }
 
 
       var data = {
