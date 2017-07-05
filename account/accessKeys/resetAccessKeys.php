@@ -1,5 +1,5 @@
 <?php
-    require_once('HttpRequestHelper.php');
+    require_once('../data/HttpRequestHelper.php');
     $resetType = "";
     $id = "";
     $primaryURL = 'http://app.cloudcharge.com/services/apis.php/auth/regeneratePrimaryKey';
