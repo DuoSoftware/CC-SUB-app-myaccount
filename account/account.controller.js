@@ -179,7 +179,6 @@ $scope.countries = [];
 
 
 
-
 		$scope.freeTrialStartDate = '';
 		$scope.displayExpireDate = '';
 		$scope.paidPlanExpireDate = '';
@@ -817,7 +816,7 @@ $scope.tenantUser = [];
 			if(isEdit)
 				return;
 
-      if(angular.isUndefined($scope.tenantUser.country) ||  $scope.tenantUser.country === "" ){
+      if( angular.isUndefined($scope.tenantUser.country) || $scope.tenantUser.country === null || $scope.tenantUser.country === "" ){
         vm.editableMode = true;
         document.getElementById('country').focus();
         return;
@@ -827,7 +826,7 @@ $scope.tenantUser = [];
       var data = {
         "firstName": $scope.tenantUser.firstName,
         "lastName": $scope.tenantUser.surName,
-        "country": $scope.tenantUser.country
+        "country": $scope.tenantUser.country.name
       }
 
       $charge.myAccountEngine().updateUser(data).success(function (response) {

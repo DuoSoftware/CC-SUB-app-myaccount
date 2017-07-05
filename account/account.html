@@ -196,12 +196,32 @@
                                                         </div>
                                                     </md-input-container>
                                                     <div flex="5"></div>
-                                                    <md-input-container class="acc-input-container" flex="30">
+                                                    <md-input-container class="acc-input-container" flex="30" style="margin-bottom: 52px">
                                                         <label>Country</label>
-                                                        <!--<input type="text" ng-model="tenantUser.country" onFocus="geolocate()" name="country" id="autocomplete" ng-maxlength="30">-->
-                                                      <md-select id="country" name ="country" ng-model="tenantUser.country"  style="margin-bottom: 25px">
-                                                        <md-option ng-repeat="country in countries" value="{{country.name}}">{{country.name}}</md-option>
-                                                      </md-select>
+                                                        <!--<md-select id="country" name ="country" ng-model="tenantUser.country"  style="margin-bottom: 25px">-->
+                                                        <!--<md-option ng-repeat="country in countries" value="{{country.name}}">{{country.name}}</md-option>-->
+                                                        <!--</md-select>-->
+                                                      <md-autocomplete
+                                                        md-autoselect=true
+                                                        md-item-text="country.name"
+                                                        md-items="country in countries | filter:searchText"
+                                                        md-menu-class="autocomplete-custom-template"
+                                                        md-min-length="2"
+                                                        md-search-text="searchText"
+                                                        md-select-on-match=true
+                                                        md-match-case-insensitive=true
+                                                         md-selected-item="tenantUser.country">
+                                                        <md-item-template>
+                                                                  <span class="item-title">
+                                                                    <span md-highlight-flags="^i" md-highlight-text="searchText">
+                                                                      {{country.name}}
+                                                                    </span>
+                                                                  </span>
+                                                        </md-item-template>
+                                                        <md-not-found>
+                                                          No match found.
+                                                        </md-not-found>
+                                                      </md-autocomplete>
                                                       <div ng-messages="vm.myaccForm.country.$error">
                                                             <div ng-message="maxlength">Country must be between 1-30 characters</div>
                                                         </div>
@@ -658,7 +678,6 @@
     <!-- / CENTER -->
 
 </div>
-
 
 
 
