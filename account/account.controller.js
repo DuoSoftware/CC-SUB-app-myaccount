@@ -165,6 +165,20 @@
 		})();
 
 
+    // === load counries==============
+
+$scope.countries = [];
+    $http.get("app/main/account/data/countries.json")
+      .then(function(response) {
+        $scope.countries = response.data;
+      });
+
+
+
+    // ===== end ===================
+
+
+
 
 		$scope.freeTrialStartDate = '';
 		$scope.displayExpireDate = '';
@@ -803,11 +817,9 @@ $scope.tenantUser = [];
 			if(isEdit)
 				return;
 
-      $scope.tenantUser.country = document.getElementById('autocomplete').value ;
-
       if(angular.isUndefined($scope.tenantUser.country) ||  $scope.tenantUser.country === "" ){
         vm.editableMode = true;
-        document.getElementById('autocomplete').focus();
+        document.getElementById('country').focus();
         return;
       }
 
