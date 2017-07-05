@@ -11,7 +11,8 @@
     if (isset ( $_GET ["id"] ))
         	$id = $_GET ["id"];
 
-    $header->addHeader('id_token', $id);
+    $headerObj->id_token = $id;
+    $header = json_encode($headerObj);
 
     if($resetType == 'primary'){
         resetPrimaryKey();
