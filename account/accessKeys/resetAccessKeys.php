@@ -11,8 +11,6 @@
     if (isset ( $_GET ["id"] ))
         	$id = $_GET ["id"];
 
-    echo "<script type='text/javascript'>alert('$id');</script>"
-
     $header->addHeader('id_token', $id);
 
     if($resetType == 'primary'){
@@ -23,13 +21,13 @@
 
 	public function resetPrimaryKey(){
         $getPrimary = new HttpRequestHelper();
-        $newPrimaryKey = $getPrimary->GET($primaryURL, $header);
+        $newPrimaryKey = $getPrimary->Get($primaryURL, $header);
         return $newPrimaryKey;
     }
 
     public function resetSecondaryKey(){
         $getSecondary = new HttpRequestHelper();
-        $newSecondaryKey = $getSecondary->GET($secondaryURL, $header);
+        $newSecondaryKey = $getSecondary->Get($secondaryURL, $header);
         return $newSecondaryKey;
     }
 ?>
