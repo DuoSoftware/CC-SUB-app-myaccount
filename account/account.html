@@ -145,7 +145,7 @@
                                                                 </div>
 
                                                                 <md-button class="md-icon-button md-accent" ng-click="copyToClipboard(key.key, key.name)"><md-icon md-font-icon="icon-content-copy" class="copy-icon" style="font-size: 18px"></md-icon><md-tooltip>Copy key</md-tooltip> </md-button>
-                                                                <md-button class="md-icon-button md-accent" ng-disabled="isKeyResetting" ng-click="resetKey(key.key, key.name)"><md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
+                                                                <md-button class="md-icon-button md-accent" ng-disabled="isKeyResetting" ng-click="resetAccessKeys()"><md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -180,7 +180,7 @@
                                                 <div layout="row" layout-align="start center">
                                                     <md-input-container class="acc-input-container" flex="30">
                                                         <label>First name</label>
-                                                        <input type="text" ng-model="tenantUser.firstName" ng-maxlength="20" name="first_name" required>
+                                                        <input type="text" ng-model="vm.dummy.Data.givenName" ng-maxlength="20" name="first_name" required>
                                                         <div ng-messages="vm.myaccForm.first_name.$error">
                                                             <div ng-message="required"></div>
                                                             <div ng-message="maxlength">First name must be between 1-20 characters</div>
@@ -188,18 +188,18 @@
                                                     </md-input-container>
                                                     <div flex="5"></div>
                                                     <md-input-container class="acc-input-container" flex="30">
-                                                        <label>Sur name</label>
-                                                        <input type="text" ng-model="tenantUser.surName" ng-maxlength="30" name="sur_name" required>
-                                                        <div ng-messages="vm.myaccForm.sur_name.$error">
+                                                        <label>Sure name</label>
+                                                        <input type="text" ng-model="vm.dummy.Data.sureName" ng-maxlength="30" name="sure_name" required>
+                                                        <div ng-messages="vm.myaccForm.sure_name.$error">
                                                             <div ng-message="required"></div>
-                                                            <div ng-message="maxlength">Sur name must be between 1-30 characters</div>
+                                                            <div ng-message="maxlength">Sure name must be between 1-30 characters</div>
                                                         </div>
                                                     </md-input-container>
                                                     <div flex="5"></div>
                                                     <md-input-container class="acc-input-container" flex="30">
                                                         <label>Country</label>
-                                                        <input type="text" ng-model="tenantUser.country" onFocus="geolocate()" name="country" id="autocomplete" ng-maxlength="30">
-                                                        <div ng-messages="vm.myaccForm.autocomplete.$error">
+                                                        <input type="text" ng-model="vm.dummy.Data.country" name="country" ng-maxlength="30">
+                                                        <div ng-messages="vm.myaccForm.country.$error">
                                                             <div ng-message="maxlength">Country must be between 1-30 characters</div>
                                                         </div>
                                                     </md-input-container>
@@ -245,13 +245,13 @@
                                                 <div class="iconed-label" layout="row" layout-align="start center" flex="40">
                                                     <md-icon md-font-icon="icon-cash-usd"></md-icon> <span flex>Additional charge</span>
                                                 </div>
-                                                <div class="text-right" flex>${{additionalCharge}}</div>
+                                                <div class="text-right" flex>{{currentPlanName.toLowerCase() == 'free trial' ? '-' : '$'+additionalCharge}}</div>
                                             </div>
                                             <div layout="row" layout-align="start center" class="info-grid-row bordered">
                                                 <div class="iconed-label" layout="row" layout-align="start center" flex="40">
                                                     <md-icon md-font-icon="icon-package"></md-icon> <span flex>Next payment</span>
                                                 </div>
-                                                <div class="text-right" flex>${{currentPlanAmount + additionalCharge}}</div>
+                                                <div class="text-right" flex>${{currentPlanName.toLowerCase() == 'free trial' ? '-' : currentPlanAmount + additionalCharge}}</div>
                                             </div>
                                             <div layout="column" layout-align="center start" class="info-grid-row bordered mv-10">
                                                 <div class="iconed-label bordered" layout="row" layout-align="start center" style="width: 100%;">
@@ -391,10 +391,16 @@
 
                                             <section id="successContainer" layout="column" layout-align="center center" >
                                                 <div layout="row">
-                                                    <md-radio-group ng-model="selectedPlanDuration" ng-init="selectedPlanDuration = 'Monthly'" layout="row" style="margin: 20px 0;">
-                                                        <md-radio-button value="Monthly">Monthly</md-radio-button>
-                                                        <md-radio-button value="Yearly">Yearly</md-radio-button>
-                                                    </md-radio-group>
+                                                    <md-input-container>
+                                                        <md-radio-group name="planType" ng-required ng-model="selectedPlanDuration" layout="row" class="cc-switch-buttons-group" ng-init="selectedPlanDuration = 'Monthly'">
+                                                            <md-radio-button value="Monthly" class="cc-switch-buttons" md-ink-ripple ng-disabled="selectedPlanDuration == 'Monthly'" ng-style="selectedPlanDuration == 'Yearly' ? {'z-index':'1'} : {'z-index':'0'}">Monthly</md-radio-button>
+                                                            <md-radio-button value="Yearly" class="cc-switch-buttons" md-ink-ripple ng-disabled="selectedPlanDuration == 'Yearly'" ng-style="selectedPlanDuration == 'Monthly' ? {'z-index':'1'} : {'z-index':'0'}">Yearly</md-radio-button>
+                                                        </md-radio-group>
+                                                    </md-input-container>
+                                                    <!--<md-radio-group ng-model="selectedPlanDuration" ng-init="selectedPlanDuration = 'Monthly'" layout="row" style="margin: 20px 0;">-->
+                                                        <!--<md-radio-button value="Monthly">Monthly</md-radio-button>-->
+                                                        <!--<md-radio-button value="Yearly">Yearly</md-radio-button>-->
+                                                    <!--</md-radio-group>-->
                                                 </div>
                                                 <div layout="row" style="width: 100%;">
                                                     <div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>
@@ -637,7 +643,7 @@
 
                 </md-content>
                 <div layout="row" layout-align="end center" md-whiteframe="8dp" class="bottom-fixed-bar" ng-show="generalDetails && vm.editableMode">
-                    <!--<md-button ng-click="clearFields()">Clear</md-button>-->
+                    <md-button ng-click="clearFields()">Clear</md-button>
                     <md-button type="submit" form="myAcc" class="md-raised md-accent">Save</md-button>
                 </div>
                 <!--<div layout="row" layout-align="end center" md-whiteframe="8dp" class="bottom-fixed-bar" ng-show="passwordSettings">-->
@@ -655,86 +661,6 @@
     <!-- / CENTER -->
 
 </div>
-
-
-<script>
-  var placeSearch, autocomplete,autocomplete2;
-  var componentForm = {
-    country: 'long_name'
-  };
-
-  function initAutocomplete() {
-    // Create the autocomplete object, restricting the search to geographical
-    // location types.
-    autocomplete = new google.maps.places.Autocomplete(
-  /* @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
-   {types: ['geocode']});
-
-   // When the user selects an address from the dropdown, populate the address
-   // fields in the form.
-   autocomplete.addListener('place_changed', fillInAddress);
-
-   }
-
-   function fillInAddress() {
-   // Get the place details from the autocomplete object.
-   //    geolocate();
-   var place = autocomplete.getPlace();
-   if(place) {
-     for (var component in componentForm) {
-       if (document.getElementById(component) != null)
-         document.getElementById(component).value = '';
-       //document.getElementById(component).disabled = false;
-     }
-//     debugger;
-//     alert(place.formatted_address);
-
-     // Get each component of the address from the place details
-     // and fill the corresponding field on the form.
-     for (var i = 0; i < place.address_components.length; i++) {
-       var addressType = place.address_components[i].types[0];
-       if (componentForm[addressType]) {
-         var val = place.address_components[i][componentForm[addressType]];
-         document.getElementById('autocomplete').value = val;
-         //document.getElementById(addressType).focus();
-       }
-
-     }
-   }
-   }
-
-   function clearaddress(){
-     if(document.getElementById('autocomplete').value==''){
-       for (var component in componentForm) {
-       document.getElementById(component).value = '';
-       //document.getElementById(component).disabled = false;
-       }
-     }
-   }
-
-   // Bias the autocomplete object to the user's geographical location,
-   // as supplied by the browser's 'navigator.geolocation' object.
-   function geolocate() {
-     initAutocomplete();
-     if (navigator.geolocation) {
-       document.getElementById('autocomplete').focus();
-       navigator.geolocation.getCurrentPosition(function(position) {
-         var geolocation = {
-           lat: position.coords.latitude,
-           lng: position.coords.longitude
-         };
-         var circle = new google.maps.Circle({
-         center: geolocation,
-         radius: position.coords.accuracy
-         });
-         autocomplete.setBounds(circle.getBounds());
-       });
-     }
-   }
-
-
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initAutocomplete" async defer></script>
 
 
 

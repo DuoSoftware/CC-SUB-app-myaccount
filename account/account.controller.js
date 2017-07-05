@@ -139,28 +139,28 @@
 			return null;
 		}
 
-		 $scope.idToken= gst('securityToken');
-        //
+		$scope.idToken= gst('securityToken');
+		//
 		// if(!$scope.idToken)
-		//	$scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InQ4elBBYm9Ga0NKOWItbkZKenp5SWlrSmdTSkFrQTJwMDh5a3dSWV8xQW8ifQ.eyJleHAiOjE0OTI1MDU0MzAsIm5iZiI6MTQ5MjQyMjYzMCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkyNDIyNjMwLCJhdXRoX3RpbWUiOjE0OTI0MjI2MzAsIm9pZCI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImdpdmVuX25hbWUiOiJTdXZldGhhbiIsIm5hbWUiOiJOYW50aGEiLCJjb3VudHJ5IjoiU3JpIExhbmthIiwiZXh0ZW5zaW9uX0RvbWFpbiI6InN1dmV0aGFuTi5hcHAuY2xvdWRjaGFyZ2UuY29tIiwiZmFtaWx5X25hbWUiOiJzdGFydGVyIiwiam9iVGl0bGUiOiJhZG1pbiIsImVtYWlscyI6WyJzdXZldGhhbkBkdW9zb2Z0d2FyZS5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFBvbGljeSJ9.Co4MgJSYgPCL12M-l2ASWQM4rQJhTk0RimSYOlABaILnJvjbq9rujDNd4Dsv-hFR3du4VY2hxydpoSu1tTFAWndpZH2NmRYevXN4uLNKA7O4DGy7kjnHltL26h47RpzNRIsOg5Ih1RD7l2KPE_aTpTlvNZNZsfIaKOa-8OtAqUpm_GLTMZNqxxJT6mE-HXynWsgu9bU1slSOH3kGbcDld1aQfjkJrU8BX7cGSA5kbh2CIAszSvJmodtHtfUJmEWd8RV3uDXTEcziQpRaElYjH0I_wT4gCSgvD___W1_cPOi1ocrTv5eYnf0LmjxdgbqvvJFCrYnhrFbXI3J6L8j8Pg";
+		//$scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJleHAiOjE0OTc0MjIxNTIsIm5iZiI6MTQ5NzMzOTM1MiwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjkxMzY2YjQ4LWIzYTYtNDg4ZC1iZWM2LWMzNDNjNmE2N2I4MiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDk3MzM5MzUyLCJhdXRoX3RpbWUiOjE0OTczMzkzNTIsIm9pZCI6IjkxMzY2YjQ4LWIzYTYtNDg4ZC1iZWM2LWMzNDNjNmE2N2I4MiIsImdpdmVuX25hbWUiOiJTdXZldGhhbiIsIm5hbWUiOiJOYW50aGEiLCJjb3VudHJ5IjoiU3JpIExhbmthIiwiZXh0ZW5zaW9uX21vZGUiOiJ0ZXN0IiwiZXh0ZW5zaW9uX0RvbWFpbiI6InN1dmVuQ29tLmFwcC5jbG91ZGNoYXJnZS5jb20iLCJmYW1pbHlfbmFtZSI6InN0YXJ0ZXIiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbInN1dmV0aGFuQGR1b3NvZnR3YXJlLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.G7TmlpfmuPFLy0jvXRcaKiioz17Gf5NHOHNJX9zbIlYUisKtUdOKXGZWMRrb78QSb-HlABRrzDVJbm0DeHijEfRcv7KDlFa0L8omQ_gBe2n5WYHJf32rP6D7a8ul5KP5YFlsRPrfAuZvQ4jvlaTi7TSDN5VGVlr7W9C54Xgi98KDLkDjImpC_-p7DMM4S6uuvd2WvsjcC7Q8oOim8lUTnMJUDfNYQYVCE99MHz-cOv-AcRVv9vTmbC3atzBjQYcKHgM-aEqbjH2FMO-gi1lmwnoBW46z2AiT4Ul-WI7MNPJpRcJNbWGxlu9Br7uMA0g7Y3_cUrbtYl5i69C7ZMhQtg";
 		// $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0OTAxNTk0MTEsIm5iZiI6MTQ5MDA3NjYxMSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkwMDc2NjExLCJhdXRoX3RpbWUiOjE0OTAwNzY2MTEsIm9pZCI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImdpdmVuX25hbWUiOiJpc3MiLCJuYW1lIjoiaXNzIiwiY291bnRyeSI6IlNhYmEiLCJleHRlbnNpb25fRG9tYWluIjoiaXNzLmNsb3VkY2hhcmdlLmNvbSIsImZhbWlseV9uYW1lIjoiYnVzaW5lc3MiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbImd1bmF0aGlsYWthaXNoYXJhQGdtYWlsLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.aHkjg58win7uz5aUUwfuM-BISxTiBF_awiq4LA2QEtdf6I9TybGWomvfoq0FsWEmjZL3qN5C1Mm1Lisq4rHX0rqF3fDE8Bb88xN40QdByRnaMW5iSfgGIkZoZbQ4gUp0U4PVJu9YEj1zHS_EwTc4sHNVIgxLv2l3r0oBEGhnXJhAEkWSBVIUL-A3mtrSlAsDVTaDmc882D-0yjKFJxZcZTyxZonP7YmDMTPeyzKLFjHjKcddUomdRn52WrKDeFRGqpwO2Bs656EMg27LCZKTN6c_PhlJ7FaGp4qrqjK9SyZR6eG2dFOurQv8Xi-e2LHosKEt8O2MZB7a7kZZwqTkLQ";//gst('idToken');
 		// $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODkxNDQ5NzksIm5iZiI6MTQ4OTA1ODU3OSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5MDU4NTc5LCJhdXRoX3RpbWUiOjE0ODkwNTg1NzksIm9pZCI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImdpdmVuX25hbWUiOiJmYWZhIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyaWFsIiwibmFtZSI6InBpYmEiLCJqb2JUaXRsZSI6ImFkbWluIiwiY291bnRyeSI6IkFuZ3VpbGxhIiwiZXh0ZW5zaW9uX0RvbWFpbiI6ImZhZmFwaWJhLmNsb3VkY2hhcmdlLmNvbSIsImVtYWlscyI6WyJmYWZhcGliYUBnYW1nbGluZy5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFNpZ25JbiJ9.sJj5ZfhDBb27BEYfDTuSMg9zCkoS62eOcWC2XbyzCYcRfsQjKtPB_1BeeESQwhyHekUSvgwt0tgpJAYIZvmMt-aWcKvhwJa02cG3BzUV-LFuGakCMFADXzDzs2qyRjL0cWnW1MQlvm1roBmnEUpeifGoGmfFwhWyKGF7-Asmq00W6tml7u_IOVUkPs-0pRE-31srM2QX1DZsYsJB3P0j8k02zjVgbMoaX3z31GY0Ez-Va0GzukDm9AQHeZUo-D1hU9vzFYD2Nk7pTxbPTi58ktxTN1_LNZ_sRXGooOZmuONayHwmLbvOBvdAT4mfYN0HrKIEVEz9NgRNFT6AOoTWLw";//gst('idToken');
 
 		(function (){
 			$charge.myAccountEngine().getSubscriptionInfo().success(function (response) {
-        	$scope.access_keys = [{
-        		name: "Primary key",
-        		key: response.Result.primaryKey
-        	},{
-        		name: "Secondary key",
-        		key: response.Result.secondaryKey
-        	}];
-        	$scope.accAccessKeysLoaded = true;
+				$scope.access_keys = [{
+					name: "Primary key",
+					key: response.Result.primaryKey
+				},{
+					name: "Secondary key",
+					key: response.Result.secondaryKey
+				}];
+				$scope.accAccessKeysLoaded = true;
 
-      }).error(function(data) {
-         // console.log(data);
-        $scope.accAccessKeysLoaded = true;
-      });
+			}).error(function(data) {
+				// console.log(data);
+				$scope.accAccessKeysLoaded = true;
+			});
 
 		})();
 
@@ -320,7 +320,7 @@
 			if($scope.selectedPlan.planNo > 1)
 				$scope.getSelectedPlanSubscriptionDetails();
 			else
-        $scope.accSubscriptionDetailsLoaded = true;
+				$scope.accSubscriptionDetailsLoaded = true;
 
 
 		}
@@ -328,32 +328,32 @@
 		$scope.planSubscriptions= null;
 		$scope.getAllPlans = function () {
 
-      $charge.ratingengine().GetRatePlansForSubscription().success(function (response) {
+			$charge.ratingengine().GetRatePlansForSubscription().success(function (response) {
 
-        	$scope.planSubscriptions= response;
+				$scope.planSubscriptions= response;
 
-        	if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
-        		$scope.loadPlanDetails();
-        	}
-
-
-      }).error(function(data) {
-        // console.log( data);
-      });
+				if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+					$scope.loadPlanDetails();
+				}
 
 
+			}).error(function(data) {
+				// console.log( data);
+			});
 
-      $charge.ratingengine().GetPlanDetails().success(function (response) {
 
-        	$scope.companyPricePlans = response;
 
-        	if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
-        		$scope.loadPlanDetails();
-        	}
+			$charge.ratingengine().GetPlanDetails().success(function (response) {
 
-      }).error(function(data) {
-        // console.log( data);
-      });
+				$scope.companyPricePlans = response;
+
+				if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+					$scope.loadPlanDetails();
+				}
+
+			}).error(function(data) {
+				// console.log( data);
+			});
 
 
 		};
@@ -444,56 +444,49 @@
 
 		$scope.showCurrPlan = function() {
 
-					$scope.currentPlan = $scope.selectedPlan.planNo;
+			$scope.currentPlan = $scope.selectedPlan.planNo;
 		};
 
-$scope.tenantUser = [];
 
-    $scope.getUserInfoByID = function() {
+		$charge.myAccountEngine().getUserInfoByID().success(function (response) {
 
-      $charge.myAccountEngine().getUserInfoByID().success(function (response) {
+			// console.log(response);
+			response.data = response;
+			vm.dummy.Data =response.data.Result;
 
-        // console.log(response);
-        response.data = response;
-        vm.dummy.Data = response.data.Result;
-        $scope.tenantUser.firstName = vm.dummy.Data.givenName;
-        $scope.tenantUser.surName = vm.dummy.Data.surName;
-        $scope.tenantUser.country = vm.dummy.Data.country;
+			$scope.tenantId = response.data.Result.domain.split('.')[0];
 
-        $scope.tenantId = response.data.Result.domain.split('.')[0];
+			if(response.data.Result.UserType === "admin"){
+				$scope.isUserAdmin = true;
+			}
 
-        if (response.data.Result.UserType === "admin") {
-          $scope.isUserAdmin = true;
-        }
+			$scope.currentPlanName = response.data.Result.plan;
 
-        $scope.currentPlanName = response.data.Result.plan;
+			selectPlan(response.data.Result.plan);
 
-        selectPlan(response.data.Result.plan);
+			$scope.calculateFreeTrialExpireDate();
 
-        $scope.calculateFreeTrialExpireDate();
+			$scope.config = {
+				publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
+				title: 'Cloudcharge',
+				email:response.data.Result.email,
+				description: "for connected business",
+				logo: 'app/main/account/img/loginDuo.png',
+				label: 'Add Card'
+			}
 
-        $scope.config = {
-          publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
-          title: 'Cloudcharge',
-          email: response.data.Result.email,
-          description: "for connected business",
-          logo: 'app/main/account/img/loginDuo.png',
-          label: 'Add Card'
-        }
+			if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
+				$scope.loadPlanDetails();
+			}
 
-        if ($scope.planSubscriptions != null && $scope.companyPricePlans != null && $scope.currentPlanName != null) {
-          $scope.loadPlanDetails();
-        }
-
-        $scope.accGeneralLoaded = true;
+			$scope.accGeneralLoaded = true;
 
 
-      }).error(function (data) {
-        // console.log(data);
-      });
-    }
 
-    $scope.getUserInfoByID();
+		}).error(function(data) {
+			// console.log(data);
+		});
+
 
 
 		$scope.initPlanSliderValue = null;
@@ -509,109 +502,117 @@ $scope.tenantUser = [];
 			// }).then(function (response) {
 
 
-        $charge.ratingengine().getAppRule("invoice",$scope.selectedPlan.code).success(function (response) {
+			$charge.ratingengine().getAppRule("invoice",$scope.selectedPlan.code).success(function (response) {
 
-          //$scope.currentPlanName = response.data.name;
-          response.data = response;
-					$scope.currentPlanAmount = parseInt(response.data.amount);
+				//$scope.currentPlanName = response.data.name;
+				response.data = response;
+				$scope.currentPlanAmount = parseInt(response.data.amount);
 
-					$scope.initPlanSliderValue = parseInt(response.data.amount);
-					$scope.currentPlanRate = response.data.rate;
-					$scope.additionalCharge = response.data.additionalCharge;
-					$scope.currentPlanUsed = response.data.used;
-					$scope.currentPlanCreatedDate = response.data.createdDate;
-					//callback();
+				$scope.initPlanSliderValue = parseInt(response.data.amount);
+				$scope.currentPlanRate = response.data.rate;
+				$scope.additionalCharge = response.data.additionalCharge;
+				$scope.currentPlanUsed = response.data.used;
+				$scope.currentPlanCreatedDate = response.data.createdDate;
+				//callback();
 
-					$scope.subUsage = {
-						value: $scope.currentPlanUsed,
-						options: {
-							floor: 0,
-							ceil: parseInt(response.data.amount),
-							showSelectionBar: true,
-							disabled: true,
-							selectionBarGradient: {
-								from: '#76d2ff',
-								to: '#e28989'
-							}
+				$scope.subUsage = {
+					value: $scope.currentPlanUsed,
+					options: {
+						floor: 0,
+						ceil: parseInt(response.data.amount),
+						showSelectionBar: true,
+						disabled: true,
+						selectionBarGradient: {
+							from: '#76d2ff',
+							to: '#e28989'
 						}
-					};
+					}
+				};
 
-					//Usage
-					vm.usageChart = {
-						title    : 'Usage',
-						chart: {
-							options: {
-								chart: {
-									type     : 'pieChart',
-									donut: true,
-									color    : ['#039be5','#eeeeee'],
-									height   : 320,
-									// labelsOutside: true,
-									showLegend: false,
-									pie: {
-										startAngle: function(d) { return d.startAngle/2 -Math.PI/2 },
-										endAngle: function(d) { return d.endAngle/2 -Math.PI/2 }
-									},
-									margin   : {
-										top   : 0,
-										right : 0,
-										bottom: 0,
-										left  : 0
-									},
-									x        : function (d)
-									{
-										return d.label;
-									},
-									y        : function (d)
-									{
-										return d.value;
-									},
-									tooltip  : {
-										gravity: 's',
-										classes: 'gravity-s'
+				//Usage
+				vm.usageChart = {
+					title    : 'Usage',
+					chart: {
+						options: {
+							chart: {
+								type     : 'pieChart',
+								donut: true,
+								color    : ['#039be5','#eeeeee'],
+								height   : 320,
+								// labelsOutside: true,
+								showLegend: false,
+								pie: {
+									startAngle: function(d) { return d.startAngle/2 -Math.PI/2 },
+									endAngle: function(d) { return d.endAngle/2 -Math.PI/2 }
+								},
+								margin   : {
+									top   : 0,
+									right : 0,
+									bottom: 0,
+									left  : 0
+								},
+								x        : function (d)
+								{
+									return d.label;
+								},
+								y        : function (d)
+								{
+									return d.value;
+								},
+								tooltip: {
+									contentGenerator: function (key, x, y, e, graph) {
+										if(key.index == 0){
+											vm.tipTitle = 'Used';
+										}else{
+											vm.tipTitle = 'Left';
+										}
+										return '<div layout="column" style="background-color: #000;text-align: left;border-radius: 3px;padding: 5px 10px;">'+
+											'<div>'+vm.tipTitle+' : '+key.data.value+'</div>' +
+											'</div>';
 									}
 								}
-							},
-							data   : [{
-								'label':'',
-								'value':$scope.currentPlanUsed
-							},{
-								'label':'',
-								'value':$scope.initPlanSliderValue - $scope.currentPlanUsed
-							}]
-						}
-					};
-
-					if($scope.selectedPlan){
-						$scope.selectedPlan.subscriptionRate = response.data.rate;
-						$scope.selectedPlan.sliderValue = response.data.amount;
+							}
+						},
+						data   : [{
+							'label':'',
+							'value':$scope.currentPlanUsed
+						},{
+							'label':'',
+							'value':$scope.initPlanSliderValue - $scope.currentPlanUsed
+						}]
 					}
+				};
 
-					for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
-						if($scope.companyPricePlans[i].planNo === $scope.selectedPlan.planNo)
-						{
-							$scope.companyPricePlans[i]= $scope.selectedPlan;
+				if($scope.selectedPlan){
+					$scope.selectedPlan.subscriptionRate = response.data.rate;
+					$scope.selectedPlan.sliderValue = response.data.amount;
+				}
 
-							$scope.changeSubscription($scope.companyPricePlans[i]);
-						}
+				for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
+					if($scope.companyPricePlans[i].planNo === $scope.selectedPlan.planNo)
+					{
+						$scope.companyPricePlans[i]= $scope.selectedPlan;
+
+						$scope.changeSubscription($scope.companyPricePlans[i]);
 					}
+				}
 
-					//Getting pland end date
-					$charge.paymentgateway().subscriberCheck().success(function (data) {
+				//Getting pland end date
+				$charge.paymentgateway().subscriberCheck().success(function (data) {
 
-						$scope.currentPlanCreatedDate = moment.unix(data.response[0].currentPeriod).format("YYYY.MM.DD hh:mm a");
-						$scope.currentPlanExpiryDate=moment.unix(data.response[0].currentPeriodEnd).format("YYYY.MM.DD hh:mm a");
-						// $scope.currentPlanCreatedDate = new Date(data.response[0].currentPeriod).toString();
-						// $scope.currentPlanExpiryDate= new Date(data.response[0].currentPeriodEnd).toString();
-					}).error(function (data) {
-						// console.log(data);
-					});
-					$scope.accSubscriptionDetailsLoaded = true;
+					$scope.currentPlanCreatedDate = moment.unix(data.response[0].currentPeriod).format("YYYY.MM.DD hh:mm a");
+					$scope.currentPlanExpiryDate=moment.unix(data.response[0].currentPeriodEnd).format("YYYY.MM.DD hh:mm a");
+					// $scope.currentPlanCreatedDate = new Date(data.response[0].currentPeriod).toString();
+					// $scope.currentPlanExpiryDate= new Date(data.response[0].currentPeriodEnd).toString();
+				}).error(function (data) {
+					// console.log(data);
+				});
+				$scope.accSubscriptionDetailsLoaded = true;
 
 
-        }).error(function(data) {
+			}).error(function(data) {
 
-          // console.log(response);
+				// console.log(response);
 				$scope.accSubscriptionDetailsLoaded = true;
 			});
 		}
@@ -661,7 +662,7 @@ $scope.tenantUser = [];
 
 				for(i=0;i<$scope.paymentHistoryList.length;i++){
 					var date = new Date($scope.paymentHistoryList[i].receivedDate);
-					var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+					var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
 					$scope.paymentHistoryList[i].receivedDate = new Date($scope.paymentHistoryList[i].receivedDate);
 					$scope.paymentHistoryList[i].lastDate = lastDay;
 					$scope.paymentHistoryList[i].infomation = JSON.parse($scope.paymentHistoryList[i].infomation)[0];
@@ -803,39 +804,33 @@ $scope.tenantUser = [];
 			if(isEdit)
 				return;
 
-      $scope.tenantUser.country = document.getElementById('autocomplete').value ;
+			$http({
+				method : 'POST',
+				url : "/apis/profile/userprofile",
+				headers: {
+					'Content-Type': 'application/json',
+					'idToken':$scope.idToken
+				},
+				data : vm.dummy.Data
 
-      if(angular.isUndefined($scope.tenantUser.country) ||  $scope.tenantUser.country === "" ){
-        vm.editableMode = true;
-        document.getElementById('autocomplete').focus();
-        return;
-      }
+			}).then(function(response) {
+				// // console.log(response);
 
+				if (response.data.Data.IsSuccess) {
 
-      var data = {
-        "firstName": $scope.tenantUser.firstName,
-        "lastName": $scope.tenantUser.surName,
-        "country": $scope.tenantUser.country
-      }
+					vm.editableMode = false;
+					notifications.toast("User profile updated", "success");
 
-      $charge.myAccountEngine().updateUser(data).success(function (response) {
-        	if (response.Result) {
+				}else{
+					vm.editableMode = true;
+					notifications.toast("Error updating details, " + response.data.Message, "error");
+				}
 
-        		vm.editableMode = false;
-        		notifications.toast("User profile updated", "success");
-            $scope.getUserInfoByID();
-        	}else{
-        		vm.editableMode = true;
-        		notifications.toast("Error updating details, " + response.data.Message, "error");
-        	}
-
-
-      }).error(function(response) {
-        	// // console.log(response);
-        	vm.editableMode = true;
-        	notifications.toast("Error updating details, " + response, "error");
-      });
-
+			}, function(response) {
+				// // console.log(response);
+				vm.editableMode = true;
+				notifications.toast("Error updating details, " + response, "error");
+			});
 		}
 
 
@@ -1151,40 +1146,40 @@ $scope.tenantUser = [];
 			// 		//if(dataa.Success)
 			// 		//{
 			// 		title = "Success";
-            //
+			//
 			// 		$scope.clearPassword();
 			// 		//}
-            //
+			//
 			// 		displaycreateCompanyDetailsSubmissionError("Password successfully changed " , title);
 			// 		$scope.isChangePasswordSelected = false;
-            //
-            //
+			//
+			//
 			// 	})
 			// 	.error(function (data) {
 			// 		displaycreateCompanyDetailsSubmissionError('Password not been changed duo to '+data ,'Failed to change password');
 			// 		$scope.isChangePasswordSelected = false;
-            //
+			//
 			// 	});
 
-      $scope.data = { "password" : $scope.dev.newPassword}
-      $charge.myAccountEngine().resetAPIUserPassword($scope.data).success(function (response) {
+			$scope.data = { "password" : $scope.dev.newPassword}
+			$charge.myAccountEngine().resetAPIUserPassword($scope.data).success(function (response) {
 
-        var title = "Error";
-        		//if(dataa.Success)
-        		//{
-        		title = "Success";
+				var title = "Error";
+				//if(dataa.Success)
+				//{
+				title = "Success";
 
-        		$scope.clearPassword();
-        		//}
+				$scope.clearPassword();
+				//}
 
-        		displaycreateCompanyDetailsSubmissionError("Password successfully changed " , title);
-        		$scope.isChangePasswordSelected = false;
+				displaycreateCompanyDetailsSubmissionError("Password successfully changed " , title);
+				$scope.isChangePasswordSelected = false;
 
 
-      }).error(function(data) {
-        		displaycreateCompanyDetailsSubmissionError('Password not been changed duo to '+data ,'Failed to change password');
-        		$scope.isChangePasswordSelected = false;
-      });
+			}).error(function(data) {
+				displaycreateCompanyDetailsSubmissionError('Password not been changed duo to '+data ,'Failed to change password');
+				$scope.isChangePasswordSelected = false;
+			});
 
 		}
 
@@ -1535,8 +1530,8 @@ $scope.tenantUser = [];
 		// SUBSCRIPTION HISTORY PDF DOWNLOADER
 		$scope.downloadSubscriptionPDF = function (record) {
 			record.downloading = true;
-			var lastDateTimestamp = new Date(record.lastDate).getTime()/1000;
-			var receivedDateTimestamp = new Date(record.receivedDate).getTime()/1000;
+			var lastDateTimestamp = new Date(record.lastDate + ' UTC').getTime()/1000;
+			var receivedDateTimestamp = new Date(record.receivedDate + ' UTC').getTime()/1000;
 			// lastDate = lastDate.split("-");
 			// var lastDateTimestamp = lastDate[1]+"/"+lastDate[2]+"/"+lastDate[0];
 			// alert(new Date(newDate).getTime());
@@ -1575,37 +1570,46 @@ $scope.tenantUser = [];
 			// 	record.downloading = false;
 			// });
 
-      $scope.data=[{
-        		"type": "PDF",
-        		"id": record.id,
-        		"amount": record.amount,
-        		"email": vm.dummy.Data.email,
-        		"currency": "usd",
-        		"infomation": JSON.stringify([record.infomation]),
-        		"domain": window.location.hostname,
-        		"currentPeriod": receivedDateTimestamp,
-        		"currentPeriodEnd": lastDateTimestamp,
-        		"createdDate": receivedDateTimestamp,
-        		"gatewayType": "stripe"
-        	}];
-      $charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
+			$scope.data=[{
+				"type": "PDF",
+				"id": record.id,
+				"amount": record.amount,
+				"email": vm.dummy.Data.email,
+				"currency": "usd",
+				"infomation": JSON.stringify([record.infomation]),
+				"domain": window.location.hostname,
+				"currentPeriod": receivedDateTimestamp,
+				"currentPeriodEnd": lastDateTimestamp,
+				"createdDate": receivedDateTimestamp,
+				"gatewayType": "stripe"
+			}];
+			$charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
 
-        	$scope.subscriptionDateForPDF = record.receivedDate;
-        	var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
-        	var dlnk = document.getElementById('hidden-donwload-anchor');
-        	$timeout(function(){
-        		dlnk.href = pdf;
-        		dlnk.click();
-        	},100);
-        	record.downloading = false;
+				$scope.subscriptionDateForPDF = record.receivedDate;
+				var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
+				var dlnk = document.getElementById('hidden-donwload-anchor');
+				$timeout(function(){
+					dlnk.href = pdf;
+					dlnk.click();
+				},100);
+				record.downloading = false;
 
-      }).error(function(errorResponse) {
-        record.downloading = false;
-      });
+			}).error(function(errorResponse) {
+				record.downloading = false;
+			});
 
 
 		}
 		// SUBSCRIPTION HISTORY PDF DOWNLOADER
+
+		// Reset access keys
+		$scope.resetAccessKeys = function () {
+			$http.get('app/main/account/accessKeys/resetAccessKeys.php/?id='+$scope.idToken+'&&resetType=primary').then(function (successResponse) {
+				$scope.newPrimaryKey == successResponse;
+			}, function (errorResponse) {
+			});
+		}
+		// Reset access keys - END
 
 	}
 })();
