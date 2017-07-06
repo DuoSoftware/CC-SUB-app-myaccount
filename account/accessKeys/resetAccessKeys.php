@@ -1,11 +1,10 @@
 <?php
+    echo 'Hit';
     //require_once('../data/HttpRequestHelper.php');
     $resetType = "";
     $id = "";
     $primaryURL = 'http://app.cloudcharge.com/services/apis.php/auth/regeneratePrimaryKey';
     $secondaryURL = 'http://app.cloudcharge.com/services/apis.php/auth/regenerateSecondaryKey';
-
-	//var_dump($primaryURL);
 
     if (isset ( $_GET ["resetType"] ))
         	$resetType = $_GET ["resetType"];
