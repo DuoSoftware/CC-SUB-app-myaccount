@@ -145,7 +145,7 @@
                                                                 </div>
 
                                                                 <md-button class="md-icon-button md-accent" ng-click="copyToClipboard(key.key, key.name)"><md-icon md-font-icon="icon-content-copy" class="copy-icon" style="font-size: 18px"></md-icon><md-tooltip>Copy key</md-tooltip> </md-button>
-                                                                <md-button class="md-icon-button md-accent" ng-disabled="isKeyResetting" ng-click="resetKey(key.key, key.name)"><md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
+                                                                <md-button class="md-icon-button md-accent" ng-disabled="resetLoading" ng-click="resetAccessKeys(key.name)"><md-progress-circular ng-if="currentlyResetting == key.name && resetLoading" style="top: -2px;right:6px"></md-progress-circular> <md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -414,10 +414,16 @@
 
                                             <section id="successContainer" layout="column" layout-align="center center" >
                                                 <div layout="row">
-                                                    <md-radio-group ng-model="selectedPlanDuration" ng-init="selectedPlanDuration = 'Monthly'" layout="row" style="margin: 20px 0;">
-                                                        <md-radio-button value="Monthly">Monthly</md-radio-button>
-                                                        <md-radio-button value="Yearly">Yearly</md-radio-button>
-                                                    </md-radio-group>
+                                                    <md-input-container>
+                                                        <md-radio-group name="planType" ng-required ng-model="selectedPlanDuration" layout="row" class="cc-switch-buttons-group" ng-init="selectedPlanDuration = 'Monthly'">
+                                                            <md-radio-button value="Monthly" class="cc-switch-buttons" md-ink-ripple ng-disabled="selectedPlanDuration == 'Monthly'" ng-style="selectedPlanDuration == 'Yearly' ? {'z-index':'1'} : {'z-index':'0'}">Monthly</md-radio-button>
+                                                            <md-radio-button value="Yearly" class="cc-switch-buttons" md-ink-ripple ng-disabled="selectedPlanDuration == 'Yearly'" ng-style="selectedPlanDuration == 'Monthly' ? {'z-index':'1'} : {'z-index':'0'}">Yearly</md-radio-button>
+                                                        </md-radio-group>
+                                                    </md-input-container>
+                                                    <!--<md-radio-group ng-model="selectedPlanDuration" ng-init="selectedPlanDuration = 'Monthly'" layout="row" style="margin: 20px 0;">-->
+                                                        <!--<md-radio-button value="Monthly">Monthly</md-radio-button>-->
+                                                        <!--<md-radio-button value="Yearly">Yearly</md-radio-button>-->
+                                                    <!--</md-radio-group>-->
                                                 </div>
                                                 <div layout="row" style="width: 100%;">
                                                     <div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>
