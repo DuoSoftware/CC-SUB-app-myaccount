@@ -142,7 +142,7 @@
 		 $scope.idToken= gst('securityToken');
         //
 		// if(!$scope.idToken)
-		//	$scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InQ4elBBYm9Ga0NKOWItbkZKenp5SWlrSmdTSkFrQTJwMDh5a3dSWV8xQW8ifQ.eyJleHAiOjE0OTI1MDU0MzAsIm5iZiI6MTQ5MjQyMjYzMCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkyNDIyNjMwLCJhdXRoX3RpbWUiOjE0OTI0MjI2MzAsIm9pZCI6ImYzMjg5YzJlLWZkOTgtNDc3NS05NmJhLTkwY2ZmMzQxMTQzMCIsImdpdmVuX25hbWUiOiJTdXZldGhhbiIsIm5hbWUiOiJOYW50aGEiLCJjb3VudHJ5IjoiU3JpIExhbmthIiwiZXh0ZW5zaW9uX0RvbWFpbiI6InN1dmV0aGFuTi5hcHAuY2xvdWRjaGFyZ2UuY29tIiwiZmFtaWx5X25hbWUiOiJzdGFydGVyIiwiam9iVGl0bGUiOiJhZG1pbiIsImVtYWlscyI6WyJzdXZldGhhbkBkdW9zb2Z0d2FyZS5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFBvbGljeSJ9.Co4MgJSYgPCL12M-l2ASWQM4rQJhTk0RimSYOlABaILnJvjbq9rujDNd4Dsv-hFR3du4VY2hxydpoSu1tTFAWndpZH2NmRYevXN4uLNKA7O4DGy7kjnHltL26h47RpzNRIsOg5Ih1RD7l2KPE_aTpTlvNZNZsfIaKOa-8OtAqUpm_GLTMZNqxxJT6mE-HXynWsgu9bU1slSOH3kGbcDld1aQfjkJrU8BX7cGSA5kbh2CIAszSvJmodtHtfUJmEWd8RV3uDXTEcziQpRaElYjH0I_wT4gCSgvD___W1_cPOi1ocrTv5eYnf0LmjxdgbqvvJFCrYnhrFbXI3J6L8j8Pg";
+		//$scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJleHAiOjE0OTc0MjIxNTIsIm5iZiI6MTQ5NzMzOTM1MiwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjkxMzY2YjQ4LWIzYTYtNDg4ZC1iZWM2LWMzNDNjNmE2N2I4MiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDk3MzM5MzUyLCJhdXRoX3RpbWUiOjE0OTczMzkzNTIsIm9pZCI6IjkxMzY2YjQ4LWIzYTYtNDg4ZC1iZWM2LWMzNDNjNmE2N2I4MiIsImdpdmVuX25hbWUiOiJTdXZldGhhbiIsIm5hbWUiOiJOYW50aGEiLCJjb3VudHJ5IjoiU3JpIExhbmthIiwiZXh0ZW5zaW9uX21vZGUiOiJ0ZXN0IiwiZXh0ZW5zaW9uX0RvbWFpbiI6InN1dmVuQ29tLmFwcC5jbG91ZGNoYXJnZS5jb20iLCJmYW1pbHlfbmFtZSI6InN0YXJ0ZXIiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbInN1dmV0aGFuQGR1b3NvZnR3YXJlLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.G7TmlpfmuPFLy0jvXRcaKiioz17Gf5NHOHNJX9zbIlYUisKtUdOKXGZWMRrb78QSb-HlABRrzDVJbm0DeHijEfRcv7KDlFa0L8omQ_gBe2n5WYHJf32rP6D7a8ul5KP5YFlsRPrfAuZvQ4jvlaTi7TSDN5VGVlr7W9C54Xgi98KDLkDjImpC_-p7DMM4S6uuvd2WvsjcC7Q8oOim8lUTnMJUDfNYQYVCE99MHz-cOv-AcRVv9vTmbC3atzBjQYcKHgM-aEqbjH2FMO-gi1lmwnoBW46z2AiT4Ul-WI7MNPJpRcJNbWGxlu9Br7uMA0g7Y3_cUrbtYl5i69C7ZMhQtg";
 		// $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0OTAxNTk0MTEsIm5iZiI6MTQ5MDA3NjYxMSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkwMDc2NjExLCJhdXRoX3RpbWUiOjE0OTAwNzY2MTEsIm9pZCI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImdpdmVuX25hbWUiOiJpc3MiLCJuYW1lIjoiaXNzIiwiY291bnRyeSI6IlNhYmEiLCJleHRlbnNpb25fRG9tYWluIjoiaXNzLmNsb3VkY2hhcmdlLmNvbSIsImZhbWlseV9uYW1lIjoiYnVzaW5lc3MiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbImd1bmF0aGlsYWthaXNoYXJhQGdtYWlsLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.aHkjg58win7uz5aUUwfuM-BISxTiBF_awiq4LA2QEtdf6I9TybGWomvfoq0FsWEmjZL3qN5C1Mm1Lisq4rHX0rqF3fDE8Bb88xN40QdByRnaMW5iSfgGIkZoZbQ4gUp0U4PVJu9YEj1zHS_EwTc4sHNVIgxLv2l3r0oBEGhnXJhAEkWSBVIUL-A3mtrSlAsDVTaDmc882D-0yjKFJxZcZTyxZonP7YmDMTPeyzKLFjHjKcddUomdRn52WrKDeFRGqpwO2Bs656EMg27LCZKTN6c_PhlJ7FaGp4qrqjK9SyZR6eG2dFOurQv8Xi-e2LHosKEt8O2MZB7a7kZZwqTkLQ";//gst('idToken');
 		// $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODkxNDQ5NzksIm5iZiI6MTQ4OTA1ODU3OSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5MDU4NTc5LCJhdXRoX3RpbWUiOjE0ODkwNTg1NzksIm9pZCI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImdpdmVuX25hbWUiOiJmYWZhIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyaWFsIiwibmFtZSI6InBpYmEiLCJqb2JUaXRsZSI6ImFkbWluIiwiY291bnRyeSI6IkFuZ3VpbGxhIiwiZXh0ZW5zaW9uX0RvbWFpbiI6ImZhZmFwaWJhLmNsb3VkY2hhcmdlLmNvbSIsImVtYWlscyI6WyJmYWZhcGliYUBnYW1nbGluZy5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFNpZ25JbiJ9.sJj5ZfhDBb27BEYfDTuSMg9zCkoS62eOcWC2XbyzCYcRfsQjKtPB_1BeeESQwhyHekUSvgwt0tgpJAYIZvmMt-aWcKvhwJa02cG3BzUV-LFuGakCMFADXzDzs2qyRjL0cWnW1MQlvm1roBmnEUpeifGoGmfFwhWyKGF7-Asmq00W6tml7u_IOVUkPs-0pRE-31srM2QX1DZsYsJB3P0j8k02zjVgbMoaX3z31GY0Ez-Va0GzukDm9AQHeZUo-D1hU9vzFYD2Nk7pTxbPTi58ktxTN1_LNZ_sRXGooOZmuONayHwmLbvOBvdAT4mfYN0HrKIEVEz9NgRNFT6AOoTWLw";//gst('idToken');
 
@@ -579,9 +579,17 @@ $scope.tenantUser = [];
 									{
 										return d.value;
 									},
-									tooltip  : {
-										gravity: 's',
-										classes: 'gravity-s'
+									tooltip: {
+										contentGenerator: function (key, x, y, e, graph) {
+											if(key.index == 0){
+												vm.tipTitle = 'Used';
+											}else{
+												vm.tipTitle = 'Available';
+											}
+											return '<div layout="column" style="background-color: #000;text-align: left;border-radius: 3px;padding: 5px 10px;">'+
+												'<div>'+vm.tipTitle+' : '+key.data.value+'</div>' +
+												'</div>';
+										}
 									}
 								}
 							},
@@ -674,7 +682,7 @@ $scope.tenantUser = [];
 
 				for(i=0;i<$scope.paymentHistoryList.length;i++){
 					var date = new Date($scope.paymentHistoryList[i].receivedDate);
-					var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+					var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
 					$scope.paymentHistoryList[i].receivedDate = new Date($scope.paymentHistoryList[i].receivedDate);
 					$scope.paymentHistoryList[i].lastDate = lastDay;
 					$scope.paymentHistoryList[i].infomation = JSON.parse($scope.paymentHistoryList[i].infomation)[0];
@@ -1546,8 +1554,8 @@ $scope.tenantUser = [];
 		// SUBSCRIPTION HISTORY PDF DOWNLOADER
 		$scope.downloadSubscriptionPDF = function (record) {
 			record.downloading = true;
-			var lastDateTimestamp = new Date(record.lastDate).getTime()/1000;
-			var receivedDateTimestamp = new Date(record.receivedDate).getTime()/1000;
+			var lastDateTimestamp = new Date(record.lastDate + ' UTC').getTime()/1000;
+			var receivedDateTimestamp = new Date(record.receivedDate + ' UTC').getTime()/1000;
 			// lastDate = lastDate.split("-");
 			// var lastDateTimestamp = lastDate[1]+"/"+lastDate[2]+"/"+lastDate[0];
 			// alert(new Date(newDate).getTime());
@@ -1617,6 +1625,64 @@ $scope.tenantUser = [];
 
 		}
 		// SUBSCRIPTION HISTORY PDF DOWNLOADER
+
+		// Reset access keys
+		$scope.resetLoading = false;
+		$scope.resetAccessKeys = function (keyCat) {
+			// $http.get('app/main/account/accessKeys/resetAccessKeys.php/?id='+$scope.idToken+'&&resetType=primary').then(function (successResponse) {
+			// 	$scope.newPrimaryKey == successResponse;
+			// }, function (errorResponse) {
+			// });
+			$scope.resetLoading = true;
+			$scope.currentlyResetting = keyCat;
+			if(keyCat.toLowerCase() == 'primary key'){
+				$http({
+					method: 'GET',
+					url: "http://app.cloudcharge.com/services/apis.php/auth/regeneratePrimaryKey",
+					headers: {
+						'id_token': $scope.idToken
+					}
+				}).then(function (response) {
+					$timeout(function () {
+						$scope.access_keys = [{
+							name: "Primary key",
+							key: response.data.Result.primaryKey
+						},{
+							name: "Secondary key",
+							key: response.data.Result.secondaryKey
+						}];
+					});
+					notifications.toast("Primary key has been reset", "success");
+					$scope.resetLoading = false;
+
+				}, function (errorRes) {
+					$scope.resetLoading = false;
+				});
+			}else if(keyCat.toLowerCase() == 'secondary key'){
+				$http({
+					method: 'GET',
+					url: "http://app.cloudcharge.com/services/apis.php/auth/regenerateSecondaryKey",
+					headers: {
+						'id_token': $scope.idToken
+					}
+				}).then(function (response) {
+					$timeout(function () {
+						$scope.access_keys = [{
+							name: "Primary key",
+							key: response.data.Result.primaryKey
+						},{
+							name: "Secondary key",
+							key: response.data.Result.secondaryKey
+						}];
+					});
+					notifications.toast("Secondary key has been reset", "success");
+					$scope.resetLoading = false;
+				}, function (errorRes) {
+					$scope.resetLoading = false;
+				});
+			}
+		}
+		// Reset access keys - END
 
 	}
 })();
