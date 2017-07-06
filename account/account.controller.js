@@ -1629,16 +1629,19 @@ $scope.tenantUser = [];
 		// Reset access keys
 		$scope.resetLoading = false;
 		$scope.resetAccessKeys = function (keyCat) {
+			// $scope.resetLoading = true;
 			// $http.get('app/main/account/accessKeys/resetAccessKeys.php/?id='+$scope.idToken+'&&resetType=primary').then(function (successResponse) {
-			// 	$scope.newPrimaryKey == successResponse;
+			// 	$scope.newPrimaryKey = successResponse;
+			// 	$scope.resetLoading = false;
 			// }, function (errorResponse) {
+			// 	$scope.resetLoading = false;
 			// });
 			$scope.resetLoading = true;
 			$scope.currentlyResetting = keyCat;
 			if(keyCat.toLowerCase() == 'primary key'){
 				$http({
 					method: 'GET',
-					url: "http://app.cloudcharge.com/services/apis.php/auth/regeneratePrimaryKey",
+					url: "https://app.cloudcharge.com/services/apis.php/auth/regeneratePrimaryKey",
 					headers: {
 						'id_token': $scope.idToken
 					}
@@ -1661,7 +1664,7 @@ $scope.tenantUser = [];
 			}else if(keyCat.toLowerCase() == 'secondary key'){
 				$http({
 					method: 'GET',
-					url: "http://app.cloudcharge.com/services/apis.php/auth/regenerateSecondaryKey",
+					url: "https://app.cloudcharge.com/services/apis.php/auth/regenerateSecondaryKey",
 					headers: {
 						'id_token': $scope.idToken
 					}
