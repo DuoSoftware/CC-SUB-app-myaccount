@@ -124,7 +124,7 @@ if(!isset($_COOKIE['planId'])) {
              $planInfo->attributes[1]->amount = $additionalUserTotalPrice;
              $planInfo->attributes[1]->quantity = $additionalUserQty;  // full amount
              $planInfo->attributes[1]->action = "add";
-print_r($planInfo);
+			 
         $resp = (new CloudCharge())->plan()->upgradeToCustomplan($planInfo);
         // $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo); // commented on 3/22 because all plans saving as custormized plan
 
