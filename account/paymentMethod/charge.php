@@ -1,11 +1,11 @@
 <?php
 
+require_once('../data/accountConfig.php');
 require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
 
 $doc = $_SERVER ['DOCUMENT_ROOT'];
 define('DOC_ROOT', $doc);
 require_once ($doc.'/services/config/settings.php');
-require_once('../data/accountConfig.php');
 
                   echo '  <!DOCTYPE html>  <html>  <head> <style> ';
                           /* Center the loader */
@@ -145,7 +145,7 @@ print_r($resp);exit();
            $planId = str_replace("_year","",$planId);
 
            //curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
-           curl_setopt($ch, CURLOPT_URL, "http://".host.":8001/auth/updateSubscription?planCode=".$planId);
+           curl_setopt($ch, CURLOPT_URL, "https://".host.":8001/auth/updateSubscription?planCode=".$planId);
            //curl_setopt($ch, CURLOPT_URL, "http://app.cloudcharge.com:8001/auth/updateSubscription?planCode=".$planId);
 
            // receive server response ...
@@ -169,7 +169,7 @@ print_r($resp);exit();
 
                       $planId = str_replace("_year","",$planId);
 
-                     curl_setopt($chp, CURLOPT_URL, "http://".host."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
+                     curl_setopt($chp, CURLOPT_URL, "https://".host."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
                      //curl_setopt($chp, CURLOPT_URL, "http://app.cloudcharge.com/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
                      //curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
 
@@ -206,7 +206,7 @@ print_r($resp);exit();
 
 					            curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
 
-                     curl_setopt($cho, CURLOPT_URL, "http://".host."/services/duosoftware.ratingEngine/ratingEngine/createRule");
+                     curl_setopt($cho, CURLOPT_URL, "https://".host."/services/duosoftware.ratingEngine/ratingEngine/createRule");
                      //curl_setopt($cho, CURLOPT_URL, "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/createRule");
                      //curl_setopt($cho, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule");
 
