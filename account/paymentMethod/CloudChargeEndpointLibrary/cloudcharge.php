@@ -420,9 +420,8 @@ class Plan {
 		$plan->quantity = (isset($planInfo->quantity)) ? (int)$planInfo->quantity : 1;
 		unset($plan->customer);
 		unset($plan->token);
-
 		$res = $this->cClient->getRequestInvoker()->post("/upgrade", $plan);
-		return $this->getDefaultValue($res);
+	return $this->getDefaultValue($res);
 
 	}
 
@@ -496,10 +495,10 @@ class CloudCharge {
 
 		if($paygateway === "")
 			if(defined("PAYMENT_GATWAY"))
-				$paygateway = PAYMENT_GATWAY;
-
-		//$this->invoker = new WsInvoker("http://". $GLOBALS['mainDomain'] ."/services/duosoftware.paymentgateway.service/" . $paygateway);
-		$this->invoker = new WsInvoker("http://cloudcharge.com/services/duosoftware.paymentgateway.service/" . $paygateway);
+				$paygateway = PAYMENT_GATWAY; 
+			
+		$this->invoker = new WsInvoker("https://".host."/services/duosoftware.paymentgateway.service/" . $paygateway);
+		//$this->invoker = new WsInvoker("http://cloudcharge.com/services/duosoftware.paymentgateway.service/" . $paygateway);
 		$this->invoker->addHeader("securityToken", $_COOKIE['securityToken']);
 		$this->invoker->addHeader("idToken", $_COOKIE['securityToken']);
 	}

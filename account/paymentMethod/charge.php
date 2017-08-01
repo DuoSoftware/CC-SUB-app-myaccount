@@ -1,11 +1,11 @@
 <?php
 
+require_once('../data/accountConfig.php');
 require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
 
 $doc = $_SERVER ['DOCUMENT_ROOT'];
 define('DOC_ROOT', $doc);
 require_once ($doc.'/services/config/settings.php');
-require_once('../data/accountConfig.php');
 
                   echo '  <!DOCTYPE html>  <html>  <head> <style> ';
                           /* Center the loader */
@@ -99,7 +99,6 @@ if(!isset($_COOKIE['planId'])) {
     {
 
         $planInfo->panelty = 0;
-
         $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);
     }
     else{
@@ -124,7 +123,7 @@ if(!isset($_COOKIE['planId'])) {
              $planInfo->attributes[1]->amount = $additionalUserTotalPrice;
              $planInfo->attributes[1]->quantity = $additionalUserQty;  // full amount
              $planInfo->attributes[1]->action = "add";
-
+			 
         $resp = (new CloudCharge())->plan()->upgradeToCustomplan($planInfo);
         // $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo); // commented on 3/22 because all plans saving as custormized plan
 
@@ -145,9 +144,10 @@ if(!isset($_COOKIE['planId'])) {
            $planId = str_replace("_year","",$planId);
 
            //curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
-           curl_setopt($ch, CURLOPT_URL, "http://".host.":8001/auth/updateSubscription?planCode=".$planId);
+           curl_setopt($ch, CURLOPT_URL, "https://".host."/services/apis.php/auth/updateSubscription?planCode=".$planId);
            //curl_setopt($ch, CURLOPT_URL, "http://app.cloudcharge.com:8001/auth/updateSubscription?planCode=".$planId);
-
+			
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
            // receive server response ...
            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
@@ -169,10 +169,11 @@ if(!isset($_COOKIE['planId'])) {
 
                       $planId = str_replace("_year","",$planId);
 
-                     curl_setopt($chp, CURLOPT_URL, "http://".host."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
+                     curl_setopt($chp, CURLOPT_URL, "https://".host."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
                      //curl_setopt($chp, CURLOPT_URL, "http://app.cloudcharge.com/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
                      //curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
 
+					 curl_setopt($chp, CURLOPT_SSL_VERIFYPEER, false);
 					     // receive server response ...
                       curl_setopt($chp, CURLOPT_RETURNTRANSFER, 1);
 
@@ -204,9 +205,11 @@ if(!isset($_COOKIE['planId'])) {
                       curl_setopt($cho, CURLOPT_POST, 1);
                       curl_setopt($cho, CURLOPT_POSTFIELDS,$data_string);
 
-					            curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
+					  curl_setopt($cho, CURLOPT_SSL_VERIFYPEER, false);
+					            
+					  curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
 
-                     curl_setopt($cho, CURLOPT_URL, "http://".host."/services/duosoftware.ratingEngine/ratingEngine/createRule");
+                     curl_setopt($cho, CURLOPT_URL, "https://".host."/services/duosoftware.ratingEngine/ratingEngine/createRule");
                      //curl_setopt($cho, CURLOPT_URL, "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/createRule");
                      //curl_setopt($cho, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.ratingEngine/ratingEngine/createRule");
 
