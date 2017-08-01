@@ -99,7 +99,6 @@ if(!isset($_COOKIE['planId'])) {
     {
 
         $planInfo->panelty = 0;
-
         $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo);
     }
     else{
