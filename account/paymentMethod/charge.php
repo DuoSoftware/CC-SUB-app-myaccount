@@ -146,7 +146,8 @@ if(!isset($_COOKIE['planId'])) {
            //curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
            curl_setopt($ch, CURLOPT_URL, "https://".host."/services/apis.php/auth/updateSubscription?planCode=".$planId);
            //curl_setopt($ch, CURLOPT_URL, "http://app.cloudcharge.com:8001/auth/updateSubscription?planCode=".$planId);
-
+			
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
            // receive server response ...
            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
@@ -172,6 +173,7 @@ if(!isset($_COOKIE['planId'])) {
                      //curl_setopt($chp, CURLOPT_URL, "http://app.cloudcharge.com/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
                      //curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
 
+					 curl_setopt($chp, CURLOPT_SSL_VERIFYPEER, false);
 					     // receive server response ...
                       curl_setopt($chp, CURLOPT_RETURNTRANSFER, 1);
 
@@ -203,7 +205,9 @@ if(!isset($_COOKIE['planId'])) {
                       curl_setopt($cho, CURLOPT_POST, 1);
                       curl_setopt($cho, CURLOPT_POSTFIELDS,$data_string);
 
-					            curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
+					  curl_setopt($cho, CURLOPT_SSL_VERIFYPEER, false);
+					            
+					  curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
 
                      curl_setopt($cho, CURLOPT_URL, "https://".host."/services/duosoftware.ratingEngine/ratingEngine/createRule");
                      //curl_setopt($cho, CURLOPT_URL, "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/createRule");
