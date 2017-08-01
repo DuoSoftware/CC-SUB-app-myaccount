@@ -144,7 +144,7 @@ if(!isset($_COOKIE['planId'])) {
            $planId = str_replace("_year","",$planId);
 
            //curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
-           curl_setopt($ch, CURLOPT_URL, "https://".host.":8001/auth/updateSubscription?planCode=".$planId);
+           curl_setopt($ch, CURLOPT_URL, "https://".host."/services/apis.php/auth/updateSubscription?planCode=".$planId);
            //curl_setopt($ch, CURLOPT_URL, "http://app.cloudcharge.com:8001/auth/updateSubscription?planCode=".$planId);
 
            // receive server response ...
