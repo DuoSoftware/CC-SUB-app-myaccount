@@ -15,14 +15,14 @@
 			controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
         console.log($scope.ishara);
 				var config = $scope.config;
-				if(!config.hasOwnProperty('publishKey')){
-					console.error("Stripe api key not provided."); return;
-				}
+				//if(!config.hasOwnProperty('publishKey')){
+				//	console.error("Stripe api key not provided."); return;
+				//}
 
 				var handler = (function() {
 
 					var handler = StripeCheckout.configure({
-						key: config.publishKey,//'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
+						key: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
 						image: config.logo,
 						//panelLabel: angular.isUndefined($rootScope.planPrice)? config.label : $rootScope.planPrice,
             email:config.email,
