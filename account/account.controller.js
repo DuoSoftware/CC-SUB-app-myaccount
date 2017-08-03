@@ -486,7 +486,7 @@ $scope.tenantUser = [];
         $scope.calculateFreeTrialExpireDate();
 
         $scope.config = {
-          publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
+         // publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
           title: 'Cloudcharge',
           email: response.data.Result.email,
           description: "for connected business",
