@@ -22,7 +22,7 @@
 				var handler = (function() {
 
 					var handler = StripeCheckout.configure({
-						key: 'pk_test_Xu79eZXaxt0bFh76tp0jQiPT',
+						key: 'pk_live_DAGYvHNc3nUvKwM3izNZ0Mk8',
 						image: config.logo,
 						//panelLabel: angular.isUndefined($rootScope.planPrice)? config.label : $rootScope.planPrice,
             email:config.email,
