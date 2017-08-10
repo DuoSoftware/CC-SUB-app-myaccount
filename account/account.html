@@ -328,7 +328,7 @@
                                                             <span class="default" ng-if="card.rowId===0">Default</span>
                                                             <md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>
                                                         </div>
-                                                        <md-button class="md-warn md-icon-button" ng-click="removeCard()" layout-align="center center" style="margin-right: -10px"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove card</md-tooltip></md-button>
+                                                        <md-button class="md-warn md-icon-button" ng-click="removeCard(card)" layout-align="center center" style="margin-right: -10px"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove card</md-tooltip></md-button>
                                                     </div>
                                                 </div>
                                             </div>

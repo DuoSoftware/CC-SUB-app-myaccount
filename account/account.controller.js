@@ -890,10 +890,10 @@ $scope.tenantUser = [];
 			$scope.newCardSelected = true;
 		}
 
-		$scope.removeCard = function () {
+		$scope.removeCard = function (card) {
 			$http({
 				method : 'GET',
-				url : "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=removeCard&token="+args.id+"&default=true",
+				url : "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=removeCard&cardId="+card.id,
 				headers: {
 					'Content-Type': 'application/json'
 				}}).then(function(response) {
