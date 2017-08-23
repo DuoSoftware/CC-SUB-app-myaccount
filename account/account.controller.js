@@ -425,6 +425,7 @@ $scope.countries = [];
 						$scope.selectedPlan = $scope.companyPricePlans[i];
 
 						$scope.currentPlanName = $scope.selectedPlan.name;
+						$scope.currentPlanCode = $scope.selectedPlan.code;
 					}
 				}
 			}
