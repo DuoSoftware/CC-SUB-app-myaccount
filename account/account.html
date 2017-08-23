@@ -354,14 +354,14 @@
                                         <!--<span>Usage</span>-->
                                         <!--</div>-->
                                         <div layout="column" layout-align="center center" flex>
-                                            <div ng-if="currentPlanCode == 'free_trial'" class="usage-meter" layout="column" layout-align="center center" flex>
+                                            <div class="usage-meter" layout="column" layout-align="center center" flex>
                                                 <span class="fw-500 fs-16 op-5">Usage</span>
                                                 <nvd3 options="vm.usageChart.chart.options"
                                                       data="vm.usageChart.chart.data">
                                                 </nvd3>
                                                 <span class="label-large fs-18 font-accent fw-500" style="top: -30px;position:relative;">{{currentPlanUsed}}</span>
                                             </div>
-                                            <div ng-if="currentPlanCode != 'free_trial'" class="usage-meter" layout="column" layout-align="center center" flex>
+                                            <div ng-show="currentPlanCode != 'free_trial'" class="usage-meter" layout="column" layout-align="center center" flex style="position: absolute;background: #fff;height: 200px;">
                                                 <span class="fw-500 fs-14 op-5">Subscription count</span>
                                                 <div flex></div>
                                                 <div flex class="label-large fs-40 font-accent fw-500">{{currentPlanUsed}}</div>
