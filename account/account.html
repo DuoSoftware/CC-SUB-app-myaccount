@@ -246,7 +246,9 @@
                             <md-card-content md-whiteframe="1dp">
                                 <div>
                                     <div layout="row" layout-align="start center">
-                                        <span class="fs-18">{{currentPlanName}} </span><span class="op-5" flex> / {{selectedPlanDuration}}</span>
+                                        <span class="fs-18">{{currentPlanName}} </span><span class="op-5" flex>
+                                        <!--/ {{selectedPlanDuration}}-->
+                                    </span>
                                         <div layout-align="end center" layout="row">
                                             <md-button class="md-accent md-raised" ng-show="selectedPlan.planNo > 1 && isTempDeactive " ng-click="deactiveCurrentPlan()" flex>Deactivate</md-button>
                                             <!--<md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex>Upgrade</md-button>-->
@@ -264,12 +266,12 @@
                                                 </div>
                                                 <div class="text-right" flex>{{currentPlanCreatedDate | limitTo:10}} - {{ currentPlanExpiryDate | limitTo:10}}</div>
                                             </div>
-                                            <div layout="row" layout-align="start center" class="info-grid-row bordered">
-                                                <div class="iconed-label" layout="row" layout-align="start center" flex="40">
-                                                    <md-icon md-font-icon="icon-cash-usd"></md-icon> <span flex>Additional charge</span>
-                                                </div>
-                                                <div class="text-right" flex>${{additionalCharge}}</div>
-                                            </div>
+                                            <!--<div layout="row" layout-align="start center" class="info-grid-row bordered">-->
+                                                <!--<div class="iconed-label" layout="row" layout-align="start center" flex="40">-->
+                                                    <!--<md-icon md-font-icon="icon-cash-usd"></md-icon> <span flex>Additional charge</span>-->
+                                                <!--</div>-->
+                                                <!--<div class="text-right" flex>${{additionalCharge}}</div>-->
+                                            <!--</div>-->
                                             <div layout="row" layout-align="start center" class="info-grid-row bordered">
                                                 <div class="iconed-label" layout="row" layout-align="start center" flex="40">
                                                     <md-icon md-font-icon="icon-package"></md-icon> <span flex>Next payment</span>
@@ -332,12 +334,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div layout="row" layout-align="end center">
-                                                <md-button class="m-0 fs-12 md-accent" layout="row" ng-click="getTenantPaymentHistory()">
-                                                    <md-progress-circular ng-show="isTenantPaymentHistoryClicked" class="inbtn-loader md-accent"></md-progress-circular>
-                                                    Show payment history <md-icon md-font-icon="icon-chevron-down"></md-icon>
-                                                </md-button>
-                                            </div>
                                             <!--<div layout="row" layout-align="start center" class="info-grid-row">-->
                                             <!--<div class="iconed-label" layout="row" layout-align="start center" flex="30">-->
                                             <!--<md-icon md-font-icon="icon-email"></md-icon> <span flex>Rate</span>-->
@@ -357,17 +353,31 @@
                                         <!--<rzslider rz-slider-model="subUsage.value" rz-slider-options="subUsage.options"></rzslider>-->
                                         <!--<span>Usage</span>-->
                                         <!--</div>-->
-                                        <div class="usage-meter" layout="column" layout-align="center center" flex>
-                                            <span class="fw-500 fs-16 op-5">Usage</span>
-                                            <nvd3 options="vm.usageChart.chart.options"
-                                                  data="vm.usageChart.chart.data">
-                                            </nvd3>
-                                            <span class="label-large fs-18 font-accent fw-500" style="top: -30px;position:relative;">{{currentPlanUsed}}</span>
+                                        <div layout="column" layout-align="center center" flex>
+                                            <div ng-if="currentPlanName == 'free_trial'" class="usage-meter" layout="column" layout-align="center center" flex>
+                                                <span class="fw-500 fs-16 op-5">Usage</span>
+                                                <nvd3 options="vm.usageChart.chart.options"
+                                                      data="vm.usageChart.chart.data">
+                                                </nvd3>
+                                                <span class="label-large fs-18 font-accent fw-500" style="top: -30px;position:relative;">{{currentPlanUsed}}</span>
+                                            </div>
+                                            <div ng-if="currentPlanName != 'free_trial'" class="usage-meter" layout="column" layout-align="center center" flex>
+                                                <span class="fw-500 fs-14 op-5">Subscription count</span>
+                                                <div flex></div>
+                                                <div flex class="label-large fs-40 font-accent fw-500">{{currentPlanUsed}}</div>
+                                                <div flex></div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div layout="row" layout-align="end center">
+                                        <md-button class="m-0 fs-12 md-accent" layout="row" ng-click="getTenantPaymentHistory()">
+                                            <md-progress-circular ng-show="isTenantPaymentHistoryClicked" class="inbtn-loader md-accent"></md-progress-circular>
+                                            Show payment history <md-icon md-font-icon="icon-chevron-down"></md-icon>
+                                        </md-button>
+                                    </div>
                                     <div layout="row" layout-align="center center" flex class="mt-10 animate-fade-in-out" ng-if="paymentHistory">
-                                        <div flex class="list-offset" md-whiteframe="1dp">
-                                            <div class="list-header" layout="row" flex md-whiteframe="1dp">
+                                        <div flex class="list-offset">
+                                            <div class="list-header" layout="row" flex>
                                                 <div flex="30">Plan</div>
                                                 <div flex>Period</div>
                                                 <div flex class="text-right"><span>Amount</span></div>
@@ -413,56 +423,24 @@
                                         <div class="commonContentShell solid-highlight-gray pb-10" flex>
 
                                             <section id="successContainer" layout="column" layout-align="center center" >
-                                                <div layout="row">
-                                                    <md-input-container>
-                                                        <md-radio-group name="planType" ng-required ng-model="selectedPlanDuration" layout="row" class="cc-switch-buttons-group" ng-init="selectedPlanDuration = 'Monthly'">
-                                                            <md-radio-button value="Monthly" class="cc-switch-buttons" md-ink-ripple ng-disabled="selectedPlanDuration == 'Monthly'" ng-style="selectedPlanDuration == 'Yearly' ? {'z-index':'1'} : {'z-index':'0'}">Monthly</md-radio-button>
-                                                            <md-radio-button value="Yearly" class="cc-switch-buttons" md-ink-ripple ng-disabled="selectedPlanDuration == 'Yearly'" ng-style="selectedPlanDuration == 'Monthly' ? {'z-index':'1'} : {'z-index':'0'}">Yearly</md-radio-button>
-                                                        </md-radio-group>
-                                                    </md-input-container>
-                                                    <!--<md-radio-group ng-model="selectedPlanDuration" ng-init="selectedPlanDuration = 'Monthly'" layout="row" style="margin: 20px 0;">-->
-                                                        <!--<md-radio-button value="Monthly">Monthly</md-radio-button>-->
-                                                        <!--<md-radio-button value="Yearly">Yearly</md-radio-button>-->
-                                                    <!--</md-radio-group>-->
-                                                </div>
                                                 <div layout="row" style="width: 100%;">
                                                     <div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>
                                                         <md-card ng-repeat="plan in companyPricePlans" flex class="subscription-plan" ng-if="plan.type == selectedPlanDuration || plan.code == 'free_trial'" ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">
                                                             <!--<div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>-->
 
                                                             <md-card-title flex layout="row" layout-align="center center" ng-class="{'solid-washer-blue': plan.code == selectedPlan.code}">
-                                                                <h3 ng-class="{'f-white':plan.code == selectedPlan.code}">{{plan.name}}</h3>
+                                                                <h3 ng-class="{'f-white':plan.code == selectedPlan.code}">{{plan.code == 'free_trial' ? plan.name.split('(')[0] : plan.name}} <span class="braket-text" ng-if="plan.code == 'free_trial'">({{plan.name.split('(')[1]}}</span></h3>
                                                             </md-card-title>
 
                                                             <md-card-content flex class="p-0" layout="column">
                                                                 <div class="rate-container" layout="column" layout-align="center center">
-                                                                    <div layout="row" ng-if="plan.planNo === 1" layout-align="center end"><span>$0</span> <span> / Monthly</span></div>
-                                                                    <div layout="row" ng-if="plan.planNo > 1" layout-align="center end"><span>${{plan.changingPrice}} </span> <span> / {{plan.type}}</span></div>
+                                                                    <div layout="row" ng-if="plan.code === 'free_trial'" layout-align="center end"><span>Free</span><span></span></div>
+                                                                    <div layout="row" ng-if="plan.code != 'free_trial'" layout-align="center end"><span>${{plan.changingPrice}} </span> <span> / {{plan.type}}</span></div>
                                                                 </div>
-                                                                <div ng-if="plan.planNo > 1" class="feature-wrap">
+                                                                <div class="feature-wrap">
                                                                     <div class="feature-container" layout="column" layout-align="center center">
                                                                         <div layout="row" layout-align="center center">
-                                                                            <div><span>{{plan.activeSubscriptions}}</span><span> Active Subscriptions</span></div>
-                                                                        </div>
-                                                                        <div layout="row" layout-align="center center">
-                                                                            <div><span>${{plan.subscriptionRate}}</span><span> per Additional Subscription</span></div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!--<div class="slider">-->
-                                                                    <!--<rzslider id="cont{{plan.code}}" rz-slider-model="plan.sliderValue" ng-click="changeSubscription(plan)" rz-slider-options="plan.starterSlider.options"></rzslider>-->
-                                                                    <!--</div>-->
-                                                                    <div class="slider" ng-if="$index>0">
-                                                                        <rzslider rz-slider-model="sliders[$index].sliderValue" rz-slider-options="sliders[$index].options" class="m-0"></rzslider>
-                                                                    </div>
-                                                                </div>
-                                                                <div ng-if="plan.planNo === 1" layout="column" layout-align="center center" class="feature-wrap" style="height: 130px">
-                                                                    <div class="feature-container" layout="column" layout-align="center center">
-                                                                        <div layout="row" layout-align="center center">
-                                                                            <div><span>1000</span><span> Active Subscriptions</span></div>
-                                                                        </div>
-                                                                        <div layout="row" layout-align="center center">
-                                                                            <div><span>$2</span><span> per Additional Subscription</span></div>
+                                                                            <div><span>{{plan.description}}</span></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>

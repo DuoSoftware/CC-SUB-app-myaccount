@@ -1,5 +1,5 @@
 <?php
-$server_environment = 'dev'; // local/live
+$server_environment = 'qa'; // local/live
 
 
 
