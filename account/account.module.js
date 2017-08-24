@@ -63,14 +63,16 @@
         bodyClass: 'account'
       });
 
-      if(isSuperAdmin != 'true'){
-        msNavigationServiceProvider.saveItem('account', {
-           // title    : 'My Account',
-          state    : 'app.account',
-          /*stateParams: {
-           'param1': 'page'
-           },*/
-          weight   : 1
-        });
-      }
+    if(isSuperAdmin != 'true'){
+      msNavigationServiceProvider.saveItem('account', {
+         // title    : 'My Account',
+        state    : 'app.account',
+        /*stateParams: {
+         'param1': 'page'
+         },*/
+        weight   : 1
+      });
+    }
+
+      
 })();
