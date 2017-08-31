@@ -310,23 +310,23 @@
                                                             <span ng-class="card.brand"></span> <span class="text-truncate card-no">XXXX-XXXX-XXXX-{{card.last4}}</span>
                                                             <md-tooltip>XXXX-XXXX-XXXX-{{card.last4}}</md-tooltip>
                                                         </div>
-                                                        <div class="prodCost" flex="30" layout="row" layout-align="start center">
+                                                        <div class="prodCost fs-12 fw-400" flex="30" layout="row" layout-align="start center">
                                                             <!-- <span> {{card.exp_month | parseDate | date: 'MMMM' | limitTo:3}} {{card.exp_year | parseDate | date: 'yyyy'}}</span> -->
-                                                            <span ng-if="card.exp_month==1">January</span>
-                                                            <span ng-if="card.exp_month==2">February</span>
-                                                            <span ng-if="card.exp_month==3">March</span>
-                                                            <span ng-if="card.exp_month==4">April</span>
+                                                            <span ng-if="card.exp_month==1">Jan</span>
+                                                            <span ng-if="card.exp_month==2">Feb</span>
+                                                            <span ng-if="card.exp_month==3">Mar</span>
+                                                            <span ng-if="card.exp_month==4">Apr</span>
                                                             <span ng-if="card.exp_month==5">May</span>
-                                                            <span ng-if="card.exp_month==6">June</span>
-                                                            <span ng-if="card.exp_month==7">July</span>
-                                                            <span ng-if="card.exp_month==8">August</span>
-                                                            <span ng-if="card.exp_month==9">September</span>
-                                                            <span ng-if="card.exp_month==10">October</span>
-                                                            <span ng-if="card.exp_month==11">November</span>
-                                                            <span ng-if="card.exp_month==12">December</span>
+                                                            <span ng-if="card.exp_month==6">Jun</span>
+                                                            <span ng-if="card.exp_month==7">Jul</span>
+                                                            <span ng-if="card.exp_month==8">Aug</span>
+                                                            <span ng-if="card.exp_month==9">Sep</span>
+                                                            <span ng-if="card.exp_month==10">Oct</span>
+                                                            <span ng-if="card.exp_month==11">Nov</span>
+                                                            <span ng-if="card.exp_month==12">Dec</span>
                                                             <span>&nbsp;{{card.exp_year}}</span>
                                                         </div>
-                                                        <div class="prodCost" layout="column" layout-align="center end">
+                                                        <div class="prodCost" layout="column" layout-align="center end" flex="10">
                                                             <span class="default" ng-if="card.rowId===0">Default</span>
                                                             <md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>
                                                         </div>
@@ -455,7 +455,7 @@
                                                                 <div flex="15"></div>
                                                             </div>
                                                         </div>
-                                                        <div flex="10" layout="row" layout-align="end center" class="pv-10">
+                                                        <div flex="10" layout="row" layout-align="end center" class="pv-10 pos-rel">
                                                             <md-button ng-disabled="history.downloading" md-no-ink class="md-icon-button p-0 h-25" ng-click="downloadSubscriptionPDF(history)"><md-icon md-font-icon="icon-file-pdf w-25 h-25 fs-20 md-accent"></md-icon><md-tooltip>Download PDF</md-tooltip> </md-button>
                                                             <md-progress-circular class="list-action-preloader" ng-if="history.downloading"></md-progress-circular>
                                                             <md-button md-no-ink class="md-icon-button p-0 h-25"><md-icon md-font-icon="icon-{{history.expanded ? 'chevron-down' : 'chevron-right'}} w-25 h-25 fs-20"></md-icon><md-tooltip>Expand</md-tooltip> </md-button>
