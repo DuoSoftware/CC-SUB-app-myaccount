@@ -737,6 +737,7 @@
 				$charge.paymentgateway().getAllPaymentByTenant(0, 100, 'cloudcharge').success(function (data) {
 
 					$scope.paymentHistoryList = null;
+					$scope.groupedPaymentHistory = [];
 					$scope.paymentHistoryList = data;
 
 					for(i=0;i<$scope.paymentHistoryList.length;i++){
