@@ -334,7 +334,6 @@
 
 
 		$scope.loadPlanDetails = function(){
-			debugger;
 			try{
 
 				if($scope.companyPricePlans != null){
@@ -1720,8 +1719,11 @@
 		// SUBSCRIPTION HISTORY PDF DOWNLOADER
 		$scope.downloadSubscriptionPDF = function (record) {
 			record.downloading = true;
-			var lastDateTimestamp = new Date(record.lastDate + ' UTC').getTime()/1000;
-			var receivedDateTimestamp = new Date(record.receivedDate + ' UTC').getTime()/1000;
+
+			// var lastDateTimestamp = new Date(record.lastDate + ' UTC').getTime()/1000;
+			// var receivedDateTimestamp = new Date(record.receivedDate + ' UTC').getTime()/1000;
+
+
 			// lastDate = lastDate.split("-");
 			// var lastDateTimestamp = lastDate[1]+"/"+lastDate[2]+"/"+lastDate[0];
 			// alert(new Date(newDate).getTime());
@@ -1760,47 +1762,54 @@
 			// 	record.downloading = false;
 			// });
 
-			try{
+			$scope.dataInfo = [];
+			var currentPeriod = null;
+			var currentPeriodEnd = null;
+			var receivedDate = null;
+			angular.forEach(record.records, function(record){
+				$scope.dataInfo.push(record.infomation);
+				if(record.infomation.tag.toLowerCase() == 'package'){
+					currentPeriod = record.currentPeriod;
+					currentPeriodEnd = record.currentPeriodEnd;
+					receivedDate = record.receivedDate;
+				}
+			});
 
-				$scope.data=[{
-					"type": "PDF",
-					"id": record.id,
-					"amount": record.amount,
-					"email": vm.dummy.Data.email,
-					"currency": "usd",
-					"infomation": JSON.stringify([record.infomation]),
-					"domain": window.location.hostname,
-					"currentPeriod": receivedDateTimestamp,
-					"currentPeriodEnd": lastDateTimestamp,
-					"createdDate": receivedDateTimestamp,
-					"gatewayType": "stripe"
-				}];
-				$charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
+			$scope.data=[{
+				"type": "PDF",
+				"id": record.records[0].id,
+				"amount": record.total,
+				"email": vm.dummy.Data.email,
+				"currency": "usd",
+				"infomation": JSON.stringify($scope.dataInfo),
+				"domain": record.records[0].domain,
+				"currentPeriod": new Date(currentPeriod+ ' UTC').getTime()/1000,
+				"currentPeriodEnd": new Date(currentPeriodEnd+ ' UTC').getTime()/1000,
+				"createdDate": new Date(receivedDate+ ' UTC').getTime()/1000,
+				"gatewayType": "stripe"
+			}];
+			$charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
 
-					$scope.subscriptionDateForPDF = record.receivedDate;
-					var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
-					var dlnk = document.getElementById('hidden-donwload-anchor');
-					$timeout(function(){
-						dlnk.href = pdf;
-						dlnk.click();
-					},100);
-					record.downloading = false;
-
-				}).error(function(errorResponse) {
-					record.downloading = false;
-				});
-
-			}catch(ex){
-
-
+				$scope.subscriptionDateForPDF = record.receivedDate;
+				var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
+				var dlnk = document.getElementById('hidden-donwload-anchor');
+				$timeout(function(){
+					dlnk.href = pdf;
+					dlnk.click();
+				},100);
 				record.downloading = false;
 
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
+			}).error(function(errorResponse) {
+				record.downloading = false;
+			});
+
 
 		}
 		// SUBSCRIPTION HISTORY PDF DOWNLOADER
+
+		$scope.expandPaymentRecord = function (record) {
+			record.expanded = !record.expanded;
+		};
 
 		// Reset access keys
 		$scope.resetLoading = false;
