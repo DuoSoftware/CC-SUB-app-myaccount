@@ -259,7 +259,7 @@
                                         <div class="preloader-input-block animate-fade-in-out" layout="column" layout-align="space-around" ng-if="!accSubscriptionDetailsLoaded">
                                             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
                                         </div>
-                                        <div flex layout="column">
+                                        <div flex="60" layout="column">
                                             <div layout="row" layout-align="start center" class="info-grid-row bordered">
                                                 <div class="iconed-label" layout="row" layout-align="start center" flex="40">
                                                     <md-icon md-font-icon="icon-calendar"></md-icon> <span flex>Period</span>
@@ -361,7 +361,7 @@
                                                 </nvd3>
                                                 <span class="label-large fs-18 font-accent fw-500" style="top: -30px;position:relative;">{{currentPlanUsed}}</span>
                                             </div>
-                                            <div ng-if="currentPlanCode != 'free_trial'" class="usage-meter" layout="column" layout-align="center center" flex>
+                                            <div ng-if="currentPlanCode != 'free_trial'" fill-width layout="column" layout-align="center center" flex>
                                                 <span class="fw-500 fs-14 op-5">Subscription count</span>
                                                 <div flex></div>
                                                 <div flex class="label-large fs-40 font-accent fw-500">{{currentPlanUsed}}</div>
