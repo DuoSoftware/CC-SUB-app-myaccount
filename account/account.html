@@ -354,7 +354,7 @@
                                         <!--<span>Usage</span>-->
                                         <!--</div>-->
                                         <div layout="column" layout-align="center center" flex>
-                                            <div ng-if="currentPlanCode == 'free_trial'" class="usage-meter" layout="column" layout-align="center center" flex>
+                                            <div ng-show="currentPlanCode == 'free_trial'" class="usage-meter" layout="column" layout-align="center center" flex>
                                                 <span class="fw-500 fs-16 op-5">Usage</span>
                                                 <nvd3 options="vm.usageChart.chart.options"
                                                       data="vm.usageChart.chart.data">

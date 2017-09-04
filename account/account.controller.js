@@ -355,7 +355,7 @@
 
 				$scope.userPrice = ($scope.selectedPlan.planNo > 4) ? 20 : 2;
 
-				if($scope.selectedPlan.planNo > 1)
+				if($scope.selectedPlan.planNo => 1)
 					$scope.getSelectedPlanSubscriptionDetails();
 				else
 					$scope.accSubscriptionDetailsLoaded = true;
