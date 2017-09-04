@@ -183,8 +183,9 @@ if(!isset($_COOKIE['planId'])) {
 
 
 //           Subscription Update
+//  		Sudha asked to remove update rule on 04/09/2017
 
-                $cho = curl_init();
+               /* $cho = curl_init();
 
                     $headr = array();
                     $headr[] = 'Content-Type: application/json';
@@ -218,6 +219,7 @@ if(!isset($_COOKIE['planId'])) {
                       $outputo = curl_exec ($cho);
 
                       curl_close ($cho);
+					*/
 
 
 
