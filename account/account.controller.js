@@ -1767,7 +1767,12 @@
 			var currentPeriodEnd = null;
 			var receivedDate = null;
 			angular.forEach(record.records, function(record){
-				$scope.dataInfo.push(record.infomation);
+				var tempItemObj = {
+					amount: record.amount,
+					feature: record.infomation.feature,
+					quantity:record.infomation.quantity
+				};
+				$scope.dataInfo.push(tempItemObj);
 				if(record.infomation.tag.toLowerCase() == 'package'){
 					currentPeriod = record.currentPeriod;
 					currentPeriodEnd = record.currentPeriodEnd;
