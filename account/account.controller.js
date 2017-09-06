@@ -1080,7 +1080,7 @@
 				return;
 			}
 
-			$scope.currentPlanAmount = packaged.activeSubscriptions;
+		//	$scope.currentPlanAmount = packaged.activeSubscriptions;
 
 			var totalPlanAmount = ($scope.calculatePlanCharges(packaged));
 
