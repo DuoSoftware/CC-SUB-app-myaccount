@@ -506,7 +506,7 @@
 
                                                             <md-card-footer layout="row" layout-align="center center" flex>
                                                                 <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || isPlanSelected" ng-if="selectedPlan.price < 1 " stripe-payment="config" ishara="{{plan.changingPrice}}" ng-click="selectPlan(plan)">Select</md-button>
-                                                                <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || isPlanSelected" ng-if="selectedPlan.price > 0 " ng-click="selectPlan(plan)">Select</md-button>
+                                                                <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || plan.code === currentPlanCode || isPlanSelected" ng-if="selectedPlan.price > 0 " ng-click="selectPlan(plan)">Select</md-button>
                                                             </md-card-footer>
                                                         </md-card>
 
