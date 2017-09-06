@@ -674,6 +674,7 @@
 
 						$scope.currentPlanCreatedDate = moment.unix(data.response[0].currentPeriod).format("YYYY.MM.DD hh:mm a");
 						$scope.currentPlanExpiryDate=moment.unix(data.response[0].currentPeriodEnd).format("YYYY.MM.DD hh:mm a");
+            $scope.currentPlanAmount = data.response[0].amount;
 						// $scope.currentPlanCreatedDate = new Date(data.response[0].currentPeriod).toString();
 						// $scope.currentPlanExpiryDate= new Date(data.response[0].currentPeriodEnd).toString();
 					}).error(function (data) {
