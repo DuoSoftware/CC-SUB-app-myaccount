@@ -144,7 +144,7 @@
                                                                     <md-button id="hide" class="md-icon-button md-accent" ng-click="hideAccessKey(key, $index)"><md-icon md-font-icon="icon-eye-off" class="copy-icon"></md-icon><md-tooltip>Hide Key</md-tooltip> </md-button>
                                                                 </div>
 
-                                                                <md-button class="md-icon-button md-accent" ng-click="copyToClipboard(key.key, key.name)"><md-icon md-font-icon="icon-content-copy" class="copy-icon" style="font-size: 18px"></md-icon><md-tooltip>Copy key</md-tooltip> </md-button>
+                                                                <md-button id="copyKey{{key.key}}" disabled class="md-icon-button md-accent" ng-click="copyToClipboard(key.key, key.name)"><md-icon md-font-icon="icon-content-copy" class="copy-icon" style="font-size: 18px"></md-icon><md-tooltip>Copy key</md-tooltip> </md-button>
                                                                 <md-button class="md-icon-button md-accent" ng-disabled="resetLoading" ng-click="resetAccessKeys(key.name)"><md-progress-circular ng-if="currentlyResetting == key.name && resetLoading" style="top: -2px;right:6px"></md-progress-circular> <md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
                                                             </div>
                                                         </div>
@@ -246,9 +246,11 @@
                             <md-card-content md-whiteframe="1dp">
                                 <div>
                                     <div layout="row" layout-align="start center">
-                                        <span class="fs-18">{{currentPlanName}} </span><span class="op-5" flex>
-                                        <!--/ {{selectedPlanDuration}}-->
-                                    </span>
+                                        <span class="fs-18">{{currentPlanName}} </span>
+                                        <span class="op-5" flex>
+                                            <!--/ {{selectedPlanDuration}}-->
+                                        </span>
+                                        <span ng-if="currentPlanCode == 'free_trial'" class="fs-16 font-accent">Only 25 subscriptions</span>
                                         <div layout-align="end center" layout="row">
                                             <md-button class="md-accent md-raised" ng-show="selectedPlan.planNo > 1 && isTempDeactive " ng-click="deactiveCurrentPlan()" flex>Deactivate</md-button>
                                             <!--<md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex>Upgrade</md-button>-->
@@ -259,12 +261,13 @@
                                         <div class="preloader-input-block animate-fade-in-out" layout="column" layout-align="space-around" ng-if="!accSubscriptionDetailsLoaded">
                                             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
                                         </div>
-                                        <div flex="60" layout="column">
+                                        <div flex="55" layout="column">
                                             <div layout="row" layout-align="start center" class="info-grid-row bordered">
                                                 <div class="iconed-label" layout="row" layout-align="start center" flex="40">
                                                     <md-icon md-font-icon="icon-calendar"></md-icon> <span flex>Period</span>
                                                 </div>
-                                                <div class="text-right" flex>{{currentPlanCreatedDate | limitTo:10}} - {{ currentPlanExpiryDate | limitTo:10}}</div>
+                                                <div class="text-right" flex ng-if="currentPlanCode == 'free_trial'">-</div>
+                                                <div class="text-right" flex ng-if="currentPlanCode != 'free_trial'">{{currentPlanCreatedDate | limitTo:10}} - {{ currentPlanExpiryDate | limitTo:10}}</div>
                                             </div>
                                             <!--<div layout="row" layout-align="start center" class="info-grid-row bordered">-->
                                                 <!--<div class="iconed-label" layout="row" layout-align="start center" flex="40">-->
@@ -276,7 +279,7 @@
                                                 <div class="iconed-label" layout="row" layout-align="start center" flex="40">
                                                     <md-icon md-font-icon="icon-package"></md-icon> <span flex>Next payment</span>
                                                 </div>
-                                                <div class="text-right" flex>${{currentPlanAmount + additionalCharge}}</div>
+                                                <div class="text-right" flex>{{currentPlanCode != 'free_trial' ? '$'+currentPlanAmount + additionalCharge : 'Free'}}</div>
                                             </div>
                                             <div layout="column" layout-align="center start" class="info-grid-row bordered mv-10">
                                                 <div class="iconed-label bordered" layout="row" layout-align="start center" style="width: 100%;">
@@ -473,7 +476,7 @@
                                         </div>
                                     </div>
                                     <div layout="row" flex class="mt-20">
-                                        <div class="commonContentShell solid-highlight-gray pb-10" flex>
+                                        <div class="commonContentShell solid-highlight-gray p-10" flex>
 
                                             <section id="successContainer" layout="column" layout-align="center center" >
                                                 <div layout="row" style="width: 100%;">
@@ -498,9 +501,9 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="text-center h-130" flex layout="column" layout-align="center center">
-                                                                    <div class="additional-feature text-center">Additional feature</div>
-                                                                    <div class="additional-feature text-center">Additional feature</div>
-                                                                    <div class="additional-feature text-center">Additional feature</div>
+                                                                    <div class="additional-feature text-center">Unlimited users</div>
+                                                                    <div class="additional-feature text-center">Unlimited profiles</div>
+                                                                    <div class="additional-feature text-center">Reports</div>
                                                                 </div>
                                                             </md-card-content>
 

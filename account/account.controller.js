@@ -1527,7 +1527,6 @@
 		$scope.addMoreUsers();
 
 		$scope.xfiedKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-		$scope.isKeyShowing = 'show';
 		$scope.keyIndex = 0;
 		$scope.currentlyOn = "";
 
@@ -1537,15 +1536,20 @@
 
 		$scope.showAccessKey = function(key, index){
 			$scope.keyIndex = index;
+			$scope.isKeyHidden = true;
 			document.getElementsByClassName('access-key')[index].innerHTML=key.key;
 			document.querySelector('.keyDisplay'+key.key+' #show').style.display='none';
+			document.querySelector('#copyKey'+key.key).removeAttribute('disabled');
 			document.querySelector('.keyDisplay'+key.key+' #hide').style.display='block';
 		}
 
 		$scope.hideAccessKey = function(key, index){
+			window.getSelection().empty();
 			$scope.keyIndex = index;
 			var length = key.key.length;
+			$scope.isKeyHidden = false;
 			document.getElementsByClassName('access-key')[index].innerHTML=$scope.xfiedKey.substring(0, length);
+			document.querySelector('#copyKey'+key.key).setAttribute('disabled','disabled');
 			document.querySelector('.keyDisplay'+key.key+' #show').style.display='block';
 			document.querySelector('.keyDisplay'+key.key+' #hide').style.display='none';
 		};

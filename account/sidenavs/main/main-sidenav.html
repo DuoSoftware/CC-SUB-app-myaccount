@@ -26,13 +26,13 @@
   <!--</div>-->
 
     <div class="navigation-simple" layout="column" ng-if="!vm.editableMode">
-      <md-button class="item" ng-class="{'selected': generalDetails}" aria-label="starred" ng-click="switchInpageState('general-details')">
+      <md-button ng-disabled="!accGeneralLoaded" class="item" ng-class="{'selected': generalDetails}" aria-label="starred" ng-click="switchInpageState('general-details')">
         <div layout="row" layout-align="start center">
           <md-icon md-font-icon="icon-account" class="s16"></md-icon>
           <span class="title" flex>General details</span>
         </div>
       </md-button>
-      <md-button class="item" ng-class="{'selected': planDetails}" aria-label="starred" ng-click="switchInpageState('plan-details')">
+      <md-button ng-disabled="!accGeneralLoaded" class="item" ng-class="{'selected': planDetails}" aria-label="starred" ng-click="switchInpageState('plan-details')">
         <div layout="row" layout-align="start center">
           <md-icon md-font-icon="icon-map" class="s16"></md-icon>
           <span class="title" flex>Subscription</span>
@@ -50,7 +50,7 @@
           <!--<span class="title" flex>Payment gateways</span>-->
         <!--</div>-->
       <!--</md-button>-->
-      <md-button class="item" ng-class="{'selected': apiDetails}" aria-label="starred" ng-click="switchInpageState('api-details')">
+      <md-button ng-disabled="!accGeneralLoaded" class="item" ng-class="{'selected': apiDetails}" aria-label="starred" ng-click="switchInpageState('api-details')">
         <div layout="row" layout-align="start center">
           <md-icon md-font-icon="icon-cloud-download" class="s16"></md-icon>
           <span class="title" flex>API details</span>
