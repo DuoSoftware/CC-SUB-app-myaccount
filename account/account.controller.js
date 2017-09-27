@@ -12,7 +12,6 @@
 		$scope.acc = "";
 		//// console.log("Profile Controller Called.");
 		var vm = this;
-
 		vm.appInnerState = 'default';
 		vm.activeAccountPaneIndex = 0;
 
@@ -530,13 +529,26 @@
 
 					$scope.calculateFreeTrialExpireDate();
 
-					$scope.config = {
-						title: 'Cloudcharge',
-						email: response.data.Result.email,
-						description: "for connected business",
-						logo: 'app/main/account/img/loginDuo.png',
-						label: 'Add Card'
-					}
+          $http({
+            method: "GET" ,
+            url: "app/core/cloudcharge/js/config.json"
+          }).then(function(data) {
+            var publishKey = (data.data.stripe.key);
+
+            $scope.config = {
+              title: 'Cloudcharge',
+              email: response.data.Result.email,
+              publishKey : publishKey,
+              description: "for connected business",
+              logo: 'app/main/account/img/loginDuo.png',
+              label: 'Add Card'
+            }
+
+          }, function(response) {
+
+          });
+
+
 
 					if ($scope.planSubscriptions != null && $scope.companyPricePlans != null && $scope.currentPlanName != null) {
 						$scope.loadPlanDetails();
