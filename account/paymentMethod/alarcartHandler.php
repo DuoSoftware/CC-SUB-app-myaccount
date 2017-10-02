@@ -25,6 +25,7 @@ switch ($view) {
           $tenantID = $_GET['tenantID'];
           $selectedPlan = $_GET['selectedPlan'];
           $paymentStatus = $_GET['paymentStatus'];
+          $domain = $_GET['domain'];
 
 //{
 //				"attributes": [
@@ -71,6 +72,7 @@ switch ($view) {
                    $head = array();
                        $head[] = 'Content-Type: application/json';
                        $head[] = 'id_token: '.$st;
+                       $head[] = 'domain: '.$domain;
 
                        curl_setopt($ch, CURLOPT_HTTPHEADER,$head);
 
