@@ -56,6 +56,7 @@ if(!isset($_COOKIE['planId'])) {
     $subscriptionAmount = $_COOKIE['subscriptionAmount'];
     $additionalUserQty = $_COOKIE['additionalUserQty'];
     $additionalUserTotalPrice = $_COOKIE['additionalUserTotalPrice'];
+    $domain = $_COOKIE['domain'];
 
     $paymentStatus = "";
 
@@ -64,7 +65,8 @@ if(!isset($_COOKIE['planId'])) {
 
 
 //      print_r($planId.' '.$st. ' '.$price.' '.$name.' '.$tenantID.' '.$selectedPlan.' '.$paymentStatus);
-//      exit();
+      print_r($domain);
+      exit();
 
     $resp = new stdClass();
     $resp->status = 0;
@@ -123,7 +125,7 @@ if(!isset($_COOKIE['planId'])) {
              $planInfo->attributes[1]->amount = $additionalUserTotalPrice;
              $planInfo->attributes[1]->quantity = $additionalUserQty;  // full amount
              $planInfo->attributes[1]->action = "add";
-			 
+
         $resp = (new CloudCharge())->plan()->upgradeToCustomplan($planInfo);
         // $resp = (new CloudCharge())->plan()->upgradeToFixedplan($planInfo); // commented on 3/22 because all plans saving as custormized plan
 
@@ -138,6 +140,7 @@ if(!isset($_COOKIE['planId'])) {
            $head = array();
              $head[] = 'Content-Type: application/json';
              $head[] = 'id_token: '.$st;
+             $head[] = 'domain: '.$domain;
 
            curl_setopt($ch, CURLOPT_HTTPHEADER,$head);
 
@@ -146,7 +149,7 @@ if(!isset($_COOKIE['planId'])) {
            //curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
            curl_setopt($ch, CURLOPT_URL, "https://".host."/services/apis.php/auth/updateSubscription?planCode=".$planId);
            //curl_setopt($ch, CURLOPT_URL, "http://app.cloudcharge.com:8001/auth/updateSubscription?planCode=".$planId);
-			
+
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
            // receive server response ...
            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -162,6 +165,7 @@ if(!isset($_COOKIE['planId'])) {
                     $headr = array();
                     $headr[] = 'Content-Type: application/json';
                     $headr[] = 'idToken: '.$st;
+                    $head[] = 'domain: '.$domain;
 
                       curl_setopt($chp, CURLOPT_HTTPHEADER,$headr);
 
@@ -190,6 +194,7 @@ if(!isset($_COOKIE['planId'])) {
                     $headr = array();
                     $headr[] = 'Content-Type: application/json';
                     $headr[] = 'idToken: '.$st;
+                    $head[] = 'domain: '.$domain;
 
                     $data = array("appId"=> "invoice",
                                               "amount"=> $subscriptionAmount,
@@ -207,7 +212,7 @@ if(!isset($_COOKIE['planId'])) {
                       curl_setopt($cho, CURLOPT_POSTFIELDS,$data_string);
 
 					  curl_setopt($cho, CURLOPT_SSL_VERIFYPEER, false);
-					            
+
 					  curl_setopt($cho, CURLOPT_COOKIE, "idToken=" . $st );
 
                      curl_setopt($cho, CURLOPT_URL, "https://".host."/services/duosoftware.ratingEngine/ratingEngine/createRule");
