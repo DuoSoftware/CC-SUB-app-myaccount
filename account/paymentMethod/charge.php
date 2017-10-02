@@ -65,8 +65,8 @@ if(!isset($_COOKIE['planId'])) {
 
 
 //      print_r($planId.' '.$st. ' '.$price.' '.$name.' '.$tenantID.' '.$selectedPlan.' '.$paymentStatus);
-      print_r($domain);
-      exit();
+//      print_r($domain);
+//      exit();
 
     $resp = new stdClass();
     $resp->status = 0;
