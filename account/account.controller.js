@@ -1034,38 +1034,11 @@
 					});
 
 				} else {
-          $scope.isPlanSelected = true;
+					$scope.isPlanSelected = true;
 
-          var req = {
-            method: 'POST',
-            url: '/azureshell/app/main/account/paymentMethod/chargeo.php',
-            headers: {
-              'Content-Type': 'text/html'
-            },
-              data: {
-                "selectedPlan": $scope.selectedPlan.code ,
-                "plan":  $scope.paymentPlan ,
-                "price" :  ( $scope.paymentPrice) ,
-                "name" :  $scope.paymentName ,
-                "tenantID" :  $scope.paymentTenant ,
-                "stripeToken" :  args.id ,
-                "paymentStatus":  $scope.paymentStatus ,
-                "subscriptionAmount":  $scope.currentPlanAmount ,
-                "additionalUserQty" : 0,
-                "additionalUserTotalPrice" : 0
-                }
-          }
-          $http(req).then(function(success){
-            debugger;
-            console.log(success.data);
-          }, function(error){
-            debugger;
-            console.log(error);
-          });
-
-
-          //$window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.code + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus=' + $scope.paymentStatus + '&subscriptionAmount=' + $scope.currentPlanAmount + '&additionalUserQty=0&additionalUserTotalPrice=0';
-        }
+					$window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.code + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount+ '&additionalUserQty=0&additionalUserTotalPrice=0' ;
+					//$window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?plan=' +  $scope.paymentPlan + '&st=' +  $scope.paymentSecurityToken + '&price=' + ( $scope.paymentPrice ) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&stripeToken=' +  args.id;
+				}
 
 			}catch(ex){
 				ex.app = "myAccount";
