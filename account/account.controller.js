@@ -148,20 +148,44 @@
 		(function (){
 
 			try{
-				$charge.myAccountEngine().getSubscriptionInfo().success(function (response) {
-					$scope.access_keys = [{
-						name: "Primary key",
-						key: response.Result.primaryKey
-					},{
-						name: "Secondary key",
-						key: response.Result.secondaryKey
-					}];
-					$scope.accAccessKeysLoaded = true;
+
+        var domain = gst('domain');
+				$charge.tenantEngine().getSubscriptionIdByTenantName(domain).success(function (response) {
+
+          var subscriptionID = response.data["0"].subscriptionID;
+
+          if(subscriptionID) {
+
+            $charge.myAccountEngine().getSubscriptionInfoByID(subscriptionID).success(function (data) {
+
+              $scope.access_keys = [{
+                name: "Primary key",
+                key: data.Result.primaryKey
+              }, {
+                name: "Secondary key",
+                key: data.Result.secondaryKey
+              }];
+              $scope.accAccessKeysLoaded = true;
+
+            }).error(function (data) {
+              // console.log(data);
+              $scope.accAccessKeysLoaded = true;
+            });
+
+          }else{
+            $scope.accAccessKeysLoaded = true;
+          }
 
 				}).error(function(data) {
 					// console.log(data);
 					$scope.accAccessKeysLoaded = true;
+
+          ex.app = "myAccount";
+          logHelper.error(ex);
+
 				});
+
+
 			}catch(ex){
 
 				$scope.accAccessKeysLoaded = true;
@@ -352,7 +376,7 @@
 					selectPlan($scope.currentPlanName);
 				}
 
-				$scope.userPrice = ($scope.selectedPlan.planNo > 4) ? 20 : 2;
+				//$scope.userPrice = ($scope.selectedPlan.planNo > 4) ? 20 : 2;
 
 				// if($scope.selectedPlan.planNo >= 1)
 					$scope.getSelectedPlanSubscriptionDetails();
