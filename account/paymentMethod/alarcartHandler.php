@@ -100,7 +100,7 @@ switch ($view) {
 
                               $planId = str_replace("_year","",$planId);
 
-                             curl_setopt($chp, CURLOPT_URL, "". MAIN_DOMAIN ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
+                             curl_setopt($chp, CURLOPT_URL, "". PAYMENTGATEWAY_URL ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId);
 
         					// $urlss = "http://". host ."/services/duosoftware.cloudChargeAPI/cloudChargeAPI/switchPlan?plan=".$planId;
 
