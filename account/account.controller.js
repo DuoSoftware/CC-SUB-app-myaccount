@@ -968,6 +968,8 @@
 
 				$scope.tenantUser = [];
 				$scope.getUserInfoByID();
+				
+				$scope.getSelectedPlanSubscriptionDetails();
 
 				 
 			}else{
