@@ -2,9 +2,6 @@
 
 $postString = file_get_contents ( 'php://input' );
 $input = json_decode ( $postString, TRUE );
-//$paymentData = json_encode($input);
-//print_r($input['selectedPlan']);
-//exit();
 
 require_once('../data/accountConfig.php');
 require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
@@ -13,48 +10,13 @@ $doc = $_SERVER ['DOCUMENT_ROOT'];
 define('DOC_ROOT', $doc);
 require_once ($doc.'/services/config/settings.php');
 
-                  /*echo '  <!DOCTYPE html>  <html>  <head> <style> ';
 
-                   echo '       #loader { '.
-                           ' position: absolute;'.
-                           ' left: 50%;'.
-                            'top: 50%;'.
-                        '    z-index: 1;'.
-                        '    width: 150px;'.
-                        '    height: 150px;'.
-                        '    margin: -75px 0 0 -75px;'.
-                        '    border: 16px solid #f3f3f3;'.
-                        '    border-radius: 50%;'.
-                        '   border-top: 16px solid #3498db;'.
-                        '    width: 120px;'.
-                        '    height: 120px;'.
-                        '    -webkit-animation: spin 2s linear infinite;'.
-                        '   animation: spin 2s linear infinite;'.
-                        '  }';
+if(!isset($input['plan'])) {
+    print_r('{"status":"error"}');
 
-                        echo '  @-webkit-keyframes spin { 0% { -webkit-transform: rotate(0deg); } 100% { -webkit-transform: rotate(360deg); } }';
-
-                        echo '  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } ';
-
-
-                        echo '  .animate-bottom {   position: relative;  -webkit-animation-name: animatebottom;  -webkit-animation-duration: 1s; animation-name: animatebottom;';
-                         echo '   animation-duration: 1s   }';
-
-                    echo ' @-webkit-keyframes animatebottom {  from { bottom:-100px; opacity:0 }  to { bottom:0px; opacity:1 } }';
-
-                    echo ' @keyframes animatebottom {  from{ bottom:-100px; opacity:0 } to{ bottom:0; opacity:1 } } ';
-
-                     echo ' #myDiv { display: none; text-align: center; }';
-                     echo '  </style>  </head>  <body style="margin:0;">  <div id="loader"></div> </body> </html> '; */
-
-
-
-if(!isset($input['planId'])) {
-   // header('Location: ../../../../#/account');
-   return 'error';
  }else{
 
-    $planId = $input['planId'];
+    $planId = $input['plan'];
     $st = $_COOKIE['securityToken'];
     $price = $input['price'];
     $name = $input['name'];
@@ -234,16 +196,15 @@ if(!isset($input['planId'])) {
 					*/
 
 
-			return 'success';
+			 print_r('{"status":"success"}');
               //header('Location: ../../../../#/account');
 
         }
         else
         {
-           //print_r("Error : ".$resp);
+            $message = '{"status":"error","message":"Error while make payment, '.$resp->response.',  Please choose again to update new package."}';
+                   print_r( $message);
 
-           $message = "Error while make payment, ".$resp->response.",  Please choose again to update new package.";
-		   return $message;
            //echo "<html><head></head><body><script type='text/javascript'>alert('".$message."'); window.location = '../../../../#/account' </script></body></html>";
         }
 

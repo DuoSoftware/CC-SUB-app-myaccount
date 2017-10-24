@@ -1016,7 +1016,7 @@
             method: 'POST',
             url: '/azureshell/app/main/account/paymentMethod/chargeo.php',
             headers: {
-              'Content-Type': 'text/html'
+              'Content-Type': 'application/json'
             },
               data: {
                 "selectedPlan": $scope.selectedPlan.code ,
@@ -1031,12 +1031,9 @@
                 "additionalUserTotalPrice" : 0
                 }
           }
-          $http(req).then(function(success){
+          $http(req).then(function(data){
             debugger;
-            console.log(success.data);
-          }, function(error){
-            debugger;
-            console.log(error);
+            console.log(data);
           });
 
 
