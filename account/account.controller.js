@@ -1036,11 +1036,11 @@
 		{
 
 
-			var totalPlanAmount = ($scope.calculatePlanCharges(packaged));
+			//var totalPlanAmount = ($scope.calculatePlanCharges(packaged));
 
-			var amount = totalPlanAmount > parseFloat(packaged.changingPrice) ? totalPlanAmount : parseFloat(packaged.changingPrice);
+			//var amount = totalPlanAmount > parseFloat(packaged.changingPrice) ? totalPlanAmount : parseFloat(packaged.changingPrice);
 
-			if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
+			/*if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
 
 				var confirm = $mdDialog.confirm()
 					.title('Update Package')
@@ -1059,13 +1059,13 @@
 				});
 
 			}else{
+				*/
 				$scope.submitTenantDetails(packaged);
-			}
+			//}
 
 		}
 
-		var submitTenantDetails = function (pack) {
-debugger;
+		$scope.submitTenantDetails = function (pack) {
 			try{
 				$scope.paymentTenant = $scope.tenantId ;
 				$scope.paymentPlan = pack.code;
