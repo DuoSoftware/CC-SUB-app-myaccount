@@ -948,6 +948,7 @@
                 "additionalUserTotalPrice" : 0
                 }
           }
+		  
           $http(req).then(function(data){
             if(data.data.status === 'success')
 			{
@@ -971,8 +972,7 @@
           });
 
 
-          //$window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.code + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus=' + $scope.paymentStatus + '&subscriptionAmount=' + $scope.currentPlanAmount + '&additionalUserQty=0&additionalUserTotalPrice=0';
-        }
+         }
 
 			}catch(ex){
 				ex.app = "myAccount";
