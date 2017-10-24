@@ -1031,26 +1031,10 @@
 			return planAmount;
 		}
 
-/*
+
 		$scope.selectPlan = function (packaged)
 		{
 
-			if($scope.selectedPlan.code === packaged.code && $scope.initPlanSliderValue === packaged.activeSubscriptions)
-			{
-				$mdDialog.show(
-					$mdDialog.alert()
-						.parent(angular.element(document.body))
-						.clickOutsideToClose(true)
-						.title('Wrong package update')
-						.textContent('You cannot update to the same package you already selected')
-						.ariaLabel('Wrong package update')
-						.ok('Got it!')
-				);
-
-				return;
-			}
-
-		//	$scope.currentPlanAmount = packaged.activeSubscriptions;
 
 			var totalPlanAmount = ($scope.calculatePlanCharges(packaged));
 
@@ -1067,7 +1051,7 @@
 				$mdDialog.show(confirm).then(function () {
 
 					$scope.isPlanSelected= true;
-					$scope.getUserTenantData($scope.idToken, packaged);
+					$scope.submitTenantDetails(packaged);
 
 				}, function () {
 					$scope.isPlanSelected = false;
@@ -1075,18 +1059,10 @@
 				});
 
 			}else{
-				$scope.getUserTenantData($scope.idToken, packaged);
+				$scope.submitTenantDetails(packaged);
 			}
 
 		}
-
-		$scope.getUserTenantData = function (secToken,pack) {
-
-			//$scope.isPlanSelected= true;
-
-			submitTenantDetails(pack)
-		};
-
 
 		var submitTenantDetails = function (pack) {
 
@@ -1097,78 +1073,13 @@
 				$scope.paymentPrice = (pack.changingPrice);
 				$scope.paymentName = pack.name;
 
-
-
-				if($scope.selectedPlan.price > 0)
-				{
-					$scope.addUp = pack.subscriptionRate; // additionalUserPrice
-
-					$scope.isPlanSelected= true;
-					//$window.location.href = '/azureshell/app/main/account/paymentMethod/charge.php';
-					$window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount+ '&additionalUserQty='+ $scope.userdata+ '&additionalUserTotalPrice='+($scope.addUp* $scope.userdata);
-				}
-
-
 			}catch(ex){
 
 				ex.app = "myAccount";
 				logHelper.error(ex);
 			}
-
-			/// Commented because 03/22 onwards no payment cancel been done, if user cannot pay user wil auto assigned to free plan
-
-			//if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
-			//
-			//  if($scope.userdata > 0 && $scope.paymentStatus != 'canceled')
-			//  {
-			//
-			//    $scope.addUp = pack.subscriptionRate; // additionalUserPrice
-			//
-			//    //if(pack.type === "Yearly"){
-			//    //  $scope.addUp = 2*10;   //one user into 12 months
-			//    //}
-			//
-			//    $scope.isPlanSelected= true;
-			//
-			//    $http({
-			//      method : 'POST',
-			//      url : '/azureshell/app/main/account/paymentMethod/alarcartHandler.php?view=updatePackageWithAddAdditionalUsers&userCount='+$scope.userdata+'&userPrice='+($scope.userdata * $scope.addUp)+ '&selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ,
-			//      headers: {
-			//        'Content-Type': 'application/json'
-			//      }
-			//    }).then(function(response) {
-			//
-			//      // console.log(response);
-			//
-			//      if(response.data.status){
-			//
-			//        $scope.useRatingEngine($scope.userdata,($scope.userdata * $scope.addUp));
-			//
-			//      }else{
-			//        $scope.isPlanSelected= false;
-			//        notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
-			//        $scope.clickCancel();
-			//
-			//      }
-			//
-			//
-			//    }, function(response) {
-			//      // console.log(response);
-			//      notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
-			//      $scope.isPlanSelected= false;
-			//      $scope.clickCancel();
-			//    });
-			//
-			//  }else {
-			//
-			//    $scope.isPlanSelected= true;
-			//    //$window.location.href = '/azureshell/app/main/account/paymentMethod/charge.php';
-			//    $window.location.href = '/azureshell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.code + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus + '&subscriptionAmount='+$scope.currentPlanAmount;
-			//  }
-			//
-			//}
 		}
-*/
+
 
 		/*$scope.useRatingEngine = function(numberOfUsers,price) {
 
