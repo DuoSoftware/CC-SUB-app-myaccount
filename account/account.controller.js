@@ -863,80 +863,6 @@
 		}
 
 
-		$scope.registerWithTwoCheckout = function() {
-
-
-			var confirm = $mdDialog.confirm()
-				.title('2Checkout Register')
-				.textContent('Do you want to proceed ?')
-				.ariaLabel('Lucky day')
-				.ok('Yes')
-				.cancel('No');
-			$mdDialog.show(confirm).then(function (ev) {
-
-				$mdDialog.show({
-					controller: 'GuidedPayment2CheckoutController',
-					templateUrl: 'app/main/account/dialogs/guided-payment-2checkout.html',
-					parent: angular.element(document.body),
-					targetEvent: ev,
-					clickOutsideToClose:false,
-					locals:{
-						idToken : $scope.idToken
-					}
-				})
-					.then(function(answer) {
-						$scope.checkPaymentMethodRegistry();
-
-					}, function() {
-
-					});
-
-			}, function () {
-				$mdDialog.hide();
-			});
-
-		}
-
-
-		$scope.deleteWithTwoCheckout = function() {
-
-
-			var confirm = $mdDialog.confirm()
-				.title('2Checkout disconnect')
-				.textContent('Do you want to proceed ?')
-				.ariaLabel('Lucky day')
-				.ok('Yes')
-				.cancel('No');
-			$mdDialog.show(confirm).then(function () {
-
-				try{
-					$charge.paymentgateway().deleteClient().success(function (response) {
-
-						if(response.status){
-							$scope.isRegisteredWith2checkout = false;
-							notifications.toast("Successfully disconnected with 2checkout ", "success");
-						}else{
-							notifications.toast("2Checkout disconnection failed", "error");
-						}
-
-
-					}).error(function (response) {
-						// // console.log(response);
-						notifications.toast("2Checkout disconnection failed", "error");
-
-					});
-
-				}catch(ex){
-
-					ex.app = "myAccount";
-					logHelper.error(ex);
-				}
-
-			}, function () {
-				$mdDialog.hide();
-			});
-
-		}
 
 
 		$scope.saveProfileDetails = function(isEdit){
@@ -1032,8 +958,21 @@
                 }
           }
           $http(req).then(function(data){
-            debugger;
-            console.log(data);
+            if(data.data.status === 'success')
+			{
+				 $scope.isPlanSelected = false;
+				 
+				 notifications.toast("Plan successfully changed.", "success");
+				 
+				 $scope.loadCardDetails();
+
+				$scope.tenantUser = [];
+				$scope.getUserInfoByID();
+
+				 
+			}else{
+				notifications.toast("Error while plan changing, " + data.data.message, "error");
+			}
           });
 
 
