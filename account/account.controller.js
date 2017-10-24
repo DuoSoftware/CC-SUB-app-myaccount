@@ -965,6 +965,8 @@
 				 
 			}else{
 				notifications.toast("Error while plan changing, " + data.data.message, "error");
+				
+				$scope.isPlanSelected = false;
 			}
           });
 
