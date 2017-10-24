@@ -86,11 +86,7 @@
 		};
 		$scope.baseCurrency="";
 		$scope.selectedPlanDuration = 'Monthly';
-		//$charge.commondata().getDuobaseValuesByTableName("CTS_GeneralAttributes").success(function(data) {
-		//  debugger;
-		//  $scope.baseCurrency=data[0].RecordFieldData;
-		//}).error(function(data) {
-		//})
+		
 		$scope.setPlanDuration = function (duration) {
 			$scope.$watch(function () {
 				$scope.planDuration = duration;
@@ -139,12 +135,7 @@
 		}
 
 		$scope.idToken= gst('securityToken');
-		//
-		// if(!$scope.idToken)
-		//$scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJleHAiOjE1MDM1NTE3NDMsIm5iZiI6MTUwMzQ2ODk0MywidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjNkZThhZGNlLTYyNTctNDQ1Zi04YTMyLTU3NjhlZDRlNzA1ZSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNTAzNDY4OTQzLCJhdXRoX3RpbWUiOjE1MDM0Njg5NDMsIm9pZCI6IjNkZThhZGNlLTYyNTctNDQ1Zi04YTMyLTU3NjhlZDRlNzA1ZSIsImdpdmVuX25hbWUiOiJLYXN1biIsIm5hbWUiOiJXaWplcmF0bmUiLCJjb3VudHJ5IjoiU3JpIExhbmthIiwiZXh0ZW5zaW9uX21vZGUiOiJsaXZlIiwiZXh0ZW5zaW9uX0RvbWFpbiI6Imthc3VuZGV2LmFwcC5jbG91ZGNoYXJnZS5jb20iLCJmYW1pbHlfbmFtZSI6ImZyZWVfdHJpYWwiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbImthc3VuLndAZHVvc29mdHdhcmUuY29tIl0sInRmcCI6IkIyQ18xX0RlZmF1bHRQb2xpY3kifQ.F2PxJmlo4bkSS7Q-SUIhSJM_qs6WI2Sl5hQVM1PB1INxVHJwZvmgeRn-CVURhlwXxtlSMxDVOeA4f08OVE0_oOVHgd2ReoznDn3XT482WYa7zqBlHYGPttwbVFZOIp1Pb4gG2L3dKxPF3Y3qWeiLVcVe42KbEsDldzG8iZe1Zvy6FMenBcG5a66gyErhy8awV1ccxAYn0dBz5O-I0j98olq4Z8qdeBhLcPc-zvJQeJYq0-eOFqAmUQPD7W0-YjcoqwNOp0W0jw-muIhjto9mScLtrnPgxmb2q1r4pjGsFzgsm8OvzKTGb_jq6IvztWZfnjLraayqrAWD3U4ysQzHzw";
-		// $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0OTAxNTk0MTEsIm5iZiI6MTQ5MDA3NjYxMSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDkwMDc2NjExLCJhdXRoX3RpbWUiOjE0OTAwNzY2MTEsIm9pZCI6IjljOWNiZDEyLTQxZTItNDlkNi1hODJiLWVlYTg0NjNmNjkyYiIsImdpdmVuX25hbWUiOiJpc3MiLCJuYW1lIjoiaXNzIiwiY291bnRyeSI6IlNhYmEiLCJleHRlbnNpb25fRG9tYWluIjoiaXNzLmNsb3VkY2hhcmdlLmNvbSIsImZhbWlseV9uYW1lIjoiYnVzaW5lc3MiLCJqb2JUaXRsZSI6ImFkbWluIiwiZW1haWxzIjpbImd1bmF0aGlsYWthaXNoYXJhQGdtYWlsLmNvbSJdLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0UG9saWN5In0.aHkjg58win7uz5aUUwfuM-BISxTiBF_awiq4LA2QEtdf6I9TybGWomvfoq0FsWEmjZL3qN5C1Mm1Lisq4rHX0rqF3fDE8Bb88xN40QdByRnaMW5iSfgGIkZoZbQ4gUp0U4PVJu9YEj1zHS_EwTc4sHNVIgxLv2l3r0oBEGhnXJhAEkWSBVIUL-A3mtrSlAsDVTaDmc882D-0yjKFJxZcZTyxZonP7YmDMTPeyzKLFjHjKcddUomdRn52WrKDeFRGqpwO2Bs656EMg27LCZKTN6c_PhlJ7FaGp4qrqjK9SyZR6eG2dFOurQv8Xi-e2LHosKEt8O2MZB7a7kZZwqTkLQ";//gst('idToken');
-		// $scope.idToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IklkVG9rZW5TaWduaW5nS2V5Q29udGFpbmVyLnYyIn0.eyJleHAiOjE0ODkxNDQ5NzksIm5iZiI6MTQ4OTA1ODU3OSwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tL2MxZjlmOGU2LTM0NjktNGQ1Zi1hMzI2LTgzZTk5MGE5OTI2YS92Mi4wLyIsInN1YiI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImF1ZCI6ImQwODRhMjI3LWJiNTItNDk5Mi04ODlkLTZlNDgzNTYxMGU3NiIsIm5vbmNlIjoiZGVmYXVsdE5vbmNlIiwiaWF0IjoxNDg5MDU4NTc5LCJhdXRoX3RpbWUiOjE0ODkwNTg1NzksIm9pZCI6ImYxNzZjMzVmLTE1OWYtNGRhNS05MzVjLTA1ZjAwNDZjZGJhOSIsImdpdmVuX25hbWUiOiJmYWZhIiwiZmFtaWx5X25hbWUiOiJmcmVlX3RyaWFsIiwibmFtZSI6InBpYmEiLCJqb2JUaXRsZSI6ImFkbWluIiwiY291bnRyeSI6IkFuZ3VpbGxhIiwiZXh0ZW5zaW9uX0RvbWFpbiI6ImZhZmFwaWJhLmNsb3VkY2hhcmdlLmNvbSIsImVtYWlscyI6WyJmYWZhcGliYUBnYW1nbGluZy5jb20iXSwidGZwIjoiQjJDXzFfRGVmYXVsdFNpZ25JbiJ9.sJj5ZfhDBb27BEYfDTuSMg9zCkoS62eOcWC2XbyzCYcRfsQjKtPB_1BeeESQwhyHekUSvgwt0tgpJAYIZvmMt-aWcKvhwJa02cG3BzUV-LFuGakCMFADXzDzs2qyRjL0cWnW1MQlvm1roBmnEUpeifGoGmfFwhWyKGF7-Asmq00W6tml7u_IOVUkPs-0pRE-31srM2QX1DZsYsJB3P0j8k02zjVgbMoaX3z31GY0Ez-Va0GzukDm9AQHeZUo-D1hU9vzFYD2Nk7pTxbPTi58ktxTN1_LNZ_sRXGooOZmuONayHwmLbvOBvdAT4mfYN0HrKIEVEz9NgRNFT6AOoTWLw";//gst('idToken');
-
+		
 		(function (){
 
 			try{
@@ -1038,7 +1029,7 @@
 			return planAmount;
 		}
 
-
+/*
 		$scope.selectPlan = function (packaged)
 		{
 
@@ -1122,7 +1113,7 @@
 				logHelper.error(ex);
 			}
 
-/// Commented because 03/22 onwards no payment cancel been done, if user cannot pay user wil auto assigned to free plan
+			/// Commented because 03/22 onwards no payment cancel been done, if user cannot pay user wil auto assigned to free plan
 
 			//if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
 			//
@@ -1175,9 +1166,9 @@
 			//
 			//}
 		}
+*/
 
-
-		$scope.useRatingEngine = function(numberOfUsers,price) {
+		/*$scope.useRatingEngine = function(numberOfUsers,price) {
 
 			var objCheckProcess = {
 				"appId": "user",
@@ -1231,7 +1222,7 @@
 				notifications.toast("Error, unable to proceed with the operation", "error");
 				//vm.closeDialog();
 			});
-		}
+		}*/
 
 
 		var displaycreateCompanyDetailsSubmissionError = function (message,title) {
@@ -1274,36 +1265,7 @@
 
 				$scope.isChangePasswordSelected = true;
 
-				// $http({
-				// 	method: 'POST',
-				// 	//url: '/apis/authorization/userauthorization/changepassword/'+$scope.user.currentPassword+'/'+$scope.user.newPassword,
-				// 	url: 'http://app.cloudcharge.com:8001/auth/resetAPIUserPassword',
-				// 	headers: {
-				// 		'Content-Type': 'application/json',
-				// 		'id_token' : $scope.idToken
-				// 	},
-				// 	data : { "password" : $scope.dev.newPassword}
-				// })
-				// 	.success(function (dataa) {
-				// 		var title = "Error";
-				// 		//if(dataa.Success)
-				// 		//{
-				// 		title = "Success";
-				//
-				// 		$scope.clearPassword();
-				// 		//}
-				//
-				// 		displaycreateCompanyDetailsSubmissionError("Password successfully changed " , title);
-				// 		$scope.isChangePasswordSelected = false;
-				//
-				//
-				// 	})
-				// 	.error(function (data) {
-				// 		displaycreateCompanyDetailsSubmissionError('Password not been changed duo to '+data ,'Failed to change password');
-				// 		$scope.isChangePasswordSelected = false;
-				//
-				// 	});
-
+				
 				$scope.data = { "password" : $scope.dev.newPassword}
 				$charge.myAccountEngine().resetAPIUserPassword($scope.data).success(function (response) {
 
@@ -1347,28 +1309,6 @@
 		}
 
 
-		$scope.proceedWithStripe = function(){
-
-
-			var confirm = $mdDialog.confirm()
-				.title('Connect with stripe')
-				.textContent('Do you want to proceed ?')
-				.ariaLabel('Lucky day')
-				.ok('Yes')
-				.cancel('No');
-			$mdDialog.show(confirm).then(function () {
-
-				$scope.isRegButtonsShow = true;
-				//$window.location.href = 'https://connect.stripe.com/oauth/authorize?response_type=code&scope=read_write&client_id=ca_9SnbSf9mKGaz5k4lelzQIQJZ3FjgQ79h';
-				$window.location.href = '/azureshell/app/main/account/paymentMethod/payment-partial.php';
-
-			}, function () {
-				$mdDialog.hide();
-
-			});
-
-
-		}
 
 		$scope.clickCancel = function(){
 
@@ -1377,55 +1317,6 @@
 
 		}
 
-		$scope.disconnectWithStripe = function(){
-
-			$scope.isRegButtonsShow = true;
-
-
-			var confirm = $mdDialog.confirm()
-				.title('Disconnect with stripe')
-				.textContent('Do you want to proceed with stripe disconnection?')
-				.ariaLabel('Lucky day')
-				.ok('Yes')
-				.cancel('No');
-			$mdDialog.show(confirm).then(function () {
-
-				try{
-
-					$charge.paymentgateway().deactiveAcc().success(function (dataa) {
-
-						// console.log(dataa);
-
-						if(dataa.status)
-						{
-							notifications.toast("You have successfully disconnected with stripe", "Success");
-							$scope.isRegisteredWithStripe = false;
-						}else{
-							notifications.toast("There is a problem, Please try again", "Error");
-						}
-
-						$scope.isRegButtonsShow= false;
-
-					}).error(function (data) {
-						// console.log(data);
-						$scope.isRegButtonsShow= false;
-						notifications.toast("There is a problem, Please try again", "Error");
-
-					});
-				}catch(ex){
-					$scope.isRegButtonsShow= false;
-					notifications.toast("There is a problem, Please try again", "Error");
-
-					ex.app = "myAccount";
-					logHelper.error(ex);
-				}
-
-			}, function () {
-				$scope.isRegButtonsShow = true;
-			});
-
-
-		}
 
 		$scope.numberOfUsers = 0;
 		$scope.userPrice = 2;
