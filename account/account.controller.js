@@ -1065,7 +1065,7 @@
 		}
 
 		var submitTenantDetails = function (pack) {
-
+debugger;
 			try{
 				$scope.paymentTenant = $scope.tenantId ;
 				$scope.paymentPlan = pack.code;
