@@ -140,8 +140,8 @@
 
 			try{
 
-        var domain = gst('domain');
-				$charge.tenantEngine().getSubscriptionIdByTenantName(domain).success(function (response) {
+        var currentDomain = gst('currentDomain');
+				$charge.tenantEngine().getSubscriptionIdByTenantName(currentDomain).success(function (response) {
 
           var subscriptionID = response.data["0"].subscriptionID;
 
