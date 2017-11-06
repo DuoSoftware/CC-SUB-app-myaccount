@@ -396,38 +396,6 @@
                                                     <div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 || paymentHistoryList == null">
                                                         <span><md-icon md-font-icon="icon-information-outline"></md-icon> No record has been created yet</span>
                                                     </div>
-                                                    <!--<div layout="row" layout-align="start center" ng-repeat="(key, value) in paymentHistoryList | groupBy:'periodForGroup'" ng-hide="isTenantPaymentHistoryClicked" class="bb b-light">-->
-                                                    <!--<div class="w-100 ph-16">{{key}}</div>-->
-                                                    <!--<div layout="column" layout-align="start center" class="bl b-light" flex ng-init="value.total = 0">-->
-                                                    <!--<div layout="row" flex class="list-item bn" ng-repeat="history in value" fill-width>-->
-                                                    <!--<div flex="30" layout="row" layout-align="start center">-->
-                                                    <!--<span>{{history.infomation.feature}}</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div flex layout="row" layout-align="start center">-->
-                                                    <!--<span> {{history.currentPeriod | date:'yyyy.MM.dd'}}</span><span class="mh-5"> - </span><span> {{history.currentPeriodEnd | date:'yyyy.MM.dd'}}</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div flex layout="row" layout-align="end center" ng-init="value.total = value.total + history.amount">-->
-                                                    <!--<span>${{history.amount}}</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div flex="5"></div>-->
-                                                    <!--<div flex="10" layout="row" layout-align="start center">-->
-                                                    <!--<span flex>{{history.status }}</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div flex="10" layout="row" layout-align="end center">-->
-                                                    <!--<md-button ng-disabled="history.downloading" md-no-ink class="md-icon-button p-0 w-40 h-25" ng-click="downloadSubscriptionPDF(history)"><md-icon md-font-icon="icon-file-pdf w-25 h-25 fs-20 md-accent"></md-icon><md-tooltip>Download PDF</md-tooltip> </md-button>-->
-                                                    <!--<md-progress-circular class="list-action-preloader" ng-if="history.downloading"></md-progress-circular>-->
-                                                    <!--</div>-->
-                                                    <!--</div>-->
-                                                    <!--<div layout="row" fill-width>-->
-                                                    <!--<div flex="30"></div>-->
-                                                    <!--<div flex>Total</div>-->
-                                                    <!--<div flex>-->
-                                                    <!--{{value.total}}-->
-                                                    <!--</div>-->
-                                                    <!--<div flex="25"></div>-->
-                                                    <!--</div>-->
-                                                    <!--</div>-->
-                                                    <!--</div>-->
 
                                                     <div layout="row" layout-align="start start" ng-repeat="history in groupedPaymentHistory" ng-hide="isTenantPaymentHistoryClicked" class="bb b-gray hover-g-light" ng-click="expandPaymentRecord(history)">
                                                         <div class="w-100 ph-16 pv-10">{{history.month | date:'yyyy MMM'}}</div>
@@ -478,43 +446,68 @@
                                     <div layout="row" flex class="mt-20">
                                         <div class="commonContentShell solid-highlight-gray p-10" flex>
 
-                                            <section id="successContainer" layout="column" layout-align="center center" >
+                                            <section id="successMainplanContainer" layout="column" layout-align="center center" >
                                                 <div layout="row" style="width: 100%;">
                                                     <div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>
-                                                        <md-card ng-repeat="plan in companyPricePlans" flex class="subscription-plan" ng-if="plan.type == selectedPlanDuration || plan.code == 'free_trial'" ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">
+                                                        <md-card ng-repeat="plan in allPlans | filter : {type: 'Base-Plan'}" flex class="subscription-plan"  ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">
                                                             <!--<div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>-->
 
                                                             <md-card-title flex layout="row" layout-align="center center" ng-class="{'solid-washer-blue': plan.code == selectedPlan.code}">
-                                                                <h3 ng-class="{'f-white':plan.code == selectedPlan.code}">{{plan.code == 'free_trial' ? plan.name.split('(')[0] : plan.name}} <span class="braket-text" ng-if="plan.code == 'free_trial'">({{plan.name.split('(')[1]}}</span></h3>
+
+                                                              <input type="radio"name="planRadioButton[]" value="" ng-click="radioButtonSelectedPlan(plan)" ng-checked="plan.code === selectedPlan.code" >
+                                                                <h3 ng-class="{'f-white':plan.code == selectedPlan.code}"> {{ plan.name}} </h3>
+
                                                             </md-card-title>
 
                                                             <md-card-content flex class="p-0" layout="column">
                                                                 <div class="rate-container" layout="column" layout-align="center center">
                                                                     <div layout="row" ng-if="plan.code === 'free_trial'" layout-align="center end"><span>Free</span><span></span></div>
-                                                                    <div layout="row" ng-if="plan.code != 'free_trial'" layout-align="center end"><span>${{plan.changingPrice}} </span> <span> / {{plan.type}}</span></div>
+                                                                    <div layout="row" ng-if="plan.code != 'free_trial'" layout-align="center end"><span>${{plan.unitPrice}} </span> <span> / {{plan.billEvery}}</span></div>
                                                                 </div>
-                                                                <div class="feature-wrap">
-                                                                    <div class="feature-container" layout="column" layout-align="center center">
-                                                                        <div layout="row" layout-align="center center">
-                                                                            <div><span>{{plan.description}}</span></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text-center h-130" flex layout="column" layout-align="center center">
-                                                                    <div class="additional-feature text-center">Unlimited users</div>
-                                                                    <div class="additional-feature text-center">Unlimited profiles</div>
-                                                                    <div class="additional-feature text-center">Reports</div>
-                                                                </div>
+
+
                                                             </md-card-content>
 
-                                                            <md-card-footer layout="row" layout-align="center center" flex>
-                                                                <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || isPlanSelected" ng-if="selectedPlan.price < 1 " stripe-payment="config" ishara="{{plan.changingPrice}}" ng-click="selectPlan(plan)">Select</md-button>
-                                                              <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || plan.code === currentPlanCode || isPlanSelected" ng-if="selectedPlan.price > 0 " ng-click="selectPlan(plan)">Select</md-button>
-                                                            </md-card-footer>
                                                         </md-card>
+                                                          </div>
+                                                  </div>
+                                                </section>
 
-                                                    </div>
-                                                </div>
+                                          <section id="successAddonContainer" layout="column" layout-align="center center" ng-if="plan.code === 'free_trial'" >
+                                            <div layout="row" style="width: 100%;">
+
+                                            <div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>
+                                                    <md-card ng-repeat="plan in allPlans | filter : {type: 'Add-On'}" flex class="subscription-plan"  ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">
+                                                      <!--<div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>-->
+
+                                                      <md-card-title flex layout="row" layout-align="center center" ng-class="{'solid-washer-blue': plan.code == selectedPlan.code}">
+
+                                                        <input type="checkbox" name="planCheckbox[]" value="" ng-click="toggleSelection(plan)" ng-checked="selectedAddons.indexOf(plan.code) > -1" >
+                                                        <h3 ng-class="{'f-white':plan.code == selectedPlan.code}">{{plan.name}} </h3>
+
+                                                      </md-card-title>
+
+                                                      <md-card-content flex class="p-0" layout="column">
+                                                        <div class="rate-container" layout="column" layout-align="center center">
+                                                          <div layout="row" ng-if="plan.code === 'free_trial'" layout-align="center end"><span>Free</span><span></span></div>
+                                                          <div layout="row" ng-if="plan.code != 'free_trial'" layout-align="center end"><span>${{plan.unitPrice}} </span> <span> / {{plan.billEvery}}</span></div>
+                                                        </div>
+
+                                                      </md-card-content>
+
+                                                    </md-card>
+                                                   </div>
+                                              </div></section>
+
+                                          <section id="successContainer" layout="column" layout-align="center center" >
+                                            <div layout="row" style="width: 100%;">
+
+                                            <div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>
+                                                    <!--<md-button class="md-raised md-accent" ng-disabled="isPlanSelected" ng-if="selectedPlan.unitPrice < 1 " stripe-payment="config" ishara="{{tempSelectedPlan.unitPrice}}" ng-click="selectPlan()">Buy Plan(s)</md-button>-->
+                                                    <md-button class="md-raised md-accent" ng-disabled="isPlanSelected" ng-if="selectedPlan.unitPrice > 0 || true" ng-click="selectPlan()">Buy Plan(s)</md-button>
+
+                                                  </div>
+                                                  </div>
 
                                             </section>
                                             <md-card-actions layout="row" layout-align="end end" flex ng-show="isPlanSelected">
@@ -525,125 +518,11 @@
                                     </div>
                                 </div>
                             </md-card-content>
-                            <!--<md-card-actions>-->
-                            <!--<div layout="row" class="plan_footer" layout-align="space-between center">-->
-                            <!--<div layout="row" layout-align="start center" class="detail-row">-->
-                            <!--<span flex style="width: auto"><b>Number of additional users</b></span>-->
-                            <!--<span>: {{userdata}}</span>-->
-                            <!--</div>-->
-                            <!--<md-button class="md-icon-button md-accent" ng-disabled="selectedPlan.price < 1 " ng-click="addMoreUsersDialog($event)"><md-icon md-font-icon="icon-plus-circle"></md-icon> </md-button>-->
-                            <!--</div>-->
-                            <!--</md-card-actions>-->
+
                         </md-card>
                     </div>
 
-                    <!--<div layout="column" ng-if="paymentHistory">-->
-                    <!--<md-card flex class="input-block-gen eq-margin" layout="column">-->
-                    <!--<md-card-title layout="row" layout-align="space-between center">-->
-                    <!--<div layout="row" layout-align="start center">-->
-                    <!--<md-icon md-font-icon="icon-credit-card-multiple"></md-icon> <h3>Payment history</h3>-->
-                    <!--</div>-->
-                    <!--<md-button class="md-icon-button" ng-click="getTenantPaymentHistory()"><md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Refresh list</md-tooltip></md-button>-->
-                    <!--</md-card-title>-->
-                    <!--<div class="list-header" layout="row">-->
-                    <!--<div flex="20" layout-align="start center">Plan</div>-->
-                    <!--<div flex layout-align="start center">Period</div>-->
-                    <!--<div flex class="text-right" layout-align="end center" layout="row"><span>Amount</span></div>-->
-                    <!--<div flex="20"></div>-->
-                    <!--<div flex="10" layout="row" layout-align="start center">Status</div>-->
-                    <!--</div>-->
-                    <!--<md-card-content md-whiteframe="1dp" class="p-0" flex>-->
-                    <!--<md-content class="sub-list list-content" ms-scroll>-->
-                    <!--<div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 || paymentHistoryList == null">-->
-                    <!--<span><md-icon md-font-icon="icon-information-outline"></md-icon> No record has been created yet</span>-->
-                    <!--</div>-->
-                    <!--<div layout="row" flex class="list-item" ng-repeat="history in paymentHistoryList" ng-hide="isTenantPaymentHistoryClicked">-->
 
-                    <!--<div flex="20" layout="row" layout-align="start center">-->
-                    <!--<span>{{history.infomation.feature}}</span>-->
-                    <!--</div>-->
-                    <!--<div flex layout="row" layout-align="start center">-->
-                    <!--<span> {{history.receivedDate | date:'yyyy.MM.dd'}} -</span><span>- {{history.lastDate | date:'yyyy.MM.dd'}}</span>-->
-                    <!--</div>-->
-                    <!--<div flex layout="row" layout-align="end center">-->
-                    <!--<span>${{history.amount}}</span>-->
-                    <!--</div>-->
-                    <!--<div flex="20"></div>-->
-                    <!--<div flex="10" layout="row" layout-align="start center">-->
-                    <!--<span flex>{{history.status }}</span>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</md-content>-->
-                    <!--</md-card-content>-->
-                    <!--</md-card>-->
-                    <!--</div>-->
-
-                    <!--<div layout="column" ng-if="onlinePayments">-->
-                    <!--<md-content class="md-padding" layout="row" flex>-->
-                    <!--<md-card flex="30" class="payment-card">-->
-                    <!--<div layout="row" layout-align="center center">-->
-                    <!--<md-input-container style="margin: 0;">-->
-                    <!--<div class="online_stripe" ng-class="{'online_disabled': !isRegisteredWithStripe}"></div>-->
-                    <!--</md-input-container>-->
-
-                    <!--<div flex></div>-->
-
-                    <!--<md-input-container style="margin: 0;">-->
-                    <!--<md-menu>-->
-                    <!--<md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="vm.openRegistrationMenu($mdOpenMenu, $event)">-->
-                    <!--<md-icon md-font-icon="icon-dots-vertical"></md-icon>-->
-                    <!--</md-button>-->
-                    <!--<md-menu-content width="4" ng-disabled="isRegButtonsShow">-->
-                    <!--<md-menu-item>-->
-                    <!--<md-button ng-disabled="isRegisteredWithStripe" ng-click="proceedWithStripe()">-->
-                    <!--<md-icon md-font-icon="icon-login" md-menu-align-target></md-icon>-->
-                    <!--Register-->
-                    <!--</md-button>-->
-                    <!--</md-menu-item>-->
-                    <!--<md-menu-item>-->
-                    <!--<md-button ng-disabled="!isRegisteredWithStripe" ng-click="disconnectWithStripe()">-->
-                    <!--<md-icon md-font-icon="icon-logout"></md-icon>-->
-                    <!--Leave-->
-                    <!--</md-button>-->
-                    <!--</md-menu-item>-->
-                    <!--</md-menu-content>-->
-                    <!--</md-menu>-->
-                    <!--</md-input-container>-->
-                    <!--</div>-->
-                    <!--</md-card>-->
-                    <!--&lt;!&ndash;2Checkout section &ndash;&gt;-->
-                    <!--<md-card flex="30" class="payment-card">-->
-                    <!--<div layout="row" layout-align="center center">-->
-                    <!--<md-input-container style="margin: 0;">-->
-                    <!--<div class="online_2checkout" ng-class="{'online_disabled': !isRegisteredWith2checkout}"></div>-->
-                    <!--</md-input-container>-->
-                    <!--<div flex></div>-->
-
-                    <!--<md-input-container style="margin: 0;">-->
-                    <!--<md-menu>-->
-                    <!--<md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="vm.openRegistrationMenu($mdOpenMenu, $event)">-->
-                    <!--<md-icon md-font-icon="icon-dots-vertical"></md-icon>-->
-                    <!--</md-button>-->
-                    <!--<md-menu-content width="4" ng-disabled="isRegButtonsShow">-->
-                    <!--<md-menu-item>-->
-                    <!--<md-button ng-disabled="isRegisteredWith2checkout" ng-click="registerWithTwoCheckout($event)">-->
-                    <!--<md-icon md-font-icon="icon-login" md-menu-align-target></md-icon>-->
-                    <!--Register-->
-                    <!--</md-button>-->
-                    <!--</md-menu-item>-->
-                    <!--<md-menu-item>-->
-                    <!--<md-button ng-disabled="!isRegisteredWith2checkout" ng-click="deleteWithTwoCheckout()">-->
-                    <!--<md-icon md-font-icon="icon-logout"></md-icon>-->
-                    <!--Leave-->
-                    <!--</md-button>-->
-                    <!--</md-menu-item>-->
-                    <!--</md-menu-content>-->
-                    <!--</md-menu>-->
-                    <!--</md-input-container>-->
-                    <!--</div>-->
-                    <!--</md-card>-->
-                    <!--</md-content>-->
-                    <!--</div>-->
 
                     <div layout="column" ng-if="apiDetails">
                         <md-card flex class="input-block-gen">

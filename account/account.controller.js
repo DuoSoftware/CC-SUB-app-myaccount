@@ -86,7 +86,7 @@
 		};
 		$scope.baseCurrency="";
 		$scope.selectedPlanDuration = 'Monthly';
-		
+
 		$scope.setPlanDuration = function (duration) {
 			$scope.$watch(function () {
 				$scope.planDuration = duration;
@@ -134,14 +134,28 @@
 			return null;
 		}
 
+    var selectPlan = function(planCode)
+    {
+      if($scope.allPlans != null) {
+        for (var i = 0; i < $scope.allPlans.length; i++) {
+          if ($scope.allPlans[i].code === planCode) {
+            $scope.selectedPlan = $scope.allPlans[i];
+            $scope.tempSelectedPlan = $scope.selectedPlan ;
+            $scope.currentPlanName = $scope.selectedPlan.name;
+            //$scope.currentPlanCode = $scope.selectedPlan.code;
+          }
+        }
+      }
+    }
+
 		$scope.idToken= gst('securityToken');
-		
-		(function (){
 
-			try{
+    (function (){
 
-        var currentDomain = gst('currentDomain');
-				$charge.tenantEngine().getSubscriptionIdByTenantName(currentDomain).success(function (response) {
+      try{
+
+        var domain = 'kulohijar.app.cloudcharge.com';// gst('currentDomain');
+        $charge.tenantEngine().getSubscriptionIdByTenantName(domain).success(function (response) {
 
           var subscriptionID = response.data["0"].subscriptionID;
 
@@ -167,24 +181,24 @@
             $scope.accAccessKeysLoaded = true;
           }
 
-				}).error(function(data) {
-					// console.log(data);
-					$scope.accAccessKeysLoaded = true;
+        }).error(function(data) {
+          // console.log(data);
+          $scope.accAccessKeysLoaded = true;
 
           ex.app = "myAccount";
           logHelper.error(ex);
 
-				});
+        });
 
 
-			}catch(ex){
+      }catch(ex){
 
-				$scope.accAccessKeysLoaded = true;
+        $scope.accAccessKeysLoaded = true;
 
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
-		})();
+        ex.app = "myAccount";
+        logHelper.error(ex);
+      }
+    })();
 
 
 		// === load counries==============
@@ -205,43 +219,6 @@
 		$scope.displayExpireDate = '';
 		$scope.paidPlanExpireDate = '';
 
-		$scope.registeredVendors = {
-			stripe: true,
-			twocheckout : true
-		}
-
-		$scope.onlinePaymentRegister = function(ev, vendor) {
-			if(!$scope.isRegisteredWithStripe){
-				var confirm = $mdDialog.confirm()
-					.title(vendor + ' registration')
-					.textContent('Would you like to register with ' + vendor + ' for your online payments?')
-					.targetEvent(ev)
-					.ok('Yes')
-					.cancel('No');
-
-				$mdDialog.show(confirm).then(function() {
-					$scope.isRegisteredWithStripe = true;
-					$scope.proceedWithStripe();
-				}, function() {
-					$scope.isRegisteredWithStripe = false;
-				});
-			}else{
-				var confirm = $mdDialog.confirm()
-					.title(vendor + ' sign out?')
-					.textContent('Would you like to sign out from ' + vendor + '?')
-					.targetEvent(ev)
-					.ok('Yes')
-					.cancel('No');
-
-				$mdDialog.show(confirm).then(function() {
-					$scope.isRegisteredWithStripe = false;
-				}, function() {
-					$scope.isRegisteredWithStripe = true;
-				});
-			}
-
-		};
-
 		//Online payment registration menu
 		vm.openRegistrationMenu = function($mdOpenMenu, ev) {
 			$mdOpenMenu(ev);
@@ -260,6 +237,72 @@
 		vm.dummy = {"Success":true,"Message":""
 			//,"Data": {"Address":"asdasdsada","Company":"DUO","Country":"Sri Lanka","Email":"devadmin@cloudcharge.com","NIC":"123456789v","Name":"dev admin","PhoneNumber":"45454545"}
 		};
+
+
+    $scope.tenantUser = [];
+
+    $scope.getUserInfoByID = function() {
+
+      try{
+        $charge.myAccountEngine().getUserInfoByID().success(function (response) {
+
+          // console.log(response);
+          response.data = response;
+          vm.dummy.Data = response.data.Result;
+          $scope.tenantUser.firstName = vm.dummy.Data.givenName;
+          $scope.tenantUser.surName = vm.dummy.Data.surName;
+          $scope.tenantUser.country = vm.dummy.Data.country;
+
+          $scope.tenantId = response.data.Result.domain.split('.')[0];
+
+          if (response.data.Result.UserType === "admin") {
+            $scope.isUserAdmin = true;
+          }
+
+          //$scope.currentPlanCode = response.data.Result.plan = 'free_trial';
+
+          //selectPlan(response.data.Result.plan);
+
+          $scope.calculateFreeTrialExpireDate();
+
+          $http({
+            method: "GET" ,
+            url: "app/core/cloudcharge/js/config.json"
+          }).then(function(data) {
+            var publishKey = (data.data.stripe.key);
+
+            $scope.config = {
+              title: 'Cloudcharge',
+              email: response.data.Result.email,
+              publishKey : publishKey,
+              description: "for connected business",
+              logo: 'app/main/account/img/loginDuo.png',
+              label: 'Add Card'
+            }
+
+          }, function(response) {
+
+          });
+
+
+          $scope.accGeneralLoaded = true;
+
+
+        }).error(function (data) {
+          // console.log(data);
+        });
+
+      }catch(ex){
+
+        ex.app = "myAccount";
+        logHelper.error(ex);
+      }
+    }
+
+    $scope.getUserInfoByID();
+
+
+
 
 
 		$scope.loadCardDetails = function() {
@@ -303,115 +346,24 @@
 		$scope.loadCardDetails();
 
 
+		$scope.allPlans= null;
+    $scope.tempSelectedPlan = null;
+    $scope.selectedAddons = [];
 
-		$scope.isRegisteredWithStripe = false;
-		$scope.isRegisteredWith2checkout = false;
-
-		$scope.isRegButtonsShow = true;
-
-		$scope.checkPaymentMethodRegistry = function(){
-			try{
-				$charge.paymentgateway().stripeCheckAccount().success(function (data) {
-
-					if(data.status) {
-						for (var i = 0; i < data.data.length; i++) {
-							if (data.data[i].gateway === "stripe")
-								$scope.isRegisteredWithStripe = true;
-
-							if (data.data[i].gateway === "2checkout")
-								$scope.isRegisteredWith2checkout = true;
-						}
-
-						$scope.isRegButtonsShow = false;
-
-					}
-
-				}).error(function(data) {
-					// console.log( data);
-
-					$scope.isRegisteredWithStripe = false;
-					$scope.isRegisteredWith2checkout = false;
-					$scope.isRegButtonsShow = false;
-
-				});
-			}catch(ex){
-				$scope.isRegisteredWithStripe = false;
-				$scope.isRegisteredWith2checkout = false;
-				$scope.isRegButtonsShow = false;
-
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
-		}
-
-		$scope.checkPaymentMethodRegistry();
-
-
-		$scope.loadPlanDetails = function(){
-			try{
-
-				if($scope.companyPricePlans != null){
-
-					for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
-						$scope.companyPricePlans[i].changingPrice = $scope.companyPricePlans[i].price;
-						if($scope.companyPricePlans[i].type === 'Yearly')
-						{
-							$scope.companyPricePlans[i].code = $scope.companyPricePlans[i].code+'_year';
-						}
-						$scope.getPlansubscription($scope.companyPricePlans[i],$scope.planSubscriptions);
-					}
-				}
-
-				if(!$scope.selectedPlan && $scope.currentPlanName)
-				{
-					selectPlan($scope.currentPlanName);
-				}
-
-				//$scope.userPrice = ($scope.selectedPlan.planNo > 4) ? 20 : 2;
-
-				// if($scope.selectedPlan.planNo >= 1)
-					$scope.getSelectedPlanSubscriptionDetails();
-				// else
-				// 	$scope.accSubscriptionDetailsLoaded = true;
-
-			}catch(ex){
-
-				$scope.accSubscriptionDetailsLoaded = true;
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
-
-		}
-
-		$scope.planSubscriptions= null;
 		$scope.getAllPlans = function () {
 			try{
-				$charge.ratingengine().GetRatePlansForSubscription().success(function (response) {
+				$charge.myaccountapi().allPlanslocal('getAllPlans',0,10,'asc').success(function (response) {
 
-					$scope.planSubscriptions= response;
+          if(response.status) {
+            $scope.allPlans = response.data;
+            $scope.getActiveSubscriptionDetails();
 
-					if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
-						$scope.loadPlanDetails();
-					}
-
-
-				}).error(function(data) {
-					// console.log( data);
-				});
-
-
-
-				$charge.ratingengine().GetPlanDetails().success(function (response) {
-
-					$scope.companyPricePlans = response;
-
-					if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null){
-						$scope.loadPlanDetails();
-					}
+          }
 
 				}).error(function(data) {
-					// console.log( data);
-				});
+
+            $scope.allPlans= null;
+        });
 
 			}catch(ex){
 
@@ -421,65 +373,13 @@
 
 		};
 
-		$scope.getPlansubscription = function (plan,subscriptData) {
-
-			plan.activeSubscriptions = 1000;
-			// plan.subscriptionRate = 0;
-
-			for(var i = 0 ; i <subscriptData.length;i++) {
-				if(subscriptData[i].type === plan.name)
-				{
-
-					var subscript = subscriptData[i].rateDetails;
-					plan.allSubscriptionPlans = subscript;
-
-					for(var ii = 0 ; ii <subscript.length;ii++) {
-						if(ii === 0)
-						{
-							plan.subscriptionMinAmount = subscript[ii].rangeTo;
-							plan.activeSubscriptions = subscript[ii].rangeTo;
-							plan.subscriptionRate = subscript[ii].rate;
-
-						}
-						if(ii === (subscript.length - 1))
-						{
-							plan.subscriptionMaxAmount = subscript[ii].rangeTo;
-						}
-					}
-
-					// plan.starterSlider = {
-					//   value: $scope.currentPlanAmount,
-					//   options: {
-					//     floor: parseInt(plan.subscriptionMinAmount)-1,
-					//     ceil: plan.subscriptionMaxAmount,
-					//     step: plan.subscriptionStep,
-					//     showSelectionBar: false,
-					//     selectionBarGradient: {
-					//       from: 'white',
-					//       to: '#039be5'
-					//     }
-					//   }
-					// };
-				}
-			}
-
-		};
 
 		$scope.getAllPlans();
 
-		var selectPlan = function(planId)
-		{
-			if($scope.companyPricePlans != null) {
-				for (var i = 0; i < $scope.companyPricePlans.length; i++) {
-					if ($scope.companyPricePlans[i].code === planId) {
-						$scope.selectedPlan = $scope.companyPricePlans[i];
 
-						$scope.currentPlanName = $scope.selectedPlan.name;
-						$scope.currentPlanCode = $scope.selectedPlan.code;
-					}
-				}
-			}
-		}
+    $scope.radioButtonSelectedPlan = function(radioButtonPlan){
+      $scope.tempSelectedPlan = radioButtonPlan;
+    }
 
 
 		//Make Default
@@ -513,214 +413,329 @@
 			}
 		}
 
-		$scope.showCurrPlan = function() {
+		$scope.initPlanSliderValue = null;
+		$scope.getActiveSubscriptionDetails = function () {
 
-			$scope.currentPlan = $scope.selectedPlan.planNo;
-		};
+        try{
+          $charge.myaccountapi().getActiveSubscription('getActiveSubscription', vm.dummy.Data.email).success(function (response) {
 
-		$scope.tenantUser = [];
+            if(response.response === "succeeded") {
+              debugger;
+              if(response.data.result.length > 0) {
+                $scope.currentPlanCode = response.data.result["0"].code
+                selectPlan($scope.currentPlanCode);
+                $scope.currentPlanAmount = parseFloat(response.data.result["0"].amount);
 
-		$scope.getUserInfoByID = function() {
+                $scope.initPlanSliderValue = "0";
+                $scope.currentPlanUsed = '0';
 
-			try{
-				$charge.myAccountEngine().getUserInfoByID().success(function (response) {
 
-					// console.log(response);
-					response.data = response;
-					vm.dummy.Data = response.data.Result;
-					$scope.tenantUser.firstName = vm.dummy.Data.givenName;
-					$scope.tenantUser.surName = vm.dummy.Data.surName;
-					$scope.tenantUser.country = vm.dummy.Data.country;
+                $scope.currentPlanCreatedDate = response.data.result["0"].startDate;
+                $scope.currentPlanExpiryDate = response.data.result["0"].endDate;
+                //callback();
 
-					$scope.tenantId = response.data.Result.domain.split('.')[0];
+                $scope.subUsage = {
+                  value: $scope.currentPlanUsed,
+                  options: {
+                    floor: 0,
+                    ceil: $scope.currentPlanAmount,
+                    showSelectionBar: true,
+                    disabled: true,
+                    selectionBarGradient: {
+                      from: '#76d2ff',
+                      to: '#e28989'
+                    }
+                  }
+                };
 
-					if (response.data.Result.UserType === "admin") {
-						$scope.isUserAdmin = true;
-					}
+                //Usage
+                vm.usageChart = {
+                  title: 'Usage',
+                  chart: {
+                    options: {
+                      chart: {
+                        type: 'pieChart',
+                        donut: true,
+                        color: ['#039be5', '#eeeeee'],
+                        height: 320,
+                        // labelsOutside: true,
+                        showLegend: false,
+                        pie: {
+                          startAngle: function (d) {
+                            return d.startAngle / 2 - Math.PI / 2
+                          },
+                          endAngle: function (d) {
+                            return d.endAngle / 2 - Math.PI / 2
+                          }
+                        },
+                        margin: {
+                          top: 0,
+                          right: 0,
+                          bottom: 0,
+                          left: 0
+                        },
+                        x: function (d) {
+                          return d.label;
+                        },
+                        y: function (d) {
+                          return d.value;
+                        },
+                        tooltip: {
+                          contentGenerator: function (key, x, y, e, graph) {
+                            if (key.index == 0) {
+                              vm.tipTitle = 'Used';
+                            } else {
+                              vm.tipTitle = 'Available';
+                            }
+                            return '<div layout="column" style="background-color: #000;text-align: left;border-radius: 3px;padding: 5px 10px;">' +
+                              '<div>' + vm.tipTitle + ' : ' + key.data.value + '</div>' +
+                              '</div>';
+                          }
+                        }
+                      }
+                    },
+                    data: [{
+                      'label': '',
+                      'value': $scope.currentPlanUsed
+                    }, {
+                      'label': '',
+                      'value': $scope.initPlanSliderValue - $scope.currentPlanUsed
+                    }]
+                  }
+                };
 
-					$scope.currentPlanName = response.data.Result.plan;
+                $scope.currentPlanAmount = response.data.result["0"].amount;
+              }else{
 
-					selectPlan(response.data.Result.plan);
+                $scope.currentPlanCode = 'free_trial';
+                selectPlan($scope.currentPlanCode);
 
-					$scope.calculateFreeTrialExpireDate();
+                //var data = {
+                //      "email": vm.dummy.Data.email,
+                //      "planCode": 'free_trial',
+                //      "note": "note",
+                //      "qty": 1,
+                //      "startDate": $filter('date')(new Date(),'yyyy-MM-dd'),
+                //      "addOns": [],
+                //      "coupon": ""
+                //    }
+                //    $charge.myaccountapi().addSubscriptionlocal(data).success(function (response) {
+                //
+                //      if(response.response != "failed") {
+                //
+                //        $scope.switchPlan('free_trial');
+                //        // notifications.toast("Plan successfully changed", "success");
+                //      }else{
 
-          $http({
-            method: "GET" ,
-            url: "app/core/cloudcharge/js/config.json"
-          }).then(function(data) {
-            var publishKey = (data.data.stripe.key);
+                       //if(response.error.STATUS_INTERNAL_SERVER_ERROR) {
+                        //
+                        //  notifications.toast(response.error.STATUS_INTERNAL_SERVER_ERROR["0"], "error");
+                        //
+                        //  if (response.error.STATUS_INTERNAL_SERVER_ERROR["0"] === "No card data found for this account. Please register a card to proceed") {
+                        //
+                        //
+                        //    var data = {
+                        //      "profileId": vm.dummy.Data.userID,
+                        //      "redirectUrl": "this",
+                        //      "action": "insert"
+                        //    }
+                        //
+                        //    $charge.myaccountapi().loadForm(data).success(function (response) {
+                        //
+                        //      //Note : load card
+                        //
+                        //    }).error(function(data) {
+                        //      notifications.toast("Error occured while changing plans", "error");
+                        //    });
+                        //  }
+                        //
+                        //}else{
+                        //  notifications.toast("Error occured while changing plans", "error");
+                        //}
 
-            $scope.config = {
-              title: 'Cloudcharge',
-              email: response.data.Result.email,
-              publishKey : publishKey,
-              description: "for connected business",
-              logo: 'app/main/account/img/loginDuo.png',
-              label: 'Add Card'
-            }
+                    //  }
 
-          }, function(response) {
+                    //}).error(function(data) {
+                    //  $scope.isPlanSelected = false;
+                    //  notifications.toast("Error occured while changing plans", "error");
+                    //});
+              }
 
+             $scope.accSubscriptionDetailsLoaded = true;
+
+
+
+
+            }else{
+
+              $scope.accSubscriptionDetailsLoaded = true;
+
+          }
+
+          }).error(function(data) {
+
+            $scope.accSubscriptionDetailsLoaded = true;
           });
 
+        }catch(ex){
+          ex.app = "myAccount";
+          logHelper.error(ex);
+
+            $scope.accSubscriptionDetailsLoaded = true;
+		      }
+    }
+
+    // select addon check box
+    $scope.toggleSelection = function(addon) {
+
+      try{
+        var idx = $scope.selectedAddons.indexOf(addon);
+
+        // is currently selected
+        if (idx > -1) {
+          $scope.selectedAddons.splice(idx, 1);
+        }
+
+        // is newly selected
+        else {
+          $scope.selectedAddons.push(addon);
+        }
+      }catch(ex){
+        ex.app = "myAccount";
+        logHelper.error(ex);
+      }
+    };
+
+    $scope.selectPlan = function ()
+    {
+
+      if(!$scope.selectedPlan || $scope.selectedPlan === null){
+        notifications.toast("There is a error loading user plan, Please load My Profile application again", "error");
+        return;
+      }
+
+      $scope.isPlanSelected = true;
+
+      if($scope.tempSelectedPlan === null)
+      {
+        notifications.toast("Please select new plan to update ", "error");
+        $scope.isPlanSelected = false;
+        return;
+      }else {
+        var pack = $scope.tempSelectedPlan;
+        try {
+          $scope.paymentTenant = $scope.tenantId;
+          $scope.paymentPlan = pack.code;
+          $scope.paymentSecurityToken = $scope.idToken;
+          $scope.paymentPrice = (pack.unitPrice);
+          $scope.paymentName = pack.name;
+
+        } catch (ex) {
+          $scope.isPlanSelected = false;
+          ex.app = "myAccount";
+          logHelper.error(ex);
+        }
+      }
+
+      var addons = [];
+      if($scope.selectedAddons.length > 0){
+        for(var i=0;i<$scope.selectedAddons.length;i++){
+          addons[i]=$scope.selectedAddons[i].code;
+        }
+      }
+
+      if($scope.selectedPlan.code === 'free_trial')
+      {
+        var data = {
+          "email": vm.dummy.Data.email,
+          "planCode": $scope.tempSelectedPlan.code,
+          "note": "note",
+          "qty": 1,
+          "startDate": $filter('date')(new Date(),'yyyy-MM-dd'),
+          "addOns": addons,
+          "coupon": ""
+        }
+        $charge.myaccountapi().addSubscriptionlocal(data).success(function (response) {
+          $scope.isPlanSelected = false;
+          if(response.response != "failed") {
+
+            $scope.switchPlan($scope.tempSelectedPlan.code);
+           // notifications.toast("Plan successfully changed", "success");
+          }else{
+
+            if(response.error.STATUS_INTERNAL_SERVER_ERROR) {
+
+              notifications.toast(response.error.STATUS_INTERNAL_SERVER_ERROR["0"], "error");
+
+              if (response.error.STATUS_INTERNAL_SERVER_ERROR["0"] === "No card data found for this account. Please register a card to proceed") {
 
 
-					if ($scope.planSubscriptions != null && $scope.companyPricePlans != null && $scope.currentPlanName != null) {
-						$scope.loadPlanDetails();
-					}
+                var data = {
+                            "profileId": vm.dummy.Data.userID,
+                            "redirectUrl": "this",
+                            "action": "insert"
+                          }
 
-					$scope.accGeneralLoaded = true;
+                    $charge.myaccountapi().loadForm(data).success(function (response) {
+
+                      //Note : load card
+
+                      }).error(function(data) {
+                        notifications.toast("Error occured while changing plans", "error");
+                      });
+              }
+
+            }else{
+              notifications.toast("Error occured while changing plans", "error");
+            }
+
+          }
+
+        }).error(function(data) {
+          $scope.isPlanSelected = false;
+          notifications.toast("Error occured while changing plans", "error");
+        });
+      }else{
+
+        var data = {
+          "email": vm.dummy.Data.email,
+          "newplanCode": $scope.tempSelectedPlan.code,
+          "oldplanCode": $scope.selectedPlan.code,
+          "qty": 1,
+          "note": "note",
+          "changeType": "immediate"
+        }
+
+        $charge.myaccountapi().changeSubscriptionlocal(data).success(function (response) {
+          $scope.isPlanSelected = false;
+          if(response.response === "succeeded") {
+
+            $scope.switchPlan($scope.tempSelectedPlan.code);
+
+          }else{
+            notifications.toast("Error occured while changing plans", "error");
+          }
+
+        }).error(function(data) {
+          $scope.isPlanSelected = false;
+          notifications.toast("Error occured while changing plans", "error");
+        });
+      }
 
 
-				}).error(function (data) {
-					// console.log(data);
-				});
-
-			}catch(ex){
-
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
-		}
-
-		$scope.getUserInfoByID();
 
 
-		$scope.initPlanSliderValue = null;
-		$scope.getSelectedPlanSubscriptionDetails = function () {
+    }
 
-			// $http({
-			// 	method: 'GET',
-			// 	url: "http://app.cloudcharge.com/services/duosoftware.ratingEngine/ratingEngine/getAppRule?appID=invoice&plan="+$scope.selectedPlan.code,
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 		'idToken': $scope.idToken
-			// 	}
-			// }).then(function (response) {
+    $scope.switchPlan = function(plan){
 
+      $charge.currency().switchPlan(plan).success(function (response) {
+          notifications.toast("Plan successfully changed", "success");
+      }).error(function(data) {
+        notifications.toast("Error occured while switching plans", "error");
+      });
 
-			$charge.ratingengine().getAppRule("invoice",$scope.selectedPlan.code).success(function (response) {
-
-				//$scope.currentPlanName = response.data.name;
-				response.data = response;
-				$scope.currentPlanAmount = parseInt(response.data.amount);
-
-				$scope.initPlanSliderValue = parseInt(response.data.amount);
-				$scope.currentPlanRate = response.data.rate;
-				$scope.additionalCharge = response.data.additionalCharge;
-				$scope.currentPlanUsed = response.data.used;
-				$scope.currentPlanCreatedDate = response.data.createdDate;
-				//callback();
-
-				$scope.subUsage = {
-					value: $scope.currentPlanUsed,
-					options: {
-						floor: 0,
-						ceil: parseInt(response.data.amount),
-						showSelectionBar: true,
-						disabled: true,
-						selectionBarGradient: {
-							from: '#76d2ff',
-							to: '#e28989'
-						}
-					}
-				};
-
-				//Usage
-				vm.usageChart = {
-					title    : 'Usage',
-					chart: {
-						options: {
-							chart: {
-								type     : 'pieChart',
-								donut: true,
-								color    : ['#039be5','#eeeeee'],
-								height   : 320,
-								// labelsOutside: true,
-								showLegend: false,
-								pie: {
-									startAngle: function(d) { return d.startAngle/2 -Math.PI/2 },
-									endAngle: function(d) { return d.endAngle/2 -Math.PI/2 }
-								},
-								margin   : {
-									top   : 0,
-									right : 0,
-									bottom: 0,
-									left  : 0
-								},
-								x        : function (d)
-								{
-									return d.label;
-								},
-								y        : function (d)
-								{
-									return d.value;
-								},
-								tooltip: {
-									contentGenerator: function (key, x, y, e, graph) {
-										if(key.index == 0){
-											vm.tipTitle = 'Used';
-										}else{
-											vm.tipTitle = 'Available';
-										}
-										return '<div layout="column" style="background-color: #000;text-align: left;border-radius: 3px;padding: 5px 10px;">'+
-											'<div>'+vm.tipTitle+' : '+key.data.value+'</div>' +
-											'</div>';
-									}
-								}
-							}
-						},
-						data   : [{
-							'label':'',
-							'value':$scope.currentPlanUsed
-						},{
-							'label':'',
-							'value':$scope.initPlanSliderValue - $scope.currentPlanUsed
-						}]
-					}
-				};
-
-				if($scope.selectedPlan){
-					$scope.selectedPlan.subscriptionRate = response.data.rate;
-					$scope.selectedPlan.sliderValue = response.data.amount;
-				}
-
-				for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
-					if($scope.companyPricePlans[i].planNo === $scope.selectedPlan.planNo)
-					{
-						$scope.companyPricePlans[i]= $scope.selectedPlan;
-
-						$scope.changeSubscription($scope.companyPricePlans[i]);
-					}
-				}
-
-				try{
-
-					//Getting pland end date
-					$charge.paymentgateway().subscriberCheck().success(function (data) {
-
-						$scope.currentPlanCreatedDate = moment.unix(data.response[0].currentPeriod).format("YYYY.MM.DD hh:mm a");
-						$scope.currentPlanExpiryDate=moment.unix(data.response[0].currentPeriodEnd).format("YYYY.MM.DD hh:mm a");
-            $scope.currentPlanAmount = data.response[0].amount;
-						// $scope.currentPlanCreatedDate = new Date(data.response[0].currentPeriod).toString();
-						// $scope.currentPlanExpiryDate= new Date(data.response[0].currentPeriodEnd).toString();
-					}).error(function (data) {
-						// console.log(data);
-					});
-					$scope.accSubscriptionDetailsLoaded = true;
-
-				}catch(ex){
-
-					ex.app = "myAccount";
-					logHelper.error(ex);
-				}
-
-			}).error(function(data) {
-
-				// console.log(response);
-				$scope.accSubscriptionDetailsLoaded = true;
-			});
-		}
+      }
 
 
 		$scope.calculateFreeTrialExpireDate = function(){
@@ -972,25 +987,25 @@
                 "additionalUserTotalPrice" : 0
                 }
           }
-		  
+
           $http(req).then(function(data){
             if(data.data.status === 'success')
 			{
 				 $scope.isPlanSelected = false;
-				 
+
 				 notifications.toast("Plan successfully changed.", "success");
-				 
+
 				 $scope.loadCardDetails();
 
 				$scope.tenantUser = [];
 				$scope.getUserInfoByID();
-				
-				$scope.getSelectedPlanSubscriptionDetails();
 
-				 
+				//$scope.getSelectedPlanSubscriptionDetails();
+
+
 			}else{
 				notifications.toast("Error while plan changing, " + data.data.message, "error");
-				
+
 				$scope.isPlanSelected = false;
 			}
           });
@@ -1038,7 +1053,7 @@
 
 		$scope.calculatePlanCharges = function(selectedPlan){
 
-			var planAmount =parseFloat(selectedPlan.changingPrice);
+			var planAmount =parseFloat(selectedPlan.unitPrice);
 			if(parseFloat($scope.currentPlanUsed) != parseFloat(selectedPlan.activeSubscriptions))
 			{
 				var differece = parseFloat($scope.currentPlanUsed) - parseFloat(selectedPlan.activeSubscriptions);
@@ -1056,53 +1071,7 @@
 		}
 
 
-		$scope.selectPlan = function (packaged)
-		{
 
-
-			//var totalPlanAmount = ($scope.calculatePlanCharges(packaged));
-
-			//var amount = totalPlanAmount > parseFloat(packaged.changingPrice) ? totalPlanAmount : parseFloat(packaged.changingPrice);
-
-			/*if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
-
-				var confirm = $mdDialog.confirm()
-					.title('Update Package')
-					.textContent('You are going to change your current plan to ' + packaged.name + ' and it will cost amount of $' + amount + ', Do you want to proceed with the update ?')
-					.ariaLabel('Lucky day')
-					.ok('Yes')
-					.cancel('No');
-				$mdDialog.show(confirm).then(function () {
-
-					$scope.isPlanSelected= true;
-					$scope.submitTenantDetails(packaged);
-
-				}, function () {
-					$scope.isPlanSelected = false;
-					$mdDialog.hide();
-				});
-
-			}else{
-				*/
-				$scope.submitTenantDetails(packaged);
-			//}
-
-		}
-
-		$scope.submitTenantDetails = function (pack) {
-			try{
-				$scope.paymentTenant = $scope.tenantId ;
-				$scope.paymentPlan = pack.code;
-				$scope.paymentSecurityToken = $scope.idToken;
-				$scope.paymentPrice = (pack.changingPrice);
-				$scope.paymentName = pack.name;
-
-			}catch(ex){
-
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
-		}
 
 
 		/*$scope.useRatingEngine = function(numberOfUsers,price) {
@@ -1202,7 +1171,7 @@
 
 				$scope.isChangePasswordSelected = true;
 
-				
+
 				$scope.data = { "password" : $scope.dev.newPassword}
 				$charge.myAccountEngine().resetAPIUserPassword($scope.data).success(function (response) {
 
@@ -1447,14 +1416,14 @@
 			// for(i=0;i<plan.allSubscriptionPlans.length;i++) {
 			// 	if(plan.sliderValue <= plan.subscriptionMinAmount){
 			// 		plan.subscriptionRate = 0;
-			// 		plan.changingPrice =  parseFloat( plan.price ) ;
+			// 		plan.unitPrice =  parseFloat( plan.price ) ;
 			// 		if(i===0)
 			// 			plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeTo);
 			// 	}
 			// 	if(plan.sliderValue >= parseInt(plan.allSubscriptionPlans[i].rangeFrom) && plan.sliderValue <= parseInt(plan.allSubscriptionPlans[i].rangeTo)){
 			// 		plan.subscriptionRate = parseInt(plan.allSubscriptionPlans[i].rate);
 			// 		plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeTo);
-			// 		plan.changingPrice = parseFloat(plan.allSubscriptionPlans[i].price);
+			// 		plan.unitPrice = parseFloat(plan.allSubscriptionPlans[i].price);
 			// 	}
 			// }
 			$scope.accSubscriptionDetailsLoaded = true;
@@ -1466,7 +1435,7 @@
 
 		$scope.sliders = [{}];
 		// $scope.$watch(function () {
-		// 	if($scope.planSubscriptions != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null && !$scope.isSlidersLoaded) {
+		// 	if($scope.allPlans != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null && !$scope.isSlidersLoaded) {
 		// 		for (i = 0; i < $scope.companyPricePlans.length; i++) {
 		// 			if (i > 0) {
 		// 				var tickArr=[];
@@ -1504,18 +1473,18 @@
 						if($scope.companyPricePlans[i].allSubscriptionPlans[a].rangeTo == value.targetScope.modelLabel){
 							$scope.$apply(function () {
 								$scope.companyPricePlans[i].subscriptionRate = $scope.companyPricePlans[i].allSubscriptionPlans[a].rate;
-								$scope.companyPricePlans[i].changingPrice = $scope.companyPricePlans[i].allSubscriptionPlans[a].price;
+								$scope.companyPricePlans[i].unitPrice = $scope.companyPricePlans[i].allSubscriptionPlans[a].price;
 								$scope.companyPricePlans[i].activeSubscriptions = $scope.companyPricePlans[i].allSubscriptionPlans[a].rangeTo ;
 							});
 						}
 						//else if(value.targetScope.modelLabel == $scope.companyPricePlans[i].subscriptionMinAmount){
 						//  $scope.$apply(function () {
 						//    $scope.companyPricePlans[i].subscriptionRate = '0';
-						//    $scope.companyPricePlans[i].changingPrice = $scope.companyPricePlans[i].price;
+						//    $scope.companyPricePlans[i].unitPrice = $scope.companyPricePlans[i].price;
 						//    $scope.companyPricePlans[i].activeSubscriptions = $scope.companyPricePlans[i].activeSubscriptions ;
 						//  });
 						//  // console.log($scope.companyPricePlans[i].subscriptionRate);
-						//  // console.log($scope.companyPricePlans[i].changingPrice);
+						//  // console.log($scope.companyPricePlans[i].unitPrice);
 						//  // console.log($scope.companyPricePlans[i].activeSubscriptions);
 						//}
 					}
