@@ -154,7 +154,7 @@
 
       try{
 
-        var domain = 'kulohijar.app.cloudcharge.com';// gst('currentDomain');
+        var domain =  gst('currentDomain');
         $charge.tenantEngine().getSubscriptionIdByTenantName(domain).success(function (response) {
 
           var subscriptionID = response.data["0"].subscriptionID;
@@ -259,10 +259,7 @@
             $scope.isUserAdmin = true;
           }
 
-          //$scope.currentPlanCode = response.data.Result.plan = 'free_trial';
-
-          //selectPlan(response.data.Result.plan);
-
+          $scope.getProfile(vm.dummy.Data.email);
           $scope.calculateFreeTrialExpireDate();
 
           $http({
@@ -420,7 +417,7 @@
           $charge.myaccountapi().getActiveSubscription('getActiveSubscription', vm.dummy.Data.email).success(function (response) {
 
             if(response.response === "succeeded") {
-              debugger;
+
               if(response.data.result.length > 0) {
                 $scope.currentPlanCode = response.data.result["0"].code
                 selectPlan($scope.currentPlanCode);
@@ -640,7 +637,7 @@
       var addons = [];
       if($scope.selectedAddons.length > 0){
         for(var i=0;i<$scope.selectedAddons.length;i++){
-          addons[i]=$scope.selectedAddons[i].code;
+          addons[i]={"code" : $scope.selectedAddons[i].code, "qty":1}
         }
       }
 
@@ -660,7 +657,13 @@
           if(response.response != "failed") {
 
             $scope.switchPlan($scope.tempSelectedPlan.code);
-           // notifications.toast("Plan successfully changed", "success");
+            notifications.toast("Plan successfully changed", "success");
+
+
+            $scope.tenantUser = [];
+            $scope.getUserInfoByID();
+            $scope.getActiveSubscriptionDetails();
+
           }else{
 
             if(response.error.STATUS_INTERNAL_SERVER_ERROR) {
@@ -671,13 +674,14 @@
 
 
                 var data = {
-                            "profileId": vm.dummy.Data.userID,
-                            "redirectUrl": "this",
+                            "profileId": $scope.customerDetails.profileId,
+                            "redirectUrl": "www.google.com",
                             "action": "insert"
                           }
 
                     $charge.myaccountapi().loadForm(data).success(function (response) {
 
+                      debugger;
                       //Note : load card
 
                       }).error(function(data) {
@@ -710,7 +714,13 @@
           $scope.isPlanSelected = false;
           if(response.response === "succeeded") {
 
+            notifications.toast("Plan successfully changed", "success");
             $scope.switchPlan($scope.tempSelectedPlan.code);
+
+
+            $scope.tenantUser = [];
+            $scope.getUserInfoByID();
+            $scope.getActiveSubscriptionDetails();
 
           }else{
             notifications.toast("Error occured while changing plans", "error");
@@ -730,12 +740,27 @@
     $scope.switchPlan = function(plan){
 
       $charge.currency().switchPlan(plan).success(function (response) {
-          notifications.toast("Plan successfully changed", "success");
+         // notifications.toast("Plan successfully changed", "success");
       }).error(function(data) {
-        notifications.toast("Error occured while switching plans", "error");
+       // notifications.toast("Error occured while switching plans", "error");
       });
 
       }
+
+    $scope.customerDetails = {};
+    $scope.getProfile = function(email){
+
+      $charge.myaccountapi().getProfile('getProfile',0,1,'asc','email',email).success(function (response) {
+        if(response.status) {
+          $scope.customerDetails = response.data['0'];
+        }
+
+      }).error(function(data) {
+
+        $scope.allPlans= null;
+      });
+
+    }
 
 
 		$scope.calculateFreeTrialExpireDate = function(){

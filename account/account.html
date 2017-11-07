@@ -473,7 +473,7 @@
                                                   </div>
                                                 </section>
 
-                                          <section id="successAddonContainer" layout="column" layout-align="center center" ng-if="plan.code === 'free_trial'" >
+                                          <section id="successAddonContainer" layout="column" layout-align="center center" >
                                             <div layout="row" style="width: 100%;">
 
                                             <div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>
@@ -482,7 +482,7 @@
 
                                                       <md-card-title flex layout="row" layout-align="center center" ng-class="{'solid-washer-blue': plan.code == selectedPlan.code}">
 
-                                                        <input type="checkbox" name="planCheckbox[]" value="" ng-click="toggleSelection(plan)" ng-checked="selectedAddons.indexOf(plan.code) > -1" >
+                                                        <input type="checkbox" ng-disabled="selectedPlan.code != 'free_trial'" name="planCheckbox[]" value="" ng-click="toggleSelection(plan)" ng-checked="selectedAddons.indexOf(plan.code) > -1" >
                                                         <h3 ng-class="{'f-white':plan.code == selectedPlan.code}">{{plan.name}} </h3>
 
                                                       </md-card-title>
