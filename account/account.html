@@ -477,7 +477,7 @@
                                             <div layout="row" style="width: 100%;">
 
                                             <div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>
-                                                    <md-card ng-repeat="plan in allPlans | filter : {type: 'Add-On'}" flex class="subscription-plan"  ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">
+                                                    <md-card ng-repeat="plan in planAddons" flex class="subscription-plan"  ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">
                                                       <!--<div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>-->
 
                                                       <md-card-title flex layout="row" layout-align="center center" ng-class="{'solid-washer-blue': plan.code == selectedPlan.code}">

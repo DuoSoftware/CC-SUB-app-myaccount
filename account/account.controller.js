@@ -142,7 +142,8 @@
             $scope.selectedPlan = $scope.allPlans[i];
             $scope.tempSelectedPlan = $scope.selectedPlan ;
             $scope.currentPlanName = $scope.selectedPlan.name;
-            //$scope.currentPlanCode = $scope.selectedPlan.code;
+
+            $scope.radioButtonSelectedPlan($scope.selectedPlan);
           }
         }
       }
@@ -154,32 +155,36 @@
 
       try{
 
-        var domain =  gst('currentDomain');
+        var domain = gst('currentDomain');
         $charge.tenantEngine().getSubscriptionIdByTenantName(domain).success(function (response) {
 
-          var subscriptionID = response.data["0"].subscriptionID;
+      if(response.status) {
+        var subscriptionID = response.data["0"].subscriptionID;
 
-          if(subscriptionID) {
+        if (subscriptionID) {
 
-            $charge.myAccountEngine().getSubscriptionInfoByID(subscriptionID).success(function (data) {
+          $charge.myAccountEngine().getSubscriptionInfoByID(subscriptionID).success(function (data) {
 
-              $scope.access_keys = [{
-                name: "Primary key",
-                key: data.Result.primaryKey
-              }, {
-                name: "Secondary key",
-                key: data.Result.secondaryKey
-              }];
-              $scope.accAccessKeysLoaded = true;
-
-            }).error(function (data) {
-              // console.log(data);
-              $scope.accAccessKeysLoaded = true;
-            });
-
-          }else{
+            $scope.access_keys = [{
+              name: "Primary key",
+              key: data.Result.primaryKey
+            }, {
+              name: "Secondary key",
+              key: data.Result.secondaryKey
+            }];
             $scope.accAccessKeysLoaded = true;
-          }
+
+          }).error(function (data) {
+            // console.log(data);
+            $scope.accAccessKeysLoaded = true;
+          });
+
+        } else {
+          $scope.accAccessKeysLoaded = true;
+        }
+      } else {
+        $scope.accAccessKeysLoaded = true;
+      }
 
         }).error(function(data) {
           // console.log(data);
@@ -344,11 +349,13 @@
 
 
 		$scope.allPlans= null;
+		$scope.planAddons= null;
     $scope.tempSelectedPlan = null;
     $scope.selectedAddons = [];
 
 		$scope.getAllPlans = function () {
-			try{
+
+      try{
 				$charge.myaccountapi().allPlanslocal('getAllPlans',0,10,'asc').success(function (response) {
 
           if(response.status) {
@@ -376,6 +383,17 @@
 
     $scope.radioButtonSelectedPlan = function(radioButtonPlan){
       $scope.tempSelectedPlan = radioButtonPlan;
+      $scope.planAddons = null;
+      $charge.myaccountapi().getAddonsForBasePlan('getAddOnsForBasePlan',radioButtonPlan.code).success(function (response) {
+
+        if(response.status) {
+          $scope.planAddons=response.data;
+        }
+
+      }).error(function(data) {
+        $scope.planAddons= null;
+      });
+
     }
 
 
@@ -412,7 +430,6 @@
 
 		$scope.initPlanSliderValue = null;
 		$scope.getActiveSubscriptionDetails = function () {
-
         try{
           $charge.myaccountapi().getActiveSubscription('getActiveSubscription', vm.dummy.Data.email).success(function (response) {
 
@@ -663,6 +680,8 @@
             $scope.tenantUser = [];
             $scope.getUserInfoByID();
             $scope.getActiveSubscriptionDetails();
+            $scope.currentPlanCode = $scope.tempSelectedPlan.code;
+            selectPlan($scope.currentPlanCode);
 
           }else{
 
@@ -721,6 +740,8 @@
             $scope.tenantUser = [];
             $scope.getUserInfoByID();
             $scope.getActiveSubscriptionDetails();
+            $scope.currentPlanCode = $scope.tempSelectedPlan.code;
+            selectPlan($scope.currentPlanCode);
 
           }else{
             notifications.toast("Error occured while changing plans", "error");
