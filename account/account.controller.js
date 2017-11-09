@@ -360,7 +360,7 @@
 		$scope.getAllPlans = function () {
 
       try{
-				$charge.myaccountapi().allPlanslocal('getAllPlans',0,10,'asc').success(function (response) {
+				$charge.myaccountapi().allPlanslocal(0,10,'asc').success(function (response) {
 
           if(response.status) {
             $scope.allPlans = response.data;
@@ -388,10 +388,16 @@
     $scope.radioButtonSelectedPlan = function(radioButtonPlan){
       $scope.tempSelectedPlan = radioButtonPlan;
       $scope.planAddons = null;
-      $charge.myaccountapi().getAddonsForBasePlan('getAddOnsForBasePlan',radioButtonPlan.code).success(function (response) {
+      $charge.myaccountapi().getAddonsForBasePlan(radioButtonPlan.code).success(function (response) {
 
         if(response.status) {
           $scope.planAddons=response.data;
+
+          if(response.data.Authenticated != undefined)
+          {
+            $scope.planAddons=null;
+          }
+
         }
 
       }).error(function(data) {
@@ -435,7 +441,7 @@
 		$scope.initPlanSliderValue = null;
 		$scope.getActiveSubscriptionDetails = function () {
         try{
-          $charge.myaccountapi().getActiveSubscription('getActiveSubscription', vm.dummy.Data.email).success(function (response) {
+          $charge.myaccountapi().getActiveSubscription(vm.dummy.Data.email).success(function (response) {
 
             if(response.response === "succeeded") {
 
@@ -792,7 +798,7 @@
     $scope.customerDetails = {};
     $scope.getProfile = function(email){
 
-      $charge.myaccountapi().getProfile('getProfile',0,1,'asc','email',email).success(function (response) {
+      $charge.myaccountapi().getProfile(0,1,'asc','email',email).success(function (response) {
         if(response.status) {
           $scope.customerDetails = response.data['0'];
         }
