@@ -444,6 +444,14 @@
                 selectPlan($scope.currentPlanCode);
                 $scope.currentPlanAmount = parseFloat(response.data.result["0"].amount);
 
+                $scope.selectedAddonCodes =[];
+                if(response.data.result["0"].addOns && response.data.result["0"].addOns.length > 0) {
+                  for (var i = 0; i < response.data.result["0"].addOns.length; i++) {
+                    $scope.selectedAddonCodes.push(response.data.result["0"].addOns[i].code);
+                  }
+                }
+
+
                 $scope.initPlanSliderValue = "0";
                 $scope.currentPlanUsed = '0';
 
