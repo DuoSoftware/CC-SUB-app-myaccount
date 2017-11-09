@@ -156,9 +156,9 @@
       try{
 
         var domain = gst('currentDomain');
-		if(!domain)
+        if(!domain)
         {
-          domain = gst('domain');          
+          domain = gst('domain');
         }
         $charge.tenantEngine().getSubscriptionIdByTenantName(domain).success(function (response) {
 
@@ -632,6 +632,11 @@
         return;
       }
 
+      if(!$scope.customerDetails.stripeCustId){
+        notifications.toast("Please add card details first to proceed", "error");
+        return;
+      }
+
       $scope.isPlanSelected = true;
 
       if($scope.tempSelectedPlan === null)
@@ -681,9 +686,9 @@
             notifications.toast("Plan successfully changed", "success");
 
 
-            $scope.tenantUser = [];
-            $scope.getUserInfoByID();
-            $scope.getActiveSubscriptionDetails();
+            //$scope.tenantUser = [];
+            //$scope.getUserInfoByID();
+            //$scope.getActiveSubscriptionDetails();
             $scope.currentPlanCode = $scope.tempSelectedPlan.code;
             selectPlan($scope.currentPlanCode);
 
@@ -695,21 +700,8 @@
 
               if (response.error.STATUS_INTERNAL_SERVER_ERROR["0"] === "No card data found for this account. Please register a card to proceed") {
 
+                  $scope.addNewCard("insert");
 
-                var data = {
-                            "profileId": $scope.customerDetails.profileId,
-                            "redirectUrl": "www.google.com",
-                            "action": "insert"
-                          }
-
-                    $charge.myaccountapi().loadForm(data).success(function (response) {
-
-                      debugger;
-                      //Note : load card
-
-                      }).error(function(data) {
-                        notifications.toast("Error occured while changing plans", "error");
-                      });
               }
 
             }else{
@@ -741,9 +733,9 @@
             $scope.switchPlan($scope.tempSelectedPlan.code);
 
 
-            $scope.tenantUser = [];
-            $scope.getUserInfoByID();
-            $scope.getActiveSubscriptionDetails();
+            //$scope.tenantUser = [];
+            //$scope.getUserInfoByID();
+            //$scope.getActiveSubscriptionDetails();
             $scope.currentPlanCode = $scope.tempSelectedPlan.code;
             selectPlan($scope.currentPlanCode);
 
@@ -757,8 +749,25 @@
         });
       }
 
+    }
 
 
+    $scope.addNewCard = function(action){
+
+      var data = {
+        "profileId": $scope.customerDetails.profileId,
+        "redirectUrl": "http://www.google.com",
+        "action": action
+      }
+
+      $charge.myaccountapi().loadForm(data).success(function (response) {
+
+        debugger;
+        //Note : load card
+
+      }).error(function(data) {
+        notifications.toast("Error occured while changing plans", "error");
+      });
 
     }
 
@@ -1071,9 +1080,9 @@
 		});
 
 
-		$scope.addNewCard = function(){
-			$scope.newCardSelected = true;
-		}
+		//$scope.addNewCard = function(){
+		//	$scope.newCardSelected = true;
+		//}
 
 		$scope.removeCard = function (card) {
 			try{

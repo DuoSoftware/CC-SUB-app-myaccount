@@ -282,9 +282,9 @@
                                                 <div class="text-right" flex>{{currentPlanCode != 'free_trial' ? '$'+currentPlanAmount + additionalCharge : 'Free'}}</div>
                                             </div>
                                             <div layout="column" layout-align="center start" class="info-grid-row bordered mv-10">
-                                                <div class="iconed-label bordered" layout="row" layout-align="start center" style="width: 100%;">
+                                                <div class="iconed-label bordered" layout="row" layout-align="start center" ng-if="customerDetails.stripeCustId === null" style="width: 100%;">
                                                     <md-icon md-font-icon="icon-credit-card"></md-icon> <span flex>Cards</span>
-                                                    <md-button class="md-accent md-icon-button" stripe-payment="config" ng-click="addNewCard()" layout-align="center center"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add card</md-tooltip></md-button>
+                                                    <md-button class="md-accent md-icon-button" ng-click="addNewCard('insert')" layout-align="center center"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add card</md-tooltip></md-button>
                                                 </div>
                                                 <div layout="column" layout-align="center center" style="width: 100%;" class="mt-10">
                                                     <div flex layout="row" layout-align="center center" class="msg-empty-list m-0" ng-if="cardDetails.length == 0">
