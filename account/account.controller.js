@@ -156,6 +156,10 @@
       try{
 
         var domain = gst('currentDomain');
+		if(!domain)
+        {
+          domain = gst('domain');          
+        }
         $charge.tenantEngine().getSubscriptionIdByTenantName(domain).success(function (response) {
 
       if(response.status) {
