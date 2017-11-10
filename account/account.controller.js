@@ -314,30 +314,23 @@
 		$scope.loadCardDetails = function() {
 
 			try{
-				$http({
-					method: 'GET',
-					url: "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=getCardDetails",
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				}).then(function (response) {
 
-					if(!response.data.status){
-						return;
-					}
+        var profileId = $scope.customerDetails.profileId;
 
-					$scope.cardDetails = response.data.data;
+        $charge.myaccountapi().cardAPIgetCustomer(profileId).success(function (response) {
+          if(response.status) {
+            $scope.cardDetails = response.data.data;
 
+            for (var i = 0; i < $scope.cardDetails.length; i++) {
+              $scope.cardDetails[i].rowId = i;
+            }
 
-					for (var i = 0; i < $scope.cardDetails.length; i++) {
-						$scope.cardDetails[i].rowId = i;
-					}
+          }
 
-				}, function (response) {
-					// console.log(response);
-					$scope.cardDetails = null;
+        }).error(function(data) {
 
-				});
+          $scope.allPlans= null;
+        });
 
 			}catch(ex){
 
@@ -348,8 +341,6 @@
 			}
 
 		}
-
-		$scope.loadCardDetails();
 
 
 		$scope.allPlans= null;
@@ -439,6 +430,7 @@
 		}
 
 		$scope.initPlanSliderValue = null;
+    $scope.activeSubscription = null;
 		$scope.getActiveSubscriptionDetails = function () {
         try{
           $charge.myaccountapi().getActiveSubscription(vm.dummy.Data.email).success(function (response) {
@@ -446,6 +438,7 @@
             if(response.response === "succeeded") {
 
               if(response.data.result.length > 0) {
+                $scope.activeSubscription = response.data.result;
                 $scope.currentPlanCode = response.data.result["0"].code
                 selectPlan($scope.currentPlanCode);
                 $scope.currentPlanAmount = parseFloat(response.data.result["0"].amount);
@@ -681,90 +674,51 @@
         }
       }
 
-      if($scope.selectedPlan.code === 'free_trial')
-      {
-        var data = {
-          "email": vm.dummy.Data.email,
-          "planCode": $scope.tempSelectedPlan.code,
-          "note": "note",
-          "qty": 1,
-          "startDate": $filter('date')(new Date(),'yyyy-MM-dd'),
-          "addOns": addons,
-          "coupon": ""
-        }
-        $charge.myaccountapi().addSubscriptionlocal(data).success(function (response) {
-          $scope.isPlanSelected = false;
-          if(response.response != "failed") {
-
-            $scope.switchPlan($scope.tempSelectedPlan.code);
-            notifications.toast("Plan successfully changed", "success");
-
-
-            //$scope.tenantUser = [];
-            //$scope.getUserInfoByID();
-            //$scope.getActiveSubscriptionDetails();
-            $scope.currentPlanCode = $scope.tempSelectedPlan.code;
-            selectPlan($scope.currentPlanCode);
-
-          }else{
-
-            if(response.error.STATUS_INTERNAL_SERVER_ERROR) {
-
-              notifications.toast(response.error.STATUS_INTERNAL_SERVER_ERROR["0"], "error");
-
-              if (response.error.STATUS_INTERNAL_SERVER_ERROR["0"] === "No card data found for this account. Please register a card to proceed") {
-
-                  $scope.addNewCard("insert");
-
-              }
-
-            }else{
-              notifications.toast("Error occured while changing plans", "error");
-            }
-
-          }
-
-        }).error(function(data) {
-          $scope.isPlanSelected = false;
-          notifications.toast("Error occured while changing plans", "error");
-        });
-      }else{
-
-        var data = {
-          "email": vm.dummy.Data.email,
-          "newplanCode": $scope.tempSelectedPlan.code,
-          "oldplanCode": $scope.selectedPlan.code,
-          "qty": 1,
-          "note": "note",
-          "changeType": "immediate"
-        }
-
-        $charge.myaccountapi().changeSubscriptionlocal(data).success(function (response) {
-          $scope.isPlanSelected = false;
-          if(response.response === "succeeded") {
-
-            notifications.toast("Plan successfully changed", "success");
-            $scope.switchPlan($scope.tempSelectedPlan.code);
-
-
-            //$scope.tenantUser = [];
-            //$scope.getUserInfoByID();
-            //$scope.getActiveSubscriptionDetails();
-            $scope.currentPlanCode = $scope.tempSelectedPlan.code;
-            selectPlan($scope.currentPlanCode);
-
-          }else{
-            notifications.toast("Error occured while changing plans", "error");
-          }
-
-        }).error(function(data) {
-          $scope.isPlanSelected = false;
-          notifications.toast("Error occured while changing plans", "error");
-        });
-      }
+      $scope.changeSubscription($scope.tempSelectedPlan.code);
+      //}
 
     }
 
+  $scope.isChangeSubscriptionClicked = false;
+    $scope.changeSubscription = function(newPlan){
+
+      $scope.isChangeSubscriptionClicked = true;
+
+      var data = {
+        "email": vm.dummy.Data.email,
+        "newplanCode": newPlan,
+        "oldplanCode": $scope.selectedPlan.code,
+        "qty": 1,
+        "note": "note",
+        "changeType": "immediate"
+      }
+
+      $charge.myaccountapi().changeSubscriptionlocal(data).success(function (response) {
+        $scope.isPlanSelected = false;
+        if(response.response === "succeeded") {
+
+          notifications.toast("Plan successfully changed", "success");
+          $scope.switchPlan(newPlan);
+
+          $scope.isChangeSubscriptionClicked = false;
+          //$scope.tenantUser = [];
+          //$scope.getUserInfoByID();
+          //$scope.getActiveSubscriptionDetails();
+          $scope.currentPlanCode = newPlan;
+          selectPlan($scope.currentPlanCode);
+
+        }else{
+          notifications.toast("Error occured while changing plans", "error");
+          $scope.isChangeSubscriptionClicked = false;
+        }
+
+      }).error(function(data) {
+        $scope.isPlanSelected = false;
+        notifications.toast("Error occured while changing plans", "error");
+        $scope.isChangeSubscriptionClicked = false;
+      });
+
+    }
 
     $scope.addNewCard = function(action){
 
@@ -777,13 +731,34 @@
       $charge.myaccountapi().loadForm(data).success(function (response) {
 
         debugger;
-        //Note : load card
 
       }).error(function(data) {
         notifications.toast("Error occured while changing plans", "error");
       });
 
     }
+
+    //$scope.addMoreUsersDialog = function (ev) {
+    //  $mdDialog.show({
+    //    controller: 'AddUsersController as vm',
+    //    templateUrl: 'app/main/account/dialogs/addUsersDialog.html',
+    //    parent: angular.element(document.body),
+    //    targetEvent: ev,
+    //    clickOutsideToClose:false,
+    //    locals : {
+    //      numberOfUser : $scope.numberOfUsers,
+    //      userPrice:$scope.userPrice
+    //
+    //    }
+    //  })
+    //    .then(function(answer) {
+    //
+    //      $scope.addMoreUsers();
+    //      $scope.getTenantPaymentHistory();
+    //
+    //    }, function() {
+    //    });
+    //}
 
     $scope.switchPlan = function(plan){
 
@@ -801,6 +776,9 @@
       $charge.myaccountapi().getProfile(0,1,'asc','email',email).success(function (response) {
         if(response.status) {
           $scope.customerDetails = response.data['0'];
+
+          $scope.loadCardDetails();
+
         }
 
       }).error(function(data) {
@@ -847,55 +825,62 @@
 		$scope.showPaymentHistoryPane = false;
 		$scope.getTenantPaymentHistory = function() {
 
+      var email = $scope.customerDetails.email_addr;
+
 			try{
 				$scope.isTenantPaymentHistoryClicked = true;
-				$charge.paymentgateway().getAllPaymentByTenant(0, 100, 'cloudcharge').success(function (data) {
+				$charge.myaccountapi().getPaymentDetailsByEmail(email).success(function (data) {
 
-					$scope.paymentHistoryList = null;
-					$scope.groupedPaymentHistory = [];
-					$scope.paymentHistoryList = data;
+          $scope.paymentHistoryList = null;
+          $scope.groupedPaymentHistory = [];
+          $scope.paymentHistoryList = data.data.result;
 
-					for(i=0;i<$scope.paymentHistoryList.length;i++){
-						var date = new Date($scope.paymentHistoryList[i].receivedDate);
-						var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-						$scope.paymentHistoryList[i].receivedDate = new Date($scope.paymentHistoryList[i].receivedDate);
-						$scope.paymentHistoryList[i].lastDate = lastDay;
-						$scope.paymentHistoryList[i].infomation = JSON.parse($scope.paymentHistoryList[i].infomation)[0];
+          for (i = 0; i < $scope.paymentHistoryList.length; i++) {
+            var date = new Date($scope.paymentHistoryList[i].createdDate);
+            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+            $scope.paymentHistoryList[i].receivedDate = new Date($scope.paymentHistoryList[i].createdDate);
+            $scope.paymentHistoryList[i].lastDate = lastDay;
+            //$scope.paymentHistoryList[i].infomation = JSON.parse($scope.paymentHistoryList[i].infomation)[0];
+            $scope.paymentHistoryList[i].infomation = $scope.paymentHistoryList[i].note;
+            $scope.paymentHistoryList[i].currency = $scope.paymentHistoryList[i].currency;
 
-						// Kasun_Wijeratne_31_AUG_2017
-						$scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].currentPeriod.split('-')[0]+'-'+$scope.paymentHistoryList[i].currentPeriod.split('-')[1];
-						$scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].currentPeriod);
-						$scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].currentPeriodEnd);
-						// Kasun_Wijeratne_31_AUG_2017 - END
-					}
+            // Kasun_Wijeratne_31_AUG_2017
+            //$scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].currentPeriod.split('-')[0] + '-' + $scope.paymentHistoryList[i].currentPeriod.split('-')[1];
+            //$scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].currentPeriod);
+            //$scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].currentPeriodEnd);
+            $scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].createdDate + '-' + $scope.paymentHistoryList[i].lastDate;
+            $scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].createdDate);
+            $scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].lastDate);
+            // Kasun_Wijeratne_31_AUG_2017 - END
+          }
 
-					// Kasun_Wijeratne_31_AUG_2017
-					angular.forEach($scope.paymentHistoryList, function (history) {
-						var tempObj = {
-							id:history.periodForGroup,
-							month: new Date(history.periodForGroup+'-01'),
-							records:[],
-							total:0,
-							expanded:false
-						}
-						if($scope.groupedPaymentHistory.length == 0){
-							$scope.groupedPaymentHistory.push(tempObj);
-						}
-						angular.forEach($scope.groupedPaymentHistory, function (innerHistory) {
-							if(history.periodForGroup == innerHistory.id){
-								innerHistory.records.push(history);
-								innerHistory.total = innerHistory.total + history.amount;
-							}else{
-								tempObj.records.push(history);
-								$scope.groupedPaymentHistory.push(tempObj);
-							}
-						});
-					});
-					// Kasun_Wijeratne_31_AUG_2017 - END
+          // Kasun_Wijeratne_31_AUG_2017
+          //angular.forEach($scope.paymentHistoryList, function (history) {
+          //  var tempObj = {
+          //    id: history.periodForGroup,
+          //    month: new Date(history.periodForGroup + '-01'),
+          //    records: [],
+          //    total: 0,
+          //    expanded: false
+          //  }
+          //  if ($scope.groupedPaymentHistory.length == 0) {
+          //    $scope.groupedPaymentHistory.push(tempObj);
+          //  }
+          //  angular.forEach($scope.groupedPaymentHistory, function (innerHistory) {
+          //    if (history.periodForGroup == innerHistory.id) {
+          //      innerHistory.records.push(history);
+          //      innerHistory.total = innerHistory.total + history.amount;
+          //    } else {
+          //      tempObj.records.push(history);
+          //      $scope.groupedPaymentHistory.push(tempObj);
+          //    }
+          //  });
+          //});
+          // Kasun_Wijeratne_31_AUG_2017 - END
 
-					$scope.isTenantPaymentHistoryClicked = false;
-					$scope.showPaymentHistoryPane = true;
-					$scope.paymentHistory = true;
+          $scope.isTenantPaymentHistoryClicked = false;
+          $scope.showPaymentHistoryPane = true;
+          $scope.paymentHistory = true;
 
 
 				}).error(function (data) {
@@ -928,34 +913,36 @@
 
 			$mdDialog.show(confirm).then(function() {
 
-				try{
-					var disconnectData = {'action':'eod'};
-					$charge.paymentgateway().permanentDisconnect(disconnectData).success(function (data) {
+        $scope.changeSubscription('free_trial');
 
-						if(data.status)
-						{
-							$scope.isTempDeactive = false;
-							notifications.toast("Operation successful, your subscription period will be ending on "+ $scope.displayExpireDate, "success");
-
-						}else{
-
-							notifications.toast("Subscription disconnection not completed", "error");
-
-						}
-
-
-					}).error(function (response) {
-						// // console.log(response);
-
-						notifications.toast("Subscription disconnection not completed", "error");
-
-					})
-
-				}catch(ex){
-
-					ex.app = "myAccount";
-					logHelper.error(ex);
-				}
+				//try{
+				//	var disconnectData = {'action':'eod'};
+				//	$charge.paymentgateway().permanentDisconnect(disconnectData).success(function (data) {
+                //
+				//		if(data.status)
+				//		{
+				//			$scope.isTempDeactive = false;
+				//			notifications.toast("Operation successful, your subscription period will be ending on "+ $scope.displayExpireDate, "success");
+                //
+				//		}else{
+                //
+				//			notifications.toast("Subscription disconnection not completed", "error");
+                //
+				//		}
+                //
+                //
+				//	}).error(function (response) {
+				//		// // console.log(response);
+                //
+				//		notifications.toast("Subscription disconnection not completed", "error");
+                //
+				//	})
+                //
+				//}catch(ex){
+                //
+				//	ex.app = "myAccount";
+				//	logHelper.error(ex);
+				//}
 
 			}, function() {
 
@@ -1098,30 +1085,30 @@
 		//	$scope.newCardSelected = true;
 		//}
 
-		$scope.removeCard = function (card) {
-			try{
-				$http({
-					method : 'GET',
-					url : "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=removeCard&cardId="+card.id,
-					headers: {
-						'Content-Type': 'application/json'
-					}}).then(function(response) {
-
-					$scope.loadCardDetails();
-
-				}, function(response) {
-					// console.log('add card function returned an error '+response);
-				});
-
-			}catch(ex){
-
-				vm.editableMode = true;
-				notifications.toast("Error updating details ", "error");
-
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
-		};
+		//$scope.removeCard = function (card) {
+		//	try{
+		//		$http({
+		//			method : 'GET',
+		//			url : "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=removeCard&cardId="+card.id,
+		//			headers: {
+		//				'Content-Type': 'application/json'
+		//			}}).then(function(response) {
+        //
+		//			$scope.loadCardDetails();
+        //
+		//		}, function(response) {
+		//			// console.log('add card function returned an error '+response);
+		//		});
+        //
+		//	}catch(ex){
+        //
+		//		vm.editableMode = true;
+		//		notifications.toast("Error updating details ", "error");
+        //
+		//		ex.app = "myAccount";
+		//		logHelper.error(ex);
+		//	}
+		//};
 
 
 		$scope.calculatePlanCharges = function(selectedPlan){
@@ -1485,7 +1472,7 @@
 			$scope.remainingDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
 		});
 
-		$scope.changeSubscription = function(plan){
+		//$scope.changeSubscription = function(plan){
 			// for(i=0;i<plan.allSubscriptionPlans.length;i++) {
 			// 	if(plan.sliderValue <= plan.subscriptionMinAmount){
 			// 		plan.subscriptionRate = 0;
@@ -1499,8 +1486,8 @@
 			// 		plan.unitPrice = parseFloat(plan.allSubscriptionPlans[i].price);
 			// 	}
 			// }
-			$scope.accSubscriptionDetailsLoaded = true;
-		}
+			//$scope.accSubscriptionDetailsLoaded = true;
+		//}
 
 		$scope.setRating = function () {
 			// console.log(this);

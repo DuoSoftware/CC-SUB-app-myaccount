@@ -252,7 +252,7 @@
                                         </span>
                                         <span ng-if="currentPlanCode == 'free_trial'" class="fs-16 font-accent">Only 25 subscriptions</span>
                                         <div layout-align="end center" layout="row">
-                                            <md-button class="md-accent md-raised" ng-show="selectedPlan.planNo > 1 && isTempDeactive " ng-click="deactiveCurrentPlan()" flex>Deactivate</md-button>
+                                            <md-button class="md-accent md-raised" ng-show="selectedPlan.code != 'free_trial'" ng-disabled="isChangeSubscriptionClicked" ng-click="deactiveCurrentPlan()" flex>Deactivate</md-button>
                                             <!--<md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex>Upgrade</md-button>-->
                                         </div>
                                     </div>
@@ -287,40 +287,40 @@
                                                     <md-button class="md-accent md-icon-button"  ng-if="customerDetails.stripeCustId === null" ng-click="addNewCard('insert')" layout-align="center center"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add card</md-tooltip></md-button>
                                                     <md-button class="md-accent md-icon-button"  ng-if="customerDetails.stripeCustId != null" ng-click="addNewCard('update')" layout-align="center center"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Update card</md-tooltip></md-button>
                                                 </div>
-                                                <!--<div layout="column" layout-align="center center" style="width: 100%;" class="mt-10">-->
-                                                    <!--<div flex layout="row" layout-align="center center" class="msg-empty-list m-0" ng-if="cardDetails.length == 0">-->
-                                                        <!--<span><md-icon md-font-icon="icon-information-outline"></md-icon> No card has been added yet</span>-->
-                                                    <!--</div>-->
-                                                    <!-- -->
-                                                    <!--<div layout="row" fill-width class="list-item" ng-repeat="card in cardDetails" modal-animation-class="mt-20">-->
+                                                <div layout="column" layout-align="center center" style="width: 100%;" class="mt-10">
+                                                    <div flex layout="row" layout-align="center center" class="msg-empty-list m-0" ng-if="cardDetails.length == 0">
+                                                        <span><md-icon md-font-icon="icon-information-outline"></md-icon> No card has been added yet</span>
+                                                    </div>
 
-                                                        <!--<div class="prodCost" flex layout="row" layout-align="start center">-->
-                                                            <!--<span ng-class="card.brand"></span> <span class="text-truncate card-no">XXXX-XXXX-XXXX-{{card.last4}}</span>-->
-                                                            <!--<md-tooltip>XXXX-XXXX-XXXX-{{card.last4}}</md-tooltip>-->
-                                                        <!--</div>-->
-                                                        <!--<div class="prodCost fs-12 fw-400" flex="30" layout="row" layout-align="start center">-->
-                                                            <!--&lt;!&ndash; <span> {{card.exp_month | parseDate | date: 'MMMM' | limitTo:3}} {{card.exp_year | parseDate | date: 'yyyy'}}</span> &ndash;&gt;-->
-                                                            <!--<span ng-if="card.exp_month==1">Jan</span>-->
-                                                            <!--<span ng-if="card.exp_month==2">Feb</span>-->
-                                                            <!--<span ng-if="card.exp_month==3">Mar</span>-->
-                                                            <!--<span ng-if="card.exp_month==4">Apr</span>-->
-                                                            <!--<span ng-if="card.exp_month==5">May</span>-->
-                                                            <!--<span ng-if="card.exp_month==6">Jun</span>-->
-                                                            <!--<span ng-if="card.exp_month==7">Jul</span>-->
-                                                            <!--<span ng-if="card.exp_month==8">Aug</span>-->
-                                                            <!--<span ng-if="card.exp_month==9">Sep</span>-->
-                                                            <!--<span ng-if="card.exp_month==10">Oct</span>-->
-                                                            <!--<span ng-if="card.exp_month==11">Nov</span>-->
-                                                            <!--<span ng-if="card.exp_month==12">Dec</span>-->
-                                                            <!--<span>&nbsp;{{card.exp_year}}</span>-->
-                                                        <!--</div>-->
-                                                        <!--<div class="prodCost" layout="column" layout-align="center end" flex="15">-->
-                                                            <!--<span class="default" ng-if="card.rowId===0">Default</span>-->
-                                                            <!--<md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>-->
-                                                        <!--</div>-->
+                                                    <div layout="row" fill-width class="list-item" ng-repeat="card in cardDetails" modal-animation-class="mt-20">
+
+                                                        <div class="prodCost" flex layout="row" layout-align="start center">
+                                                            <span ng-class="card.brand"></span> <span class="text-truncate card-no">XXXX-XXXX-XXXX-{{card.last4}}</span>
+                                                            <md-tooltip>XXXX-XXXX-XXXX-{{card.last4}}</md-tooltip>
+                                                        </div>
+                                                        <div class="prodCost fs-12 fw-400" flex="30" layout="row" layout-align="start center">
+                                                            <!-- <span> {{card.exp_month | parseDate | date: 'MMMM' | limitTo:3}} {{card.exp_year | parseDate | date: 'yyyy'}}</span> -->
+                                                            <span ng-if="card.exp_month==1">Jan</span>
+                                                            <span ng-if="card.exp_month==2">Feb</span>
+                                                            <span ng-if="card.exp_month==3">Mar</span>
+                                                            <span ng-if="card.exp_month==4">Apr</span>
+                                                            <span ng-if="card.exp_month==5">May</span>
+                                                            <span ng-if="card.exp_month==6">Jun</span>
+                                                            <span ng-if="card.exp_month==7">Jul</span>
+                                                            <span ng-if="card.exp_month==8">Aug</span>
+                                                            <span ng-if="card.exp_month==9">Sep</span>
+                                                            <span ng-if="card.exp_month==10">Oct</span>
+                                                            <span ng-if="card.exp_month==11">Nov</span>
+                                                            <span ng-if="card.exp_month==12">Dec</span>
+                                                            <span>&nbsp;{{card.exp_year}}</span>
+                                                        </div>
+                                                        <div class="prodCost" layout="column" layout-align="center end" flex="15">
+                                                            <span class="default" ng-if="card.rowId===0">Default</span>
+                                                            <md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>
+                                                        </div>
                                                         <!--<md-button class="md-warn md-icon-button" ng-click="removeCard(card)" layout-align="center center" style="margin-right: -10px"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove card</md-tooltip></md-button>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
+                                                    </div>
+                                                </div>
                                             </div>
 
                                         </div>
@@ -343,75 +343,141 @@
                                     </div>
                                     <div layout="row" layout-align="end center">
                                         <md-button class="m-0 fs-12 md-accent" layout="row" ng-click="getTenantPaymentHistory()">
+                                        <!--<md-button class="m-0 fs-12 md-accent" layout="row" >-->
                                             <md-progress-circular ng-show="isTenantPaymentHistoryClicked" class="inbtn-loader md-accent"></md-progress-circular>
-                                            Show payment history <md-icon md-font-icon="icon-chevron-down"></md-icon>
+                                            Show subscription history <md-icon md-font-icon="icon-chevron-down"></md-icon>
                                         </md-button>
                                     </div>
-                                    <div layout="row" layout-align="center center" flex class="mt-10 animate-fade-in-out" ng-if="paymentHistory">
-                                        <div flex class="list-offset">
-                                            <div class="list-header p-0" layout="row" flex style="background: #f5f5f5;">
-                                                <div class="w-100 ph-16 pv-10">Month</div>
-                                                <div layout="row" class="ph-16 pv-10" flex>
-                                                    <div flex="30">Plan</div>
-                                                    <div flex>Period</div>
-                                                    <div class="w-165 text-right"><span>Amount</span></div>
-                                                    <div flex="5"></div>
-                                                    <div flex="10">Status</div>
+                                  <div layout="row" layout-align="center center" flex class="mt-10 animate-fade-in-out" ng-if="paymentHistory">
+                                    <div flex class="list-offset">
+                                      <div class="list-header p-0" layout="row" flex style="background: #f5f5f5;">
+                                        <!--<div class="w-100 ph-16 pv-10">Month</div>-->
+                                        <!--<div layout="row" class="ph-16 pv-10" flex>-->
+                                          <!--<div flex="30">Plan</div>-->
+                                          <div flex>Paid Date</div>
+                                          <div class="w-165 text-right"><span>Amount</span></div>
+                                          <div flex="5"></div>
+                                          <div flex="10">Status</div>
+                                        <!--</div>-->
+                                        <div flex="10" class="text-right"></div>
+                                      </div>
+                                      <md-card-content class="p-0" flex>
+                                        <md-content class="sub-list list-content" ms-scroll>
+                                          <div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 || paymentHistoryList == null">
+                                            <span><md-icon md-font-icon="icon-information-outline"></md-icon> No record has been created yet</span>
+                                          </div>
+
+                                          <div layout="row" layout-align="start start" ng-repeat="history in paymentHistoryList track by $index" ng-hide="isTenantPaymentHistoryClicked" class="bb b-gray hover-g-light" ng-click="expandPaymentRecord(history)">
+                                            <!--<div class="w-100 ph-16 pv-10">{{history.month | date:'yyyy MMM'}}</div>-->
+                                            <!--<div layout="column" layout-align="start center" class="bl br b-light" flex ng-init="value.total = 0">-->
+                                              <!--<div layout="row" flex class="list-item bn" ng-repeat="record in history.records track by $index" fill-width ng-hide="record.infomation.tag.toLowerCase() == 'revenue' && !history.expanded">-->
+                                                <!--<div flex="30" layout="row" layout-align="start center">-->
+                                                  <!--&lt;!&ndash;<span ng-if="record.infomation.tag.toLowerCase() == 'revenue' && history.expanded">{{record.infomation.feature}}</span>&ndash;&gt;-->
+                                                  <!--&lt;!&ndash;<span ng-if="record.infomation.tag.toLowerCase() != 'revenue'">{{record.infomation.tag}} <i class="op-5">({{record.infomation.feature}})</i></span>&ndash;&gt;-->
+                                                 <!-- -->
+                                                <!--</div>-->
+                                                <div layout="row" layout-align="start center" class="w-165">
+                                                  <span> {{history.paymentDate | date:'yyyy.MM.dd'}}</span>
                                                 </div>
-                                                <div flex="10" class="text-right"></div>
+                                            <div class="w-165 text-right"><span>${{history.amount}}</span></div>
+                                                <div flex="5"></div>
+                                                <div flex="10" layout="row" layout-align="start center">
+                                                  <span flex>{{history.status }}</span>
+                                                </div>
+                                              <!--</div>-->
+                                              <!--<div flex ng-if="!history.expanded"></div>-->
+                                              <!--<div layout="row" fill-width ng-if="history.expanded">-->
+                                                <!--<div flex="30"></div>-->
+                                                <!--<div class="w-165 pv-10 ph-8 fw-500 b-light" ng-class="{'bt':history.expanded}"><span ng-if="history.expanded">Total</span></div>-->
+                                                <!--<div flex class="p-10 text-right fw-500 b-light" ng-class="{'bt':history.expanded}">-->
+                                                  <!--${{history.total}}-->
+                                                <!--</div>-->
+                                                <!--<div flex="15"></div>-->
+                                              <!--</div>-->
+                                            <!--</div>-->
+                                            <div flex="10" layout="row" layout-align="end center" class="pv-10 pos-rel">
+                                              <md-button ng-disabled="history.downloading" md-no-ink class="md-icon-button p-0 h-25" ng-click="downloadSubscriptionPDF(history)"><md-icon md-font-icon="icon-file-pdf w-25 h-25 fs-20 md-accent"></md-icon><md-tooltip>Download PDF</md-tooltip> </md-button>
+                                              <md-progress-circular class="list-action-preloader" ng-if="history.downloading"></md-progress-circular>
+                                              <!--<md-button md-no-ink class="md-icon-button p-0 h-25"><md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-20"></md-icon><md-tooltip>Expand</md-tooltip> </md-button>-->
+                                              <!--<div layout="row" layout-align="start center" class="fs-12 op-5">More <md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-18"></md-icon></div>-->
                                             </div>
-                                            <md-card-content class="p-0" flex>
-                                                <md-content class="sub-list list-content" ms-scroll>
-                                                    <div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 || paymentHistoryList == null">
-                                                        <span><md-icon md-font-icon="icon-information-outline"></md-icon> No record has been created yet</span>
-                                                    </div>
+                                          </div>
 
-                                                    <div layout="row" layout-align="start start" ng-repeat="history in groupedPaymentHistory" ng-hide="isTenantPaymentHistoryClicked" class="bb b-gray hover-g-light" ng-click="expandPaymentRecord(history)">
-                                                        <div class="w-100 ph-16 pv-10">{{history.month | date:'yyyy MMM'}}</div>
-                                                        <div layout="column" layout-align="start center" class="bl br b-light" flex ng-init="value.total = 0">
-                                                            <div layout="row" flex class="list-item bn" ng-repeat="record in history.records" fill-width ng-hide="record.infomation.tag.toLowerCase() == 'revenue' && !history.expanded">
-                                                                <div flex="30" layout="row" layout-align="start center">
-                                                                    <span ng-if="record.infomation.tag.toLowerCase() == 'revenue' && history.expanded">{{record.infomation.feature}}</span>
-                                                                    <span ng-if="record.infomation.tag.toLowerCase() != 'revenue'">{{record.infomation.tag}} <i class="op-5">({{record.infomation.feature}})</i></span>
-                                                                </div>
-                                                                <div layout="row" layout-align="start center" class="w-165">
-                                                                    <span> {{record.currentPeriod | date:'yyyy.MM.dd'}}</span><span class="mh-5"> - </span><span> {{record.currentPeriodEnd | date:'yyyy.MM.dd'}}</span>
-                                                                </div>
-                                                                <div layout="row" layout-align="end center" flex>
-                                                                    <span ng-if="history.expanded">${{record.amount}}</span>
-                                                                    <span ng-if="!history.expanded">${{history.total}}</span>
-                                                                </div>
-                                                                <div flex="5"></div>
-                                                                <div flex="10" layout="row" layout-align="start center">
-                                                                    <span flex>{{record.status }}</span>
-                                                                </div>
-                                                            </div>
-                                                            <div flex ng-if="!history.expanded"></div>
-                                                            <div layout="row" fill-width ng-if="history.expanded">
-                                                                <div flex="30"></div>
-                                                                <div class="w-165 pv-10 ph-8 fw-500 b-light" ng-class="{'bt':history.expanded}"><span ng-if="history.expanded">Total</span></div>
-                                                                <div flex class="p-10 text-right fw-500 b-light" ng-class="{'bt':history.expanded}">
-                                                                    ${{history.total}}
-                                                                </div>
-                                                                <div flex="15"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div flex="10" layout="row" layout-align="end center" class="pv-10 pos-rel">
-                                                            <md-button ng-disabled="history.downloading" md-no-ink class="md-icon-button p-0 h-25" ng-click="downloadSubscriptionPDF(history)"><md-icon md-font-icon="icon-file-pdf w-25 h-25 fs-20 md-accent"></md-icon><md-tooltip>Download PDF</md-tooltip> </md-button>
-                                                            <md-progress-circular class="list-action-preloader" ng-if="history.downloading"></md-progress-circular>
-                                                            <!--<md-button md-no-ink class="md-icon-button p-0 h-25"><md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-20"></md-icon><md-tooltip>Expand</md-tooltip> </md-button>-->
-                                                            <div layout="row" layout-align="start center" class="fs-12 op-5">More <md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-18"></md-icon></div>
-                                                        </div>
-                                                    </div>
+                                          <!--Hidden download link-->
+                                          <a id='hidden-donwload-anchor' download='CloudCharge_subscription_{{subscriptionDateForPDF | date:"yyyy.MM.dd"}}.pdf' ng-hide="true" />
+                                          <!--Hidden download link-->
 
-                                                    <!--Hidden download link-->
-                                                    <a id='hidden-donwload-anchor' download='CloudCharge_subscription_{{subscriptionDateForPDF | date:"yyyy.MM.dd"}}.pdf' ng-hide="true" />
-                                                    <!--Hidden download link-->
-
-                                                </md-content>
-                                            </md-card-content>
-                                        </div>
+                                        </md-content>
+                                      </md-card-content>
                                     </div>
+                                  </div>
+
+                                    <!--<div layout="row" layout-align="center center" flex class="mt-10 animate-fade-in-out" ng-if="paymentHistory">-->
+                                        <!--<div flex class="list-offset">-->
+                                            <!--<div class="list-header p-0" layout="row" flex style="background: #f5f5f5;">-->
+                                                <!--<div class="w-100 ph-16 pv-10">Month</div>-->
+                                                <!--<div layout="row" class="ph-16 pv-10" flex>-->
+                                                    <!--<div flex="30">Plan</div>-->
+                                                    <!--<div flex>Period</div>-->
+                                                    <!--<div class="w-165 text-right"><span>Amount</span></div>-->
+                                                    <!--<div flex="5"></div>-->
+                                                    <!--<div flex="10">Status</div>-->
+                                                <!--</div>-->
+                                                <!--<div flex="10" class="text-right"></div>-->
+                                            <!--</div>-->
+                                            <!--<md-card-content class="p-0" flex>-->
+                                                <!--<md-content class="sub-list list-content" ms-scroll>-->
+                                                    <!--<div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 || paymentHistoryList == null">-->
+                                                        <!--<span><md-icon md-font-icon="icon-information-outline"></md-icon> No record has been created yet</span>-->
+                                                    <!--</div>-->
+
+                                                    <!--<div layout="row" layout-align="start start" ng-repeat="history in groupedPaymentHistory track by $index" ng-hide="isTenantPaymentHistoryClicked" class="bb b-gray hover-g-light" ng-click="expandPaymentRecord(history)">-->
+                                                        <!--<div class="w-100 ph-16 pv-10">{{history.month | date:'yyyy MMM'}}</div>-->
+                                                        <!--<div layout="column" layout-align="start center" class="bl br b-light" flex ng-init="value.total = 0">-->
+                                                            <!--<div layout="row" flex class="list-item bn" ng-repeat="record in history.records track by $index" fill-width ng-hide="record.infomation.tag.toLowerCase() == 'revenue' && !history.expanded">-->
+                                                                <!--<div flex="30" layout="row" layout-align="start center">-->
+                                                                    <!--&lt;!&ndash;<span ng-if="record.infomation.tag.toLowerCase() == 'revenue' && history.expanded">{{record.infomation.feature}}</span>&ndash;&gt;-->
+                                                                    <!--&lt;!&ndash;<span ng-if="record.infomation.tag.toLowerCase() != 'revenue'">{{record.infomation.tag}} <i class="op-5">({{record.infomation.feature}})</i></span>&ndash;&gt;-->
+                                                                    <!--<span >{{record.infomation}}</span>-->
+                                                                <!--</div>-->
+                                                                <!--<div layout="row" layout-align="start center" class="w-165">-->
+                                                                    <!--<span> {{record.currentPeriod | date:'yyyy.MM.dd'}}</span><span class="mh-5"> - </span><span> {{record.currentPeriodEnd | date:'yyyy.MM.dd'}}</span>-->
+                                                                <!--</div>-->
+                                                                <!--<div layout="row" layout-align="end center" flex>-->
+                                                                    <!--<span ng-if="history.expanded">${{record.amount}}</span>-->
+                                                                    <!--<span ng-if="!history.expanded">${{history.total}}</span>-->
+                                                                <!--</div>-->
+                                                                <!--<div flex="5"></div>-->
+                                                                <!--<div flex="10" layout="row" layout-align="start center">-->
+                                                                    <!--<span flex>{{record.status }}</span>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
+                                                            <!--<div flex ng-if="!history.expanded"></div>-->
+                                                            <!--<div layout="row" fill-width ng-if="history.expanded">-->
+                                                                <!--<div flex="30"></div>-->
+                                                                <!--<div class="w-165 pv-10 ph-8 fw-500 b-light" ng-class="{'bt':history.expanded}"><span ng-if="history.expanded">Total</span></div>-->
+                                                                <!--<div flex class="p-10 text-right fw-500 b-light" ng-class="{'bt':history.expanded}">-->
+                                                                    <!--${{history.total}}-->
+                                                                <!--</div>-->
+                                                                <!--<div flex="15"></div>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
+                                                        <!--<div flex="10" layout="row" layout-align="end center" class="pv-10 pos-rel">-->
+                                                            <!--<md-button ng-disabled="history.downloading" md-no-ink class="md-icon-button p-0 h-25" ng-click="downloadSubscriptionPDF(history)"><md-icon md-font-icon="icon-file-pdf w-25 h-25 fs-20 md-accent"></md-icon><md-tooltip>Download PDF</md-tooltip> </md-button>-->
+                                                            <!--<md-progress-circular class="list-action-preloader" ng-if="history.downloading"></md-progress-circular>-->
+                                                            <!--&lt;!&ndash;<md-button md-no-ink class="md-icon-button p-0 h-25"><md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-20"></md-icon><md-tooltip>Expand</md-tooltip> </md-button>&ndash;&gt;-->
+                                                            <!--<div layout="row" layout-align="start center" class="fs-12 op-5">More <md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-18"></md-icon></div>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+
+                                                    <!--&lt;!&ndash;Hidden download link&ndash;&gt;-->
+                                                    <!--<a id='hidden-donwload-anchor' download='CloudCharge_subscription_{{subscriptionDateForPDF | date:"yyyy.MM.dd"}}.pdf' ng-hide="true" />-->
+                                                    <!--&lt;!&ndash;Hidden download link&ndash;&gt;-->
+
+                                                <!--</md-content>-->
+                                            <!--</md-card-content>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
                                     <div layout="row" flex class="mt-20">
                                         <div class="commonContentShell solid-highlight-gray p-10" flex>
 
