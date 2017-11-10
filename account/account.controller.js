@@ -641,6 +641,7 @@
 
       if(!$scope.customerDetails.stripeCustId){
         notifications.toast("Please add card details first to proceed", "error");
+        $scope.addNewCard('insert');
         return;
       }
 
