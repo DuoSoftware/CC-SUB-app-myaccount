@@ -641,7 +641,7 @@
 
       if(!$scope.customerDetails.stripeCustId){
         notifications.toast("Please add card details first to proceed", "error");
-        $scope.addNewCard('insert');
+        //$scope.addNewCard('insert');
         return;
       }
 
@@ -725,13 +725,17 @@
 
       var data = {
         "profileId": $scope.customerDetails.profileId,
-        "redirectUrl": "http://www.google.com",
+        "redirectUrl": window.location.href,
         "action": action
       }
 
+      $scope.cardBody = null;
       $charge.myaccountapi().loadForm(data).success(function (response) {
+        $scope.cardBody = response;
 
-        debugger;
+        $("#cardBody").append($scope.cardBody);
+        $("#cardBody_").append($scope.cardBody);
+       // $scope.addCardDialog(this,response);
 
       }).error(function(data) {
         notifications.toast("Error occured while changing plans", "error");
@@ -739,27 +743,24 @@
 
     }
 
-    //$scope.addMoreUsersDialog = function (ev) {
-    //  $mdDialog.show({
-    //    controller: 'AddUsersController as vm',
-    //    templateUrl: 'app/main/account/dialogs/addUsersDialog.html',
-    //    parent: angular.element(document.body),
-    //    targetEvent: ev,
-    //    clickOutsideToClose:false,
-    //    locals : {
-    //      numberOfUser : $scope.numberOfUsers,
-    //      userPrice:$scope.userPrice
-    //
-    //    }
-    //  })
-    //    .then(function(answer) {
-    //
-    //      $scope.addMoreUsers();
-    //      $scope.getTenantPaymentHistory();
-    //
-    //    }, function() {
-    //    });
-    //}
+    $scope.addCardDialog = function (ev,formBody) {
+      $mdDialog.show({
+        controller: 'AddCardController as vm',
+        templateUrl: 'app/main/account/dialogs/addCardDialog.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        locals : {
+          body : formBody
+
+        }
+      })
+        .then(function(answer) {
+
+        }, function() {
+
+        });
+    }
 
     $scope.switchPlan = function(plan){
 
@@ -776,9 +777,16 @@
 
       $charge.myaccountapi().getProfile(0,1,'asc','email',email).success(function (response) {
         if(response.status) {
+
           $scope.customerDetails = response.data['0'];
 
           $scope.loadCardDetails();
+
+          if($scope.customerDetails.stripeCustId === null){
+            $scope.addNewCard('insert');
+          }else{
+            $scope.addNewCard('update');
+          }
 
         }
 
@@ -1289,25 +1297,25 @@
 		$scope.userPrice = 2;
 
 		$scope.addMoreUsersDialog = function (ev) {
-			$mdDialog.show({
-				controller: 'AddUsersController as vm',
-				templateUrl: 'app/main/account/dialogs/addUsersDialog.html',
-				parent: angular.element(document.body),
-				targetEvent: ev,
-				clickOutsideToClose:false,
-				locals : {
-					numberOfUser : $scope.numberOfUsers,
-					userPrice:$scope.userPrice
-
-				}
-			})
-				.then(function(answer) {
-
-					$scope.addMoreUsers();
-					$scope.getTenantPaymentHistory();
-
-				}, function() {
-				});
+			//$mdDialog.show({
+			//	controller: 'AddUsersController as vm',
+			//	templateUrl: 'app/main/account/dialogs/addCardDialog.html',
+			//	parent: angular.element(document.body),
+			//	targetEvent: ev,
+			//	clickOutsideToClose:false,
+			//	locals : {
+			//		numberOfUser : $scope.numberOfUsers,
+			//		userPrice:$scope.userPrice
+            //
+			//	}
+			//})
+			//	.then(function(answer) {
+            //
+			//		$scope.addMoreUsers();
+			//		$scope.getTenantPaymentHistory();
+            //
+			//	}, function() {
+			//	});
 		}
 
 
