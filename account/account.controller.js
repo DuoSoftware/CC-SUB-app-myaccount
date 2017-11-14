@@ -356,7 +356,6 @@
 					if(response.status) {
 						$scope.allPlans = response.data;
 						$scope.getActiveSubscriptionDetails();
-
 					}
 
 				}).error(function(data) {
@@ -376,28 +375,40 @@
 		$scope.getAllPlans();
 
 
+		$scope.addonsLoaded = true;
 		$scope.radioButtonSelectedPlan = function(radioButtonPlan){
+			$scope.addonsLoaded = false;
 			$scope.tempSelectedPlan = radioButtonPlan;
 			$scope.planAddons = null;
 			$scope.updatePackgeFeatures(radioButtonPlan);
-			$scope.calculateCost(radioButtonPlan);
+			$scope.calculateCost(radioButtonPlan.unitPrice);
 			$charge.myaccountapi().getAddonsForBasePlan(radioButtonPlan.code).success(function (response) {
 
 				if(response.status) {
-					$scope.planAddons=response.data;
+					if(response.data.length > 0){
+						$scope.planAddons=response.data;
+						angular.forEach($scope.planAddons, function (addon) {
+							addon.isChecked = false;
+						});
+						$scope.addonsLoaded = true;
+					}
 
 					if(response.data.Authenticated != undefined)
 					{
 						$scope.planAddons=null;
+						$scope.addonsLoaded = true;
 					}
-
+					$scope.addonsLoaded = true;
+				}else{
+					$scope.addonsLoaded = true;
 				}
 
 			}).error(function(data) {
 				$scope.planAddons= null;
+				$scope.addonsLoaded = true;
 			});
 
-		}
+		};
 
 
 		//Make Default
@@ -1765,9 +1776,15 @@
 			});
 		}
 
-		$scope.calculateCost = function (plan) {
-			$scope.packageCost = plan.unitPrice;
-		}
+		$scope.calculateCost = function (amount, status) {
+			if(status){
+				$scope.packageCost += parseInt(amount);
+			}else if(status == false){
+				$scope.packageCost -= parseInt(amount);
+			}else{
+				$scope.packageCost = parseInt(amount);
+			}
+		};
 
 		$scope.showAddons = false;
 		$scope.showAddonsContainer = function () {
