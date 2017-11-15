@@ -489,18 +489,21 @@
 
                         </md-card>
 
-                        <md-card class="input-block-gen" style="overflow: visible">
+                        <md-card class="input-block-gen mt-0" style="overflow: visible">
                             <md-card-content class="p-0">
                                 <div class="preloader animate-fade-in-out" ng-if="!accSubscriptionDetailsLoaded">
                                     <md-progress-circular></md-progress-circular>
                                 </div>
                                 <div class="commonContentShell solid-highlight-gray p-15" flex>
+                                    <h4 class="fw-500 mt-0">Primary packages</h4>
                                     <div layout="row" class="vertical-plans-view">
-                                        <div class="packages" layout="column" layout-align="start center">
+                                        <div class="packages" layout="column" layout-align="start center" style="z-index: 10">
                                             <md-card ng-repeat="plan in allPlans | filter : {type: 'Base-Plan'}" class="package" layout="row" layout-align="space-between center" ng-class="{'active-package':plan.code == selectedPlan.code, 'md-whiteframe-3dp':tempSelectedPlan.code == plan.code}" ng-style="tempSelectedPlan.code == plan.code ? {'z-index':'1'} : null">
 
                                                 <!--Promotion-->
-                                                <!--<div class="promotion-flag"><i class="material-icons">stars</i> Promotion</div>-->
+                                                <div class="promotion-flag" ng-if="tempSelectedPlan.hasPromotion"><i class="material-icons">stars</i>
+                                                    <span class="msg">10% DISCOUNT!</span> <span class="code">Code: <span>1212</span></span>
+                                                </div>
                                                 <!--Promotion-->
                                                 <input id="{{plan.code}}" type="radio" name="planRadioButton[]" value="" ng-click="radioButtonSelectedPlan(plan)" ng-checked="plan.code === selectedPlan.code">
                                                 <label for="{{plan.code}}" class="package-name" flex> {{ plan.name}} </label>
@@ -516,74 +519,82 @@
                                                 </div>
                                             </md-card>
                                         </div>
-                                        <div flex="5"></div>
+                                        <div class="w-60"></div>
                                         <div class="features" layout="column" flex>
                                             <div class="feature-row">
-                                                <h3 class="mt-0 mb-20">Package features</h3>
+                                                <div class="mt-0 mb-20">Package features</div>
                                                 <div ng-repeat="feature in packageFeatures" class="feature">
                                                     <input type="checkbox" class="styled-checkbox" id="{{feature.text}}" ng-model="feature.isActive" disabled><label for="{{feature.text}}">{{feature.text}}</label>
                                                 </div>
                                             </div>
                                             <div class="mt-20">
-                                                <div class="feature-row">
-                                                    <div layout="row" layout-align="space-between center"><h3 class="mt-0 mb-20">Add-ons</h3>
-                                                        <!--<md-button class="md-icon-button md-accent" style="margin-right: 0;margin-top: -20px" ng-click="showAddonsContainer()"><md-icon md-font-icon="icon-plus-circle"></md-icon> </md-button>-->
-                                                    </div>
-                                                    <!--<div style="overflow: auto">-->
-                                                    <!--<div ng-repeat="ad in ['addon one', 'addon two', 'addon three']" flex class="control-pill">-->
-                                                    <!--<span>{{ad}}</span> <md-icon md-font-icon="icon-close"></md-icon>-->
+                                                <!--<div class="feature-row">-->
+                                                    <!--<div layout="row" layout-align="space-between center"><h3 class="mt-0 mb-20">Add-ons</h3>-->
+                                                        <!--&lt;!&ndash;<md-button class="md-icon-button md-accent" style="margin-right: 0;margin-top: -20px" ng-click="showAddonsContainer()"><md-icon md-font-icon="icon-plus-circle"></md-icon> </md-button>&ndash;&gt;-->
                                                     <!--</div>-->
+                                                    <!--&lt;!&ndash;<div style="overflow: auto">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<div ng-repeat="ad in ['addon one', 'addon two', 'addon three']" flex class="control-pill">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<span>{{ad}}</span> <md-icon md-font-icon="icon-close"></md-icon>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--<div ms-scroll class="addons-container">-->
+                                                        <!--<div ng-if="!addonsLoaded" layout="row" layout-align="center center" style="overflow: hidden">-->
+                                                            <!--<md-progress-circular></md-progress-circular>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="text-center" ng-if="addonsLoaded && planAddons.length == 0 || addonsLoaded && planAddons == null">-->
+                                                            <!--<p class="op-5">No add-on is available for this plan</p>-->
+                                                        <!--</div>-->
+                                                        <!--<div ng-repeat="ads in planAddons" class="check-cube" ng-class="{'active-cube':ads.isChecked}">-->
+                                                            <!--<div class="text-center">-->
+                                                                <!--<span>{{ads.name}}</span>-->
+                                                            <!--</div>-->
+                                                            <!--<div layout="row" layout-align="center center">-->
+                                                                <!--<div class="ph-20 pv-10">-->
+                                                                    <!--<input class="styled-checkbox" type="checkbox" id="{{ads}}"  ng-checked="ads.isChecked" ng-change="calculateCost(ads.isChecked);updateSelectedAddons(ads)" ng-model="ads.isChecked">-->
+                                                                    <!--<label for="{{ads}}"></label>-->
+                                                                    <!--<span>${{ads.unitPrice}}</span><span>/{{ads.billEvery}}</span>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="qty ph-20 pv-10" ng-style="ads.isChecked ? {'z-index':'10'} : {'z-index':'0','opacity':'0.4'}">-->
+                                                                    <!--<div>Qty.</div>-->
+                                                                    <!--<div>-->
+                                                                        <!--<input type="number" ng-model="ads.qty" ng-init="ads.qty = 1" min="1" ng-change="calculateCost(ads.isChecked)">-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                     <!--</div>-->
-                                                    <div ms-scroll class="addons-container">
-                                                        <div ng-if="!addonsLoaded" layout="row" layout-align="center center" style="overflow: hidden">
-                                                            <md-progress-circular></md-progress-circular>
-                                                        </div>
-                                                        <div class="text-center" ng-if="addonsLoaded && planAddons.length == 0 || addonsLoaded && planAddons == null">
-                                                            <p class="op-5">No add-on is available for this plan</p>
-                                                        </div>
-                                                        <div ng-repeat="ads in planAddons" class="check-cube" ng-class="{'active-cube':ads.isChecked}">
-                                                            <div class="text-center">
-                                                                <span>{{ads.name}}</span>
-                                                            </div>
-                                                            <div layout="row" layout-align="center center">
-                                                                <div class="ph-20 pv-10">
-                                                                    <input class="styled-checkbox" type="checkbox" id="{{ads}}"  ng-checked="ads.isChecked" ng-change="calculateCost(ads.isChecked);updateSelectedAddons(ads)" ng-model="ads.isChecked">
-                                                                    <label for="{{ads}}"></label>
-                                                                    <span>${{ads.unitPrice}}</span><span>/{{ads.billEvery}}</span>
-                                                                </div>
-                                                                <div class="qty ph-20 pv-10" ng-style="ads.isChecked ? {'z-index':'10'} : {'z-index':'0','opacity':'0.4'}">
-                                                                    <div>Qty.</div>
-                                                                    <div>
-                                                                        <input type="number" ng-disabled="!ads.isChecked" ng-model="ads.qty" ng-init="ads.qty = 1" min="1" ng-change="calculateCost(ads.isChecked)">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--<div class="addons-container animate-slide-down" md-whiteframe="1dp" layout="column" layout-align="center start" ng-if="showAddons">-->
-                                                    <!--<md-content ms-scroll class="of-a" flex fill-width>-->
-                                                    <!--<div class="preloader" ng-if="!addonsLoaded">-->
-                                                    <!--<md-progress-circular></md-progress-circular>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="text-center" ng-if="addonsLoaded && planAddons.length == 0 || planAddons == null">-->
-                                                    <!--<p>No add-on is available for this plan</p>-->
-                                                    <!--</div>-->
-                                                    <!--<div ng-repeat="ads in planAddons" class="check-cube">-->
-                                                    <!--<div class="text-center">-->
-                                                    <!--<span>{{ads.name}}</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div>-->
-                                                    <!--<input class="styled-checkbox" type="checkbox" id="{{ads}}"><label for="{{ads}}"></label>-->
-                                                    <!--<span>${{ads.unitPrice}}</span><span>/{{ads.billEvery}}</span>-->
-                                                    <!--</div>-->
-                                                    <!--</div>-->
-                                                    <!--</md-content>-->
-                                                    <!--<div class="text-right" fill-width>-->
-                                                    <!--<md-button class="md-accent md-accent" ng-click="showAddonsContainer()">OK</md-button>-->
-                                                    <!--</div>-->
-                                                    <!--</div>-->
-                                                </div>
+                                                    <!--&lt;!&ndash;<div class="addons-container animate-slide-down" md-whiteframe="1dp" layout="column" layout-align="center start" ng-if="showAddons">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<md-content ms-scroll class="of-a" flex fill-width>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<div class="preloader" ng-if="!addonsLoaded">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<md-progress-circular></md-progress-circular>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<div class="text-center" ng-if="addonsLoaded && planAddons.length == 0 || planAddons == null">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<p>No add-on is available for this plan</p>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<div ng-repeat="ads in planAddons" class="check-cube">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<div class="text-center">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<span>{{ads.name}}</span>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<input class="styled-checkbox" type="checkbox" id="{{ads}}"><label for="{{ads}}"></label>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<span>${{ads.unitPrice}}</span><span>/{{ads.billEvery}}</span>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</md-content>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<div class="text-right" fill-width>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<md-button class="md-accent md-accent" ng-click="showAddonsContainer()">OK</md-button>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--</div>-->
                                                 <md-divider></md-divider>
+                                                <div class="feature-row total" layout="row" layout-align="space-between center" ng-if="tempSelectedPlan.hasPromotion">
+                                                    <h3 class="mt-0">Promotion code: </h3>
+                                                    <div class="text-right">
+                                                        <md-input-container class="m-0">
+                                                            <input type="text" ng-model="promoCode">
+                                                        </md-input-container>
+                                                    </div>
+                                                </div>
                                                 <div class="feature-row total" layout="row" layout-align="space-between center">
                                                     <div>Total</div>
                                                     <div class="text-right">${{packageCost}}</div>
@@ -595,6 +606,60 @@
                                         <md-button class="md-primary" ng-click="clickCancel()"></md-button>
                                         <md-button class="md-raised md-accent m-0" ng-disabled="isPlanSelected || selectedPlan.code === tempSelectedPlan.code" ng-click="selectPlan()">Buy plan</md-button>
                                     </div>
+
+
+                                    <div class="mt-30">
+                                        <h4 class="fw-500 mt-0">Add-ons</h4>
+                                        <div class="addons-container">
+                                            <div ng-if="!addonsLoaded" layout="row" layout-align="center center" style="overflow: hidden">
+                                                <md-progress-circular></md-progress-circular>
+                                            </div>
+                                            <div class="text-center" ng-if="addonsLoaded && planAddons.length == 0 || addonsLoaded && planAddons == null">
+                                                <p class="op-5">No add-on is available for this plan</p>
+                                            </div>
+                                            <div layout="row" layout-align="start center" ng-if="planAddons.length > 0">
+                                                <div flex>
+                                                    <div ng-repeat="ads in planAddons" class="check-row" ng-class="{'active':ads.isChecked}" layout="row" layout-align="start center" flex>
+                                                        <div flex>
+                                                            <input class="styled-checkbox" type="checkbox" id="{{ads}}" ng-checked="ads.isChecked" ng-change="calculateCost(ads.isChecked);updateSelectedAddons(ads)" ng-model="ads.isChecked">
+                                                            <label for="{{ads}}">{{ads.name}}</label>
+                                                        </div>
+                                                        <div flex class="amount">
+                                                            <span>${{ads.unitPrice}}</span><span>/ {{ads.billEvery}}</span>
+                                                        </div>
+                                                        <div ng-style="ads.isChecked ? {'z-index':'10'} : {'z-index':'0','opacity':'0.6'}">
+                                                            <span>Quantity : </span>
+                                                            <input type="number" ng-disabled="!ads.isChecked" ng-model="ads.qty" ng-init="ads.qty = 1" min="1" ng-change="calculateCost(ads.isChecked)">
+                                                        </div>
+
+                                                        <!--<div class="text-center">-->
+                                                            <!--<span>{{ads.name}}</span>-->
+                                                        <!--</div>-->
+                                                        <!--<div layout="row" layout-align="center center">-->
+                                                            <!--<div class="ph-20 pv-10">-->
+                                                                <!--<input class="styled-checkbox" type="checkbox" id="{{ads}}"  ng-checked="ads.isChecked" ng-change="calculateCost(ads.isChecked);updateSelectedAddons(ads)" ng-model="ads.isChecked">-->
+                                                                <!--<label for="{{ads}}"></label>-->
+                                                                <!--<span>${{ads.unitPrice}}</span><span>/{{ads.billEvery}}</span>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="qty ph-20 pv-10" ng-style="ads.isChecked ? {'z-index':'10'} : {'z-index':'0','opacity':'0.4'}">-->
+                                                                <!--<div>Qty.</div>-->
+                                                                <!--<div>-->
+                                                                    <!--<input type="number" ng-model="ads.qty" ng-init="ads.qty = 1" min="1" ng-change="calculateCost(ads.isChecked)">-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
+                                                    </div>
+                                                </div>
+                                                <div flex="5"></div>
+                                                <md-divider></md-divider>
+                                                <div>
+                                                    <md-button class="md-accent md-raised" ng-disabled="isPlanSelected || selectedPlan.code === tempSelectedPlan.code">Buy add-on(s)</md-button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
 
                                     <!--<section id="successMainplanContainer" layout="column" layout-align="center center" >-->
                                     <!--<div layout="row" style="width: 100%;">-->

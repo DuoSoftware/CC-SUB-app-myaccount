@@ -1779,7 +1779,7 @@
 				angular.forEach($scope.planAddons, function (addon) {
 					if (addon.isChecked) {
 						$scope.selectedAddons.push(addon);
-						$scope.packageCost += parseInt(addon.unitPrice) * parseInt(addon.qty);
+						// $scope.packageCost += parseInt(addon.unitPrice) * parseInt(addon.qty);
 					}
 				});
 			}
