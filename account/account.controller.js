@@ -381,7 +381,7 @@
 			$scope.tempSelectedPlan = radioButtonPlan;
 			$scope.planAddons = null;
 			$scope.updatePackgeFeatures(radioButtonPlan);
-			$scope.calculateCost(radioButtonPlan.unitPrice);
+			$scope.calculateCost(null, radioButtonPlan.unitPrice);
 			$charge.myaccountapi().getAddonsForBasePlan(radioButtonPlan.code).success(function (response) {
 
 				if(response.status) {
@@ -656,7 +656,7 @@
 
 			if(!$scope.customerDetails.stripeCustId){
 				notifications.toast("Please add card details first to proceed", "error");
-				//$scope.addNewCard('insert');
+				$scope.addNewCard('insert');
 				return;
 			}
 
@@ -1448,12 +1448,7 @@
 
 		$scope.showMoreUserInfo=false;
 		$scope.contentExpandHandler = function () {
-			$scope.reverseMoreLess =! $scope.reverseMoreLess;
-			if($scope.reverseMoreLess){
-				$scope.showMoreUserInfo=true;
-			}else{
-				$scope.showMoreUserInfo=false;
-			}
+			$scope.showMoreUserInfo =! $scope.showMoreUserInfo;
 		};
 
 		$scope.cancelEdit = function(){
@@ -1776,19 +1771,39 @@
 			});
 		}
 
-		$scope.calculateCost = function (amount, status) {
-			if(status){
-				$scope.packageCost += parseInt(amount);
-			}else if(status == false){
-				$scope.packageCost -= parseInt(amount);
-			}else{
+		$scope.calculateCost = function (status, amount) {
+			if(status == null){
 				$scope.packageCost = parseInt(amount);
+			}else{
+				$scope.packageCost = parseInt($scope.tempSelectedPlan.unitPrice);
+				angular.forEach($scope.planAddons, function (addon) {
+					if (addon.isChecked) {
+						$scope.selectedAddons.push(addon);
+						$scope.packageCost += parseInt(addon.unitPrice) * parseInt(addon.qty);
+					}
+				});
 			}
+
+
+
+			// var addonAmount = 0;
+			// qty == 1 ? addonAmount = amount*qty : addonAmount = (amount*qty)-amount;
+			// if(status){
+			// 	$scope.packageCost += parseInt(addonAmount);
+			// }else if(status == false){
+			// 	$scope.packageCost -= parseInt(addonAmount);
+			// }else{
+			// 	$scope.packageCost = parseInt(amount);
+			// }
 		};
 
 		$scope.showAddons = false;
 		$scope.showAddonsContainer = function () {
 			$scope.showAddons = !$scope.showAddons;
+		}
+
+		$scope.updateSelectedAddons = function (addon) {
+			$scope.selectedAddons.push = addon;
 		}
 	}
 })();
