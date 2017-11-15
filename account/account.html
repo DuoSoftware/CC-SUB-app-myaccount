@@ -551,10 +551,10 @@
                                                                     <label for="{{ads}}"></label>
                                                                     <span>${{ads.unitPrice}}</span><span>/{{ads.billEvery}}</span>
                                                                 </div>
-                                                                <div class="qty ph-20 pv-10" ng-style="ads.isChecked ? {'z-index':'10'} : {'z-index':'0'}">
+                                                                <div class="qty ph-20 pv-10" ng-style="ads.isChecked ? {'z-index':'10'} : {'z-index':'0','opacity':'0.4'}">
                                                                     <div>Qty.</div>
                                                                     <div>
-                                                                        <input type="number" ng-model="ads.qty" ng-init="ads.qty = 1" min="1" ng-change="calculateCost(ads.isChecked)">
+                                                                        <input type="number" ng-disabled="!ads.isChecked" ng-model="ads.qty" ng-init="ads.qty = 1" min="1" ng-change="calculateCost(ads.isChecked)">
                                                                     </div>
                                                                 </div>
                                                             </div>
