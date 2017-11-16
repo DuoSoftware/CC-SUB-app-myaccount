@@ -501,8 +501,10 @@
                                             <md-card ng-repeat="plan in allPlans | filter : {type: 'Base-Plan'}" class="package" layout="row" layout-align="space-between center" ng-class="{'active-package':plan.code == selectedPlan.code, 'md-whiteframe-3dp':tempSelectedPlan.code == plan.code}" ng-style="tempSelectedPlan.code == plan.code ? {'z-index':'1'} : null">
 
                                                 <!--Promotion-->
-                                                <div class="promotion-flag" ng-if="tempSelectedPlan.hasPromotion"><i class="material-icons">stars</i>
-                                                    <span class="msg">10% DISCOUNT!</span> <span class="code">Code: <span>1212</span></span>
+                                                <div class="promotion-flag" ng-if="plan.hasPromotion"><i class="material-icons">stars</i>
+                                                    <span ng-if="plan.discounttype === 1" class="msg">{{plan.discountamount}}% DISCOUNT!</span>
+                                                    <span ng-if="plan.discounttype === 0" class="msg">${{plan.discountamount}} DISCOUNT!</span>
+                                                  <span class="code">Code: <span>{{plan.promotionCode}}</span></span>
                                                 </div>
                                                 <!--Promotion-->
                                                 <input id="{{plan.code}}" type="radio" name="planRadioButton[]" value="" ng-click="radioButtonSelectedPlan(plan)" ng-checked="plan.code === selectedPlan.code">
@@ -514,7 +516,8 @@
                                                     </div>
                                                     <div ng-if="plan.code != 'free_trial'">
                                                         <span>${{plan.unitPrice}} </span><span> / {{plan.billEvery}}</span>
-                                                        <div class="tax">Tax : 10%</div>
+                                                        <div ng-if="plan.taxtype === '1'" class="tax">Tax : {{plan.taxamount}}%</div>
+                                                        <div ng-if="plan.taxtype === '0'" class="tax">Tax : {{plan.taxamount}}$</div>
                                                     </div>
                                                 </div>
                                             </md-card>

@@ -320,16 +320,19 @@
 				$charge.myaccountapi().cardAPIgetCustomer(profileId).success(function (response) {
 					if(response.status) {
 						$scope.cardDetails = response.data.data;
-
-						for (var i = 0; i < $scope.cardDetails.length; i++) {
-							$scope.cardDetails[i].rowId = i;
-						}
-
+            if($scope.cardDetails) {
+              for (var i = 0; i < $scope.cardDetails.length; i++) {
+                $scope.cardDetails[i].rowId = i;
+              }
+            }else{
+              $scope.cardDetails = null;
+            }
 					}
 
 				}).error(function(data) {
 
-					$scope.allPlans= null;
+          $scope.cardDetails = null;
+
 				});
 
 			}catch(ex){
@@ -355,7 +358,8 @@
 
 					if(response.status) {
 						$scope.allPlans = response.data;
-						$scope.getActiveSubscriptionDetails();
+            $scope.getPlanPromotions();
+            $scope.getActiveSubscriptionDetails();
 					}
 
 				}).error(function(data) {
@@ -365,6 +369,8 @@
 
 			}catch(ex){
 
+        $scope.allPlans= null;
+
 				ex.app = "myAccount";
 				logHelper.error(ex);
 			}
@@ -373,6 +379,99 @@
 
 
 		$scope.getAllPlans();
+
+
+    $scope.getPlanPromotions = function () {
+
+      if($scope.allPlans != null) {
+
+        var planIds = [];
+        for (var i = 0; i < $scope.allPlans.length; i++) {
+          planIds.push({"planId": $scope.allPlans[i].guPlanID});
+
+          if($scope.allPlans[i].taxID != "") {
+            $scope.getTaxGroupDetails($scope.allPlans[i].taxID);
+          }
+
+        }
+
+        try {
+          $charge.myaccountapi().getPromotionByPlanIdList(planIds).success(function (response) {
+
+            if (response.status) {
+              for (var i = 0; i < $scope.allPlans.length; i++) {
+                if(response.data[$scope.allPlans[i].guPlanID] != null){ // code did asuming that it is one promotion at a time for a plan.
+                  $scope.allPlans[i].hasPromotion = true;
+                  $scope.allPlans[i].promotionCode = response.data[$scope.allPlans[i].guPlanID]["0"].couponcode;
+                  $scope.allPlans[i].discountamount = response.data[$scope.allPlans[i].guPlanID]["0"].discountamount;
+                  $scope.allPlans[i].discounttype = response.data[$scope.allPlans[i].guPlanID]["0"].discounttype;
+                }
+              }
+            }
+
+          }).error(function (data) {
+
+          });
+
+        } catch (ex) {
+          ex.app = "myAccount";
+          logHelper.error(ex);
+        }
+
+      }
+    };
+
+    $scope.planTax = [];
+    $scope.getTaxGroupDetails = function(taxGroupId){
+      try {
+        $charge.myaccountapi().getTaxGropById(taxGroupId).success(function (response) {
+
+          if (response.status) {
+            //response.data.groupDetail["0"].taxgroupid
+              $scope.planTax.push(response.data);
+              $scope.calcPlanTax();
+
+          }
+
+        }).error(function (data) {
+          $scope.planTax = [];
+        });
+
+      } catch (ex) {
+        $scope.planTax = [];
+        ex.app = "myAccount";
+        logHelper.error(ex);
+      }
+
+    };
+
+
+    $scope.calcPlanTax = function(){
+      $scope.taxDetails = [];
+      for (var i = 0; i <  $scope.planTax.length; i++) { //["0"]["0"].groupDetail["0"].amount
+          for (var ii = 0; ii <  $scope.planTax[i].length; ii++) {
+            for (var iii = 0; iii <  $scope.planTax[i][ii].groupDetail.length; iii++) {
+              $scope.taxDetails.push({"taxId":$scope.planTax[i][ii].groupDetail[iii].taxgroupid,"amount":$scope.planTax[i][ii].groupDetail[iii].amount,"amounttype":$scope.planTax[i][ii].groupDetail[iii].amounttype})
+            }
+          }
+      }
+
+
+        for (var iz = 0; iz < $scope.taxDetails.length; iz++) {
+          for (var i = 0; i < $scope.allPlans.length; i++) {
+            if ($scope.allPlans[i].taxID != "") {
+              if (parseInt($scope.allPlans[i].taxID) === $scope.taxDetails[iz].taxId) {
+                if($scope.allPlans[i].taxamount)
+                  $scope.allPlans[i].taxamount = 0;
+
+                $scope.allPlans[i].taxamount = $scope.taxDetails[iz].amount;
+                $scope.allPlans[i].taxtype = $scope.taxDetails[iz].amounttype;
+              }
+            }
+          }
+      }
+
+    }
 
 
 		$scope.addonsLoaded = true;
