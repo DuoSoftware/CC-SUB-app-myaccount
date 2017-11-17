@@ -590,8 +590,8 @@
                                                     <!--&lt;!&ndash;</div>&ndash;&gt;-->
                                                 <!--</div>-->
                                                 <md-divider></md-divider>
-                                                <div class="feature-row total" layout="row" layout-align="space-between center" ng-if="tempSelectedPlan.code === free_trial">
-                                                    <h3 class="mt-0">Promotion code: </h3>
+                                                <div class="feature-row total" layout="row" layout-align="space-between center" ng-if="tempSelectedPlan.code != free_trial">
+                                                    <h3 class="mt-0">Coupon code: </h3>
                                                     <div class="text-right">
                                                         <md-input-container class="m-0">
                                                             <input type="text" ng-model="promoCode">
@@ -624,7 +624,7 @@
                                                 <div flex>
                                                     <div ng-repeat="ads in planAddons" class="check-row" ng-class="{'active':ads.isChecked}" layout="row" layout-align="start center" flex>
                                                         <div flex>
-                                                            <input class="styled-checkbox" type="checkbox" id="{{ads}}" ng-checked="ads.isChecked" ng-change="calculateCost(ads.isChecked);updateSelectedAddons(ads)" ng-model="ads.isChecked">
+                                                            <input class="styled-checkbox" type="checkbox" id="{{ads}}" ng-checked="ads.isChecked" ng-change="calculateCost(ads.isChecked);" ng-model="ads.isChecked">
                                                             <label for="{{ads}}">{{ads.name}}</label>
                                                         </div>
                                                         <div flex class="amount">
@@ -634,6 +634,9 @@
                                                             <span>Quantity : </span>
                                                             <input type="number" ng-disabled="!ads.isChecked" ng-model="ads.qty" ng-init="ads.qty = 1" min="1" ng-change="calculateCost(ads.isChecked)">
                                                         </div>
+                                                      <div flex class="amount">
+                                                        <span>${{ads.unitPrice * ads.qty}}</span>
+                                                      </div>
 
                                                         <!--<div class="text-center">-->
                                                             <!--<span>{{ads.name}}</span>-->
@@ -656,7 +659,7 @@
                                                 <div flex="5"></div>
                                                 <md-divider></md-divider>
                                                 <div>
-                                                    <md-button class="md-accent md-raised" ng-disabled="isPlanSelected || selectedPlan.code === tempSelectedPlan.code">Buy add-on(s)</md-button>
+                                                    <md-button class="md-accent md-raised" ng-show="customerDetails.stripeCustId != null" ng-disabled="selectedAddons === undefined || isPlanSelected" ng-click="addAddon()">Buy add-on(s)</md-button>
                                                 </div>
                                             </div>
                                         </div>

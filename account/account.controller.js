@@ -270,7 +270,7 @@
 					}
 
 					$scope.getProfile(vm.dummy.Data.email);
-					$scope.calculateFreeTrialExpireDate();
+					//$scope.calculateFreeTrialExpireDate();
 
 					$http({
 						method: "GET" ,
@@ -671,55 +671,7 @@
 							$scope.currentPlanCode = 'free_trial';
 							selectPlan($scope.currentPlanCode);
 
-							//var data = {
-							//      "email": vm.dummy.Data.email,
-							//      "planCode": 'free_trial',
-							//      "note": "note",
-							//      "qty": 1,
-							//      "startDate": $filter('date')(new Date(),'yyyy-MM-dd'),
-							//      "addOns": [],
-							//      "coupon": ""
-							//    }
-							//    $charge.myaccountapi().addSubscriptionlocal(data).success(function (response) {
-							//
-							//      if(response.response != "failed") {
-							//
-							//        $scope.switchPlan('free_trial');
-							//        // notifications.toast("Plan successfully changed", "success");
-							//      }else{
 
-							//if(response.error.STATUS_INTERNAL_SERVER_ERROR) {
-							//
-							//  notifications.toast(response.error.STATUS_INTERNAL_SERVER_ERROR["0"], "error");
-							//
-							//  if (response.error.STATUS_INTERNAL_SERVER_ERROR["0"] === "No card data found for this account. Please register a card to proceed") {
-							//
-							//
-							//    var data = {
-							//      "profileId": vm.dummy.Data.userID,
-							//      "redirectUrl": "this",
-							//      "action": "insert"
-							//    }
-							//
-							//    $charge.myaccountapi().loadForm(data).success(function (response) {
-							//
-							//      //Note : load card
-							//
-							//    }).error(function(data) {
-							//      notifications.toast("Error occured while changing plans", "error");
-							//    });
-							//  }
-							//
-							//}else{
-							//  notifications.toast("Error occured while changing plans", "error");
-							//}
-
-							//  }
-
-							//}).error(function(data) {
-							//  $scope.isPlanSelected = false;
-							//  notifications.toast("Error occured while changing plans", "error");
-							//});
 						}
 
 						$scope.accSubscriptionDetailsLoaded = true;
@@ -793,7 +745,6 @@
 				try {
 					$scope.paymentTenant = $scope.tenantId;
 					$scope.paymentPlan = pack.code;
-					$scope.paymentSecurityToken = $scope.idToken;
 					$scope.paymentPrice = (pack.unitPrice);
 					$scope.paymentName = pack.name;
 
@@ -811,8 +762,20 @@
 				}
 			}
 
-			$scope.changeSubscription($scope.tempSelectedPlan.code);
-			//}
+      var confirm = $mdDialog.confirm()
+        .title('Deactivate current plan')
+        .textContent('Would you like to buy selected Plan?')
+        .targetEvent()
+        .ok('Yes')
+        .cancel('No');
+
+      $mdDialog.show(confirm).then(function() {
+
+			  $scope.changeSubscription($scope.tempSelectedPlan.code);
+
+      }, function() {
+
+      });
 
 		}
 
@@ -859,6 +822,68 @@
 
 		}
 
+
+    //addSubscription
+    $scope.addAddon = function(){
+
+      var confirm = $mdDialog.confirm()
+        .title('Deactivate current plan')
+        .textContent('Would you like to buy selected Add-on(s)?')
+        .targetEvent()
+        .ok('Yes')
+        .cancel('No');
+
+      $mdDialog.show(confirm).then(function() {
+
+      debugger;
+        if($scope.selectedAddons != undefined && $scope.selectedAddons.length > 0) {
+
+          $scope.isPlanSelected = true;
+
+          for (var i = 0; i < $scope.selectedAddons.length; i++) {
+            var addon = $scope.selectedAddons[i];
+            var data = {
+              "email": vm.dummy.Data.email,
+              "planCode": addon.code,
+              "note": "Add Addon",
+              "qty": addon.qty,
+              "startDate": $filter('date')(new Date(), 'yyyy-MM-dd'),
+              "addOns": [],
+              "coupon": ""
+            }
+
+            $charge.myaccountapi().addSubscriptionlocal(data).success(function (response) {
+              $scope.isPlanSelected = false;
+              if (response.response != "failed") {
+
+                notifications.toast("Add-on (" + addon.name + ") successfully purchased", "success");
+
+              } else {
+
+                if (response.error.STATUS_INTERNAL_SERVER_ERROR) {
+
+                  notifications.toast(response.error.STATUS_INTERNAL_SERVER_ERROR["0"], "error");
+
+
+                } else {
+                  notifications.toast("Error occured while changing Add-on(" + addon.name + ")", "error");
+                }
+
+              }
+
+            }).error(function (data) {
+              $scope.isPlanSelected = false;
+              notifications.toast("Error occured while changing Add-on(" + addon + ")", "error");
+            });
+          }
+        }
+
+      }, function() {
+
+      });
+
+		}
+
 		$scope.addNewCard = function(action){
 
 			var data = {
@@ -881,24 +906,24 @@
 
 		}
 
-		$scope.addCardDialog = function (ev,formBody) {
-			$mdDialog.show({
-				controller: 'AddCardController as vm',
-				templateUrl: 'app/main/account/dialogs/addCardDialog.html',
-				parent: angular.element(document.body),
-				targetEvent: ev,
-				clickOutsideToClose:true,
-				locals : {
-					body : formBody
-
-				}
-			})
-				.then(function(answer) {
-
-				}, function() {
-
-				});
-		}
+		//$scope.addCardDialog = function (ev,formBody) {
+		//	$mdDialog.show({
+		//		controller: 'AddCardController as vm',
+		//		templateUrl: 'app/main/account/dialogs/addCardDialog.html',
+		//		parent: angular.element(document.body),
+		//		targetEvent: ev,
+		//		clickOutsideToClose:true,
+		//		locals : {
+		//			body : formBody
+        //
+		//		}
+		//	})
+		//		.then(function(answer) {
+        //
+		//		}, function() {
+        //
+		//		});
+		//}
 
 		$scope.switchPlan = function(plan){
 
@@ -936,37 +961,37 @@
 		}
 
 
-		$scope.calculateFreeTrialExpireDate = function(){
-
-			if($scope.selectedPlan)
-			{
-
-				$scope.remainingDays = 0;
-				var today = new Date();
-
-				if($scope.selectedPlan.code === 'free_trial' && $scope.freeTrialStartDate != '')
-				{
-					var convertedDate = new Date($scope.freeTrialStartDate);
-
-
-					convertedDate.setDate(convertedDate.getDate() + parseInt($scope.selectedPlan.period));
-
-					$scope.remainingDays = (Math.round((convertedDate- today )/(1000*60*60*24))) +  " Days remaining";
-
-					$scope.displayExpireDate = moment(convertedDate.toISOString()).format('LL');
-				}
-				else
-				{
-					$scope.displayExpireDate = $scope.paidPlanExpireDate;
-
-					var convertedDate = new Date($scope.paidPlanExpireDate);
-
-					// $scope.remainingDays = (Math.round((convertedDate- today )/(1000*60*60*24))) + " Days remaining";
-
-				}
-			}
-
-		}
+		//$scope.calculateFreeTrialExpireDate = function(){
+        //
+		//	if($scope.selectedPlan)
+		//	{
+        //
+		//		$scope.remainingDays = 0;
+		//		var today = new Date();
+        //
+		//		if($scope.selectedPlan.code === 'free_trial' && $scope.freeTrialStartDate != '')
+		//		{
+		//			var convertedDate = new Date($scope.freeTrialStartDate);
+        //
+        //
+		//			convertedDate.setDate(convertedDate.getDate() + parseInt($scope.selectedPlan.period));
+        //
+		//			$scope.remainingDays = (Math.round((convertedDate- today )/(1000*60*60*24))) +  " Days remaining";
+        //
+		//			$scope.displayExpireDate = moment(convertedDate.toISOString()).format('LL');
+		//		}
+		//		else
+		//		{
+		//			$scope.displayExpireDate = $scope.paidPlanExpireDate;
+        //
+		//			var convertedDate = new Date($scope.paidPlanExpireDate);
+        //
+		//			// $scope.remainingDays = (Math.round((convertedDate- today )/(1000*60*60*24))) + " Days remaining";
+        //
+		//		}
+		//	}
+        //
+		//}
 
 		$scope.isTenantPaymentHistoryClicked = false;
 		$scope.showPaymentHistoryPane = false;
@@ -1153,79 +1178,79 @@
 
 
 
-		$scope.$on('stripe-token-received', function(event, args) {
-			// // console.log(args);
-
-			try{
-				if($scope.newCardSelected){
-
-					$http({
-						method : 'GET',
-						url : "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=addCard&token="+args.id+"&default=true",
-						headers: {
-							'Content-Type': 'application/json'
-						}}).then(function(response) {
-
-						$scope.loadCardDetails();
-
-					}, function(response) {
-						// console.log('add card function returned an error '+response);
-					});
-
-				} else {
-					$scope.isPlanSelected = true;
-
-					var req = {
-						method: 'POST',
-						url: '/azureshell/app/main/account/paymentMethod/chargeo.php',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						data: {
-							"selectedPlan": $scope.selectedPlan.code ,
-							"plan":  $scope.paymentPlan ,
-							"price" :  ( $scope.paymentPrice) ,
-							"name" :  $scope.paymentName ,
-							"tenantID" :  $scope.paymentTenant ,
-							"stripeToken" :  args.id ,
-							"paymentStatus":  $scope.paymentStatus ,
-							"subscriptionAmount":  $scope.currentPlanAmount ,
-							"additionalUserQty" : 0,
-							"additionalUserTotalPrice" : 0
-						}
-					}
-
-					$http(req).then(function(data){
-						if(data.data.status === 'success')
-						{
-							$scope.isPlanSelected = false;
-
-							notifications.toast("Plan successfully changed.", "success");
-
-							$scope.loadCardDetails();
-
-							$scope.tenantUser = [];
-							$scope.getUserInfoByID();
-
-							//$scope.getSelectedPlanSubscriptionDetails();
-
-
-						}else{
-							notifications.toast("Error while plan changing, " + data.data.message, "error");
-
-							$scope.isPlanSelected = false;
-						}
-					});
-
-
-				}
-
-			}catch(ex){
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
-
-		});
+		//$scope.$on('stripe-token-received', function(event, args) {
+		//	// // console.log(args);
+        //
+		//	try{
+		//		if($scope.newCardSelected){
+        //
+		//			$http({
+		//				method : 'GET',
+		//				url : "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=addCard&token="+args.id+"&default=true",
+		//				headers: {
+		//					'Content-Type': 'application/json'
+		//				}}).then(function(response) {
+        //
+		//				$scope.loadCardDetails();
+        //
+		//			}, function(response) {
+		//				// console.log('add card function returned an error '+response);
+		//			});
+        //
+		//		} else {
+		//			$scope.isPlanSelected = true;
+        //
+		//			var req = {
+		//				method: 'POST',
+		//				url: '/azureshell/app/main/account/paymentMethod/chargeo.php',
+		//				headers: {
+		//					'Content-Type': 'application/json'
+		//				},
+		//				data: {
+		//					"selectedPlan": $scope.selectedPlan.code ,
+		//					"plan":  $scope.paymentPlan ,
+		//					"price" :  ( $scope.paymentPrice) ,
+		//					"name" :  $scope.paymentName ,
+		//					"tenantID" :  $scope.paymentTenant ,
+		//					"stripeToken" :  args.id ,
+		//					"paymentStatus":  $scope.paymentStatus ,
+		//					"subscriptionAmount":  $scope.currentPlanAmount ,
+		//					"additionalUserQty" : 0,
+		//					"additionalUserTotalPrice" : 0
+		//				}
+		//			}
+        //
+		//			$http(req).then(function(data){
+		//				if(data.data.status === 'success')
+		//				{
+		//					$scope.isPlanSelected = false;
+        //
+		//					notifications.toast("Plan successfully changed.", "success");
+        //
+		//					$scope.loadCardDetails();
+        //
+		//					$scope.tenantUser = [];
+		//					$scope.getUserInfoByID();
+        //
+		//					//$scope.getSelectedPlanSubscriptionDetails();
+        //
+        //
+		//				}else{
+		//					notifications.toast("Error while plan changing, " + data.data.message, "error");
+        //
+		//					$scope.isPlanSelected = false;
+		//				}
+		//			});
+        //
+        //
+		//		}
+        //
+		//	}catch(ex){
+		//		ex.app = "myAccount";
+		//		logHelper.error(ex);
+		//	}
+        //
+		//});
 
 
 		//$scope.addNewCard = function(){
@@ -1258,24 +1283,24 @@
 		//};
 
 
-		$scope.calculatePlanCharges = function(selectedPlan){
-
-			var planAmount =parseFloat(selectedPlan.unitPrice);
-			if(parseFloat($scope.currentPlanUsed) != parseFloat(selectedPlan.activeSubscriptions))
-			{
-				var differece = parseFloat($scope.currentPlanUsed) - parseFloat(selectedPlan.activeSubscriptions);
-
-				if(differece > 0){
-
-					$scope.userdata = differece;
-					var excessPrice = differece * parseFloat(selectedPlan.subscriptionRate);
-
-					planAmount = planAmount+excessPrice;
-				}
-			}
-
-			return planAmount;
-		}
+		//$scope.calculatePlanCharges = function(selectedPlan){
+        //
+		//	var planAmount =parseFloat(selectedPlan.unitPrice);
+		//	if(parseFloat($scope.currentPlanUsed) != parseFloat(selectedPlan.activeSubscriptions))
+		//	{
+		//		var differece = parseFloat($scope.currentPlanUsed) - parseFloat(selectedPlan.activeSubscriptions);
+        //
+		//		if(differece > 0){
+        //
+		//			$scope.userdata = differece;
+		//			var excessPrice = differece * parseFloat(selectedPlan.subscriptionRate);
+        //
+		//			planAmount = planAmount+excessPrice;
+		//		}
+		//	}
+        //
+		//	return planAmount;
+		//}
 
 
 
@@ -1458,54 +1483,54 @@
 
 
 
-		$scope.userdata=0;
-		$scope.paymentStatus = "";
-		$scope.isTempDeactive = false;
-
-		$scope.addMoreUsers = function () {
-
-			try{
-
-				$charge.paymentgateway().subscriberCheck().success(function (data) {
-
-					// console.log(data);
-
-
-					$scope.paymentStatus = data.response[0].status;
-					if( data.response[0].planStatus === 'Active')
-					{
-						$scope.isTempDeactive = true;
-					}
-
-					for (var i = 0; i < data.response[0].otherInfo.length; i++) {
-						if(data.response[0].otherInfo[i].tag === 'user')
-						{
-							$scope.userdata = data.response[0].otherInfo[i].quantity;
-						}
-					}
-
-					var planEndDate = $filter('date')((data.response[0].currentPeriodEnd * 1000), 'yyyy-MM-dd');
-					$scope.paidPlanExpireDate = planEndDate;
-					//moment(convertedDate.toISOString()).format('LL');
-
-					$scope.calculateFreeTrialExpireDate();
-
-				}).error(function (data) {
-
-					if(data.response)
-						$scope.paymentStatus = data.response;
-
-				});
-
-			}catch(ex){
-
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
-
-		}
-
-		$scope.addMoreUsers();
+		//$scope.userdata=0;
+		//$scope.paymentStatus = "";
+		//$scope.isTempDeactive = false;
+        //
+		//$scope.addMoreUsers = function () {
+        //
+		//	try{
+        //
+		//		$charge.paymentgateway().subscriberCheck().success(function (data) {
+        //
+		//			// console.log(data);
+        //
+        //
+		//			$scope.paymentStatus = data.response[0].status;
+		//			if( data.response[0].planStatus === 'Active')
+		//			{
+		//				$scope.isTempDeactive = true;
+		//			}
+        //
+		//			for (var i = 0; i < data.response[0].otherInfo.length; i++) {
+		//				if(data.response[0].otherInfo[i].tag === 'user')
+		//				{
+		//					$scope.userdata = data.response[0].otherInfo[i].quantity;
+		//				}
+		//			}
+        //
+		//			var planEndDate = $filter('date')((data.response[0].currentPeriodEnd * 1000), 'yyyy-MM-dd');
+		//			$scope.paidPlanExpireDate = planEndDate;
+		//			//moment(convertedDate.toISOString()).format('LL');
+        //
+		//			$scope.calculateFreeTrialExpireDate();
+        //
+		//		}).error(function (data) {
+        //
+		//			if(data.response)
+		//				$scope.paymentStatus = data.response;
+        //
+		//		});
+        //
+		//	}catch(ex){
+        //
+		//		ex.app = "myAccount";
+		//		logHelper.error(ex);
+		//	}
+        //
+		//}
+        //
+		//$scope.addMoreUsers();
 
 		$scope.xfiedKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
 		$scope.keyIndex = 0;
