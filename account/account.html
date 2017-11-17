@@ -349,7 +349,7 @@
                                             <md-button class="m-0 fs-12 md-accent" layout="row" ng-click="getTenantPaymentHistory()">
                                                 <!--<md-button class="m-0 fs-12 md-accent" layout="row" >-->
                                                 <md-progress-circular ng-show="isTenantPaymentHistoryClicked" class="inbtn-loader md-accent"></md-progress-circular>
-                                                Show subscription history <md-icon md-font-icon="icon-chevron-down"></md-icon>
+                                                Show invoice history <md-icon md-font-icon="icon-chevron-down"></md-icon>
                                             </md-button>
                                         </div>
 
@@ -360,7 +360,7 @@
                                                     <!--<div layout="row" class="ph-16 pv-10" flex>-->
                                                     <!--<div flex="30">Plan</div>-->
                                                     <div flex>Invoice Date</div>
-                                                  <div flex="10">info</div>
+                                                  <!--<div flex="10">info</div>-->
                                                     <div class="w-165 text-right"><span>Amount</span></div>
                                                     <div flex="5"></div>
                                                     <div flex="10">Status</div>
@@ -385,8 +385,8 @@
                                                             <div layout="row" layout-align="start center" class="w-165">
                                                                 <span> {{history.invoiceDate | date:'yyyy.MM.dd'}}</span>
                                                             </div>
-                                                          <div flex="10">{{history.tag}}</div>
-                                                            <div class="w-165 text-right"><span>${{history.subTotal}}</span></div>
+                                                          <!--<div flex="10">{{history.tag}}</div>-->
+                                                            <div class="w-165 text-right"><span>${{history.invoiceAmount}}</span></div>
                                                             <div flex="5"></div>
                                                             <div flex="10" layout="row" layout-align="start center">
                                                                 <span flex>{{history.invoiceStatus }}</span>
@@ -402,7 +402,7 @@
                                                             <!--<div flex="15"></div>-->
                                                             <!--</div>-->
                                                             <!--</div>-->
-                                                            <div flex="10" layout="row" layout-align="end center" class="pv-10 pos-rel">
+                                                            <div flex="10" layout="row" layout-align="end center" class="pv-10 pos-rel" ng-hide="true">
                                                                 <md-button ng-disabled="history.downloading" md-no-ink class="md-icon-button p-0 h-25" ng-click="downloadSubscriptionPDF(history)"><md-icon md-font-icon="icon-file-pdf w-25 h-25 fs-20 md-accent"></md-icon><md-tooltip>Download PDF</md-tooltip> </md-button>
                                                                 <md-progress-circular class="list-action-preloader" ng-if="history.downloading"></md-progress-circular>
                                                                 <!--<md-button md-no-ink class="md-icon-button p-0 h-25"><md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-20"></md-icon><md-tooltip>Expand</md-tooltip> </md-button>-->
@@ -592,7 +592,7 @@
                                                     <!--&lt;!&ndash;</div>&ndash;&gt;-->
                                                 <!--</div>-->
                                                 <md-divider></md-divider>
-                                                <div class="feature-row total" layout="row" layout-align="space-between center" ng-if="tempSelectedPlan.code != free_trial">
+                                                <div class="feature-row total" layout="row" layout-align="space-between center" ng-if="tempSelectedPlan.code != 'free_trial'">
                                                     <h3 class="mt-0">Coupon code: </h3>
                                                     <div class="text-right">
                                                         <md-input-container class="m-0">
@@ -607,7 +607,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="feature-row text-right mt-10" ng-show="customerDetails.stripeCustId != null">
+                                    <div class="feature-row text-right mt-10">
                                         <md-button class="md-primary" ng-click="clickCancel()"></md-button>
                                         <md-button class="md-raised md-accent m-0" ng-disabled="isPlanSelected || selectedPlan.code === tempSelectedPlan.code" ng-click="selectPlan()">Buy plan</md-button>
                                     </div>

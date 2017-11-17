@@ -1723,41 +1723,14 @@
 			//	record.downloading = false;
 			//});
 
+      var _st = gst("category");
+     _st = (_st != null) ? _st : "subscription";
 
-      $scope.dataInfo = [];
-      //var currentPeriod = null;
-      //var currentPeriodEnd = null;
-      //var receivedDate = null;
-      //angular.forEach(record.invoiceDetails, function(record){
-      //  var tempItemObj = {
-      //    amount: record.amount,
-      //    feature: record.infomation.feature,
-      //    quantity:record.infomation.quantity
-      //  };
-      //  $scope.dataInfo.push(tempItemObj);
-      //  if(record.infomation.tag.toLowerCase() == 'package'){
-      //    currentPeriod = record.currentPeriod;
-      //    currentPeriodEnd = record.currentPeriodEnd;
-      //    receivedDate = record.receivedDate;
-      //  }
-      //});
+      $scope.data=[{ "type": "PDF", "id": record.guInvID, "app": "invoice",   "module":_st}];
 
-      $scope.data=[{
-        "type": "PDF",
-        "id": record.invoiceNo,
-        "amount": record.subTotal,
-        "email": vm.dummy.Data.email,
-        "currency": record.currency,
-        "infomation": JSON.stringify($scope.dataInfo),
-        "domain": record.customer,
-        "currentPeriod": new Date(record.invoiceDate),
-        "currentPeriodEnd": new Date(record.dueDate),
-        "createdDate": new Date(record.createdDate),
-        "gatewayType": "stripe"
-      }];
       $charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
 
-        $scope.subscriptionDateForPDF = record.receivedDate;
+        $scope.subscriptionDateForPDF = record.invoiceDate;
         var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
         var dlnk = document.getElementById('hidden-donwload-anchor');
         $timeout(function(){
@@ -1877,9 +1850,9 @@
 
 		$scope.calculateCost = function (status, amount) {
 			if(status == null){
-				$scope.packageCost = parseInt(amount);
+				$scope.packageCost = parseFloat(amount);
 			}else{
-				$scope.packageCost = parseInt($scope.tempSelectedPlan.unitPrice);
+				$scope.packageCost = parseFloat($scope.tempSelectedPlan.unitPrice);
 				angular.forEach($scope.planAddons, function (addon) {
 					if (addon.isChecked) {
 					//	$scope.selectedAddons.push(addon);
