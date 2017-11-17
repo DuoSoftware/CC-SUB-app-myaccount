@@ -272,24 +272,24 @@
 					$scope.getProfile(vm.dummy.Data.email);
 					//$scope.calculateFreeTrialExpireDate();
 
-					$http({
-						method: "GET" ,
-						url: "app/core/cloudcharge/js/config.json"
-					}).then(function(data) {
-						var publishKey = (data.data.stripe.key);
-
-						$scope.config = {
-							title: 'Cloudcharge',
-							email: response.data.Result.email,
-							publishKey : publishKey,
-							description: "for connected business",
-							logo: 'app/main/account/img/loginDuo.png',
-							label: 'Add Card'
-						}
-
-					}, function(response) {
-
-					});
+					//$http({
+					//	method: "GET" ,
+					//	url: "app/core/cloudcharge/js/config.json"
+					//}).then(function(data) {
+					//	var publishKey = (data.data.stripe.key);
+                    //
+					//	$scope.config = {
+					//		title: 'Cloudcharge',
+					//		email: response.data.Result.email,
+					//		publishKey : publishKey,
+					//		description: "for connected business",
+					//		logo: 'app/main/account/img/loginDuo.png',
+					//		label: 'Add Card'
+					//	}
+                    //
+					//}, function(response) {
+                    //
+					//});
 
 
 					$scope.accGeneralLoaded = true;
@@ -541,100 +541,106 @@
 					if(response.response === "succeeded") {
 
 						if(response.data.result.length > 0) {
-							$scope.activeSubscription = response.data.result;
-							$scope.currentPlanCode = response.data.result["0"].code
-							selectPlan($scope.currentPlanCode);
-							$scope.currentPlanAmount = parseFloat(response.data.result["0"].amount);
+              $scope.activeSubscription = response.data.result;
+              for(var i = 0;i < response.data.result.length; i++) {
 
-							$scope.selectedAddonCodes =[];
-							if(response.data.result["0"].addOns && response.data.result["0"].addOns.length > 0) {
-								for (var i = 0; i < response.data.result["0"].addOns.length; i++) {
-									$scope.selectedAddonCodes.push(response.data.result["0"].addOns[i].code);
-								}
-							}
+                if(response.data.result[i].class === "Base-Plan") {
 
 
-							$scope.initPlanSliderValue = "25";
-							$scope.currentPlanUsed = '0';
+                  $scope.currentPlanCode = response.data.result[i].code
+                  selectPlan($scope.currentPlanCode);
+                  $scope.currentPlanAmount = parseFloat(response.data.result[i].amount);
+
+                  $scope.selectedAddonCodes = [];
+                  if (response.data.result[i].addOns && response.data.result[i].addOns.length > 0) {
+                    for (var iz = 0; iz < response.data.result[i].addOns.length; iz++) {
+                      $scope.selectedAddonCodes.push(response.data.result[i].addOns[iz].code);
+                    }
+                  }
+
+                  $scope.initPlanSliderValue = "25";
+                  $scope.currentPlanUsed = '0';
 
 
-							$scope.currentPlanCreatedDate = response.data.result["0"].startDate;
-							$scope.currentPlanExpiryDate = response.data.result["0"].endDate;
-							//callback();
+                  $scope.currentPlanCreatedDate = response.data.result[i].startDate;
+                  $scope.currentPlanExpiryDate = response.data.result[i].endDate;
+                  //callback();
 
-							$scope.subUsage = {
-								value: $scope.currentPlanUsed,
-								options: {
-									floor: 0,
-									ceil: $scope.currentPlanAmount,
-									showSelectionBar: true,
-									disabled: true,
-									selectionBarGradient: {
-										from: '#76d2ff',
-										to: '#e28989'
-									}
-								}
-							};
+                  $scope.subUsage = {
+                    value: $scope.currentPlanUsed,
+                    options: {
+                      floor: 0,
+                      ceil: $scope.currentPlanAmount,
+                      showSelectionBar: true,
+                      disabled: true,
+                      selectionBarGradient: {
+                        from: '#76d2ff',
+                        to: '#e28989'
+                      }
+                    }
+                  };
 
-							//Usage
-							$timeout(function () {
-								vm.usageChart = {
-									title: 'Usage',
-									chart: {
-										options: {
-											chart: {
-												type: 'pieChart',
-												donut: true,
-												color: ['#039be5', '#eeeeee'],
-												height: 320,
-												// labelsOutside: true,
-												showLegend: false,
-												pie: {
-													startAngle: function (d) {
-														return d.startAngle / 2 - Math.PI / 2
-													},
-													endAngle: function (d) {
-														return d.endAngle / 2 - Math.PI / 2
-													}
-												},
-												margin: {
-													top: 0,
-													right: 0,
-													bottom: 0,
-													left: 0
-												},
-												x: function (d) {
-													return d.label;
-												},
-												y: function (d) {
-													return d.value;
-												},
-												tooltip: {
-													contentGenerator: function (key, x, y, e, graph) {
-														if (key.index == 0) {
-															vm.tipTitle = 'Used';
-														} else {
-															vm.tipTitle = 'Available';
-														}
-														return '<div layout="column" style="background-color: #000;text-align: left;border-radius: 3px;padding: 5px 10px;">' +
-															'<div>' + vm.tipTitle + ' : ' + key.data.value + '</div>' +
-															'</div>';
-													}
-												}
-											}
-										},
-										data: [{
-											'label': '',
-											'value': parseInt($scope.currentPlanUsed)
-										}, {
-											'label': '',
-											'value': parseInt($scope.initPlanSliderValue) - parseInt($scope.currentPlanUsed)
-										}]
-									}
-								};
-							});
+                  //Usage
+                  $timeout(function () {
+                    vm.usageChart = {
+                      title: 'Usage',
+                      chart: {
+                        options: {
+                          chart: {
+                            type: 'pieChart',
+                            donut: true,
+                            color: ['#039be5', '#eeeeee'],
+                            height: 320,
+                            // labelsOutside: true,
+                            showLegend: false,
+                            pie: {
+                              startAngle: function (d) {
+                                return d.startAngle / 2 - Math.PI / 2
+                              },
+                              endAngle: function (d) {
+                                return d.endAngle / 2 - Math.PI / 2
+                              }
+                            },
+                            margin: {
+                              top: 0,
+                              right: 0,
+                              bottom: 0,
+                              left: 0
+                            },
+                            x: function (d) {
+                              return d.label;
+                            },
+                            y: function (d) {
+                              return d.value;
+                            },
+                            tooltip: {
+                              contentGenerator: function (key, x, y, e, graph) {
+                                if (key.index == 0) {
+                                  vm.tipTitle = 'Used';
+                                } else {
+                                  vm.tipTitle = 'Available';
+                                }
+                                return '<div layout="column" style="background-color: #000;text-align: left;border-radius: 3px;padding: 5px 10px;">' +
+                                  '<div>' + vm.tipTitle + ' : ' + key.data.value + '</div>' +
+                                  '</div>';
+                              }
+                            }
+                          }
+                        },
+                        data: [{
+                          'label': '',
+                          'value': parseInt($scope.currentPlanUsed)
+                        }, {
+                          'label': '',
+                          'value': parseInt($scope.initPlanSliderValue) - parseInt($scope.currentPlanUsed)
+                        }]
+                      }
+                    };
+                  });
 
-							$scope.currentPlanAmount = response.data.result["0"].amount;
+                  $scope.currentPlanAmount = response.data.result[i].amount;
+                }
+              }
 						}else{
 
 							$scope.currentPlanCode = 'free_trial';
@@ -743,7 +749,7 @@
 			  $scope.changeSubscription($scope.tempSelectedPlan.code);
 
       }, function() {
-
+        $scope.isPlanSelected = false;
       });
 
 		}
@@ -847,7 +853,7 @@
         }
 
       }, function() {
-
+        $scope.isPlanSelected = false;
       });
 
 		}
@@ -1056,7 +1062,7 @@
 				$scope.changeSubscription('free_trial');
 
 			}, function() {
-
+        $scope.isPlanSelected = false;
 			});
 
 
