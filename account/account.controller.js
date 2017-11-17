@@ -1714,54 +1714,101 @@ debugger;
 			// 	record.downloading = false;
 			// });
 
-			$scope.dataInfo = [];
-			var currentPeriod = null;
-			var currentPeriodEnd = null;
-			var receivedDate = null;
-			angular.forEach(record.records, function(record){
-				var tempItemObj = {
-					amount: record.amount,
-					feature: record.infomation.feature,
-					quantity:record.infomation.quantity
-				};
-				$scope.dataInfo.push(tempItemObj);
-				if(record.infomation.tag.toLowerCase() == 'package'){
-					currentPeriod = record.currentPeriod;
-					currentPeriodEnd = record.currentPeriodEnd;
-					receivedDate = record.receivedDate;
-				}
-			});
+			//$scope.dataInfo = [];
+			//var currentPeriod = null;
+			//var currentPeriodEnd = null;
+			//var receivedDate = null;
+			//angular.forEach(record.records, function(record){
+			//	var tempItemObj = {
+			//		amount: record.amount,
+			//		feature: record.infomation.feature,
+			//		quantity:record.infomation.quantity
+			//	};
+			//	$scope.dataInfo.push(tempItemObj);
+			//	if(record.infomation.tag.toLowerCase() == 'package'){
+			//		currentPeriod = record.currentPeriod;
+			//		currentPeriodEnd = record.currentPeriodEnd;
+			//		receivedDate = record.receivedDate;
+			//	}
+			//});
+            //
+			//$scope.data=[{
+			//	"type": "PDF",
+			//	"id": record.records[0].id,
+			//	"amount": record.total,
+			//	"email": vm.dummy.Data.email,
+			//	"currency": "usd",
+			//	"infomation": JSON.stringify($scope.dataInfo),
+			//	"domain": record.records[0].domain,
+			//	"currentPeriod": new Date(currentPeriod+ ' UTC').getTime()/1000,
+			//	"currentPeriodEnd": new Date(currentPeriodEnd+ ' UTC').getTime()/1000,
+			//	"createdDate": new Date(receivedDate+ ' UTC').getTime()/1000,
+			//	"gatewayType": "stripe"
+			//}];
+			//$charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
+            //
+			//	$scope.subscriptionDateForPDF = record.receivedDate;
+			//	var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
+			//	var dlnk = document.getElementById('hidden-donwload-anchor');
+			//	$timeout(function(){
+			//		dlnk.href = pdf;
+			//		dlnk.click();
+			//	},100);
+			//	record.downloading = false;
+            //
+			//}).error(function(errorResponse) {
+			//	record.downloading = false;
+			//});
 
-			$scope.data=[{
-				"type": "PDF",
-				"id": record.records[0].id,
-				"amount": record.total,
-				"email": vm.dummy.Data.email,
-				"currency": "usd",
-				"infomation": JSON.stringify($scope.dataInfo),
-				"domain": record.records[0].domain,
-				"currentPeriod": new Date(currentPeriod+ ' UTC').getTime()/1000,
-				"currentPeriodEnd": new Date(currentPeriodEnd+ ' UTC').getTime()/1000,
-				"createdDate": new Date(receivedDate+ ' UTC').getTime()/1000,
-				"gatewayType": "stripe"
-			}];
-			$charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
 
-				$scope.subscriptionDateForPDF = record.receivedDate;
-				var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
-				var dlnk = document.getElementById('hidden-donwload-anchor');
-				$timeout(function(){
-					dlnk.href = pdf;
-					dlnk.click();
-				},100);
-				record.downloading = false;
+      $scope.dataInfo = [];
+      //var currentPeriod = null;
+      //var currentPeriodEnd = null;
+      //var receivedDate = null;
+      //angular.forEach(record.records, function(record){
+      //  var tempItemObj = {
+      //    amount: record.amount,
+      //    feature: record.infomation.feature,
+      //    quantity:record.infomation.quantity
+      //  };
+      //  $scope.dataInfo.push(tempItemObj);
+      //  if(record.infomation.tag.toLowerCase() == 'package'){
+      //    currentPeriod = record.currentPeriod;
+      //    currentPeriodEnd = record.currentPeriodEnd;
+      //    receivedDate = record.receivedDate;
+      //  }
+      //});
 
-			}).error(function(errorResponse) {
-				record.downloading = false;
-			});
+      $scope.data=[{
+        "type": "PDF",
+        "id": record.paymentNo,
+        "amount": record.amount,
+        "email": vm.dummy.Data.email,
+        "currency": record.currency,
+        "infomation": JSON.stringify($scope.dataInfo),
+        "domain": record.customer,
+        "currentPeriod": new Date(record.paymentDate+ ' UTC').getTime()/1000,
+        "currentPeriodEnd": new Date(record.paymentDate+ ' UTC').getTime()/1000,
+        "createdDate": new Date(record.createdDate+ ' UTC').getTime()/1000,
+        "gatewayType": record.gatewayType
+      }];
+      $charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
+
+        $scope.subscriptionDateForPDF = record.receivedDate;
+        var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
+        var dlnk = document.getElementById('hidden-donwload-anchor');
+        $timeout(function(){
+          dlnk.href = pdf;
+          dlnk.click();
+        },100);
+        record.downloading = false;
+
+      }).error(function(errorResponse) {
+        record.downloading = false;
+      });
 
 
-		}
+    }
 		// SUBSCRIPTION HISTORY PDF DOWNLOADER
 
 		$scope.expandPaymentRecord = function (record) {
