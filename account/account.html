@@ -624,7 +624,7 @@
                                                 <div flex>
                                                     <div ng-repeat="ads in planAddons" class="check-row" ng-class="{'active':ads.isChecked}" layout="row" layout-align="start center" flex>
                                                         <div flex>
-                                                            <input class="styled-checkbox" type="checkbox" id="{{ads}}" ng-checked="ads.isChecked" ng-change="calculateCost(ads.isChecked);" ng-model="ads.isChecked">
+                                                            <input class="styled-checkbox" type="checkbox" id="{{ads}}" ng-checked="ads.isChecked" ng-change="toggleSelection(ads)" ng-model="ads.isChecked">
                                                             <label for="{{ads}}">{{ads.name}}</label>
                                                         </div>
                                                         <div flex class="amount">
@@ -632,7 +632,7 @@
                                                         </div>
                                                         <div ng-style="ads.isChecked ? {'z-index':'10'} : {'z-index':'0','opacity':'0.6'}">
                                                             <span>Quantity : </span>
-                                                            <input type="number" ng-disabled="!ads.isChecked" ng-model="ads.qty" ng-init="ads.qty = 1" min="1" ng-change="calculateCost(ads.isChecked)">
+                                                            <input type="number" ng-disabled="!ads.isChecked" ng-model="ads.qty" ng-init="ads.qty = 1" min="1">
                                                         </div>
                                                       <div flex class="amount">
                                                         <span>${{ads.unitPrice * ads.qty}}</span>

@@ -74,8 +74,8 @@
 		$scope.cardDetails = null;
 
 		$scope.signupsuccess = false;
-		$scope.isDefaultPayment = '1';
-		$scope.defaultPayment = defaultPayment;
+		//$scope.isDefaultPayment = '1';
+		//$scope.defaultPayment = defaultPayment;
 		$scope.admin = true;
 		$scope.normal = false;
 		$scope.isEditablePassword = false;
@@ -532,37 +532,6 @@
 		};
 
 
-		//Make Default
-
-		function defaultPayment(selectedPayment,cardDetails){
-			try{
-				$scope.isDefaultPayment = selectedPayment;
-
-				$http({
-					method : 'GET',
-					url : "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=setCardDefault&cardId="+cardDetails.id,
-					headers: {
-						'Content-Type': 'application/json'
-					}}).then(function(response) {
-
-					$scope.loadCardDetails();
-
-					notifications.toast("Default card has been changed", "success");
-
-				}, function(response) {
-					// console.log('set card function returned an error '+response);
-					notifications.toast("Error, unable to proceed with the operation", "error");
-
-
-				});
-
-			}catch(ex){
-
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
-		}
-
 		$scope.initPlanSliderValue = null;
 		$scope.activeSubscription = null;
 		$scope.getActiveSubscriptionDetails = function () {
@@ -763,7 +732,7 @@
 			}
 
       var confirm = $mdDialog.confirm()
-        .title('Deactivate current plan')
+        .title('Buy new plan')
         .textContent('Would you like to buy selected Plan?')
         .targetEvent()
         .ok('Yes')
@@ -827,7 +796,7 @@
     $scope.addAddon = function(){
 
       var confirm = $mdDialog.confirm()
-        .title('Deactivate current plan')
+        .title('Buy new add-on')
         .textContent('Would you like to buy selected Add-on(s)?')
         .targetEvent()
         .ok('Yes')
@@ -835,7 +804,6 @@
 
       $mdDialog.show(confirm).then(function() {
 
-      debugger;
         if($scope.selectedAddons != undefined && $scope.selectedAddons.length > 0) {
 
           $scope.isPlanSelected = true;
@@ -1086,35 +1054,6 @@
 			$mdDialog.show(confirm).then(function() {
 
 				$scope.changeSubscription('free_trial');
-
-				//try{
-				//	var disconnectData = {'action':'eod'};
-				//	$charge.paymentgateway().permanentDisconnect(disconnectData).success(function (data) {
-				//
-				//		if(data.status)
-				//		{
-				//			$scope.isTempDeactive = false;
-				//			notifications.toast("Operation successful, your subscription period will be ending on "+ $scope.displayExpireDate, "success");
-				//
-				//		}else{
-				//
-				//			notifications.toast("Subscription disconnection not completed", "error");
-				//
-				//		}
-				//
-				//
-				//	}).error(function (response) {
-				//		// // console.log(response);
-				//
-				//		notifications.toast("Subscription disconnection not completed", "error");
-				//
-				//	})
-				//
-				//}catch(ex){
-				//
-				//	ex.app = "myAccount";
-				//	logHelper.error(ex);
-				//}
 
 			}, function() {
 
@@ -1926,7 +1865,7 @@
 				$scope.packageCost = parseInt($scope.tempSelectedPlan.unitPrice);
 				angular.forEach($scope.planAddons, function (addon) {
 					if (addon.isChecked) {
-						$scope.selectedAddons.push(addon);
+					//	$scope.selectedAddons.push(addon);
 						// $scope.packageCost += parseInt(addon.unitPrice) * parseInt(addon.qty);
 					}
 				});
@@ -1948,10 +1887,6 @@
 		$scope.showAddons = false;
 		$scope.showAddonsContainer = function () {
 			$scope.showAddons = !$scope.showAddons;
-		}
-
-		$scope.updateSelectedAddons = function (addon) {
-			$scope.selectedAddons.push = addon;
 		}
 	}
 })();
