@@ -512,7 +512,7 @@
                                                 <div class="rate-container">
                                                     <div ng-if="plan.code === 'free_trial'">
                                                         <span>Free</span><span></span>
-                                                        <div class="tax">Tax : 10%</div>
+                                                        <!--<div class="tax">Tax : 10%</div>-->
                                                     </div>
                                                     <div ng-if="plan.code != 'free_trial'">
                                                         <span>${{plan.unitPrice}} </span><span> / {{plan.billEvery}}</span>
@@ -590,7 +590,7 @@
                                                     <!--&lt;!&ndash;</div>&ndash;&gt;-->
                                                 <!--</div>-->
                                                 <md-divider></md-divider>
-                                                <div class="feature-row total" layout="row" layout-align="space-between center" ng-if="tempSelectedPlan.hasPromotion">
+                                                <div class="feature-row total" layout="row" layout-align="space-between center" ng-if="tempSelectedPlan.code === free_trial">
                                                     <h3 class="mt-0">Promotion code: </h3>
                                                     <div class="text-right">
                                                         <md-input-container class="m-0">

@@ -79,6 +79,7 @@
 		$scope.admin = true;
 		$scope.normal = false;
 		$scope.isEditablePassword = false;
+    $scope.promoCode = '';
 		$scope.user = {
 			currentPassword : '',
 			newPassword : '',
@@ -461,10 +462,10 @@
           for (var i = 0; i < $scope.allPlans.length; i++) {
             if ($scope.allPlans[i].taxID != "") {
               if (parseInt($scope.allPlans[i].taxID) === $scope.taxDetails[iz].taxId) {
-                if($scope.allPlans[i].taxamount)
+                if($scope.allPlans[i].taxamount === undefined)
                   $scope.allPlans[i].taxamount = 0;
 
-                $scope.allPlans[i].taxamount = $scope.taxDetails[iz].amount;
+                $scope.allPlans[i].taxamount = parseFloat($scope.allPlans[i].taxamount) + parseFloat($scope.taxDetails[iz].amount);
                 $scope.allPlans[i].taxtype = $scope.taxDetails[iz].amounttype;
               }
             }
@@ -480,7 +481,28 @@
 			$scope.tempSelectedPlan = radioButtonPlan;
 			$scope.planAddons = null;
 			$scope.updatePackgeFeatures(radioButtonPlan);
-			$scope.calculateCost(null, radioButtonPlan.unitPrice);
+
+      var amount = radioButtonPlan.unitPrice;
+
+      if(radioButtonPlan.code != 'free_trial') {
+        if (radioButtonPlan.discounttype === 1) {
+          amount = amount - ((amount * radioButtonPlan.discountamount) / 100);
+        } else {
+          amount = amount - radioButtonPlan.discountamount;
+        }
+
+        if (radioButtonPlan.taxamount != undefined) {
+
+          if (radioButtonPlan.taxtype === '1') {
+            amount = amount + ((amount * radioButtonPlan.taxamount) / 100);
+          } else {
+            amount = amount + radioButtonPlan.taxamount;
+          }
+        }
+      }else {
+        amount = 0;
+      }
+        $scope.calculateCost(null, amount );
 			$charge.myaccountapi().getAddonsForBasePlan(radioButtonPlan.code).success(function (response) {
 
 				if(response.status) {
@@ -805,7 +827,9 @@
 				"oldplanCode": $scope.selectedPlan.code,
 				"qty": 1,
 				"note": "note",
-				"changeType": "immediate"
+				"changeType": "immediate",
+        //"addOns": $scope.selectedAddons,
+        "coupon": $scope.promoCode
 			}
 
 			$charge.myaccountapi().changeSubscriptionlocal(data).success(function (response) {
