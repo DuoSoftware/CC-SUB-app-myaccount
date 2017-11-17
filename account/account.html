@@ -252,7 +252,7 @@
                                         </span>
                                         <span ng-if="currentPlanCode == 'free_trial'" class="fs-16 font-accent">Only 25 subscriptions</span>
                                         <div layout-align="end center" layout="row">
-                                            <md-button class="md-accent md-raised" ng-show="selectedPlan.code != 'free_trial'" ng-disabled="isChangeSubscriptionClicked" ng-click="deactiveCurrentPlan()" flex>Deactivate</md-button>
+                                            <md-button class="md-accent md-raised" ng-if="currentPlanCode != 'free_trial'" ng-show="selectedPlan.code != 'free_trial'" ng-disabled="isChangeSubscriptionClicked" ng-click="deactiveCurrentPlan()" flex>Deactivate</md-button>
                                             <!--<md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex>Upgrade</md-button>-->
                                         </div>
                                     </div>
@@ -659,7 +659,7 @@
                                                 <div flex="5"></div>
                                                 <md-divider></md-divider>
                                                 <div>
-                                                    <md-button class="md-accent md-raised" ng-show="customerDetails.stripeCustId != null" ng-disabled="selectedPlan.code === tempSelectedPlan.code || selectedAddons === undefined || isPlanSelected" ng-click="addAddon()">Buy add-on(s)</md-button>
+                                                    <md-button class="md-accent md-raised" ng-show="customerDetails.stripeCustId != null" ng-disabled="selectedPlan.code != tempSelectedPlan.code || selectedAddons === undefined || isPlanSelected" ng-click="addAddon()">{{selectedPlan.code}}Buy add-on(s){{tempSelectedPlan.code}}</md-button>
                                                 </div>
                                             </div>
                                         </div>

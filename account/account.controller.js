@@ -131,7 +131,7 @@
 				while (c.charAt(0) == ' ') c = c.substring(1, c.length);
 				if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
 			}
-			//debugger;
+
 			return null;
 		}
 
@@ -675,7 +675,6 @@
 
 		// select addon check box
 		$scope.toggleSelection = function(addon) {
-debugger;
 			try{
 				var idx = $scope.selectedAddons.indexOf(addon);
 
@@ -1669,7 +1668,6 @@ debugger;
 
 		// SUBSCRIPTION HISTORY PDF DOWNLOADER
 		$scope.downloadSubscriptionPDF = function (record) {
-      debugger;
 			record.downloading = true;
 
 			// var lastDateTimestamp = new Date(record.lastDate + ' UTC').getTime()/1000;
