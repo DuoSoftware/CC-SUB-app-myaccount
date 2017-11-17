@@ -359,7 +359,8 @@
                                                     <!--<div class="w-100 ph-16 pv-10">Month</div>-->
                                                     <!--<div layout="row" class="ph-16 pv-10" flex>-->
                                                     <!--<div flex="30">Plan</div>-->
-                                                    <div flex>Paid Date</div>
+                                                    <div flex>Invoice Date</div>
+                                                  <div flex="10">info</div>
                                                     <div class="w-165 text-right"><span>Amount</span></div>
                                                     <div flex="5"></div>
                                                     <div flex="10">Status</div>
@@ -382,12 +383,13 @@
                                                             <!-- -->
                                                             <!--</div>-->
                                                             <div layout="row" layout-align="start center" class="w-165">
-                                                                <span> {{history.paymentDate | date:'yyyy.MM.dd'}}</span>
+                                                                <span> {{history.invoiceDate | date:'yyyy.MM.dd'}}</span>
                                                             </div>
-                                                            <div class="w-165 text-right"><span>${{history.amount}}</span></div>
+                                                          <div flex="10">{{history.tag}}</div>
+                                                            <div class="w-165 text-right"><span>${{history.subTotal}}</span></div>
                                                             <div flex="5"></div>
                                                             <div flex="10" layout="row" layout-align="start center">
-                                                                <span flex>{{history.status }}</span>
+                                                                <span flex>{{history.invoiceStatus }}</span>
                                                             </div>
                                                             <!--</div>-->
                                                             <!--<div flex ng-if="!history.expanded"></div>-->

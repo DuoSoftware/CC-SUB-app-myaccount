@@ -482,23 +482,26 @@
 			$scope.planAddons = null;
 			$scope.updatePackgeFeatures(radioButtonPlan);
 
-      var amount = radioButtonPlan.unitPrice;
+      var amount = parseFloat(radioButtonPlan.unitPrice);
 
       if(radioButtonPlan.code != 'free_trial') {
-        if (radioButtonPlan.discounttype === 1) {
-          amount = amount - ((amount * radioButtonPlan.discountamount) / 100);
-        } else {
-          amount = amount - radioButtonPlan.discountamount;
-        }
-
-        if (radioButtonPlan.taxamount != undefined) {
-
-          if (radioButtonPlan.taxtype === '1') {
-            amount = amount + ((amount * radioButtonPlan.taxamount) / 100);
-          } else {
-            amount = amount + radioButtonPlan.taxamount;
+          if(radioButtonPlan.discounttype != undefined) {
+            if (radioButtonPlan.discounttype === 1) {
+              amount = amount - ((amount * parseFloat(radioButtonPlan.discountamount)) / 100);
+            } else {
+              amount = amount - parseFloat(radioButtonPlan.discountamount);
+            }
           }
-        }
+
+          if (radioButtonPlan.taxamount != undefined) {
+
+            if (radioButtonPlan.taxtype === '1') {
+              amount = amount + ((amount * parseFloat(radioButtonPlan.taxamount)) / 100);
+            } else {
+              amount = amount + parseFloat(radioButtonPlan.taxamount);
+            }
+          }
+
       }else {
         amount = 0;
       }
@@ -978,16 +981,15 @@
 
 			try{
 				$scope.isTenantPaymentHistoryClicked = true;
-				$charge.myaccountapi().getPaymentDetailsByEmail(email).success(function (data) {
-
+				$charge.myaccountapi().getInvoiceByEmail(email).success(function (data) {
 					$scope.paymentHistoryList = null;
 					$scope.groupedPaymentHistory = [];
 					$scope.paymentHistoryList = data.data.result;
 
 					for (i = 0; i < $scope.paymentHistoryList.length; i++) {
-						var date = new Date($scope.paymentHistoryList[i].createdDate);
+						var date = new Date($scope.paymentHistoryList[i].invoiceDate);
 						var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-						$scope.paymentHistoryList[i].receivedDate = new Date($scope.paymentHistoryList[i].createdDate);
+						$scope.paymentHistoryList[i].receivedDate = new Date($scope.paymentHistoryList[i].invoiceDate);
 						$scope.paymentHistoryList[i].lastDate = lastDay;
 						//$scope.paymentHistoryList[i].infomation = JSON.parse($scope.paymentHistoryList[i].infomation)[0];
 						$scope.paymentHistoryList[i].infomation = $scope.paymentHistoryList[i].note;
@@ -997,9 +999,9 @@
 						//$scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].currentPeriod.split('-')[0] + '-' + $scope.paymentHistoryList[i].currentPeriod.split('-')[1];
 						//$scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].currentPeriod);
 						//$scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].currentPeriodEnd);
-						$scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].createdDate + '-' + $scope.paymentHistoryList[i].lastDate;
-						$scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].createdDate);
-						$scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].lastDate);
+						$scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].period;
+						$scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].invoiceDate);
+						$scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].dueDate);
 						// Kasun_Wijeratne_31_AUG_2017 - END
 					}
 
@@ -1674,47 +1676,6 @@
 		$scope.downloadSubscriptionPDF = function (record) {
 			record.downloading = true;
 
-			// var lastDateTimestamp = new Date(record.lastDate + ' UTC').getTime()/1000;
-			// var receivedDateTimestamp = new Date(record.receivedDate + ' UTC').getTime()/1000;
-
-
-			// lastDate = lastDate.split("-");
-			// var lastDateTimestamp = lastDate[1]+"/"+lastDate[2]+"/"+lastDate[0];
-			// alert(new Date(newDate).getTime());
-
-			// $http({
-			// 	method: 'POST',
-			// 	url: 'http://azure.cloudcharge.com/services/duosoftware.EmailGatewayAPI/email/downloadSubscriptionPDF',
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 		'idToken' : $scope.idToken
-			// 	},
-			// 	data:[{
-			// 		"type": "PDF",
-			// 		"id": record.id,
-			// 		"amount": record.amount,
-			// 		"email": parseJwt($scope.idToken).emails[0],
-			// 		"currency": "usd",
-			// 		"infomation": JSON.stringify([record.infomation]),
-			// 		"domain": window.location.hostname,
-			// 		"currentPeriod": receivedDateTimestamp,
-			// 		"currentPeriodEnd": lastDateTimestamp,
-			// 		"createdDate": receivedDateTimestamp,
-			// 		"gatewayType": "stripe"
-			// 	}]
-			// }).then(function (successResponse) {
-			// 	$scope.subscriptionDateForPDF = record.receivedDate;
-			// 	var pdf = 'data:application/octet-stream;base64,' + successResponse.data.encodedResult;
-			// 	var dlnk = document.getElementById('hidden-donwload-anchor');
-			// 	$timeout(function(){
-			// 		dlnk.href = pdf;
-			// 		dlnk.click();
-			// 	},100);
-			// 	record.downloading = false;
-			// }, function (errorResponse) {
-			// 	// console.log(errorResponse)
-			// 	record.downloading = false;
-			// });
 
 			//$scope.dataInfo = [];
 			//var currentPeriod = null;
@@ -1767,7 +1728,7 @@
       //var currentPeriod = null;
       //var currentPeriodEnd = null;
       //var receivedDate = null;
-      //angular.forEach(record.records, function(record){
+      //angular.forEach(record.invoiceDetails, function(record){
       //  var tempItemObj = {
       //    amount: record.amount,
       //    feature: record.infomation.feature,
@@ -1783,16 +1744,16 @@
 
       $scope.data=[{
         "type": "PDF",
-        "id": record.paymentNo,
-        "amount": record.amount,
+        "id": record.invoiceNo,
+        "amount": record.subTotal,
         "email": vm.dummy.Data.email,
         "currency": record.currency,
         "infomation": JSON.stringify($scope.dataInfo),
         "domain": record.customer,
-        "currentPeriod": new Date(record.paymentDate+ ' UTC').getTime()/1000,
-        "currentPeriodEnd": new Date(record.paymentDate+ ' UTC').getTime()/1000,
-        "createdDate": new Date(record.createdDate+ ' UTC').getTime()/1000,
-        "gatewayType": record.gatewayType
+        "currentPeriod": new Date(record.invoiceDate),
+        "currentPeriodEnd": new Date(record.dueDate),
+        "createdDate": new Date(record.createdDate),
+        "gatewayType": "stripe"
       }];
       $charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
 
