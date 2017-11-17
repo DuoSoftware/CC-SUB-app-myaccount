@@ -549,7 +549,11 @@
 
                   $scope.currentPlanCode = response.data.result[i].code
                   selectPlan($scope.currentPlanCode);
-                  $scope.currentPlanAmount = parseFloat(response.data.result[i].amount);
+
+                  if(response.data.result[i].discount === undefined)
+                  { response.data.result[i].discount = 0 }
+
+                  $scope.currentPlanAmount = parseFloat(response.data.result[i].amount) - parseFloat(response.data.result[i].discount) ;
 
                   $scope.selectedAddonCodes = [];
                   if (response.data.result[i].addOns && response.data.result[i].addOns.length > 0) {
@@ -638,7 +642,7 @@
                     };
                   });
 
-                  $scope.currentPlanAmount = response.data.result[i].amount;
+                  //$scope.currentPlanAmount = response.data.result[i].amount;
                 }
               }
 						}else{
