@@ -659,7 +659,7 @@
                                                 <div flex="5"></div>
                                                 <md-divider></md-divider>
                                                 <div>
-                                                    <md-button class="md-accent md-raised" ng-show="customerDetails.stripeCustId != null" ng-disabled="selectedAddons === undefined || isPlanSelected" ng-click="addAddon()">Buy add-on(s)</md-button>
+                                                    <md-button class="md-accent md-raised" ng-show="customerDetails.stripeCustId != null" ng-disabled="selectedPlan.code != tempSelectedPlan.code || selectedAddons === undefined || isPlanSelected" ng-click="addAddon()">Buy add-on(s)</md-button>
                                                 </div>
                                             </div>
                                         </div>
