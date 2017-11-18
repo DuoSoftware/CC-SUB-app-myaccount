@@ -413,11 +413,13 @@
 
             if (response.status) {
               for (var i = 0; i < $scope.allPlans.length; i++) {
-                if(response.data[$scope.allPlans[i].guPlanID] != null){ // code did asuming that it is one promotion at a time for a plan.
-                  $scope.allPlans[i].hasPromotion = true;
-                  $scope.allPlans[i].promotionCode = response.data[$scope.allPlans[i].guPlanID]["0"].couponcode;
-                  $scope.allPlans[i].discountamount = response.data[$scope.allPlans[i].guPlanID]["0"].discountamount;
-                  $scope.allPlans[i].discounttype = response.data[$scope.allPlans[i].guPlanID]["0"].discounttype;
+                if(response.data[$scope.allPlans[i].guPlanID] != null){ // code did, asuming that it is one promotion at a time for a plan.
+                    if(response.data[$scope.allPlans[i].guPlanID]["0"].couponcode != undefined){
+                    $scope.allPlans[i].hasPromotion = true;
+                    $scope.allPlans[i].promotionCode = response.data[$scope.allPlans[i].guPlanID]["0"].couponcode;
+                    $scope.allPlans[i].discountamount = response.data[$scope.allPlans[i].guPlanID]["0"].discountamount;
+                    $scope.allPlans[i].discounttype = response.data[$scope.allPlans[i].guPlanID]["0"].discounttype;
+                  }
                 }
               }
             }
