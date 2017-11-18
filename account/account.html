@@ -360,7 +360,7 @@
                                                     <!--<div layout="row" class="ph-16 pv-10" flex>-->
                                                     <!--<div flex="30">Plan</div>-->
                                                     <div flex>Invoice Date</div>
-                                                  <!--<div flex="10">info</div>-->
+                                                  <div flex="10">Invoice No</div>
                                                     <div class="w-165 text-right"><span>Amount</span></div>
                                                     <div flex="5"></div>
                                                     <div flex="10">Status</div>
@@ -383,9 +383,9 @@
                                                             <!-- -->
                                                             <!--</div>-->
                                                             <div layout="row" layout-align="start center" class="w-165">
-                                                                <span> {{history.invoiceDate | date:'yyyy.MM.dd'}}</span>
+                                                                <span> {{history.invoiceDate | date:'yyyy-MM-dd'}}</span>
                                                             </div>
-                                                          <!--<div flex="10">{{history.tag}}</div>-->
+                                                          <div flex="10">{{history.invoiceNo}}</div>
                                                             <div class="w-165 text-right"><span>${{history.invoiceAmount}}</span></div>
                                                             <div flex="5"></div>
                                                             <div flex="10" layout="row" layout-align="start center">
@@ -528,8 +528,10 @@
                                         <div class="features" layout="column" flex>
                                             <div class="feature-row">
                                                 <div class="mt-0 mb-20">Package features</div>
-                                                <div ng-repeat="feature in packageFeatures" class="feature">
-                                                    <input type="checkbox" class="styled-checkbox" id="{{feature.text}}" ng-model="feature.isActive" disabled><label for="{{feature.text}}">{{feature.text}}</label>
+                                                <div ng-repeat="feature in allFeatures" class="feature">
+                                                  <div ng-repeat="fea in feature" class="feature">
+                                                    <input type="checkbox" class="styled-checkbox" id="{{fea.featureCode}}" ng-model="fea.isSelected" disabled><label for="{{fea.featureCode}}">{{fea.featureCode}} {{fea.unitsTo}} {{fea.unitUom}}</label>
+                                                  </div>
                                                 </div>
                                             </div>
                                             <div class="mt-20">

@@ -351,10 +351,22 @@
 		$scope.planAddons= null;
 		$scope.tempSelectedPlan = null;
 		$scope.selectedAddons = [];
+    $scope.allFeatures = null;
 
 		$scope.getAllPlans = function () {
 
 			try{
+
+        $charge.myaccountapi().getAllFeatures(0).success(function (response) {
+
+          if(response.status) {
+            $scope.allFeatures = response.data;
+          }
+
+        }).error(function(data) {
+          $scope.allFeatures = null;
+        });
+
 				$charge.myaccountapi().allPlanslocal(0,10,'asc').success(function (response) {
 
 					if(response.status) {
@@ -480,7 +492,22 @@
 			$scope.addonsLoaded = false;
 			$scope.tempSelectedPlan = radioButtonPlan;
 			$scope.planAddons = null;
-			$scope.updatePackgeFeatures(radioButtonPlan);
+			//$scope.updatePackgeFeatures(radioButtonPlan);
+
+      angular.forEach($scope.allFeatures, function (feature) {
+
+        for(var ii=0; ii< feature.length; ii++)
+        {
+          feature[ii].isSelected = false;
+          for(var z=0; z< radioButtonPlan.priceScheme.length; z++) {
+            if(radioButtonPlan.priceScheme[z].featureCode === feature[ii].featureCode)
+            {
+              feature[ii].isSelected = true;
+            }
+          }
+        }
+
+      });
 
       var amount = parseFloat(radioButtonPlan.unitPrice);
 
@@ -538,6 +565,7 @@
 		$scope.initPlanSliderValue = null;
 		$scope.activeSubscription = null;
 		$scope.getActiveSubscriptionDetails = function () {
+
 			try{
 				$charge.myaccountapi().getActiveSubscription(vm.dummy.Data.email).success(function (response) {
 
@@ -567,6 +595,15 @@
 
                   $scope.initPlanSliderValue = "25";
                   $scope.currentPlanUsed = '0';
+
+                  //$charge.ratingengine().getAppRule("invoice",$scope.currentPlanCode).success(function (response) {
+                  //
+                  //  $scope.initPlanSliderValue = parseFloat(response.amount);
+                  //  $scope.currentPlanUsed = parseFloat(response.used);
+                  //
+                  //}).error(function(data) {
+                  //
+                  //});
 
 
                   $scope.currentPlanCreatedDate = response.data.result[i].startDate;
@@ -789,7 +826,6 @@
 					//$scope.getActiveSubscriptionDetails();
 					$scope.currentPlanCode = newPlan;
 					selectPlan($scope.currentPlanCode);
-
 				}else{
 					notifications.toast("Error occured while changing plans", "error");
 					$scope.isChangeSubscriptionClicked = false;
@@ -1816,37 +1852,37 @@
 		// Reset access keys - END
 
 
-		// Generic features
-		$scope.packageFeatures = [
-			{
-				isActive: false,
-				text:"Unlimited users",
-				availableIn:['free_trial','starter','iambig']
-			},{
-				isActive: false,
-				text:"Unlimited plans",
-				availableIn:['free_trial','starter','iambig']
-			},{
-				isActive: false,
-				text:"Unlimited subscriptions",
-				availableIn:['starter','iambig']
-			},{
-				isActive: false,
-				text:"Limited subscriptions (Only 25)",
-				availableIn:['free_trial']
-			}
-		];
-
-		$scope.updatePackgeFeatures = function (package_) {
-			angular.forEach($scope.packageFeatures, function (pack) {
-				pack.isActive = false;
-				angular.forEach(pack.availableIn, function (pac) {
-					if(pac == package_.code){
-						pack.isActive = true;
-					}
-				});
-			});
-		}
+		//// Generic features
+		//$scope.packageFeatures = [
+		//	{
+		//		isActive: false,
+		//		text:"Unlimited users",
+		//		availableIn:['free_trial','starter','iambig']
+		//	},{
+		//		isActive: false,
+		//		text:"Unlimited plans",
+		//		availableIn:['free_trial','starter','iambig']
+		//	},{
+		//		isActive: false,
+		//		text:"Unlimited subscriptions",
+		//		availableIn:['starter','iambig']
+		//	},{
+		//		isActive: false,
+		//		text:"Limited subscriptions (Only 25)",
+		//		availableIn:['free_trial']
+		//	}
+		//];
+        //
+		//$scope.updatePackgeFeatures = function (package_) {
+		//	angular.forEach($scope.packageFeatures, function (pack) {
+		//		pack.isActive = false;
+		//		angular.forEach(pack.availableIn, function (pac) {
+		//			if(pac == package_.code){
+		//				pack.isActive = true;
+		//			}
+		//		});
+		//	});
+		//}
 
 		$scope.calculateCost = function (status, amount) {
 			if(status == null){
