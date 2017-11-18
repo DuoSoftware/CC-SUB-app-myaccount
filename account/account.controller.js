@@ -598,14 +598,14 @@
                   $scope.initPlanSliderValue = "25";
                   $scope.currentPlanUsed = '0';
 
-                  //$charge.ratingengine().getAppRule("invoice",$scope.currentPlanCode).success(function (response) {
-                  //
-                  //  $scope.initPlanSliderValue = parseFloat(response.amount);
-                  //  $scope.currentPlanUsed = parseFloat(response.used);
-                  //
-                  //}).error(function(data) {
-                  //
-                  //});
+                  $charge.ratingengine().getAppRule("invoice",$scope.currentPlanCode).success(function (response) {
+
+                    $scope.initPlanSliderValue = parseFloat(response.amount);
+                    $scope.currentPlanUsed = parseFloat(response.used);
+
+                  }).error(function(data) {
+
+                  });
 
 
                   $scope.currentPlanCreatedDate = response.data.result[i].startDate;
