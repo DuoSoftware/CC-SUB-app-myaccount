@@ -8,7 +8,7 @@
 		.controller('AccountController', AccountController);
 
 	/** @ngInject */
-	function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse) {
+	function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse,logHelper) {
 		$scope.acc = "";
 		//// console.log("Profile Controller Called.");
 		var vm = this;
@@ -196,7 +196,7 @@
 					$scope.accAccessKeysLoaded = true;
 
 					ex.app = "myAccount";
-					//logHelper.error(ex);
+					logHelper.error(ex);
 
 				});
 
@@ -206,7 +206,7 @@
 				$scope.accAccessKeysLoaded = true;
 
 				ex.app = "myAccount";
-				//logHelper.error(ex);
+				logHelper.error(ex);
 			}
 		})();
 
@@ -302,7 +302,7 @@
 			}catch(ex){
 
 				ex.app = "myAccount";
-				//logHelper.error(ex);
+				logHelper.error(ex);
 			}
 		}
 
@@ -341,7 +341,7 @@
 				$scope.cardDetails = null;
 
 				ex.app = "myAccount";
-				//logHelper.error(ex);
+				logHelper.error(ex);
 			}
 
 		}
@@ -385,7 +385,7 @@
 				$scope.allPlans= null;
 
 				ex.app = "myAccount";
-				//logHelper.error(ex);
+				logHelper.error(ex);
 			}
 
 		};
@@ -430,7 +430,7 @@
 
 				} catch (ex) {
 					ex.app = "myAccount";
-					//logHelper.error(ex);
+					logHelper.error(ex);
 				}
 
 			}
@@ -455,7 +455,7 @@
 			} catch (ex) {
 				$scope.planTax = [];
 				ex.app = "myAccount";
-				//logHelper.error(ex);
+				logHelper.error(ex);
 			}
 
 		};
@@ -714,7 +714,7 @@
 
 			}catch(ex){
 				ex.app = "myAccount";
-				//logHelper.error(ex);
+				logHelper.error(ex);
 
 				$scope.accSubscriptionDetailsLoaded = true;
 			}
@@ -736,7 +736,7 @@
 				}
 			}catch(ex){
 				ex.app = "myAccount";
-				//logHelper.error(ex);
+				logHelper.error(ex);
 			}
 		};
 
@@ -772,7 +772,7 @@
 				} catch (ex) {
 					$scope.isPlanSelected = false;
 					ex.app = "myAccount";
-					//logHelper.error(ex);
+					logHelper.error(ex);
 				}
 			}
 
@@ -1003,6 +1003,7 @@
 					$scope.customerDetails = response.data['0'];
 
 					$scope.loadCardDetails();
+					$scope.getTenantPaymentHistory();
 
 					if($scope.customerDetails.stripeCustId === null){
 						$scope.addNewCard('insert');
@@ -1052,10 +1053,11 @@
 		//
 		//}
 
-		$scope.isTenantPaymentHistoryClicked = false;
-		$scope.showPaymentHistoryPane = false;
+		// $scope.isTenantPaymentHistoryClicked = false;
+		// $scope.showPaymentHistoryPane = false;
+		$scope.paymentHistoryLoading = false;
 		$scope.getTenantPaymentHistory = function() {
-
+			$scope.paymentHistoryLoading = true;
 			var email = $scope.customerDetails.email_addr;
 
 			try{
@@ -1108,27 +1110,30 @@
 					//});
 					// Kasun_Wijeratne_31_AUG_2017 - END
 
-					$scope.isTenantPaymentHistoryClicked = false;
-					$scope.showPaymentHistoryPane = true;
-					$scope.paymentHistory = true;
+					// $scope.isTenantPaymentHistoryClicked = false;
+					// $scope.showPaymentHistoryPane = true;
+					// $scope.paymentHistory = true;
+					$scope.paymentHistoryLoading = false;
 
 
 				}).error(function (data) {
 					// console.log(data);
 					//$scope.paymentHistoryList = null;
-					$scope.isTenantPaymentHistoryClicked = false;
-					$scope.showPaymentHistoryPane = true;
+					// $scope.isTenantPaymentHistoryClicked = false;
+					// $scope.showPaymentHistoryPane = true;
+					$scope.paymentHistoryLoading = false;
+
 				});
 			}catch(ex){
 
-				$scope.isTenantPaymentHistoryClicked = false;
-				$scope.showPaymentHistoryPane = true;
+				// $scope.isTenantPaymentHistoryClicked = false;
+				// $scope.showPaymentHistoryPane = true;
+				$scope.paymentHistoryLoading = false;
+
 				ex.app = "myAccount";
-				//logHelper.error(ex);
+				logHelper.error(ex);
 			}
 		}
-
-		$scope.getTenantPaymentHistory();
 
 
 		$scope.deactiveCurrentPlan = function(){  // EOD deactivation
@@ -1200,7 +1205,7 @@
 				notifications.toast("Error updating details ", "error");
 
 				ex.app = "myAccount";
-				//logHelper.error(ex);
+				logHelper.error(ex);
 			}
 
 		}
@@ -1276,7 +1281,7 @@
 		//
 		//	}catch(ex){
 		//		ex.app = "myAccount";
-		//		//logHelper.error(ex);
+				//logHelper.error(ex);
 		//	}
 		//
 		//});
@@ -1307,7 +1312,7 @@
 		//		notifications.toast("Error updating details ", "error");
 		//
 		//		ex.app = "myAccount";
-		//		//logHelper.error(ex);
+				//logHelper.error(ex);
 		//	}
 		//};
 
@@ -1459,7 +1464,7 @@
 				$scope.isChangePasswordSelected = false;
 
 				ex.app = "myAccount";
-				//logHelper.error(ex);
+				logHelper.error(ex);
 			}
 		}
 
@@ -1554,7 +1559,7 @@
 		//	}catch(ex){
 		//
 		//		ex.app = "myAccount";
-		//		//logHelper.error(ex);
+				//logHelper.error(ex);
 		//	}
 		//
 		//}
@@ -1889,7 +1894,7 @@
 				$scope.resetLoading = false;
 
 				ex.app = "myAccount";
-				//logHelper.error(ex);
+				logHelper.error(ex);
 			}
 		}
 		// Reset access keys - END

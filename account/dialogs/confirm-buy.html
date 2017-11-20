@@ -4,7 +4,7 @@
             <div layout="row" layout-align="start center">
                 <md-icon md-font-icon="icon-login"></md-icon> <h3>Confirm purchase</h3>
             </div>
-            <md-button class="md-icon-button" ng-click="closeDialog()" aria-label="Close dialog">
+            <md-button class="md-icon-button" ng-click="ctrl.confirmData.confirmation(false)" aria-label="Close dialog">
                 <md-icon md-font-icon="icon-close"></md-icon>
             </md-button>
         </div>
@@ -14,24 +14,37 @@
 
         <div layout="column" layout-align="center center">
             <div layout="row" layout-align="start center" class="w-300 mb-10">
-                <div class="w-100">Plan</div>
+                <div class="w-100">Plan amount</div>
                 <div flex class="bg-gray p-5 text-center">
-                    <span class="font-accent fs-20">${{ctrl.confirmData.plan.unitPrice}}</span><span class="op-5"> / {{ctrl.confirmData.plan.billEvery}}</span>
+                    <span class="fs-16">{{ctrl.confirmData.plan.unitPrice|isoCurrency:'USD'}}</span>
                 </div>
             </div>
             <div layout="row" layout-align="start center" class="w-300 mb-10">
+                <div class="w-100">Bill every</div>
+                <div flex class="bg-gray p-5 text-center">
+                    <span class="fs-16">{{ctrl.confirmData.plan.billEvery}}</span>
+                </div>
+            </div>
+            <div layout="row" layout-align="start center" class="w-300 mb-10">
+                <div class="w-100">Tax</div>
+                <div flex class="bg-gray p-5 text-center">
+                    <span class="fs-16" ng-if="ctrl.confirmData.plan.taxamount != null"> {{ctrl.confirmData.plan.taxamount|isoCurrency:'USD'}}</span>
+                    <span class="fs-16" ng-if="ctrl.confirmData.plan.taxamount == null">-</span>
+                </div>
+            </div>
+            <div layout="row" layout-align="start center" class="w-300 mt-20 mb-10">
                 <div class="w-100 fs-16">Total</div>
-                <div flex class="fs-20 text-center">${{ctrl.confirmData.total}}</div>
+                <div flex class="fs-20 text-center">{{ctrl.confirmData.total|isoCurrency:'USD'}}</div>
             </div>
 
-            <div class="mt-50">Are you sure you want to proceed?</div>
+            <div class="mt-50">Please confirm or cancel this purchase</div>
 
         </div>
 
     </md-content>
     <md-dialog-actions>
-        <md-button ng-click="ctrl.confirmData.confirmation(false)">No</md-button>
-        <md-button class="md-raised md-accent" ng-click="ctrl.confirmData.confirmation(true)">Yes</md-button>
+        <md-button ng-click="ctrl.confirmData.confirmation(false)">Cancel</md-button>
+        <md-button class="md-raised md-accent" ng-click="ctrl.confirmData.confirmation(true)">Confirm</md-button>
     </md-dialog-actions>
 
 </md-dialog>

@@ -4,7 +4,7 @@
             <div layout="row" layout-align="start center">
                 <md-icon md-font-icon="icon-login"></md-icon> <h3>Confirm purchase</h3>
             </div>
-            <md-button class="md-icon-button" ng-click="closeDialog()" aria-label="Close dialog">
+            <md-button class="md-icon-button" ng-click="ctrl.confirmData.confirmation(false)" aria-label="Close dialog">
                 <md-icon md-font-icon="icon-close"></md-icon>
             </md-button>
         </div>
@@ -24,14 +24,14 @@
                 <div flex class="fs-20 text-center">${{addon.total}}</div>
             </div>
 
-            <div class="mt-50">Are you sure you want to proceed?</div>
+            <div class="mt-50">Please confirm or cancel this purchase</div>
 
         </div>
 
     </md-content>
     <md-dialog-actions>
-        <md-button ng-click="ctrl.confirmData.confirmation(false)">No</md-button>
-        <md-button class="md-raised md-accent" ng-click="ctrl.confirmData.confirmation(true)">Yes</md-button>
+        <md-button ng-click="ctrl.confirmData.confirmation(false)">Cancel</md-button>
+        <md-button class="md-raised md-accent" ng-click="ctrl.confirmData.confirmation(true)">Confirm</md-button>
     </md-dialog-actions>
 
 </md-dialog>

@@ -369,11 +369,15 @@
                                                     <div flex="10" class="text-right"></div>
                                                 </div>
                                                 <md-content class="sub-list list-content" ms-scroll>
-                                                    <div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 || paymentHistoryList == null">
+                                                    <div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 && paymentHistoryLoading || paymentHistoryList == null && paymentHistoryLoading">
                                                         <span><md-icon md-font-icon="icon-information-outline"></md-icon> No record has been created yet</span>
                                                     </div>
 
-                                                    <div layout="row" layout-align="start start" ng-repeat="history in paymentHistoryList track by $index" ng-hide="isTenantPaymentHistoryClicked" class="bb b-gray hover-g-light" ng-click="expandPaymentRecord(history)">
+                                                    <div class="preloader" ng-if="paymentHistoryLoading">
+                                                        <md-progress-circular></md-progress-circular>
+                                                    </div>
+
+                                                    <div layout="row" layout-align="start center" ng-repeat="history in paymentHistoryList track by $index" class="bb b-gray hover-g-light p-5" ng-click="expandPaymentRecord(history)">
                                                     <!--<div layout="row" layout-align="start center" ng-repeat="history in [1,2,3,4,5]" class="bb b-gray hover-g-light p-5" ng-click="expandPaymentRecord(history)">-->
                                                         <!--<div class="w-100 ph-16 pv-10">{{history.month | date:'yyyy MMM'}}</div>-->
                                                         <!--<div layout="column" layout-align="start center" class="bl br b-light" flex ng-init="value.total = 0">-->
