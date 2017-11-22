@@ -1,47 +1,57 @@
 ////////////////////////////////
 // App : MyAccount / MyProfile
 // Owner : Ishara Gunathilaka
-// Last changed date : 2017/01/11
-// Version : 6.0.0.36
-// Modified By : Kasun
+// Last changed date : 2017/11/17
+// Version : 6.1.0.31
+// Modified By : Ishara
 /////////////////////////////////
 
 
 (function ()
 {
-  'use strict';
+	'use strict';
 
-  angular
-    .module('app.account',['stripe-payment-tools'])
-    .config(config);
+	angular
+		.module('app.account',['stripe-payment-tools'])
+		.config(config);
 
-  /** @ngInject */
-  function config($stateProvider, $translatePartialLoaderProvider, msApiProvider, msNavigationServiceProvider)
-  {
+	/** @ngInject */
+	function config($stateProvider, $translatePartialLoaderProvider, msApiProvider, msNavigationServiceProvider)
+	{
 
-    // State
-    $stateProvider
-      .state('app.account', {
-        url    : '/account',
-        views  : {
-          'account@app': {
-            templateUrl: 'app/main/account/account.html',
-            controller : 'AccountController as vm'
-          }
-        },
-        resolve: {
+		$stateProvider
+			.state('app.account', {
+				url    : '/account',
+				views  : {
+					'account@app': {
+						templateUrl: 'app/main/account/account.html',
+						controller : 'AccountController as vm'
+					}
+				},
+				resolve: {
+					security: ['$q','mesentitlement','$timeout','$location', function($q,mesentitlement,$timeout, $location){
+						return $q(function(resolve, reject) {
+							$timeout(function() {
+								resolve(function () {
+									var entitledStatesReturn = mesentitlement.stateDepResolver('account');
 
-        },
-        bodyClass: 'account'
-      });
+									mesentitlementProvider.setStateCheck("account");
+								});
+							});
+						});
+					}]
 
-    msNavigationServiceProvider.saveItem('account', {
-      title    : 'My Account',
-      state    : 'app.account',
-      /*stateParams: {
-       'param1': 'page'
-       },*/
-      weight   : 1
-    });
-  }
+				},
+				bodyClass: 'account'
+			});
+
+		msNavigationServiceProvider.saveItem('account', {
+			// title    : 'My Account',
+			state    : 'app.account',
+			/*stateParams: {
+			 'param1': 'page'
+			 },*/
+			weight   : 1
+		});
+	}
 })();

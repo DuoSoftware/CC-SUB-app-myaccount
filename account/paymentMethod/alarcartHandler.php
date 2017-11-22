@@ -1,7 +1,8 @@
 <?php
 
-require_once($_SERVER["DOCUMENT_ROOT"] . '/shell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
-//require_once('../data/accountConfig.php');
+require_once('../data/accountConfig.php');
+require_once($_SERVER["DOCUMENT_ROOT"] . '/azureshell/app/main/account/paymentMethod/CloudChargeEndpointLibrary/cloudcharge.php');
+
 
 $doc = $_SERVER ['DOCUMENT_ROOT'];
 require_once ($doc.'/services/config/settings.php');
@@ -24,6 +25,7 @@ switch ($view) {
           $tenantID = $_GET['tenantID'];
           $selectedPlan = $_GET['selectedPlan'];
           $paymentStatus = $_GET['paymentStatus'];
+          $domain = $_GET['domain'];
 
 //{
 //				"attributes": [
@@ -63,11 +65,19 @@ switch ($view) {
       if($rawData->status){
 
 
-                  $authData = $_COOKIE['authData'];
+                 // $authData = $_COOKIE['authData'];
 
                    $ch = curl_init();
 
-                   curl_setopt($ch, CURLOPT_URL, "". MAIN_DOMAIN ."/apis/authorization/priceplan/update/".json_decode($authData)->Username."/".$planId);
+                   $head = array();
+                       $head[] = 'Content-Type: application/json';
+                       $head[] = 'id_token: '.$st;
+                       $head[] = 'domain: '.$domain;
+
+                       curl_setopt($ch, CURLOPT_HTTPHEADER,$head);
+
+                   curl_setopt($ch, CURLOPT_URL, "http://".host.":8001/auth/updateSubscription?planCode=".$planId);
+                   //curl_setopt($ch, CURLOPT_URL, "http://app.cloudcharge.com:8001/auth/updateSubscription?planCode=".$planId);
 
                    // receive server response ...
                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -82,11 +92,11 @@ switch ($view) {
 
                             $headr = array();
                             $headr[] = 'Content-Type: application/json';
-                            $headr[] = 'securityToken: '.$st;
+                            $headr[] = 'idToken: '.$st;
 
                               curl_setopt($chp, CURLOPT_HTTPHEADER,$headr);
 
-        					  curl_setopt($chp, CURLOPT_COOKIE, "securityToken=" . $st . "; authData=". $authData);
+        					  curl_setopt($chp, CURLOPT_COOKIE, "idToken=" . $st );
 
                               $planId = str_replace("_year","",$planId);
 

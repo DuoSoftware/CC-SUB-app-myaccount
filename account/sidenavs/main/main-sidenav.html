@@ -1,0 +1,64 @@
+<!-- SIDENAV HEADER -->
+<div class="header header-offset" layout="column" layout-align="center start">
+
+    <div class="logo" layout="row" layout-align="start center">
+        <span class="logo-icon">
+          <img src="app/core/app_icons/account_app_icon.png" alt=""/>
+        </span>
+        <span class="logo-text">My account</span>
+    </div>
+
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<md-content ms-scroll class="content" flex>
+
+    <!--<div class="compose-button" ng-if="generalDetails && !vm.editableMode">-->
+        <!--&lt;!&ndash;<md-button class="md-accent md-raised" aria-label="compose"&ndash;&gt;-->
+                   <!--&lt;!&ndash;ng-click="saveProfileDetails(true)">Edit profile&ndash;&gt;-->
+        <!--&lt;!&ndash;</md-button>&ndash;&gt;-->
+    <!--</div>-->
+  <!--<div class="compose-button" ng-if="generalDetails && vm.editableMode">-->
+    <!--<md-button class="md-accent md-raised" aria-label="compose"-->
+               <!--ng-click="cancelEdit()" >View profile-->
+    <!--</md-button>-->
+  <!--</div>-->
+
+    <div class="navigation-simple" layout="column" ng-if="!vm.editableMode">
+      <md-button ng-disabled="!accGeneralLoaded" class="item" ng-class="{'selected': generalDetails}" aria-label="starred" ng-click="switchInpageState('general-details')">
+        <div layout="row" layout-align="start center">
+          <md-icon md-font-icon="icon-account" class="s16"></md-icon>
+          <span class="title" flex>General details</span>
+        </div>
+      </md-button>
+      <md-button ng-disabled="!accGeneralLoaded" class="item" ng-class="{'selected': planDetails}" aria-label="starred" ng-click="switchInpageState('plan-details')">
+        <div layout="row" layout-align="start center">
+          <md-icon md-font-icon="icon-map" class="s16"></md-icon>
+          <span class="title" flex>Subscription</span>
+        </div>
+      </md-button>
+      <!--<md-button class="item" ng-class="{'selected': paymentHistory}" aria-label="starred" ng-click="switchInpageState('payment-history')">-->
+        <!--<div layout="row" layout-align="start center">-->
+          <!--<md-icon md-font-icon="icon-credit-card-multiple" class="s16"></md-icon>-->
+          <!--<span class="title" flex>Payment history</span>-->
+        <!--</div>-->
+      <!--</md-button>-->
+      <!--<md-button class="item" ng-class="{'selected': onlinePayments}" aria-label="starred" ng-click="switchInpageState('online-payments')">-->
+        <!--<div layout="row" layout-align="start center">-->
+          <!--<md-icon md-font-icon="icon-credit-card" class="s16"></md-icon>-->
+          <!--<span class="title" flex>Payment gateways</span>-->
+        <!--</div>-->
+      <!--</md-button>-->
+
+      <!--<md-button ng-disabled="!accGeneralLoaded" class="item" ng-class="{'selected': apiDetails}" aria-label="starred" ng-click="switchInpageState('api-details')">-->
+        <!--<div layout="row" layout-align="start center">-->
+          <!--<md-icon md-font-icon="icon-cloud-download" class="s16"></md-icon>-->
+          <!--<span class="title" flex>API details</span>-->
+        <!--</div>-->
+      <!--</md-button>-->
+    </div>
+
+
+</md-content>
+<!-- / SIDENAV CONTENT -->

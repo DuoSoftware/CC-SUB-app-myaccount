@@ -22,8 +22,8 @@ ini_set('display_errors', 0);
 ini_set('display_startup_errors', 0);
 error_reporting(E_ALL);
 
-require_once($_SERVER['DOCUMENT_ROOT'] ."/dwcommon.php");
-require_once($_SERVER['DOCUMENT_ROOT'] ."/include/config.php");
+require_once($_SERVER['DOCUMENT_ROOT'] ."/azuredwcommon.php");
+require_once($_SERVER['DOCUMENT_ROOT'] ."/include/azureconfig.php");
 
 class AppStruct {
 	public $uom;
@@ -303,7 +303,6 @@ class Plan {
 
 	public function subscribeToFixedplan($token ,$planInfo) {
 		/* {"plan":"Gold", "amount": 10, "quantity":1} */
-
 		$plan = new FixedPlanStruct();
 		$plan->token = $token;
 		$plan->plan = $planInfo->plan;
@@ -421,9 +420,8 @@ class Plan {
 		$plan->quantity = (isset($planInfo->quantity)) ? (int)$planInfo->quantity : 1;
 		unset($plan->customer);
 		unset($plan->token);
-
 		$res = $this->cClient->getRequestInvoker()->post("/upgrade", $plan);
-		return $this->getDefaultValue($res);
+	return $this->getDefaultValue($res);
 
 	}
 
@@ -499,8 +497,11 @@ class CloudCharge {
 			if(defined("PAYMENT_GATWAY"))
 				$paygateway = PAYMENT_GATWAY;
 
-		$this->invoker = new WsInvoker("http://". $GLOBALS['mainDomain'] ."/services/duosoftware.paymentgateway.service/" . $paygateway);
+		$this->invoker = new WsInvoker("https://".host."/services/duosoftware.paymentgateway.service/" . $paygateway);
+		//$this->invoker = new WsInvoker("http://cloudcharge.com/services/duosoftware.paymentgateway.service/" . $paygateway);
 		$this->invoker->addHeader("securityToken", $_COOKIE['securityToken']);
+		$this->invoker->addHeader("idToken", $_COOKIE['securityToken']);
+		$this->invoker->addHeader("domain", $_COOKIE['domain']);
 	}
 
 }

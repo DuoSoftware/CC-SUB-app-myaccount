@@ -81,7 +81,7 @@
             "sign": "<="
           }
           var meta = {
-            "domainUrl": window.location.hostname,
+            "domainUrl": 'azure.cloudcharge.com',
             "securityToken": $helpers.getCookie('securityToken')
           }
           data = JSON.stringify(data);
@@ -137,7 +137,7 @@
 
       $http({
         method : 'GET',
-        url : "/shell/app/main/account/paymentMethod/alarcartHandler.php?view=addAdditionalUsers&userCount="+$scope.numberOfUsers+"&userPrice="+$scope.price,
+        url : "/azureshell/app/main/account/paymentMethod/alarcartHandler.php?view=addAdditionalUsers&userCount="+$scope.numberOfUsers+"&userPrice="+$scope.price,
         headers: {
           'Content-Type': 'application/json'
         }}).then(function(response) {

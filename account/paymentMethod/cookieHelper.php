@@ -1,12 +1,14 @@
 <?php
 
-
 setcookie("planId", $_GET['plan']);
 setcookie("price", $_GET['price']);
 setcookie("name", $_GET['name']);
 setcookie("tenantID", $_GET['tenantID']);
 setcookie("selectedPlan", $_GET['selectedPlan']);
 setcookie("paymentStatus", $_GET['paymentStatus']);
+setcookie("subscriptionAmount", $_GET['subscriptionAmount']);
+setcookie("additionalUserQty", $_GET['additionalUserQty']);
+setcookie("additionalUserTotalPrice", $_GET['additionalUserTotalPrice']);
 
 if(isset($_GET['stripeToken']))
   setcookie("stripeToken", $_GET['stripeToken']);
@@ -63,9 +65,11 @@ if(isset($_COOKIE['isRefreshed'])){
 //exit();
 
  if(isset($_COOKIE['planId'])) {
+
       header('Location: charge.php');
-       //?plan=' + pack.id + '&st=' + dataa.SecurityToken + '&price=' + (pack.price * 100) + '&name=' + pack.name + '&tenantID=' + TenantID);
+
  } else {
+
      header('Location: ../#/account');
  }
  //header('Location: ../#/proceed?plan=');

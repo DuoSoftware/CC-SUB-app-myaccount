@@ -1,1074 +1,1985 @@
+
 (function ()
 {
-  'use strict';
-
-  angular
-    .module('app.account')
-    .controller('AccountController', AccountController);
-
-  /** @ngInject */
-  function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout) {
-    $scope.acc = "";
-    //console.log("Profile Controller Called.");
-    var vm = this;
-
-    vm.editableMode = false;
-    $scope.companyPricePlans = null;
-    $scope.selectedPlan = null;
-    $scope.tenantId = null;
-    $scope.isUserAdmin = true;
-    $scope.paymentHistoryList = null;
-
-    $scope.paymentTenant = "0";
-    $scope.paymentPlan = "0";
-    $scope.paymentSecurityToken = "0";
-    $scope.paymentPrice = "0";
-    $scope.paymentName = "0";
-
-    $scope.isYearly = false;
-    $scope.planDuration = 'Yearly';
-    $scope.cardDetails = null;
-
-    $scope.signupsuccess = false;
-    $scope.isDefaultPayment = '1';
-    $scope.defaultPayment = defaultPayment;
-    $scope.admin = true;
-    $scope.normal = false;
-    $scope.isEditablePassword = false;
-    $scope.user = {
-      currentPassword : '',
-      newPassword : '',
-      confirmNewPassword : ''
-    };
-    $scope.baseCurrency="";
-    //$charge.commondata().getDuobaseValuesByTableName("CTS_GeneralAttributes").success(function(data) {
-    //  debugger;
-    //  $scope.baseCurrency=data[0].RecordFieldData;
-    //}).error(function(data) {
-    //})
-    $scope.setPlanDuration = function (duration) {
-      $scope.$watch(function () {
-        $scope.planDuration = duration;
-      });
-    };
-
-
-    //$scope.twoCheckOut = {
-    //  sid :"901335120",
-    //  skey:"testDuo"
-    //};
-
-
-    $scope.freeTrialStartDate = '';
-    $scope.displayExpireDate = '';
-    $scope.paidPlanExpireDate = '';
-
-    $scope.registeredVendors = {
-      stripe: true,
-      twocheckout : true
-    }
-
-    $scope.onlinePaymentRegister = function(ev, vendor) {
-      if(!$scope.isRegisteredWithStripe){
-        var confirm = $mdDialog.confirm()
-          .title(vendor + ' registration')
-          .textContent('Would you like to register with ' + vendor + ' for your online payments?')
-          .targetEvent(ev)
-          .ok('Yes')
-          .cancel('No');
-
-        $mdDialog.show(confirm).then(function() {
-          $scope.isRegisteredWithStripe = true;
-          $scope.proceedWithStripe();
-        }, function() {
-          $scope.isRegisteredWithStripe = false;
-        });
-      }else{
-        var confirm = $mdDialog.confirm()
-          .title(vendor + ' sign out?')
-          .textContent('Would you like to sign out from ' + vendor + '?')
-          .targetEvent(ev)
-          .ok('Yes')
-          .cancel('No');
-
-        $mdDialog.show(confirm).then(function() {
-          $scope.isRegisteredWithStripe = false;
-        }, function() {
-          $scope.isRegisteredWithStripe = true;
-        });
-      }
-
-    };
-
-    //Online payment registration menu
-    vm.openRegistrationMenu = function($mdOpenMenu, ev) {
-      $mdOpenMenu(ev);
-    };
+	'use strict';
+
+	angular
+		.module('app.account')
+		.controller('AccountController', AccountController);
+
+	/** @ngInject */
+	function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse,logHelper) {
+		$scope.acc = "";
+		//// console.log("Profile Controller Called.");
+		var vm = this;
+		vm.appInnerState = 'default';
+		vm.activeAccountPaneIndex = 0;
+
+		$scope.generalDetails = true;
+		$scope.planDetails = false;
+		$scope.paymentHistory = false;
+		$scope.onlinePayments = false;
+		$scope.apiDetails = false;
+
+		$scope.switchInpageState = function (switchTo){
+			if(switchTo == 'general-details'){
+				$scope.generalDetails = true;
+				$scope.planDetails = false;
+				$scope.paymentHistory = false;
+				$scope.onlinePayments = false;
+				$scope.apiDetails = false;
+			}else if(switchTo == 'plan-details'){
+				$scope.generalDetails = false;
+				$scope.planDetails = true;
+				$scope.paymentHistory = false;
+				$scope.onlinePayments = false;
+				$scope.apiDetails = false;
+
+			}else if(switchTo == 'payment-history'){
+				$scope.generalDetails = false;
+				$scope.planDetails = false;
+				$scope.paymentHistory = true;
+				$scope.onlinePayments = false;
+				$scope.apiDetails = false;
+			}else if(switchTo == 'online-payments'){
+				$scope.onlinePayments = true;
+				$scope.generalDetails = false;
+				$scope.planDetails = false;
+				$scope.paymentHistory = false;
+				$scope.apiDetails = false;
+			}else if(switchTo == 'api-details'){
+				$scope.onlinePayments = false;
+				$scope.generalDetails = false;
+				$scope.planDetails = false;
+				$scope.paymentHistory = false;
+				$scope.apiDetails = true;
+			}
+		}
+
+		vm.editableMode = false;
+		$scope.companyPricePlans = null;
+		$scope.selectedPlan = null;
+		$scope.tenantId = null;
+		$scope.isUserAdmin = false;
+		$scope.paymentHistoryList = null;
+
+		$scope.paymentTenant = "0";
+		$scope.paymentPlan = "0";
+		$scope.paymentSecurityToken = "0";
+		$scope.paymentPrice = "0";
+		$scope.paymentName = "0";
+
+		$scope.isYearly = false;
+		$scope.planDuration = 'Yearly';
+		$scope.cardDetails = null;
+
+		$scope.signupsuccess = false;
+		//$scope.isDefaultPayment = '1';
+		//$scope.defaultPayment = defaultPayment;
+		$scope.admin = true;
+		$scope.normal = false;
+		$scope.isEditablePassword = false;
+		$scope.promoCode = '';
+		$scope.user = {
+			currentPassword : '',
+			newPassword : '',
+			confirmNewPassword : ''
+		};
+		$scope.baseCurrency="";
+		$scope.selectedPlanDuration = 'Monthly';
+
+		$scope.setPlanDuration = function (duration) {
+			$scope.$watch(function () {
+				$scope.planDuration = duration;
+			});
+		};
+
+		$scope.monthEndDate = function(_date){
+			var date = new Date(_date);
+			var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+			return lastDay;
+		};
+
+
+
+		$scope.businessSlider = {
+			value: 0,
+			options: {
+				floor: 0,
+				ceil: 5000,
+				step: 1000,
+				showSelectionBar: true,
+				selectionBarGradient: {
+					from: 'white',
+					to: '#039be5'
+				}
+			}
+		};
 
-    $timeout(function () {
-      var accoState=localStorage.getItem("myProfile");
-      if(accoState == 'isSetToolbarUpgrade'){
-        $scope.signupsuccess = true;
-        localStorage.removeItem('myProfile');
-      }
-    },0);
 
-    $scope.newCardSelected = false;
+		$scope.subscriptionRate = 0;
+		$scope.activeSubscriptions = 0;
+		var oneDay = 24*60*60*1000;
 
-    vm.dummy = {"Success":true,"Message":""
-      //,"Data": {"Address":"asdasdsada","Company":"DUO","Country":"Sri Lanka","Email":"devadmin@cloudcharge.com","NIC":"123456789v","Name":"dev admin","PhoneNumber":"45454545"}
-    };
 
 
-    $scope.loadCardDetails = function() {
+		function gst(name) {
+			var nameEQ = name + "=";
+			var ca = document.cookie.split(';');
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+				if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+			}
 
-      $http({
-        method: 'GET',
-        url: "/shell/app/main/account/paymentMethod/cardHandler.php?view=getCardDetails",
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function (response) {
+			return null;
+		}
 
-        if(!response.data.status){
-          return;
-        }
+		var selectPlan = function(planCode)
+		{
+			if($scope.allPlans != null) {
+				for (var i = 0; i < $scope.allPlans.length; i++) {
+					if ($scope.allPlans[i].code === planCode) {
+						$scope.selectedPlan = $scope.allPlans[i];
+						$scope.tempSelectedPlan = $scope.selectedPlan ;
+						$scope.currentPlanName = $scope.selectedPlan.name;
 
-        $scope.cardDetails = response.data.data;
+						$scope.radioButtonSelectedPlan($scope.selectedPlan);
+					}
+				}
+			}
+		}
 
+		$scope.idToken= gst('securityToken');
 
-        for (var i = 0; i < $scope.cardDetails.length; i++) {
-          $scope.cardDetails[i].rowId = i;
-        }
+		(function (){
 
-      }, function (response) {
-        console.log(response);
-        $scope.cardDetails = null;
+			try{
 
-      });
+				var domain = gst('currentDomain');
+				if(!domain)
+				{
+					domain = gst('domain');
+				}
+				$charge.tenantEngine().getSubscriptionIdByTenantName(domain).success(function (response) {
 
-    }
+					if(response.status) {
+						var subscriptionID = response.data["0"].subscriptionID;
 
-    $scope.loadCardDetails();
+						if (subscriptionID) {
 
+							$charge.myAccountEngine().getSubscriptionInfoByID(subscriptionID).success(function (data) {
 
+								$scope.access_keys = [{
+									name: "Primary key",
+									key: data.Result.primaryKey
+								}, {
+									name: "Secondary key",
+									key: data.Result.secondaryKey
+								}];
+								$scope.accAccessKeysLoaded = true;
 
-    $scope.isRegisteredWithStripe = false;
-    $scope.isRegisteredWith2checkout = false;
+							}).error(function (data) {
+								// console.log(data);
+								$scope.accAccessKeysLoaded = true;
+							});
 
-    $scope.isRegButtonsShow = true;
+						} else {
+							$scope.accAccessKeysLoaded = true;
+						}
+					} else {
+						$scope.accAccessKeysLoaded = true;
+					}
 
-    $scope.checkPaymentMethodRegistry = function(){
+				}).error(function(data) {
+					// console.log(data);
+					$scope.accAccessKeysLoaded = true;
 
+					ex.app = "myAccount";
+					logHelper.error(ex);
 
-      //checkAccount ->  Stripe
-      $charge.paymentgateway().stripeCheckAccount().success(function(data) {
+				});
 
-        if(data.status) {
-          for (var i = 0; i < data.data.length; i++) {
-            if (data.data[i].gateway === "stripe")
-              $scope.isRegisteredWithStripe = true;
 
-            if (data.data[i].gateway === "2checkout")
-              $scope.isRegisteredWith2checkout = true;
-          }
+			}catch(ex){
 
-          $scope.isRegButtonsShow = false;
+				$scope.accAccessKeysLoaded = true;
 
-        }
+				ex.app = "myAccount";
+				logHelper.error(ex);
+			}
+		})();
 
-      }).error(function(data) {
-        console.log(data);
 
-        $scope.isRegisteredWithStripe = false;
-        $scope.isRegisteredWith2checkout = false;
-        $scope.isRegButtonsShow = false;
+		// === load counries==============
 
-      });
+		$scope.countries = [];
+		$http.get("app/main/account/data/countries.json")
+			.then(function(response) {
+				$scope.countries = response.data;
+			});
 
-    }
 
-    $scope.checkPaymentMethodRegistry();
 
+		// ===== end ===================
 
-    $http.get('app/main/account/data/plans.json').
-      success(function (data, status, headers, config) {
-        $scope.companyPricePlans = data;
 
-      }).
-      error(function (data, status, headers, config) {
-        $scope.companyPricePlans = null;
-        console.log('cant load Plans !');
-      });
 
+		$scope.freeTrialStartDate = '';
+		$scope.displayExpireDate = '';
+		$scope.paidPlanExpireDate = '';
 
-    var selectPlan = function(planId)
-    {
-      for(var i = 0 ; i <$scope.companyPricePlans.length;i++){
-        if($scope.companyPricePlans[i].id === planId){
-          $scope.selectedPlan = $scope.companyPricePlans[i];
-        }
-      }
-    }
+		//Online payment registration menu
+		vm.openRegistrationMenu = function($mdOpenMenu, ev) {
+			$mdOpenMenu(ev);
+		};
 
+		$timeout(function () {
+			var accoState=localStorage.getItem("myProfile");
+			if(accoState == 'isSetToolbarUpgrade'){
+				$scope.signupsuccess = true;
+				localStorage.removeItem('myProfile');
+			}
+		},0);
 
-    //selectPlan('free_trial');
-    //
-    //return;
+		$scope.newCardSelected = false;
 
-    function gst(name) {
-      var nameEQ = name + "=";
-      var ca = document.cookie.split(';');
-      for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-      }
-      //debugger;
-      return null;
-    }
+		vm.dummy = {"Success":true,"Message":""
+			//,"Data": {"Address":"asdasdsada","Company":"DUO","Country":"Sri Lanka","Email":"devadmin@cloudcharge.com","NIC":"123456789v","Name":"dev admin","PhoneNumber":"45454545"}
+		};
 
-    //Make Default
 
-    function defaultPayment(selectedPayment,cardDetails){
-      $scope.isDefaultPayment = selectedPayment;
+		$scope.tenantUser = [];
 
-      $http({
-        method : 'GET',
-        url : "/shell/app/main/account/paymentMethod/cardHandler.php?view=setCardDefault&cardId="+cardDetails.id,
-        headers: {
-          'Content-Type': 'application/json'
-        }}).then(function(response) {
+		$scope.getUserInfoByID = function() {
 
-        $scope.loadCardDetails();
+			try{
+				$charge.myAccountEngine().getUserInfoByID().success(function (response) {
 
-        notifications.toast("Default card has been changed", "success");
+					// console.log(response);
+					response.data = response;
+					vm.dummy.Data = response.data.Result;
+					$scope.tenantUser.firstName = vm.dummy.Data.givenName;
+					$scope.tenantUser.surName = vm.dummy.Data.surName;
+					$scope.tenantUser.country = vm.dummy.Data.country;
 
-      }, function(response) {
-        console.log('set card function returned an error '+response);
-        notifications.toast("Error, unable to proceed with the operation", "error");
+					$scope.tenantId = response.data.Result.domain.split('.')[0];
 
+					if (response.data.Result.UserType === "admin") {
+						$scope.isUserAdmin = true;
+					}
 
-      });
-    }
+					$scope.getProfile(vm.dummy.Data.email);
+					//$scope.calculateFreeTrialExpireDate();
 
-    $scope.showCurrPlan = function() {
-      //$mdDialog.show({
-      //  controller: 'AccountDialogController',
-      //  templateUrl: 'app/main/account/current-plan-dialog.html',
-      //  parent: angular.element(document.body),
-      //  targetEvent: ev,
-      //  clickOutsideToClose:true,
-      //  locals:{
-      //    selectedPlanDetails:$scope.selectedPlan
-      //  }
-      //})
-      //  .then(function(answer) {
-      //
-      //  }, function() {
-      //
-      //  });
+					//$http({
+					//	method: "GET" ,
+					//	url: "app/core/cloudcharge/js/config.json"
+					//}).then(function(data) {
+					//	var publishKey = (data.data.stripe.key);
+					//
+					//	$scope.config = {
+					//		title: 'Cloudcharge',
+					//		email: response.data.Result.email,
+					//		publishKey : publishKey,
+					//		description: "for connected business",
+					//		logo: 'app/main/account/img/loginDuo.png',
+					//		label: 'Add Card'
+					//	}
+					//
+					//}, function(response) {
+					//
+					//});
 
-      if($scope.selectedPlan.per == "/ Mo" || $scope.selectedPlan.no == 1 || $scope.selectedPlan.no == 2 ){
-        $scope.signupsuccess = true;
-        $scope.$watch(function () {
-          $scope.planDuration = "Monthly";
-        });
-        $scope.currentPlan = $scope.selectedPlan.no;
-      }else if($scope.selectedPlan.per == "/ Yr"){
-        $scope.signupsuccess = true;
-        $scope.$watch(function () {
-          $scope.planDuration = "Yearly";
-        });
-        $scope.currentPlan = $scope.selectedPlan.no;
-      }
-    };
 
-    $scope.securityToken= gst('securityToken');
+					$scope.accGeneralLoaded = true;
 
 
-    $http({
-      method: 'GET',
-      url: '/auth/GetSession/'+$scope.securityToken+'/Nil',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function(response) {
+				}).error(function (data) {
+					console.log(data);
+				});
 
-      console.log(response.data.Username);
+			}catch(ex){
 
-      $scope.tenantId = response.data.Domain.split('.')[0];
+				ex.app = "myAccount";
+				logHelper.error(ex);
+			}
+		}
 
-      $http({
-        method : 'GET',
-        url : "/auth/tenant/Autherized/"+ response.data.Domain ,
-        headers: {
-          'Content-Type': 'application/json'
-        }}).then(function(response) {
+		$scope.getUserInfoByID();
 
-        if(response.data.SecurityLevel === "admin"){
-          $scope.isUserAdmin = true;
-        }
 
-      }, function(response) {
 
-        console.log('check whether admin error '+response);
 
-      });
 
+		$scope.loadCardDetails = function() {
 
-      var userName = response.data.Username;
+			try{
 
-      $http({
-        method : 'GET',
-        url : "/apis/profile/userprofile/"+userName,
-        headers: {
-          'Content-Type': 'application/json',
-          'securityToken':$scope.securityToken
-        }}).then(function(response) {
-        console.log(response.data.Data);
-        vm.dummy.Data =response.data.Data;
+				var profileId = $scope.customerDetails.profileId;
 
-        $scope.freeTrialStartDate = response.data.Data.timestamp;
+				$charge.myaccountapi().cardAPIgetCustomer(profileId).success(function (response) {
+					if(response.status) {
+						$scope.cardDetails = response.data.data;
+						if($scope.cardDetails) {
+							for (var i = 0; i < $scope.cardDetails.length; i++) {
+								$scope.cardDetails[i].rowId = i;
+							}
+						}else{
+							$scope.cardDetails = null;
+						}
+					}
 
-        $scope.calculateFreeTrialExpireDate();
+				}).error(function(data) {
 
-      }, function(response) {
-        console.log(response);
+					$scope.cardDetails = null;
 
-      });
+				});
 
-      $http({
-        method : 'GET',
-        url : "/apis/authorization/priceplan/"+userName,
+			}catch(ex){
 
-      }).then(function(response) {
-        console.log(response.data.Data.PricePlan);
+				$scope.cardDetails = null;
 
-        selectPlan(response.data.Data.PricePlan);
+				ex.app = "myAccount";
+				logHelper.error(ex);
+			}
 
-        $scope.userPrice = ($scope.selectedPlan.no > 4) ? 20 : 2;
+		}
 
-        $scope.calculateFreeTrialExpireDate();
 
+		$scope.allPlans= null;
+		$scope.planAddons= null;
+		$scope.tempSelectedPlan = null;
+		$scope.selectedAddons = [];
+		$scope.allFeatures = null;
 
-      }, function(response) {
-        console.log(response);
+		$scope.getAllPlans = function () {
 
-      });
+			try{
 
+				$charge.myaccountapi().getAllFeatures(0).success(function (response) {
 
-    }, function(response) {
-      console.log(response);
-    });
+					if(response.status) {
+						$scope.allFeatures = response.data;
+					}
 
+				}).error(function(data) {
+					$scope.allFeatures = null;
+				});
 
+				$charge.myaccountapi().allPlanslocal(0,10,'asc').success(function (response) {
 
-    $scope.calculateFreeTrialExpireDate = function(){
+					if(response.status) {
+						$scope.allPlans = response.data;
+						$scope.getPlanPromotions();
+						$scope.getActiveSubscriptionDetails();
+					}
 
-      if($scope.selectedPlan)
-      {
+				}).error(function(data) {
 
-        $scope.remainingDays = 0;
-        var today = new Date();
+					$scope.allPlans= null;
+				});
 
-        if($scope.selectedPlan.id === 'free_trial' && $scope.freeTrialStartDate != '')
-        {
-          var convertedDate = new Date($scope.freeTrialStartDate);
+			}catch(ex){
 
+				$scope.allPlans= null;
 
-          convertedDate.setDate(convertedDate.getDate() + parseInt($scope.selectedPlan.period));
+				ex.app = "myAccount";
+				logHelper.error(ex);
+			}
 
-          $scope.remainingDays = (Math.round((convertedDate- today )/(1000*60*60*24))) +  " Days remaining";
+		};
 
-          $scope.displayExpireDate = moment(convertedDate.toISOString()).format('LL');
-        }
-        else
-        {
-          $scope.displayExpireDate = $scope.paidPlanExpireDate;
 
-          var convertedDate = new Date($scope.paidPlanExpireDate);
+		$scope.getAllPlans();
 
-          //$scope.remainingDays = (Math.round((convertedDate- today )/(1000*60*60*24))) + " Days remaining";
 
-        }
-      }
+		$scope.getPlanPromotions = function () {
 
-    }
+			if($scope.allPlans != null) {
 
-    $scope.isTenantPaymentHistoryClicked = false;
-    $scope.getTenantPaymentHistory = function() {
+				var planIds = [];
+				for (var i = 0; i < $scope.allPlans.length; i++) {
+					planIds.push({"planId": $scope.allPlans[i].guPlanID});
 
-      $scope.isTenantPaymentHistoryClicked = true;
-      $charge.paymentgateway().getAllPaymentByTenant(0, 100, 'cloudcharge').success(function (data) {
+					if($scope.allPlans[i].taxID != "") {
+						$scope.getTaxGroupDetails($scope.allPlans[i].taxID);
+					}
 
-        $scope.paymentHistoryList = null;
-        $scope.paymentHistoryList = data;
+				}
 
-        $scope.isTenantPaymentHistoryClicked = false;
+				try {
+					$charge.myaccountapi().getPromotionByPlanIdList(planIds).success(function (response) {
 
+						if (response.status) {
+							for (var i = 0; i < $scope.allPlans.length; i++) {
+								if(response.data[$scope.allPlans[i].guPlanID] != null){ // code did, asuming that it is one promotion at a time for a plan.
+									if(response.data[$scope.allPlans[i].guPlanID]["0"].couponcode != undefined){
+										$scope.allPlans[i].hasPromotion = true;
+										$scope.allPlans[i].promotionCode = response.data[$scope.allPlans[i].guPlanID]["0"].couponcode;
+										$scope.allPlans[i].discountamount = response.data[$scope.allPlans[i].guPlanID]["0"].discountamount;
+										$scope.allPlans[i].discounttype = response.data[$scope.allPlans[i].guPlanID]["0"].discounttype;
+									}
+								}
+							}
+						}
 
-      }).error(function (data) {
-        console.log(data);
-        //$scope.paymentHistoryList = null;
-        $scope.isTenantPaymentHistoryClicked = false;
+					}).error(function (data) {
 
-      });
+					});
 
-    }
+				} catch (ex) {
+					ex.app = "myAccount";
+					logHelper.error(ex);
+				}
 
-    $scope.getTenantPaymentHistory();
+			}
+		};
 
+		$scope.planTax = [];
+		$scope.getTaxGroupDetails = function(taxGroupId){
+			try {
+				$charge.myaccountapi().getTaxGropById(taxGroupId).success(function (response) {
 
-    $scope.deactiveCurrentPlan = function(){  // EOD deactivation
+					if (response.status && response.data != null) {
+						//response.data.groupDetail["0"].taxgroupid
+						$scope.planTax.push(response.data);
+						$scope.calcPlanTax();
 
+					}
 
-      var confirm = $mdDialog.confirm()
-        .title('Deactivate current plan')
-        .textContent('Would you like to deactivate current plan?')
-        .targetEvent()
-        .ok('Yes')
-        .cancel('No');
+				}).error(function (data) {
+					$scope.planTax = [];
+				});
 
-      $mdDialog.show(confirm).then(function() {
+			} catch (ex) {
+				$scope.planTax = [];
+				ex.app = "myAccount";
+				logHelper.error(ex);
+			}
 
-        $http({
-          method : 'POST',
-          url : "/services/duosoftware.paymentgateway.service/stripe/permanentDisconnect",
-          headers: {
-            'Content-Type': 'application/json',
-            'securityToken':$scope.securityToken
-          },
-          data : {'action':'eod'}
-        }).then(function(response) {
-          console.log(response);
-          if(response.data.status)
-          {
-            $scope.isTempDeactive = false;
-            notifications.toast("Operation successful, your subscription period will be ending on "+ $scope.displayExpireDate, "success");
+		};
 
-          }else{
 
-            notifications.toast("Subscription disconnection not completed", "error");
+		$scope.calcPlanTax = function(){
+			$scope.taxDetails = [];
+			for (var i = 0; i <  $scope.planTax.length; i++) { //["0"]["0"].groupDetail["0"].amount
+				for (var ii = 0; ii <  $scope.planTax[i].length; ii++) {
+					for (var iii = 0; iii <  $scope.planTax[i][ii].groupDetail.length; iii++) {
+						$scope.taxDetails.push({"taxId":$scope.planTax[i][ii].groupDetail[iii].taxgroupid,"amount":$scope.planTax[i][ii].groupDetail[iii].amount,"amounttype":$scope.planTax[i][ii].groupDetail[iii].amounttype})
+					}
+				}
+			}
 
-          }
 
+			for (var iz = 0; iz < $scope.taxDetails.length; iz++) {
+				for (var i = 0; i < $scope.allPlans.length; i++) {
+					if ($scope.allPlans[i].taxID != "") {
+						if (parseInt($scope.allPlans[i].taxID) === $scope.taxDetails[iz].taxId) {
+							if($scope.allPlans[i].taxamount === undefined)
+								$scope.allPlans[i].taxamount = 0;
 
-        }, function(response) {
-          console.log(response);
+							$scope.allPlans[i].taxamount = parseFloat($scope.allPlans[i].taxamount) + parseFloat($scope.taxDetails[iz].amount);
+							$scope.allPlans[i].taxtype = $scope.taxDetails[iz].amounttype;
+						}
+					}
+				}
+			}
 
-          notifications.toast("Subscription disconnection not completed", "error");
+		}
 
-        });
 
-      }, function() {
+		$scope.addonsLoaded = true;
+		$scope.radioButtonSelectedPlan = function(radioButtonPlan){
+			$scope.addonsLoaded = false;
+			$scope.tempSelectedPlan = radioButtonPlan;
+			$scope.planAddons = null;
+			//$scope.updatePackgeFeatures(radioButtonPlan);
 
-      });
+			angular.forEach($scope.allFeatures, function (feature) {
 
+				for(var ii=0; ii< feature.length; ii++)
+				{
+					feature[ii].isSelected = false;
+					for(var z=0; z< radioButtonPlan.priceScheme.length; z++) {
+						if(radioButtonPlan.priceScheme[z].featureCode === feature[ii].featureCode)
+						{
+							feature[ii].isSelected = true;
+						}
+					}
+				}
 
+			});
 
-    }
+			var amount = parseFloat(radioButtonPlan.unitPrice);
 
+			if(radioButtonPlan.code != 'free_trial') {
+				if(radioButtonPlan.discounttype != undefined) {
+					if (radioButtonPlan.discounttype === 1) {
+						amount = amount - ((amount * parseFloat(radioButtonPlan.discountamount)) / 100);
+					} else {
+						amount = amount - parseFloat(radioButtonPlan.discountamount);
+					}
+				}
 
-    $scope.registerWithTwoCheckout = function() {
+				if (radioButtonPlan.taxamount != undefined) {
 
+					if (radioButtonPlan.taxtype === '1') {
+						amount = amount + ((amount * parseFloat(radioButtonPlan.taxamount)) / 100);
+					} else {
+						amount = amount + parseFloat(radioButtonPlan.taxamount);
+					}
+				}
 
-      var confirm = $mdDialog.confirm()
-        .title('2Checkout Register')
-        .textContent('Do you want to proceed ?')
-        .ariaLabel('Lucky day')
-        .ok('Yes')
-        .cancel('No');
-      $mdDialog.show(confirm).then(function (ev) {
+			}else {
+				amount = 0;
+			}
+			$scope.calculateCost(null, amount );
+			$charge.myaccountapi().getAddonsForBasePlan(radioButtonPlan.code).success(function (response) {
 
-        $mdDialog.show({
-          controller: 'GuidedPayment2CheckoutController',
-          templateUrl: 'app/main/account/dialogs/guided-payment-2checkout.html',
-          parent: angular.element(document.body),
-          targetEvent: ev,
-          clickOutsideToClose:false,
-          locals:{
-            securityToken : $scope.securityToken
-          }
-        })
-        .then(function(answer) {
+				if(response.status) {
+					if(response.data.length > 0){
+						$scope.planAddons=response.data;
+						angular.forEach($scope.planAddons, function (addon) {
+							addon.isChecked = false;
+						});
+						$scope.addonsLoaded = true;
+					}
 
-            $scope.checkPaymentMethodRegistry();
+					if(response.data.Authenticated != undefined)
+					{
+						$scope.planAddons=null;
+						$scope.addonsLoaded = true;
+					}
+					$scope.addonsLoaded = true;
+				}else{
+					$scope.addonsLoaded = true;
+				}
 
-        }, function() {
+			}).error(function(data) {
+				$scope.planAddons= null;
+				$scope.addonsLoaded = true;
+			});
 
-        });
+		};
 
-        //$http({
-        //  method: 'POST',
-        //  url: "/services/duosoftware.paymentgateway.service/2checkout/insertAccKeys",
-        //  headers: {
-        //    'Content-Type': 'application/json',
-        //    'securityToken':$scope.securityToken
-        //  },
-        //  data : $scope.twoCheckOut
-        //
-        //}).then(function (response) {
-        //
-        //  if(response.data.status){
-        //    notifications.toast("Successfully registered with 2checkout", "success");
-        //    $scope.isRegisteredWith2checkout = true;
-        //  }else{
-        //    notifications.toast("2Checkout registration failed, ", "error");
-        //  }
-        //
-        //}, function (response) {
-        //  console.log(response);
-        //  notifications.toast("2Checkout registration failed", "error");
-        //});
 
-      }, function () {
-        $mdDialog.hide();
-      });
+		$scope.initPlanSliderValue = null;
+		$scope.activeSubscription = null;
+		$scope.getActiveSubscriptionDetails = function () {
 
-    }
+			try{
+				$charge.myaccountapi().getActiveSubscription(vm.dummy.Data.email).success(function (response) {
 
+					if(response.response === "succeeded") {
 
-    $scope.deleteWithTwoCheckout = function() {
+						if(response.data.result.length > 0) {
+							$scope.activeSubscription = response.data.result;
+							for(var i = 0;i < response.data.result.length; i++) {
 
+								if(response.data.result[i].class === "Base-Plan") {
 
-      var confirm = $mdDialog.confirm()
-        .title('2Checkout disconnect')
-        .textContent('Do you want to proceed ?')
-        .ariaLabel('Lucky day')
-        .ok('Yes')
-        .cancel('No');
-      $mdDialog.show(confirm).then(function () {
 
-          $http({
-            method: 'DELETE',
-            url: "/services/duosoftware.paymentgateway.service/2checkout/deleteClient",
-            headers: {
-              'Content-Type': 'application/json',
-              'securityToken':$scope.securityToken
-            },
-            data : $scope.twoCheckOut
+									$scope.currentPlanCode = response.data.result[i].code
+									selectPlan($scope.currentPlanCode);
+
+									if(response.data.result[i].discount === undefined)
+									{ response.data.result[i].discount = 0 }
 
-          }).then(function (response) {
+									$scope.currentPlanAmount = parseFloat(response.data.result[i].amount) - parseFloat(response.data.result[i].discount) ;
 
-            if(response.data.status){
-              $scope.isRegisteredWith2checkout = false;
-              notifications.toast("Successfully disconnected with 2checkout ", "success");
-            }else{
-              notifications.toast("2Checkout disconnection failed", "error");
+									$scope.selectedAddonCodes = [];
+									if (response.data.result[i].addOns && response.data.result[i].addOns.length > 0) {
+										for (var iz = 0; iz < response.data.result[i].addOns.length; iz++) {
+											$scope.selectedAddonCodes.push(response.data.result[i].addOns[iz].code);
+										}
+									}
+
+									$scope.initPlanSliderValue = "25";
+									$scope.currentPlanUsed = '0';
+
+									$charge.ratingengine().getAppRule("invoice",$scope.currentPlanCode).success(function (response) {
+
+										$scope.initPlanSliderValue = parseFloat(response.amount);
+										$scope.currentPlanUsed = parseFloat(response.used);
+
+										$timeout(function () {
+											vm.usageChart = {
+												title: 'Usage',
+												chart: {
+													options: {
+														chart: {
+															type: 'pieChart',
+															donut: true,
+															color: ['#039be5', '#eeeeee'],
+															height: 320,
+															// labelsOutside: true,
+															showLegend: false,
+															pie: {
+																startAngle: function (d) {
+																	return d.startAngle / 2 - Math.PI / 2
+																},
+																endAngle: function (d) {
+																	return d.endAngle / 2 - Math.PI / 2
+																}
+															},
+															margin: {
+																top: 0,
+																right: 0,
+																bottom: 0,
+																left: 0
+															},
+															x: function (d) {
+																return d.label;
+															},
+															y: function (d) {
+																return d.value;
+															},
+															tooltip: {
+																contentGenerator: function (key, x, y, e, graph) {
+																	if (key.index == 0) {
+																		vm.tipTitle = 'Used';
+																	} else {
+																		vm.tipTitle = 'Available';
+																	}
+																	return '<div layout="column" style="background-color: #000;text-align: left;border-radius: 3px;padding: 5px 10px;">' +
+																		'<div>' + vm.tipTitle + ' : ' + key.data.value + '</div>' +
+																		'</div>';
+																}
+															}
+														}
+													},
+													data: [{
+														'label': '',
+														'value': $scope.currentPlanUsed
+													}, {
+														'label': '',
+														'value': $scope.initPlanSliderValue - $scope.currentPlanUsed
+													}]
+												}
+											};
+										});
+
+									}).error(function(data) {
+
+									});
+
+
+									$scope.currentPlanCreatedDate = response.data.result[i].startDate;
+									$scope.currentPlanExpiryDate = response.data.result[i].endDate;
+									//callback();
+
+									$scope.subUsage = {
+										value: $scope.currentPlanUsed,
+										options: {
+											floor: 0,
+											ceil: $scope.currentPlanAmount,
+											showSelectionBar: true,
+											disabled: true,
+											selectionBarGradient: {
+												from: '#76d2ff',
+												to: '#e28989'
+											}
+										}
+									};
+
+									//Usage
+
+									//$scope.currentPlanAmount = response.data.result[i].amount;
+								}
+							}
+						}else{
+
+							$scope.currentPlanCode = 'free_trial';
+							selectPlan($scope.currentPlanCode);
+
+
+						}
+
+						$scope.accSubscriptionDetailsLoaded = true;
+
+
+
+
+					}else{
+
+						$scope.accSubscriptionDetailsLoaded = true;
+
+					}
+
+				}).error(function(data) {
+
+					$scope.accSubscriptionDetailsLoaded = true;
+				});
+
+			}catch(ex){
+				ex.app = "myAccount";
+				logHelper.error(ex);
+
+				$scope.accSubscriptionDetailsLoaded = true;
+			}
+		}
+
+		// select addon check box
+		$scope.toggleSelection = function(addon) {
+			try{
+				var idx = $scope.selectedAddons.indexOf(addon);
+
+				// is currently selected
+				if (idx > -1) {
+					$scope.selectedAddons.splice(idx, 1);
+				}
+
+				// is newly selected
+				else {
+					$scope.selectedAddons.push(addon);
+				}
+			}catch(ex){
+				ex.app = "myAccount";
+				logHelper.error(ex);
+			}
+		};
+
+		$scope.selectPlan = function (ev)
+		{
+
+			if(!$scope.selectedPlan || $scope.selectedPlan === null){
+				notifications.toast("There is a error loading user plan, Please load My Profile application again", "error");
+				return;
+			}
+
+			if(!$scope.customerDetails.stripeCustId){
+				notifications.toast("Please add card details first to proceed", "error");
+				$scope.addNewCard('insert');
+				return;
+			}
+
+			$scope.isPlanSelected = true;
+
+			if($scope.tempSelectedPlan === null)
+			{
+				notifications.toast("Please select new plan to update ", "error");
+				$scope.isPlanSelected = false;
+				return;
+			}else {
+				var pack = $scope.tempSelectedPlan;
+				try {
+					$scope.paymentTenant = $scope.tenantId;
+					$scope.paymentPlan = pack.code;
+					$scope.paymentPrice = (pack.unitPrice);
+					$scope.paymentName = pack.name;
+
+				} catch (ex) {
+					$scope.isPlanSelected = false;
+					ex.app = "myAccount";
+					logHelper.error(ex);
+				}
+			}
+
+			var addons = [];
+			if($scope.selectedAddons.length > 0){
+				for(var i=0;i<$scope.selectedAddons.length;i++){
+					addons[i]={"code" : $scope.selectedAddons[i].code, "qty":1}
+				}
+			}
+
+			vm.confirmData = {
+				addons: [],
+				plan:$scope.tempSelectedPlan,
+				total:0,
+				confirmation: function (confirmation) {
+					if(confirmation){
+						$scope.changeSubscription($scope.tempSelectedPlan.code);
+					}else{
+						$mdDialog.hide();
+						$scope.isPlanSelected = false;
+					}
+				}
+			};
+
+			vm.confirmData.addons = $scope.selectedAddons;
+			vm.confirmData.total = $scope.packageCost;
+
+			$mdDialog.show({
+				controller: function () {
+					return vm;
+				},
+				controllerAs: 'ctrl',
+				templateUrl: 'app/main/account/dialogs/confirm-buy.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose:false // Only for -xs, -sm breakpoints.
+			})
+			.then(function(confirmation) {
+			}, function() {
+				$mdDialog.hide();
+			});
+
+		}
+
+		$scope.isChangeSubscriptionClicked = false;
+		$scope.changeSubscription = function(newPlan){
+			$scope.isPlanSelected = true;
+
+			$scope.isChangeSubscriptionClicked = true;
+
+			var data = {
+				"email": vm.dummy.Data.email,
+				"newplanCode": newPlan,
+				"oldplanCode": $scope.selectedPlan.code,
+				"qty": 1,
+				"note": "note",
+				"changeType": "immediate",
+				//"addOns": $scope.selectedAddons,
+				"coupon": $scope.promoCode
+			}
+
+			$charge.myaccountapi().changeSubscriptionlocal(data).success(function (response) {
+				$scope.isPlanSelected = false;
+				if(response.response === "succeeded") {
+
+					notifications.toast("Plan successfully changed", "success");
+					$scope.switchPlan(newPlan);
+
+					$scope.isChangeSubscriptionClicked = false;
+					//$scope.tenantUser = [];
+					//$scope.getUserInfoByID();
+					//$scope.getActiveSubscriptionDetails();
+					$scope.currentPlanCode = newPlan;
+					selectPlan($scope.currentPlanCode);
+				}else{
+					notifications.toast("Error occured while changing plans", "error");
+					$scope.isChangeSubscriptionClicked = false;
+				}
+
+			}).error(function(data) {
+				$scope.isPlanSelected = false;
+				notifications.toast("Error occured while changing plans", "error");
+				$scope.isChangeSubscriptionClicked = false;
+			});
+
+		}
+
+
+		//addSubscription
+		$scope.addAddon = function(){
+
+			vm.confirmDataAddon = {
+				addons: [],
+				total:function () {
+					var total;
+					angular.forEach($scope.selectedAddons, function (addon) {
+						total += addon.unitPrice;
+					})
+					return total;
+				},
+				confirmation: function (confirmation) {
+					if(confirmation){
+						if($scope.selectedAddons != undefined && $scope.selectedAddons.length > 0) {
+
+							$scope.isPlanSelected = true;
+
+							for (var i = 0; i < $scope.selectedAddons.length; i++) {
+								var addon = $scope.selectedAddons[i];
+								var data = {
+									"email": vm.dummy.Data.email,
+									"planCode": addon.code,
+									"note": "Add Addon",
+									"qty": addon.qty,
+									"startDate": $filter('date')(new Date(), 'yyyy-MM-dd'),
+									"addOns": [],
+									"coupon": ""
+								}
+
+								$charge.myaccountapi().addSubscriptionlocal(data).success(function (response) {
+									$scope.isPlanSelected = false;
+									if (response.response != "failed") {
+
+										notifications.toast("Add-on (" + addon.name + ") successfully purchased", "success");
+
+									} else {
+
+										if (response.error.STATUS_INTERNAL_SERVER_ERROR) {
+
+											notifications.toast(response.error.STATUS_INTERNAL_SERVER_ERROR["0"], "error");
+
+
+										} else {
+											notifications.toast("Error occured while changing Add-on(" + addon.name + ")", "error");
+										}
+
+									}
+
+								}).error(function (data) {
+									$scope.isPlanSelected = false;
+									notifications.toast("Error occured while changing Add-on(" + addon + ")", "error");
+								});
+							}
+						}
+					}else{
+						$mdDialog.hide();
+						$scope.isPlanSelected = false;
+					}
+				}
+			};
+
+			vm.confirmData.addons = $scope.selectedAddons;
+			vm.confirmData.total = $scope.packageCost;
+
+			$mdDialog.show({
+				controller: function () {
+					return vm;
+				},
+				controllerAs: 'ctrl',
+				templateUrl: 'app/main/account/dialogs/confirm-buy-addon.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose:false // Only for -xs, -sm breakpoints.
+			})
+			.then(function(confirmation) {
+			}, function() {
+				$mdDialog.hide();
+			});
+
+		}
+
+		$scope.addNewCard = function(action){
+
+			var data = {
+				"profileId": $scope.customerDetails.profileId,
+				"redirectUrl": window.location.href,
+				"action": action
+			}
+
+			$scope.cardBody = null;
+			$charge.myaccountapi().loadForm(data).success(function (response) {
+				$scope.cardBody = response;
+
+				$("#cardBody").append($scope.cardBody);
+				$("#cardBody_").append($scope.cardBody);
+				// $scope.addCardDialog(this,response);
+
+			}).error(function(data) {
+				notifications.toast("Error occured while changing plans", "error");
+			});
+
+		}
+
+		//$scope.addCardDialog = function (ev,formBody) {
+		//	$mdDialog.show({
+		//		controller: 'AddCardController as vm',
+		//		templateUrl: 'app/main/account/dialogs/addCardDialog.html',
+		//		parent: angular.element(document.body),
+		//		targetEvent: ev,
+		//		clickOutsideToClose:true,
+		//		locals : {
+		//			body : formBody
+		//
+		//		}
+		//	})
+		//		.then(function(answer) {
+		//
+		//		}, function() {
+		//
+		//		});
+		//}
+
+		$scope.switchPlan = function(plan){
+
+			$charge.currency().switchPlan(plan).success(function (response) {
+				// notifications.toast("Plan successfully changed", "success");
+			}).error(function(data) {
+				// notifications.toast("Error occured while switching plans", "error");
+			});
+
+		}
+
+		$scope.customerDetails = {};
+		$scope.getProfile = function(email){
+
+			$charge.myaccountapi().getProfile(0,1,'asc','email',email).success(function (response) {
+				if(response.status) {
+
+					$scope.customerDetails = response.data['0'];
+
+					$scope.loadCardDetails();
+					$scope.getTenantPaymentHistory();
+
+					if($scope.customerDetails.stripeCustId === null){
+						$scope.addNewCard('insert');
+					}else{
+						$scope.addNewCard('update');
+					}
+
+				}
+
+			}).error(function(data) {
+
+				$scope.allPlans= null;
+			});
+
+		}
+
+
+		//$scope.calculateFreeTrialExpireDate = function(){
+		//
+		//	if($scope.selectedPlan)
+		//	{
+		//
+		//		$scope.remainingDays = 0;
+		//		var today = new Date();
+		//
+		//		if($scope.selectedPlan.code === 'free_trial' && $scope.freeTrialStartDate != '')
+		//		{
+		//			var convertedDate = new Date($scope.freeTrialStartDate);
+		//
+		//
+		//			convertedDate.setDate(convertedDate.getDate() + parseInt($scope.selectedPlan.period));
+		//
+		//			$scope.remainingDays = (Math.round((convertedDate- today )/(1000*60*60*24))) +  " Days remaining";
+		//
+		//			$scope.displayExpireDate = moment(convertedDate.toISOString()).format('LL');
+		//		}
+		//		else
+		//		{
+		//			$scope.displayExpireDate = $scope.paidPlanExpireDate;
+		//
+		//			var convertedDate = new Date($scope.paidPlanExpireDate);
+		//
+		//			// $scope.remainingDays = (Math.round((convertedDate- today )/(1000*60*60*24))) + " Days remaining";
+		//
+		//		}
+		//	}
+		//
+		//}
+
+		// $scope.isTenantPaymentHistoryClicked = false;
+		// $scope.showPaymentHistoryPane = false;
+		$scope.paymentHistoryLoading = false;
+    $scope.showPayHistoryMoreButton = false;
+    $scope.payHistorySkip = 0;
+    $scope.paymentHistoryList = [];
+
+		$scope.getTenantPaymentHistory = function() {
+			$scope.paymentHistoryLoading = true;
+			var email = $scope.customerDetails.email_addr;
+
+			try{
+				$scope.isTenantPaymentHistoryClicked = true;
+				$charge.myaccountapi().getInvoiceByEmail(email,$scope.payHistorySkip,1,'desc').success(function (data) {
+
+					//$scope.groupedPaymentHistory = [];
+					//$scope.paymentHistoryList = data.data.result;
+          if(data.response != "failed") {
+            angular.forEach(data.data.result, function (res) {
+              $scope.paymentHistoryList.push(res);
+            })
+
+            for (i = 0; i < $scope.paymentHistoryList.length; i++) {
+              var date = new Date($scope.paymentHistoryList[i].invoiceDate);
+              var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+              $scope.paymentHistoryList[i].receivedDate = new Date($scope.paymentHistoryList[i].invoiceDate);
+              $scope.paymentHistoryList[i].lastDate = lastDay;
+              //$scope.paymentHistoryList[i].infomation = JSON.parse($scope.paymentHistoryList[i].infomation)[0];
+              $scope.paymentHistoryList[i].infomation = $scope.paymentHistoryList[i].note;
+              $scope.paymentHistoryList[i].currency = $scope.paymentHistoryList[i].currency;
+
+              // Kasun_Wijeratne_31_AUG_2017
+              //$scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].currentPeriod.split('-')[0] + '-' + $scope.paymentHistoryList[i].currentPeriod.split('-')[1];
+              //$scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].currentPeriod);
+              //$scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].currentPeriodEnd);
+              $scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].period;
+              $scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].invoiceDate);
+              $scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].dueDate);
+              // Kasun_Wijeratne_31_AUG_2017 - END
             }
 
+            $scope.payHistorySkip += 1;
 
-          }, function (response) {
-            console.log(response);
-            notifications.toast("2Checkout disconnection failed", "error");
-
-          });
-
-
-      }, function () {
-        $mdDialog.hide();
-      });
-
-    }
-
-
-    $scope.saveProfileDetails = function(isEdit){
-
-      vm.editableMode = isEdit;
-      if(isEdit)
-        return;
-
-      $http({
-        method : 'POST',
-        url : "/apis/profile/userprofile",
-        headers: {
-          'Content-Type': 'application/json',
-          'securityToken':$scope.securityToken
-        },
-        data : vm.dummy.Data
-
-      }).then(function(response) {
-        console.log(response);
-
-        if (response.data.Data.IsSuccess) {
-
-          vm.editableMode = false;
-          notifications.toast("User profile updated", "success");
-
-        }else{
-          vm.editableMode = true;
-          notifications.toast("Error updating details, " + response.data.Message, "error");
-        }
-
-      }, function(response) {
-        console.log(response);
-        vm.editableMode = true;
-        notifications.toast("Error updating details, " + response, "error");
-      });
-    }
-
-    $scope.config = {
-      publishKey: 'pk_test_5V8EeTzXU8XTo0KQN0SkPf3V',
-      title: 'Cloudcharge',
-      description: "for connected business",
-      logo: 'app/main/account/img/loginDuo.png',
-      label: 'Pay amount'
-    }
-
-    $scope.$on('stripe-token-received', function(event, args) {
-      console.log(args);
-
-      if($scope.newCardSelected){
-
-        $http({
-          method : 'GET',
-          url : "/shell/app/main/account/paymentMethod/cardHandler.php?view=addCard&token="+args.id+"&default=true",
-          headers: {
-            'Content-Type': 'application/json'
-          }}).then(function(response) {
-
-          $scope.loadCardDetails();
-
-        }, function(response) {
-          console.log('add card function returned an error '+response);
-        });
-
-      } else {
-        $scope.isPlanSelected = true;
-
-        $window.location.href = '/shell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' + $scope.selectedPlan.id + '&plan=' + $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' + $scope.paymentName + '&tenantID=' + $scope.paymentTenant + '&stripeToken=' + args.id + '&paymentStatus='+$scope.paymentStatus ;
-        //$window.location.href = '/shell/app/main/account/paymentMethod/cookieHelper.php?plan=' +  $scope.paymentPlan + '&st=' +  $scope.paymentSecurityToken + '&price=' + ( $scope.paymentPrice ) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&stripeToken=' +  args.id;
-      }
-
-    });
-
-
-    $scope.addNewCard = function(){
-      $scope.newCardSelected = true;
-    }
-
-
-    $scope.selectPlan = function (packaged)
-    {
-      if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
-
-        var confirm = $mdDialog.confirm()
-          .title('Update Package')
-          .textContent('You are going to change your current plan to ' + packaged.name + ' and it will cost amount of $' + packaged.price + ', Do you want to proceed with the update ?')
-          .ariaLabel('Lucky day')
-          .ok('Yes')
-          .cancel('No');
-        $mdDialog.show(confirm).then(function () {
-
-          $scope.getUserTenantData($scope.securityToken, packaged);
-
-        }, function () {
-          $scope.isPlanSelected = false;
-          $mdDialog.hide();
-        });
-
-      }else{
-        $scope.getUserTenantData($scope.securityToken, packaged);
-      }
-
-    }
-
-    $scope.getUserTenantData = function (secToken,pack) {
-
-      $scope.isPlanSelected= true;
-
-      $http({
-        method: 'GET',
-        url: '/auth/GetSession/'+secToken+'/Nil',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).success(function (dataa) {
-        debugger;
-        console.log(dataa);
-        submitTenantDetails(pack,dataa)
-      })
-        .error(function (data) {
-          console.log(data);
-          displaycreateCompanyDetailsSubmissionError('Sorry, we are having problems updating packages at this moment. Please try again later.','Failed to create company.');
-          $scope.isPlanSelected= false;
-
-        });
-    };
-
-
-    var submitTenantDetails = function (pack,dataa) {
-
-      $scope.paymentTenant = $scope.tenantId ;
-      $scope.paymentPlan = pack.id;
-      $scope.paymentSecurityToken = $scope.securityToken;
-      $scope.paymentPrice = (pack.price);
-      $scope.paymentName = pack.name;
-
-      if($scope.selectedPlan.price > 0 || $scope.paymentStatus === 'canceled') {
-
-        if($scope.userdata > 0 && $scope.paymentStatus != 'canceled')
-        {
-
-          $scope.addUp = 2; // additionalUserPrice
-
-          if(pack.no > 4){
-            $scope.addUp = 2*10;   //one user into 12 months
-          }
-
-
-          $http({
-            method : 'POST',
-            url : '/shell/app/main/account/paymentMethod/alarcartHandler.php?view=updatePackageWithAddAdditionalUsers&userCount='+$scope.userdata+'&userPrice='+($scope.userdata * $scope.addUp)+ '&selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ,
-            headers: {
-              'Content-Type': 'application/json'
+            if ($scope.paymentHistoryList.length === $scope.payHistorySkip) {
+              $scope.showPayHistoryMoreButton = true;
             }
-          }).then(function(response) {
-
-            console.log(response);
-
-            if(response.data.status){
-
-              $scope.useRatingEngine($scope.userdata,($scope.userdata * $scope.addUp));
-
-            }else{
-
-              notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
-              $scope.clickCancel();
-
-            }
-
-
-          }, function(response) {
-            console.log(response);
-            notifications.toast("Error updating plan,"+response.data.response+" Please check again ", "error");
-
-            $scope.clickCancel();
-          });
-
-        }else {
-
-          //$window.location.href = '/shell/app/main/account/paymentMethod/charge.php';
-          $window.location.href = '/shell/app/main/account/paymentMethod/cookieHelper.php?selectedPlan=' +  $scope.selectedPlan.id + '&plan=' +  $scope.paymentPlan + '&price=' + ( $scope.paymentPrice) + '&name=' +  $scope.paymentName + '&tenantID=' +  $scope.paymentTenant+ '&paymentStatus='+$scope.paymentStatus ;
-        }
-
-      }
-    }
-
-
-    $scope.useRatingEngine = function(numberOfUsers,price) {
-
-      var objCheckProcess = {
-        "appId": "user",
-        "amount": price
-      };
-
-      $charge.ratingengine().checkProcess(objCheckProcess).success(function (data2) {
-        var userAmount = parseInt(data2.amount);
-
-        userAmount = parseInt(data2.amount) + parseInt(numberOfUsers);
-
-
-        var data = {
-          "appId": "user",
-          "amount": userAmount,
-          "expiry": "",
-          "sign": "<="
-        }
-        var meta = {
-          "domainUrl": window.location.hostname,
-          "securityToken": $scope.securityToken
-        }
-        data = JSON.stringify(data);
-        meta = JSON.stringify(meta);
-        $http.get('app/main/account/data/ratingengineservice.php/?method=updaterule&&data=' + data + '&&meta=' + meta).then(function (response) {
-          if (response.data.success) {
-
-            console.log("Rule updated! ");
-
           }else{
-
-            console.log("update rule failed! " + response.data);
-
+            $scope.showPayHistoryMoreButton = false;
           }
 
-          notifications.toast("Plan successfully updated ", "success");
+					// Kasun_Wijeratne_31_AUG_2017
+					//angular.forEach($scope.paymentHistoryList, function (history) {
+					//  var tempObj = {
+					//    id: history.periodForGroup,
+					//    month: new Date(history.periodForGroup + '-01'),
+					//    records: [],
+					//    total: 0,
+					//    expanded: false
+					//  }
+					//  if ($scope.groupedPaymentHistory.length == 0) {
+					//    $scope.groupedPaymentHistory.push(tempObj);
+					//  }
+					//  angular.forEach($scope.groupedPaymentHistory, function (innerHistory) {
+					//    if (history.periodForGroup == innerHistory.id) {
+					//      innerHistory.records.push(history);
+					//      innerHistory.total = innerHistory.total + history.amount;
+					//    } else {
+					//      tempObj.records.push(history);
+					//      $scope.groupedPaymentHistory.push(tempObj);
+					//    }
+					//  });
+					//});
+					// Kasun_Wijeratne_31_AUG_2017 - END
 
-          $window.location.reload();
+					// $scope.isTenantPaymentHistoryClicked = false;
+					// $scope.showPaymentHistoryPane = true;
+					// $scope.paymentHistory = true;
+					$scope.paymentHistoryLoading = false;
 
-        }, function (response) {
-          console.log("update rule failed! " + response.data);
 
-        });
+				}).error(function (data) {
+					// console.log(data);
+					//$scope.paymentHistoryList = null;
+					// $scope.isTenantPaymentHistoryClicked = false;
+					// $scope.showPaymentHistoryPane = true;
+					$scope.paymentHistoryLoading = false;
+          $scope.payHistorySkip = 0;
+          $scope.showPayHistoryMoreButton = false;
 
-
-
-      }).error(function (data) {
-        console.log(data);
-        $scope.isSubmitClicked = false;
-        //$scope.addedUsers += $scope.numberOfUsers;
-        notifications.toast("Error, unable to proceed with the operation", "error");
-        //vm.closeDialog();
-      });
-    }
-
-
-    var displaycreateCompanyDetailsSubmissionError = function (message,title) {
-
-      if(message === 'Wrong Current Password.'){
-        message = 'Your current password is incorrect, please try again';
-      }
-
-      $mdDialog.show(
-        $mdDialog.alert()
-          .parent(angular.element(document.body))
-          .clickOutsideToClose(true)
-          .title(''+title+'')
-          .textContent('' + message + '')
-          .ariaLabel(''+title+'')
-          .ok('Got it!')
-      );
-    };
-
-
-    $scope.isChangePasswordSelected = false;
-
-    $scope.changePassword = function(){
-
-      if($scope.user.currentPassword === ''){
-        notifications.toast("Please enter your current password!", "Error");
-        return;
-      }
-      else if($scope.user.newPassword === ''){
-        notifications.toast("Please enter your new password!", "Error");
-        return;
-      }
-      else if($scope.user.newPassword != $scope.user.confirmNewPassword){
-        notifications.toast("Entered passwords does not match with each other!", "Error");
-        return;
-      }
-
-      $scope.isChangePasswordSelected = true;
-
-      $http({
-        method: 'GET',
-        url: '/apis/authorization/userauthorization/changepassword/'+$scope.user.currentPassword+'/'+$scope.user.newPassword,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .success(function (dataa) {
-          var title = "Error";
-          if(dataa.Success)
-          {
-            title = "Success";
-
-            $scope.clearPassword();
-          }
-
-          displaycreateCompanyDetailsSubmissionError(dataa.Message , title);
-          $scope.isChangePasswordSelected = false;
-
-
-        })
-        .error(function (data) {
-          displaycreateCompanyDetailsSubmissionError('Password not been changed duo to '+data ,'Failed to change password');
-          $scope.isChangePasswordSelected = false;
-
-        });
-
-    }
-
-
-    $scope.clearPassword = function(){
-
-      $scope.user = {
-        currentPassword : '',
-        newPassword : '',
-        confirmNewPassword : ''
-      };
-
-      $scope.isEditablePassword = !$scope.isEditablePassword;
-    }
-
-
-    $scope.proceedWithStripe = function(){
-
-
-      var confirm = $mdDialog.confirm()
-        .title('Connect with stripe')
-        .textContent('Do you want to proceed ?')
-        .ariaLabel('Lucky day')
-        .ok('Yes')
-        .cancel('No');
-      $mdDialog.show(confirm).then(function () {
-
-      $scope.isRegButtonsShow = true;
-      //$window.location.href = 'https://connect.stripe.com/oauth/authorize?response_type=code&scope=read_write&client_id=ca_9SnbSf9mKGaz5k4lelzQIQJZ3FjgQ79h';
-      $window.location.href = '/shell/app/main/account/paymentMethod/payment-partial.php';
-
-      }, function () {
-        $mdDialog.hide();
-
-      });
-
-
-    }
-
-    $scope.clickCancel = function(){
-
-      $scope.signupsuccess=false;
-      $scope.isPlanSelected = false;
-
-    }
-
-    $scope.disconnectWithStripe = function(){
-
-      $scope.isRegButtonsShow = true;
-
-
-      var confirm = $mdDialog.confirm()
-        .title('Disconnect with stripe')
-        .textContent('Do you want to proceed with stripe disconnection?')
-        .ariaLabel('Lucky day')
-        .ok('Yes')
-        .cancel('No');
-      $mdDialog.show(confirm).then(function () {
-
-
-
-        $http({
-          method: 'GET',
-          url: '/services/duosoftware.paymentgateway.service/stripe/deactiveAcc',
-          headers: {
-            'Content-Type': 'application/json',
-            'securityToken':$scope.securityToken
-          }
-        }).success(function (dataa) {
-          debugger;
-          console.log(dataa);
-
-          if(dataa.status)
-          {
-            notifications.toast("You have successfully disconnected with stripe", "Success");
-            $scope.isRegisteredWithStripe = false;
-          }else{
-            notifications.toast("There is a problem, Please try again", "Error");
-          }
-
-          $scope.isRegButtonsShow= false;
-
-        }).error(function (data) {
-          console.log(data);
-          $scope.isRegButtonsShow= false;
-          notifications.toast("There is a problem, Please try again", "Error");
-
-        });
-
-      }, function () {
-        $scope.isRegButtonsShow = true;
-      });
-
-    }
-
-    $scope.numberOfUsers = 0;
-    $scope.userPrice = 2;
-
-    $scope.addMoreUsersDialog = function (ev) {
-      $mdDialog.show({
-        controller: 'AddUsersController as vm',
-        templateUrl: 'app/main/account/dialogs/addUsersDialog.html',
-        parent: angular.element(document.body),
-        targetEvent: ev,
-        clickOutsideToClose:false,
-        locals : {
-          numberOfUser : $scope.numberOfUsers,
-          userPrice:$scope.userPrice
-
-        }
-      })
-        .then(function(answer) {
-
-          $scope.addMoreUsers();
-          $scope.getTenantPaymentHistory();
-
-        }, function() {
-        });
-    }
-
-
-
-    $scope.userdata=0;
-    $scope.paymentStatus = "";
-    $scope.isTempDeactive = false;
-
-    $scope.addMoreUsers = function () {
-
-      $http({
-        method: 'GET',
-        url: '/services/duosoftware.paymentgateway.service/stripe/subscriberCheck',
-        headers: {
-          'Content-Type': 'application/json',
-          'securityToken' : $scope.securityToken
-        }
-      }).success(function (data) {
-        console.log(data);
-
-
-        $scope.paymentStatus = data.response[0].status;
-        if( data.response[0].planStatus === 'Active')
-        {
-          $scope.isTempDeactive = true;
-        }
-
-        for (var i = 0; i < data.response[0].otherInfo.length; i++) {
-          if(data.response[0].otherInfo[i].tag === 'user')
-          {
-            $scope.userdata = data.response[0].otherInfo[i].quantity;
-          }
-        }
-
-        var planEndDate = $filter('date')((data.response[0].currentPeriodEnd * 1000), 'yyyy-MM-dd');
-        $scope.paidPlanExpireDate = planEndDate;
-          //moment(convertedDate.toISOString()).format('LL');
-
-
-      }).error(function (data) {
-
-        if(data.response)
-          $scope.paymentStatus = data.response[0].status;
-
-      });
-
-    }
-
-    $scope.addMoreUsers();
-
-    $scope.access_keys = [{
-      name: "Access Key 1",
-      key: "ALSDFSFUASDFASD123123K12KU12312K3H1U3UI1HI23U1N31N23I123"
-    },{
-      name: "Access Key 2",
-      key: "ALSDFSFUASDFASD1231aswa12K3asdasH1U31UI1HI23U1N31N23I123"
-    }];
-
-    $scope.resetKey = function(key){
-      $scope.isKeyResetting = true;
-    }
-
-    $scope.copyToClipboard = function (id) {
-      var id = "#"+id;
-      var copyField = document.querySelector(id);
-      var range = document.createRange();
-      range.selectNode(copyField);
-      window.getSelection().addRange(range);
-      // select the contents
-
-      document.execCommand('copy');
-      copyField.insertAdjacentHTML('beforeend', '<span class="copy-msg">Copied</span>');
-
-    }
-
-  }
+				});
+			}catch(ex){
+
+				// $scope.isTenantPaymentHistoryClicked = false;
+				// $scope.showPaymentHistoryPane = true;
+				$scope.paymentHistoryLoading = false;
+
+				ex.app = "myAccount";
+				logHelper.error(ex);
+			}
+		}
+
+
+		$scope.deactiveCurrentPlan = function(){  // EOD deactivation
+
+
+			var confirm = $mdDialog.confirm()
+				.title('Deactivate current plan')
+				.textContent('Would you like to deactivate current plan?')
+				.targetEvent()
+				.ok('Yes')
+				.cancel('No');
+
+			$mdDialog.show(confirm).then(function() {
+
+				$scope.changeSubscription('free_trial');
+
+			}, function() {
+				$scope.isPlanSelected = false;
+			});
+
+
+
+		}
+
+
+
+
+		$scope.saveProfileDetails = function(isEdit){
+
+			try{
+				vm.editableMode = isEdit;
+				if(isEdit)
+					return;
+
+				if( angular.isUndefined($scope.tenantUser.country) || $scope.tenantUser.country === null || $scope.tenantUser.country === "" ){
+					vm.editableMode = true;
+					document.getElementById('country').focus();
+					return;
+				}
+
+
+				var data = {
+					"firstName": $scope.tenantUser.firstName,
+					"lastName": $scope.tenantUser.surName,
+					"country": $scope.tenantUser.country.name
+				}
+
+				$charge.myAccountEngine().updateUser(data).success(function (response) {
+					if (response.Result) {
+
+						vm.editableMode = false;
+						notifications.toast("User profile updated", "success");
+						$scope.getUserInfoByID();
+					}else{
+						vm.editableMode = true;
+						notifications.toast("Error updating details, " + response.data.Message, "error");
+					}
+
+
+				}).error(function(response) {
+					// // console.log(response);
+					vm.editableMode = true;
+					notifications.toast("Error updating details, " + response, "error");
+				});
+
+			}catch(ex){
+
+				vm.editableMode = true;
+				notifications.toast("Error updating details ", "error");
+
+				ex.app = "myAccount";
+				logHelper.error(ex);
+			}
+
+		}
+
+
+
+		//$scope.$on('stripe-token-received', function(event, args) {
+		//	// // console.log(args);
+		//
+		//	try{
+		//		if($scope.newCardSelected){
+		//
+		//			$http({
+		//				method : 'GET',
+		//				url : "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=addCard&token="+args.id+"&default=true",
+		//				headers: {
+		//					'Content-Type': 'application/json'
+		//				}}).then(function(response) {
+		//
+		//				$scope.loadCardDetails();
+		//
+		//			}, function(response) {
+		//				// console.log('add card function returned an error '+response);
+		//			});
+		//
+		//		} else {
+		//			$scope.isPlanSelected = true;
+		//
+		//			var req = {
+		//				method: 'POST',
+		//				url: '/azureshell/app/main/account/paymentMethod/chargeo.php',
+		//				headers: {
+		//					'Content-Type': 'application/json'
+		//				},
+		//				data: {
+		//					"selectedPlan": $scope.selectedPlan.code ,
+		//					"plan":  $scope.paymentPlan ,
+		//					"price" :  ( $scope.paymentPrice) ,
+		//					"name" :  $scope.paymentName ,
+		//					"tenantID" :  $scope.paymentTenant ,
+		//					"stripeToken" :  args.id ,
+		//					"paymentStatus":  $scope.paymentStatus ,
+		//					"subscriptionAmount":  $scope.currentPlanAmount ,
+		//					"additionalUserQty" : 0,
+		//					"additionalUserTotalPrice" : 0
+		//				}
+		//			}
+		//
+		//			$http(req).then(function(data){
+		//				if(data.data.status === 'success')
+		//				{
+		//					$scope.isPlanSelected = false;
+		//
+		//					notifications.toast("Plan successfully changed.", "success");
+		//
+		//					$scope.loadCardDetails();
+		//
+		//					$scope.tenantUser = [];
+		//					$scope.getUserInfoByID();
+		//
+		//					//$scope.getSelectedPlanSubscriptionDetails();
+		//
+		//
+		//				}else{
+		//					notifications.toast("Error while plan changing, " + data.data.message, "error");
+		//
+		//					$scope.isPlanSelected = false;
+		//				}
+		//			});
+		//
+		//
+		//		}
+		//
+		//	}catch(ex){
+		//		ex.app = "myAccount";
+				//logHelper.error(ex);
+		//	}
+		//
+		//});
+
+
+		//$scope.addNewCard = function(){
+		//	$scope.newCardSelected = true;
+		//}
+
+		//$scope.removeCard = function (card) {
+		//	try{
+		//		$http({
+		//			method : 'GET',
+		//			url : "/azureshell/app/main/account/paymentMethod/cardHandler.php?view=removeCard&cardId="+card.id,
+		//			headers: {
+		//				'Content-Type': 'application/json'
+		//			}}).then(function(response) {
+		//
+		//			$scope.loadCardDetails();
+		//
+		//		}, function(response) {
+		//			// console.log('add card function returned an error '+response);
+		//		});
+		//
+		//	}catch(ex){
+		//
+		//		vm.editableMode = true;
+		//		notifications.toast("Error updating details ", "error");
+		//
+		//		ex.app = "myAccount";
+				//logHelper.error(ex);
+		//	}
+		//};
+
+
+		//$scope.calculatePlanCharges = function(selectedPlan){
+		//
+		//	var planAmount =parseFloat(selectedPlan.unitPrice);
+		//	if(parseFloat($scope.currentPlanUsed) != parseFloat(selectedPlan.activeSubscriptions))
+		//	{
+		//		var differece = parseFloat($scope.currentPlanUsed) - parseFloat(selectedPlan.activeSubscriptions);
+		//
+		//		if(differece > 0){
+		//
+		//			$scope.userdata = differece;
+		//			var excessPrice = differece * parseFloat(selectedPlan.subscriptionRate);
+		//
+		//			planAmount = planAmount+excessPrice;
+		//		}
+		//	}
+		//
+		//	return planAmount;
+		//}
+
+
+
+
+
+		/*$scope.useRatingEngine = function(numberOfUsers,price) {
+
+		 var objCheckProcess = {
+		 "appId": "user",
+		 "amount": price
+		 };
+
+		 $charge.ratingengine().checkProcess(objCheckProcess).success(function (data2) {
+		 var userAmount = parseInt(data2.amount);
+
+		 userAmount = parseInt(data2.amount) + parseInt(numberOfUsers);
+
+
+		 var data = {
+		 "appId": "user",
+		 "amount": userAmount,
+		 "expiry": "",
+		 "sign": "<="
+		 }
+		 var meta = {
+		 "domainUrl": window.location.hostname,
+		 "idToken": $scope.idToken
+		 }
+		 data = JSON.stringify(data);
+		 meta = JSON.stringify(meta);
+		 $http.get('app/main/account/data/ratingengineservice.php/?method=updaterule&&data=' + data + '&&meta=' + meta).then(function (response) {
+		 if (response.data.success) {
+
+		 // console.log("Rule updated! ");
+
+		 }else{
+
+		 // console.log("update rule failed! " + response.data);
+
+		 }
+
+		 notifications.toast("Plan successfully updated ", "success");
+
+		 $window.location.reload();
+
+		 }, function (response) {
+		 // console.log("update rule failed! " + response.data);
+
+		 });
+
+
+
+		 }).error(function (data) {
+		 // console.log(data);
+		 $scope.isSubmitClicked = false;
+		 //$scope.addedUsers += $scope.numberOfUsers;
+		 notifications.toast("Error, unable to proceed with the operation", "error");
+		 //vm.closeDialog();
+		 });
+		 }*/
+
+
+		var displaycreateCompanyDetailsSubmissionError = function (message,title) {
+
+			if(message === 'Wrong Current Password.'){
+				message = 'Your current password is incorrect, please try again';
+			}
+
+			$mdDialog.show(
+				$mdDialog.alert()
+					.parent(angular.element(document.body))
+					.clickOutsideToClose(true)
+					.title(''+title+'')
+					.textContent('' + message + '')
+					.ariaLabel(''+title+'')
+					.ok('Got it!')
+			);
+		};
+
+
+		$scope.isChangePasswordSelected = false;
+
+		$scope.changePassword = function(){
+
+			try{
+
+				//if($scope.user.currentPassword === ''){
+				//  notifications.toast("Please enter your current password!", "Error");
+				//  return;
+				//}
+				//else
+				if($scope.dev.newPassword === ''){
+					notifications.toast("Please enter your new password!", "Error");
+					return;
+				}
+				else if($scope.dev.newPassword != $scope.dev.cnfirmNewPassword){
+					notifications.toast("Entered passwords does not match with each other!", "Error");
+					return;
+				}
+
+				$scope.isChangePasswordSelected = true;
+
+
+				$scope.data = { "password" : $scope.dev.newPassword}
+				$charge.myAccountEngine().resetAPIUserPassword($scope.data).success(function (response) {
+
+					var title = "Error";
+					//if(dataa.Success)
+					//{
+					title = "Success";
+
+					$scope.clearPassword();
+					//}
+
+					displaycreateCompanyDetailsSubmissionError("Password successfully changed " , title);
+					$scope.isChangePasswordSelected = false;
+
+
+				}).error(function(data) {
+					displaycreateCompanyDetailsSubmissionError('Password not been changed duo to '+data ,'Failed to change password');
+					$scope.isChangePasswordSelected = false;
+				});
+
+			}catch(ex){
+
+				displaycreateCompanyDetailsSubmissionError('Password not been changed ,Failed to change password');
+				$scope.isChangePasswordSelected = false;
+
+				ex.app = "myAccount";
+				logHelper.error(ex);
+			}
+		}
+
+
+		$scope.clearPassword = function(){
+
+			$scope.user = {
+				currentPassword : '',
+				newPassword : '',
+				confirmNewPassword : ''
+			};
+
+			$scope.isEditablePassword = !$scope.isEditablePassword;
+		}
+
+
+
+		$scope.clickCancel = function(){
+
+			$scope.signupsuccess=false;
+			$scope.isPlanSelected = false;
+
+		}
+
+
+		$scope.numberOfUsers = 0;
+		$scope.userPrice = 2;
+
+		$scope.addMoreUsersDialog = function (ev) {
+			//$mdDialog.show({
+			//	controller: 'AddUsersController as vm',
+			//	templateUrl: 'app/main/account/dialogs/addCardDialog.html',
+			//	parent: angular.element(document.body),
+			//	targetEvent: ev,
+			//	clickOutsideToClose:false,
+			//	locals : {
+			//		numberOfUser : $scope.numberOfUsers,
+			//		userPrice:$scope.userPrice
+			//
+			//	}
+			//})
+			//	.then(function(answer) {
+			//
+			//		$scope.addMoreUsers();
+			//		$scope.getTenantPaymentHistory();
+			//
+			//	}, function() {
+			//	});
+		}
+
+
+
+		//$scope.userdata=0;
+		//$scope.paymentStatus = "";
+		//$scope.isTempDeactive = false;
+		//
+		//$scope.addMoreUsers = function () {
+		//
+		//	try{
+		//
+		//		$charge.paymentgateway().subscriberCheck().success(function (data) {
+		//
+		//			// console.log(data);
+		//
+		//
+		//			$scope.paymentStatus = data.response[0].status;
+		//			if( data.response[0].planStatus === 'Active')
+		//			{
+		//				$scope.isTempDeactive = true;
+		//			}
+		//
+		//			for (var i = 0; i < data.response[0].otherInfo.length; i++) {
+		//				if(data.response[0].otherInfo[i].tag === 'user')
+		//				{
+		//					$scope.userdata = data.response[0].otherInfo[i].quantity;
+		//				}
+		//			}
+		//
+		//			var planEndDate = $filter('date')((data.response[0].currentPeriodEnd * 1000), 'yyyy-MM-dd');
+		//			$scope.paidPlanExpireDate = planEndDate;
+		//			//moment(convertedDate.toISOString()).format('LL');
+		//
+		//			$scope.calculateFreeTrialExpireDate();
+		//
+		//		}).error(function (data) {
+		//
+		//			if(data.response)
+		//				$scope.paymentStatus = data.response;
+		//
+		//		});
+		//
+		//	}catch(ex){
+		//
+		//		ex.app = "myAccount";
+				//logHelper.error(ex);
+		//	}
+		//
+		//}
+		//
+		//$scope.addMoreUsers();
+
+		$scope.xfiedKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+		$scope.keyIndex = 0;
+		$scope.currentlyOn = "";
+
+		$scope.resetKey = function(key){
+			$scope.isKeyResetting = true;
+		};
+
+		$scope.showAccessKey = function(key, index){
+			$scope.keyIndex = index;
+			$scope.isKeyHidden = true;
+			document.getElementsByClassName('access-key')[index].innerHTML=key.key;
+			document.querySelector('.keyDisplay'+key.key+' #show').style.display='none';
+			document.querySelector('#copyKey'+key.key).removeAttribute('disabled');
+			document.querySelector('.keyDisplay'+key.key+' #hide').style.display='block';
+		}
+
+		$scope.hideAccessKey = function(key, index){
+			window.getSelection().empty();
+			$scope.keyIndex = index;
+			var length = key.key.length;
+			$scope.isKeyHidden = false;
+			document.getElementsByClassName('access-key')[index].innerHTML=$scope.xfiedKey.substring(0, length);
+			document.querySelector('#copyKey'+key.key).setAttribute('disabled','disabled');
+			document.querySelector('.keyDisplay'+key.key+' #show').style.display='block';
+			document.querySelector('.keyDisplay'+key.key+' #hide').style.display='none';
+		};
+
+		$scope.copyToClipboard = function (id, elem) {
+			$scope.coppiedTimeout = false;
+			$scope.copyStarted = true;
+			$scope.secondaryCopied = false;
+			$scope.primaryCopied = false;
+			window.getSelection().empty();
+			var ID = "#"+id;
+			// var notifParent = document.getElementById(id);
+			// var notif = notifParent.getElementsByClassName('copied-to-clipboard')[0];
+			var copyField = document.getElementById(id);
+			var range = document.createRange();
+			range.selectNode(copyField);
+			window.getSelection().addRange(range);
+			document.execCommand('copy');
+			if(elem.split(' ')[0].toLowerCase() == 'primary'){
+				$timeout(function(){
+					$scope.primaryCopied = true;
+				});
+			}else{
+				$timeout(function() {
+					$scope.secondaryCopied = true;
+				});
+			}
+			$timeout(function(){
+				$scope.coppiedTimeout = true;
+			},2000);
+			// if(notif != null || notif != undefined){
+			// 	notif.remove();
+			// 	copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
+			// }else{
+			// 	copyField.insertAdjacentHTML('beforeend', '<span class="copied-to-clipboard">Copied</span>');
+			// }
+		}
+
+		$scope.showMoreUserInfo=false;
+		$scope.contentExpandHandler = function () {
+			$scope.showMoreUserInfo =! $scope.showMoreUserInfo;
+		};
+
+		$scope.cancelEdit = function(){
+			vm.editableMode = false;
+		}
+
+		$scope.dev = {};
+		$scope.clearPasswordFields = function () {
+			$scope.dev = {};
+			vm.devPasswordForm.$setPristine();
+			vm.devPasswordForm.$setDirty();
+		};
+
+		$scope.saveDevPassword = function () {
+			$scope.onPasswordSubmit = true;
+			if(vm.devPasswordForm.$valid){
+				$scope.onPasswordSubmit = false;
+			}else{
+				angular.element(document.querySelector('#devPasswordForm')).find('.ng-invalid:visible:first').focus();
+				$scope.onPasswordSubmit = false;
+			}
+		};
+
+		var elem = angular.element('.Header-navClose');
+		elem.onclick = function(){
+			// console.log('Test clicked');
+		}
+		//angular.element('.testOnClick').on('click', function(){
+		//  // console.log('Test clicked');
+		//});
+
+
+		$scope.getCurrentPlansByUser = function (callback) {
+
+		};
+
+		$scope.getCurrentPlansByUser(function () {
+			var firstDate = new Date($scope.currentPlanCreatedDate);
+			var secondDate = new Date($scope.currentPlanExpiryDate);
+			$scope.remainingDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+		});
+
+		//$scope.changeSubscription = function(plan){
+		// for(i=0;i<plan.allSubscriptionPlans.length;i++) {
+		// 	if(plan.sliderValue <= plan.subscriptionMinAmount){
+		// 		plan.subscriptionRate = 0;
+		// 		plan.unitPrice =  parseFloat( plan.price ) ;
+		// 		if(i===0)
+		// 			plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeTo);
+		// 	}
+		// 	if(plan.sliderValue >= parseInt(plan.allSubscriptionPlans[i].rangeFrom) && plan.sliderValue <= parseInt(plan.allSubscriptionPlans[i].rangeTo)){
+		// 		plan.subscriptionRate = parseInt(plan.allSubscriptionPlans[i].rate);
+		// 		plan.activeSubscriptions = parseInt(plan.allSubscriptionPlans[i].rangeTo);
+		// 		plan.unitPrice = parseFloat(plan.allSubscriptionPlans[i].price);
+		// 	}
+		// }
+		//$scope.accSubscriptionDetailsLoaded = true;
+		//}
+
+		$scope.setRating = function () {
+			// console.log(this);
+		}
+
+		$scope.sliders = [{}];
+		// $scope.$watch(function () {
+		// 	if($scope.allPlans != null && $scope.companyPricePlans!= null && $scope.currentPlanName != null && !$scope.isSlidersLoaded) {
+		// 		for (i = 0; i < $scope.companyPricePlans.length; i++) {
+		// 			if (i > 0) {
+		// 				var tickArr=[];
+		// 				//tickArr[0] = $scope.companyPricePlans[i].subscriptionMinAmount;
+		// 				for(var j=0;j<$scope.companyPricePlans[i].allSubscriptionPlans.length;j++){
+		// 					tickArr.push($scope.companyPricePlans[i].allSubscriptionPlans[j].rangeTo);
+		// 				}
+		// 				$scope.sliders.push({
+		// 					sliderValue: $scope.companyPricePlans[i].subscriptionMinAmount,
+		// 					options: {
+		// 						id: $scope.companyPricePlans[i].code,
+		// 						floor: 0,
+		// 						enforceStep:true,
+		// 						ceil: $scope.companyPricePlans[i].subscriptionMaxAmount,
+		// 						step: parseInt($scope.companyPricePlans[i].allSubscriptionPlans[0].rangeTo),
+		// 						showSelectionBar: true,
+		// 						stepsArray: tickArr,
+		// 						selectionBarGradient: {
+		// 							from: 'white',
+		// 							to: '#039be5'
+		// 						}
+		// 					}
+		// 				});
+		// 			}
+		// 		}
+		// 		$scope.isSlidersLoaded = true;
+		// 	}
+		// });
+
+		$scope.$on("slideEnded", function(value) {
+
+			for(i=0;i<$scope.companyPricePlans.length;i++){
+				if($scope.companyPricePlans[i].code == value.targetScope.slider.options.id){
+					for(var a=0;a<$scope.companyPricePlans[i].allSubscriptionPlans.length;a++){
+						if($scope.companyPricePlans[i].allSubscriptionPlans[a].rangeTo == value.targetScope.modelLabel){
+							$scope.$apply(function () {
+								$scope.companyPricePlans[i].subscriptionRate = $scope.companyPricePlans[i].allSubscriptionPlans[a].rate;
+								$scope.companyPricePlans[i].unitPrice = $scope.companyPricePlans[i].allSubscriptionPlans[a].price;
+								$scope.companyPricePlans[i].activeSubscriptions = $scope.companyPricePlans[i].allSubscriptionPlans[a].rangeTo ;
+							});
+						}
+						//else if(value.targetScope.modelLabel == $scope.companyPricePlans[i].subscriptionMinAmount){
+						//  $scope.$apply(function () {
+						//    $scope.companyPricePlans[i].subscriptionRate = '0';
+						//    $scope.companyPricePlans[i].unitPrice = $scope.companyPricePlans[i].price;
+						//    $scope.companyPricePlans[i].activeSubscriptions = $scope.companyPricePlans[i].activeSubscriptions ;
+						//  });
+						//  // console.log($scope.companyPricePlans[i].subscriptionRate);
+						//  // console.log($scope.companyPricePlans[i].unitPrice);
+						//  // console.log($scope.companyPricePlans[i].activeSubscriptions);
+						//}
+					}
+				}
+			}
+
+		});
+		// / DYNAMIC PLANS
+
+
+		// SUBSCRIPTION HISTORY PDF DOWNLOADER
+		$scope.downloadSubscriptionPDF = function (record) {
+			record.downloading = true;
+
+
+			//$scope.dataInfo = [];
+			//var currentPeriod = null;
+			//var currentPeriodEnd = null;
+			//var receivedDate = null;
+			//angular.forEach(record.records, function(record){
+			//	var tempItemObj = {
+			//		amount: record.amount,
+			//		feature: record.infomation.feature,
+			//		quantity:record.infomation.quantity
+			//	};
+			//	$scope.dataInfo.push(tempItemObj);
+			//	if(record.infomation.tag.toLowerCase() == 'package'){
+			//		currentPeriod = record.currentPeriod;
+			//		currentPeriodEnd = record.currentPeriodEnd;
+			//		receivedDate = record.receivedDate;
+			//	}
+			//});
+			//
+			//$scope.data=[{
+			//	"type": "PDF",
+			//	"id": record.records[0].id,
+			//	"amount": record.total,
+			//	"email": vm.dummy.Data.email,
+			//	"currency": "usd",
+			//	"infomation": JSON.stringify($scope.dataInfo),
+			//	"domain": record.records[0].domain,
+			//	"currentPeriod": new Date(currentPeriod+ ' UTC').getTime()/1000,
+			//	"currentPeriodEnd": new Date(currentPeriodEnd+ ' UTC').getTime()/1000,
+			//	"createdDate": new Date(receivedDate+ ' UTC').getTime()/1000,
+			//	"gatewayType": "stripe"
+			//}];
+			//$charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
+			//
+			//	$scope.subscriptionDateForPDF = record.receivedDate;
+			//	var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
+			//	var dlnk = document.getElementById('hidden-donwload-anchor');
+			//	$timeout(function(){
+			//		dlnk.href = pdf;
+			//		dlnk.click();
+			//	},100);
+			//	record.downloading = false;
+			//
+			//}).error(function(errorResponse) {
+			//	record.downloading = false;
+			//});
+
+			var _st = gst("category");
+			_st = (_st != null) ? _st : "subscription";
+
+			$scope.data=[{ "type": "PDF", "id": record.guInvID, "app": "invoice",   "module":_st}];
+
+			$charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
+
+				$scope.subscriptionDateForPDF = record.invoiceDate;
+				var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
+				var dlnk = document.getElementById('hidden-donwload-anchor');
+				$timeout(function(){
+					dlnk.href = pdf;
+					dlnk.click();
+				},100);
+				record.downloading = false;
+
+			}).error(function(errorResponse) {
+				record.downloading = false;
+			});
+
+
+		}
+		// SUBSCRIPTION HISTORY PDF DOWNLOADER
+
+		$scope.expandPaymentRecord = function (record) {
+			record.expanded = !record.expanded;
+		};
+
+		// Reset access keys
+		$scope.resetLoading = false;
+		$scope.resetAccessKeys = function (keyCat) {
+			// $scope.resetLoading = true;
+			// $http.get('app/main/account/accessKeys/resetAccessKeys.php/?id='+$scope.idToken+'&&resetType=primary').then(function (successResponse) {
+			// 	$scope.newPrimaryKey = successResponse;
+			// 	$scope.resetLoading = false;
+			// }, function (errorResponse) {
+			// 	$scope.resetLoading = false;
+			// });
+			try{
+
+				$scope.resetLoading = true;
+				$scope.currentlyResetting = keyCat;
+				if(keyCat.toLowerCase() == 'primary key'){
+
+
+					$charge.myAccountEngine().regeneratePrimaryKey().success(function (response) {
+						$timeout(function () {
+							$scope.access_keys = [{
+								name: "Primary key",
+								key: response.Result.primaryKey
+							},{
+								name: "Secondary key",
+								key: response.Result.secondaryKey
+							}];
+						});
+						notifications.toast("Primary key has been reset", "success");
+						$scope.resetLoading = false;
+
+					}).error(function (errorRes) {
+						$scope.resetLoading = false;
+					});
+
+
+				}else if(keyCat.toLowerCase() == 'secondary key'){
+
+					$charge.myAccountEngine().regeneratePrimaryKey().success(function (response) {
+						$timeout(function () {
+							$scope.access_keys = [{
+								name: "Primary key",
+								key: response.Result.primaryKey
+							},{
+								name: "Secondary key",
+								key: response.Result.secondaryKey
+							}];
+						});
+						notifications.toast("Secondary key has been reset", "success");
+						$scope.resetLoading = false;
+
+					}).error(function (errorRes) {
+						$scope.resetLoading = false;
+					});
+
+				}
+			}catch(ex){
+				$scope.resetLoading = false;
+
+				ex.app = "myAccount";
+				logHelper.error(ex);
+			}
+		}
+		// Reset access keys - END
+
+
+		//// Generic features
+		//$scope.packageFeatures = [
+		//	{
+		//		isActive: false,
+		//		text:"Unlimited users",
+		//		availableIn:['free_trial','starter','iambig']
+		//	},{
+		//		isActive: false,
+		//		text:"Unlimited plans",
+		//		availableIn:['free_trial','starter','iambig']
+		//	},{
+		//		isActive: false,
+		//		text:"Unlimited subscriptions",
+		//		availableIn:['starter','iambig']
+		//	},{
+		//		isActive: false,
+		//		text:"Limited subscriptions (Only 25)",
+		//		availableIn:['free_trial']
+		//	}
+		//];
+		//
+		//$scope.updatePackgeFeatures = function (package_) {
+		//	angular.forEach($scope.packageFeatures, function (pack) {
+		//		pack.isActive = false;
+		//		angular.forEach(pack.availableIn, function (pac) {
+		//			if(pac == package_.code){
+		//				pack.isActive = true;
+		//			}
+		//		});
+		//	});
+		//}
+
+		$scope.calculateCost = function (status, amount) {
+			if(status == null){
+				$scope.packageCost = parseFloat(amount);
+			}else{
+				$scope.packageCost = parseFloat($scope.tempSelectedPlan.unitPrice);
+				angular.forEach($scope.planAddons, function (addon) {
+					if (addon.isChecked) {
+						//	$scope.selectedAddons.push(addon);
+						// $scope.packageCost += parseInt(addon.unitPrice) * parseInt(addon.qty);
+					}
+				});
+			}
+
+
+
+			// var addonAmount = 0;
+			// qty == 1 ? addonAmount = amount*qty : addonAmount = (amount*qty)-amount;
+			// if(status){
+			// 	$scope.packageCost += parseInt(addonAmount);
+			// }else if(status == false){
+			// 	$scope.packageCost -= parseInt(addonAmount);
+			// }else{
+			// 	$scope.packageCost = parseInt(amount);
+			// }
+		};
+
+		$scope.showAddons = false;
+		$scope.showAddonsContainer = function () {
+			$scope.showAddons = !$scope.showAddons;
+		}
+	}
 })();
