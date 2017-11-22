@@ -1066,7 +1066,7 @@
 
 			try{
 				$scope.isTenantPaymentHistoryClicked = true;
-				$charge.myaccountapi().getInvoiceByEmail(email,$scope.payHistorySkip,1,'desc').success(function (data) {
+				$charge.myaccountapi().getInvoiceByEmail(email,$scope.payHistorySkip,10,'desc').success(function (data) {
 
 					//$scope.groupedPaymentHistory = [];
 					//$scope.paymentHistoryList = data.data.result;
@@ -1094,7 +1094,7 @@
               // Kasun_Wijeratne_31_AUG_2017 - END
             }
 
-            $scope.payHistorySkip += 1;
+            $scope.payHistorySkip += 10;
 
             if ($scope.paymentHistoryList.length === $scope.payHistorySkip) {
               $scope.showPayHistoryMoreButton = true;
