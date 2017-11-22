@@ -413,7 +413,12 @@
                                                             <!--<md-button md-no-ink class="md-icon-button p-0 h-25"><md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-20"></md-icon><md-tooltip>Expand</md-tooltip> </md-button>-->
                                                             <!--<div layout="row" layout-align="start center" class="fs-12 op-5">More <md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-18"></md-icon></div>-->
                                                         </div>
-                                                    </div>
+
+                                                      </div>
+                                                  <div layout="row" layout-align="start center"  class="bb b-gray hover-g-light p-5" ng-show="showPayHistoryMoreButton">
+                                                    <md-button ng-click="getTenantPaymentHistory()">SHOW MORE </md-button>
+
+                                                  </div>
 
                                                     <!--Hidden download link-->
                                                     <a id='hidden-donwload-anchor' download='CloudCharge_subscription_{{subscriptionDateForPDF | date:"yyyy.MM.dd"}}.pdf' ng-hide="true" />

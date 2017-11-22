@@ -441,7 +441,7 @@
 			try {
 				$charge.myaccountapi().getTaxGropById(taxGroupId).success(function (response) {
 
-					if (response.status) {
+					if (response.status && response.data != null) {
 						//response.data.groupDetail["0"].taxgroupid
 						$scope.planTax.push(response.data);
 						$scope.calcPlanTax();
@@ -1056,35 +1056,52 @@
 		// $scope.isTenantPaymentHistoryClicked = false;
 		// $scope.showPaymentHistoryPane = false;
 		$scope.paymentHistoryLoading = false;
+    $scope.showPayHistoryMoreButton = false;
+    $scope.payHistorySkip = 0;
+    $scope.paymentHistoryList = [];
+
 		$scope.getTenantPaymentHistory = function() {
 			$scope.paymentHistoryLoading = true;
 			var email = $scope.customerDetails.email_addr;
 
 			try{
 				$scope.isTenantPaymentHistoryClicked = true;
-				$charge.myaccountapi().getInvoiceByEmail(email).success(function (data) {
-					$scope.paymentHistoryList = null;
-					$scope.groupedPaymentHistory = [];
-					$scope.paymentHistoryList = data.data.result;
+				$charge.myaccountapi().getInvoiceByEmail(email,$scope.payHistorySkip,1,'desc').success(function (data) {
 
-					for (i = 0; i < $scope.paymentHistoryList.length; i++) {
-						var date = new Date($scope.paymentHistoryList[i].invoiceDate);
-						var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-						$scope.paymentHistoryList[i].receivedDate = new Date($scope.paymentHistoryList[i].invoiceDate);
-						$scope.paymentHistoryList[i].lastDate = lastDay;
-						//$scope.paymentHistoryList[i].infomation = JSON.parse($scope.paymentHistoryList[i].infomation)[0];
-						$scope.paymentHistoryList[i].infomation = $scope.paymentHistoryList[i].note;
-						$scope.paymentHistoryList[i].currency = $scope.paymentHistoryList[i].currency;
+					//$scope.groupedPaymentHistory = [];
+					//$scope.paymentHistoryList = data.data.result;
+          if(data.response != "failed") {
+            angular.forEach(data.data.result, function (res) {
+              $scope.paymentHistoryList.push(res);
+            })
 
-						// Kasun_Wijeratne_31_AUG_2017
-						//$scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].currentPeriod.split('-')[0] + '-' + $scope.paymentHistoryList[i].currentPeriod.split('-')[1];
-						//$scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].currentPeriod);
-						//$scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].currentPeriodEnd);
-						$scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].period;
-						$scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].invoiceDate);
-						$scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].dueDate);
-						// Kasun_Wijeratne_31_AUG_2017 - END
-					}
+            for (i = 0; i < $scope.paymentHistoryList.length; i++) {
+              var date = new Date($scope.paymentHistoryList[i].invoiceDate);
+              var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+              $scope.paymentHistoryList[i].receivedDate = new Date($scope.paymentHistoryList[i].invoiceDate);
+              $scope.paymentHistoryList[i].lastDate = lastDay;
+              //$scope.paymentHistoryList[i].infomation = JSON.parse($scope.paymentHistoryList[i].infomation)[0];
+              $scope.paymentHistoryList[i].infomation = $scope.paymentHistoryList[i].note;
+              $scope.paymentHistoryList[i].currency = $scope.paymentHistoryList[i].currency;
+
+              // Kasun_Wijeratne_31_AUG_2017
+              //$scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].currentPeriod.split('-')[0] + '-' + $scope.paymentHistoryList[i].currentPeriod.split('-')[1];
+              //$scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].currentPeriod);
+              //$scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].currentPeriodEnd);
+              $scope.paymentHistoryList[i].periodForGroup = $scope.paymentHistoryList[i].period;
+              $scope.paymentHistoryList[i].currentPeriod = new Date($scope.paymentHistoryList[i].invoiceDate);
+              $scope.paymentHistoryList[i].currentPeriodEnd = new Date($scope.paymentHistoryList[i].dueDate);
+              // Kasun_Wijeratne_31_AUG_2017 - END
+            }
+
+            $scope.payHistorySkip += 1;
+
+            if ($scope.paymentHistoryList.length === $scope.payHistorySkip) {
+              $scope.showPayHistoryMoreButton = true;
+            }
+          }else{
+            $scope.showPayHistoryMoreButton = false;
+          }
 
 					// Kasun_Wijeratne_31_AUG_2017
 					//angular.forEach($scope.paymentHistoryList, function (history) {
@@ -1122,6 +1139,8 @@
 					// $scope.isTenantPaymentHistoryClicked = false;
 					// $scope.showPaymentHistoryPane = true;
 					$scope.paymentHistoryLoading = false;
+          $scope.payHistorySkip = 0;
+          $scope.showPayHistoryMoreButton = false;
 
 				});
 			}catch(ex){
