@@ -320,6 +320,11 @@
 
 				$charge.myaccountapi().cardAPIgetCustomer(profileId).success(function (response) {
 					if(response.status) {
+
+            if(response.data.Reason){
+              return;
+            }
+
 						$scope.cardDetails = response.data.data;
 						if($scope.cardDetails) {
 							for (var i = 0; i < $scope.cardDetails.length; i++) {
@@ -360,6 +365,11 @@
 				$charge.myaccountapi().getAllFeatures(0).success(function (response) {
 
 					if(response.status) {
+
+            if(response.data.Reason){
+              return;
+            }
+
 						$scope.allFeatures = response.data;
 					}
 
@@ -370,6 +380,11 @@
 				$charge.myaccountapi().allPlanslocal(0,10,'asc').success(function (response) {
 
 					if(response.status) {
+
+            if(response.data.Reason){
+              return;
+            }
+
 						$scope.allPlans = response.data;
 						$scope.getPlanPromotions();
 						$scope.getActiveSubscriptionDetails();
@@ -412,6 +427,11 @@
 					$charge.myaccountapi().getPromotionByPlanIdList(planIds).success(function (response) {
 
 						if (response.status) {
+
+              if(response.data.Reason){
+                return;
+              }
+
 							for (var i = 0; i < $scope.allPlans.length; i++) {
 								if(response.data[$scope.allPlans[i].guPlanID] != null){ // code did, asuming that it is one promotion at a time for a plan.
 									if(response.data[$scope.allPlans[i].guPlanID]["0"].couponcode != undefined){
@@ -442,6 +462,11 @@
 				$charge.myaccountapi().getTaxGropById(taxGroupId).success(function (response) {
 
 					if (response.status && response.data != null) {
+
+            if(response.data.Reason){
+              return;
+            }
+
 						//response.data.groupDetail["0"].taxgroupid
 						$scope.planTax.push(response.data);
 						$scope.calcPlanTax();
@@ -538,6 +563,11 @@
 			$charge.myaccountapi().getAddonsForBasePlan(radioButtonPlan.code).success(function (response) {
 
 				if(response.status) {
+
+          if(response.data.Reason){
+            return;
+          }
+
 					if(response.data.length > 0){
 						$scope.planAddons=response.data;
 						angular.forEach($scope.planAddons, function (addon) {
@@ -999,6 +1029,10 @@
 
 			$charge.myaccountapi().getProfile(0,1,'asc','email',email).success(function (response) {
 				if(response.status) {
+
+          if(response.data.Reason){
+            return;
+          }
 
 					$scope.customerDetails = response.data['0'];
 
