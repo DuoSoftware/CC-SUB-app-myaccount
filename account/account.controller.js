@@ -321,7 +321,7 @@
 				$charge.myaccountapi().cardAPIgetCustomer(profileId).success(function (response) {
 					if(response.status) {
 
-            if(response.data.Reason){
+            if(response.data.Reason){ 
               return;
             }
 
