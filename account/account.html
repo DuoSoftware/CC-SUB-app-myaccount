@@ -114,48 +114,6 @@
                                     </md-card-content>
                                 </md-card>
 
-                                <md-card flex class="input-block-gen">
-                                    <md-card-title>
-                                        <div layout="row" layout-align="start center">
-                                            <md-icon md-font-icon="icon-key"></md-icon> <h3>Access keys</h3>
-                                        </div>
-                                    </md-card-title>
-                                    <md-card-content md-whiteframe="1dp" ng-class="{'h-100':!accAccessKeysLoaded}">
-                                        <div class="preloader-input-block animate-fade-in-out" layout="column" layout-align="space-around" ng-hide="accAccessKeysLoaded">
-                                            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                                        </div>
-                                        <div layout="column">
-
-                                            <div flex>
-                                                <div layout="row" layout-align="space-between center" class="detail-row" ng-repeat="key in access_keys">
-                                                    <div flex>
-                                                        <div layout="row" layout-align="start center" class="group-sub-head" style="margin-top: 0">
-                                                            <span flex="30"><b>{{key.name}}</b></span>
-                                                        </div>
-                                                        <div layout="row" layout-align="space-between center" class="dashed-highlight-blue pos-rel">
-                                                            <div flex layout="row" layout-align="start center">
-                                                                <span class="access-key" id="{{key.key}}">{{xfiedKey | limitTo: key.key.length}}</span>
-                                                                <span class="copied-to-clipboard animate-fade-in-out" ng-if="$index == 0 && primaryCopied" ng-hide="coppiedTimeout">Copied</span>
-                                                                <span class="copied-to-clipboard animate-fade-in-out" ng-if="$index == 1 && secondaryCopied" ng-hide="coppiedTimeout">Copied</span>
-                                                            </div>
-                                                            <div layout="row">
-                                                                <div class="keyDisplay{{key.key}}">
-                                                                    <md-button id="show" class="md-icon-button md-accent" ng-click="showAccessKey(key, $index)"><md-icon md-font-icon="icon-eye" class="copy-icon"></md-icon><md-tooltip>Show Key</md-tooltip> </md-button>
-                                                                    <md-button id="hide" class="md-icon-button md-accent" ng-click="hideAccessKey(key, $index)"><md-icon md-font-icon="icon-eye-off" class="copy-icon"></md-icon><md-tooltip>Hide Key</md-tooltip> </md-button>
-                                                                </div>
-
-                                                                <md-button id="copyKey{{key.key}}" disabled class="md-icon-button md-accent" ng-click="copyToClipboard(key.key, key.name)"><md-icon md-font-icon="icon-content-copy" class="copy-icon" style="font-size: 18px"></md-icon><md-tooltip>Copy key</md-tooltip> </md-button>
-                                                                <md-button class="md-icon-button md-accent" ng-disabled="resetLoading" ng-click="resetAccessKeys(key.name)"><md-progress-circular ng-if="currentlyResetting == key.name && resetLoading" style="top: -2px;right:6px"></md-progress-circular> <md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="paste"></div>
-                                        </div>
-                                    </md-card-content>
-                                </md-card>
-
                             </div>
 
                             <div layout="column" ng-if="vm.editableMode" class="pb-40">
@@ -415,9 +373,8 @@
                                                         </div>
 
                                                       </div>
-                                                  <div layout="row" layout-align="start center"  class="bb b-gray hover-g-light p-5" ng-show="showPayHistoryMoreButton">
-                                                    <md-button ng-click="getTenantPaymentHistory()">SHOW MORE </md-button>
-
+                                                  <div layout="row" layout-align="center center" ng-if="showPayHistoryMoreButton">
+                                                    <md-button ng-click="getTenantPaymentHistory()"><md-icon md-font-icon="icon-magnify" class="s20"></md-icon> SHOW MORE</md-button>
                                                   </div>
 
                                                     <!--Hidden download link-->
@@ -619,7 +576,7 @@
                                         </div>
                                     </div>
                                     <div class="feature-row text-right mt-10">
-                                        <md-button class="md-primary" ng-click="clickCancel()"></md-button>
+                                        <!--<md-button class="md-primary" ng-click="clickCancel()"></md-button>-->
                                         <md-button class="md-raised md-accent m-0" ng-disabled="isPlanSelected || selectedPlan.code === tempSelectedPlan.code" ng-click="selectPlan($event)">Buy plan</md-button>
                                     </div>
 
@@ -647,7 +604,7 @@
                                                             <span>Quantity : </span>
                                                             <input type="number" ng-disabled="!ads.isChecked" ng-model="ads.qty" ng-init="ads.qty = 1" min="1">
                                                         </div>
-                                                        <div flex class="amount">
+                                                        <div flex class="amount text-right">
                                                             <span>${{ads.unitPrice * ads.qty}}</span>
                                                         </div>
 
