@@ -32,7 +32,7 @@
           <span class="title" flex>General details</span>
         </div>
       </md-button>
-      <md-button ng-disabled="!accGeneralLoaded" class="item" ng-class="{'selected': planDetails}" aria-label="starred" ng-click="switchInpageState('plan-details')">
+      <md-button ng-disabled="!accGeneralLoaded" ng-if="vm.dummy.Data.UserType.toLowerCase() == 'admin'" class="item" ng-class="{'selected': planDetails}" aria-label="starred" ng-click="switchInpageState('plan-details')">
         <div layout="row" layout-align="start center">
           <md-icon md-font-icon="icon-map" class="s16"></md-icon>
           <span class="title" flex>Subscription</span>

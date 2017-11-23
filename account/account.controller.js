@@ -321,15 +321,20 @@
 				$charge.myaccountapi().cardAPIgetCustomer(profileId).success(function (response) {
 					if(response.status) {
 
-            if(response.data.Reason){ 
-              return;
-            }
+					if(response.data.Reason){
+					  return;
+					}
 
 						$scope.cardDetails = response.data.data;
 						if($scope.cardDetails) {
 							for (var i = 0; i < $scope.cardDetails.length; i++) {
 								$scope.cardDetails[i].rowId = i;
 							}
+							// if($scope.cardDetails.length > 0){
+							// 	if($scope.pendingCard){
+							// 		$scope.confirmBuyPlan();
+							// 	}
+							// }
 						}else{
 							$scope.cardDetails = null;
 						}
@@ -770,6 +775,39 @@
 			}
 		};
 
+		$scope.confirmBuyPlan = function () {
+			vm.confirmData = {
+				addons: [],
+				plan:$scope.tempSelectedPlan,
+				total:0,
+				confirmation: function (confirmation) {
+					if(confirmation){
+						$scope.changeSubscription($scope.tempSelectedPlan.code);
+					}else{
+						$mdDialog.hide();
+						$scope.isPlanSelected = false;
+					}
+				}
+			};
+
+			vm.confirmData.addons = $scope.selectedAddons;
+			vm.confirmData.total = $scope.packageCost;
+
+			$mdDialog.show({
+				controller: function () {
+					return vm;
+				},
+				controllerAs: 'ctrl',
+				templateUrl: 'app/main/account/dialogs/confirm-buy.html',
+				parent: angular.element(document.body),
+				clickOutsideToClose:false // Only for -xs, -sm breakpoints.
+			})
+			.then(function(confirmation) {
+			}, function() {
+				$mdDialog.hide();
+			});
+		}
+
 		$scope.selectPlan = function (ev)
 		{
 
@@ -778,11 +816,11 @@
 				return;
 			}
 
-			if(!$scope.customerDetails.stripeCustId){
-				notifications.toast("Please add card details first to proceed", "error");
-				$scope.addNewCard('insert');
-				return;
-			}
+			// if(!$scope.customerDetails.stripeCustId){
+			// 	notifications.toast("Please add card details first to proceed", "error");
+			// 	$scope.addNewCard('insert');
+			// 	return;
+			// }
 
 			$scope.isPlanSelected = true;
 
@@ -813,37 +851,12 @@
 				}
 			}
 
-			vm.confirmData = {
-				addons: [],
-				plan:$scope.tempSelectedPlan,
-				total:0,
-				confirmation: function (confirmation) {
-					if(confirmation){
-						$scope.changeSubscription($scope.tempSelectedPlan.code);
-					}else{
-						$mdDialog.hide();
-						$scope.isPlanSelected = false;
-					}
-				}
-			};
-
-			vm.confirmData.addons = $scope.selectedAddons;
-			vm.confirmData.total = $scope.packageCost;
-
-			$mdDialog.show({
-				controller: function () {
-					return vm;
-				},
-				controllerAs: 'ctrl',
-				templateUrl: 'app/main/account/dialogs/confirm-buy.html',
-				parent: angular.element(document.body),
-				targetEvent: ev,
-				clickOutsideToClose:false // Only for -xs, -sm breakpoints.
-			})
-			.then(function(confirmation) {
-			}, function() {
-				$mdDialog.hide();
-			});
+			if(!$scope.customerDetails.stripeCustId){
+				$('.stripe-button-el').click();
+				$scope.pendingCard = true;
+			}else{
+				$scope.confirmBuyPlan();
+			}
 
 		}
 
