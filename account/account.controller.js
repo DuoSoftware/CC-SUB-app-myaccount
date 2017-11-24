@@ -883,7 +883,7 @@
 
 					notifications.toast("Plan successfully changed", "success");
 					$scope.switchPlan(newPlan);
-
+					$mdDialog.hide();
 					$scope.isChangeSubscriptionClicked = false;
 					//$scope.tenantUser = [];
 					//$scope.getUserInfoByID();
@@ -893,12 +893,14 @@
 				}else{
 					notifications.toast("Error occured while changing plans", "error");
 					$scope.isChangeSubscriptionClicked = false;
+					$mdDialog.hide();
 				}
 
 			}).error(function(data) {
 				$scope.isPlanSelected = false;
 				notifications.toast("Error occured while changing plans", "error");
 				$scope.isChangeSubscriptionClicked = false;
+				$mdDialog.hide();
 			});
 
 		}
@@ -998,8 +1000,17 @@
 			$charge.myaccountapi().loadForm(data).success(function (response) {
 				$scope.cardBody = response;
 
-				$("#cardBody").append($scope.cardBody);
-				$("#cardBody_").append($scope.cardBody);
+				if($scope.cardBody != null){
+					var cardFrom = $('#cardBody').find('form');
+					if(cardFrom != undefined && cardFrom != null){
+						cardFrom.remove();
+						$("#cardBody").append($scope.cardBody);
+						$("#cardBody_").append($scope.cardBody);
+					}else{
+						$("#cardBody").append($scope.cardBody);
+						$("#cardBody_").append($scope.cardBody);
+					}
+				}
 				// $scope.addCardDialog(this,response);
 
 			}).error(function(data) {
