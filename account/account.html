@@ -577,7 +577,8 @@
                                     </div>
                                     <div class="feature-row text-right mt-10">
                                         <!--<md-button class="md-primary" ng-click="clickCancel()"></md-button>-->
-                                        <md-button class="md-raised md-accent m-0" ng-disabled="isPlanSelected || selectedPlan.code === tempSelectedPlan.code" ng-click="selectPlan($event)">Buy plan</md-button>
+                                        <div ng-show="customerDetails.stripeCustId === null" id="cardBody_"></div>
+                                        <md-button ng-show="customerDetails.stripeCustId != null" class="md-raised md-accent m-0" ng-disabled="isPlanSelected || selectedPlan.code === tempSelectedPlan.code" ng-click="selectPlan($event)">Buy plan</md-button>
                                     </div>
 
 

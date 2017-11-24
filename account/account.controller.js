@@ -8,7 +8,7 @@
 		.controller('AccountController', AccountController);
 
 	/** @ngInject */
-	function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse,logHelper) {
+	function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse,logHelper,$location) {
 		$scope.acc = "";
 		//// console.log("Profile Controller Called.");
 		var vm = this;
@@ -619,7 +619,6 @@
 
 								if(response.data.result[i].class === "Base-Plan") {
 
-
 									$scope.currentPlanCode = response.data.result[i].code
 									selectPlan($scope.currentPlanCode);
 
@@ -634,6 +633,16 @@
 											$scope.selectedAddonCodes.push(response.data.result[i].addOns[iz].code);
 										}
 									}
+
+
+                  var searchObject = $location.search();
+                  
+                  if (searchObject.status === "true" ){
+                    if(searchObject.selectedPlan && $scope.currentPlanCode != searchObject.selectedPlan) {
+                      $scope.changeSubscription(searchObject.selectedPlan);
+                      $location.search('myQueryStringParameter', null);
+                    }
+                  }
 
 									$scope.initPlanSliderValue = "25";
 									$scope.currentPlanUsed = '0';
@@ -823,7 +832,7 @@
 
 			if(!$scope.customerDetails.stripeCustId){
 				notifications.toast("Please add card details first to proceed", "error");
-				$scope.addNewCard('insert');
+				//$scope.addNewCard('insert');
 				return;
 			}
 
@@ -913,6 +922,10 @@
 		}
 
 
+
+
+
+
 		//addSubscription
 		$scope.addAddon = function(){
 
@@ -997,34 +1010,71 @@
 
 		$scope.addNewCard = function(action){
 
-			var data = {
-				"profileId": $scope.customerDetails.profileId,
-				"redirectUrl": window.location.href,
-				"action": action
-			}
+      // add card button
+
+      var data = {
+        "profileId": $scope.customerDetails.profileId,
+        "redirectUrl": window.location.href,
+        "action": action,
+        "displayButtonName": action === 'update' ? "Update Card" : "Add Card"
+      }
 
 
-			$scope.cardBody = null;
-			$charge.myaccountapi().loadForm(data).success(function (response) {
-				$scope.cardBody = response;
+      $scope.cardBody = null;
+      $charge.myaccountapi().loadForm(data).success(function (response) {
+        $scope.cardBody = response;
 
-				if($scope.cardBody != null){
-					var cardFrom = $('#cardBody').find('form');
-					if(cardFrom != undefined && cardFrom != null){
-						cardFrom.remove();
-						$("#cardBody").append($scope.cardBody);
-						$("#cardBody_").append($scope.cardBody);
-					}else{
-						$("#cardBody").append($scope.cardBody);
-						$("#cardBody_").append($scope.cardBody);
-					}
-				}
-				// $scope.addCardDialog(this,response);
+        if($scope.cardBody != null){
+          var cardFrom = $('#cardBody').find('form');
+          if(cardFrom != undefined && cardFrom != null){
+            cardFrom.remove();
+            $("#cardBody").append($scope.cardBody);
+            //$("#cardBody_").append($scope.cardBody);
+          }else{
+            $("#cardBody").append($scope.cardBody);
+           // $("#cardBody_").append($scope.cardBody);
+          }
+        }
+        // $scope.addCardDialog(this,response);
 
-			}).error(function(data) {
-				notifications.toast("Error occured while changing plans", "error");
-			});
+      }).error(function(data) {
+        notifications.toast("Error occured while changing plans", "error");
+      });
 
+
+    if($scope.customerDetails.stripeCustId === null)
+      {
+        var queryString = '?selectedPlan=' + $scope.tempSelectedPlan.code;
+
+        var data_ = {
+          "profileId": $scope.customerDetails.profileId,
+          "redirectUrl": window.location.href + queryString,
+          "action": action,
+          "displayButtonName": action === 'update' ? "Update Card" : "Pay Now"
+        }
+
+
+        $scope.cardBody_ = null;
+        $charge.myaccountapi().loadForm(data_).success(function (response) {
+          $scope.cardBody_ = response;
+
+          if ($scope.cardBody_ != null) {
+            var cardFrom_ = $('#cardBody_').find('form');
+            if (cardFrom_ != undefined && cardFrom_ != null) {
+              cardFrom_.remove();
+              //$("#cardBody").append($scope.cardBody);
+              $("#cardBody_").append($scope.cardBody_);
+            } else {
+              //$("#cardBody").append($scope.cardBody);
+              $("#cardBody_").append($scope.cardBody_);
+            }
+          }
+          // $scope.addCardDialog(this,response);
+
+        }).error(function (data) {
+          notifications.toast("Error occured while changing plans", "error");
+        });
+      }
 		}
 
 		//$scope.addCardDialog = function (ev,formBody) {

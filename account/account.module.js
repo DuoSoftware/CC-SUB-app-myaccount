@@ -1,9 +1,9 @@
 ////////////////////////////////
 // App : MyAccount / MyProfile
 // Owner : Ishara Gunathilaka
-// Last changed date : 2017/11/17
-// Version : 6.1.0.31
-// Modified By : Ishara
+// Last changed date : 2017/11/24
+// Version : 6.1.0.32
+// Modified By : Kasun
 /////////////////////////////////
 
 
@@ -12,7 +12,7 @@
 	'use strict';
 
 	angular
-		.module('app.account',['stripe-payment-tools'])
+		.module('app.account',[])
 		.config(config);
 
 	/** @ngInject */
