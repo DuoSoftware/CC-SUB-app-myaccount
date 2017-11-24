@@ -816,11 +816,11 @@
 				return;
 			}
 
-			// if(!$scope.customerDetails.stripeCustId){
-			// 	notifications.toast("Please add card details first to proceed", "error");
-			// 	$scope.addNewCard('insert');
-			// 	return;
-			// }
+			if(!$scope.customerDetails.stripeCustId){
+				notifications.toast("Please add card details first to proceed", "error");
+				$scope.addNewCard('insert');
+				return;
+			}
 
 			$scope.isPlanSelected = true;
 
@@ -851,12 +851,14 @@
 				}
 			}
 
-			if(!$scope.customerDetails.stripeCustId){
-				$('.stripe-button-el').click();
-				$scope.pendingCard = true;
-			}else{
-				$scope.confirmBuyPlan();
-			}
+			$scope.confirmBuyPlan();
+
+			// if(!$scope.customerDetails.stripeCustId){
+			// 	$('.stripe-button-el').click();
+			// 	$scope.pendingCard = true;
+			// }else{
+			// 	$scope.confirmBuyPlan();
+			// }
 
 		}
 
@@ -995,6 +997,7 @@
 				"redirectUrl": window.location.href,
 				"action": action
 			}
+
 
 			$scope.cardBody = null;
 			$charge.myaccountapi().loadForm(data).success(function (response) {
