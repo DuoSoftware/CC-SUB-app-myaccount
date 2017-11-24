@@ -122,6 +122,11 @@
 		var oneDay = 24*60*60*1000;
 
 
+		$scope.ccConfig = $http.get('app/core/cloudcharge/js/config.json').then(function (res) {
+			return res.data;
+		}, function () {});
+
+
 
 		function gst(name) {
 			var nameEQ = name + "=";
