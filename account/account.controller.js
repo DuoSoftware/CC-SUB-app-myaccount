@@ -816,11 +816,11 @@
 				return;
 			}
 
-			// if(!$scope.customerDetails.stripeCustId){
-			// 	notifications.toast("Please add card details first to proceed", "error");
-			// 	$scope.addNewCard('insert');
-			// 	return;
-			// }
+			if(!$scope.customerDetails.stripeCustId){
+				notifications.toast("Please add card details first to proceed", "error");
+				$scope.addNewCard('insert');
+				return;
+			}
 
 			$scope.isPlanSelected = true;
 
@@ -851,12 +851,14 @@
 				}
 			}
 
-			if(!$scope.customerDetails.stripeCustId){
-				$('.stripe-button-el').click();
-				$scope.pendingCard = true;
-			}else{
-				$scope.confirmBuyPlan();
-			}
+			$scope.confirmBuyPlan();
+
+			// if(!$scope.customerDetails.stripeCustId){
+			// 	$('.stripe-button-el').click();
+			// 	$scope.pendingCard = true;
+			// }else{
+			// 	$scope.confirmBuyPlan();
+			// }
 
 		}
 
@@ -883,7 +885,7 @@
 
 					notifications.toast("Plan successfully changed", "success");
 					$scope.switchPlan(newPlan);
-
+					$mdDialog.hide();
 					$scope.isChangeSubscriptionClicked = false;
 					//$scope.tenantUser = [];
 					//$scope.getUserInfoByID();
@@ -893,12 +895,14 @@
 				}else{
 					notifications.toast("Error occured while changing plans", "error");
 					$scope.isChangeSubscriptionClicked = false;
+					$mdDialog.hide();
 				}
 
 			}).error(function(data) {
 				$scope.isPlanSelected = false;
 				notifications.toast("Error occured while changing plans", "error");
 				$scope.isChangeSubscriptionClicked = false;
+				$mdDialog.hide();
 			});
 
 		}
@@ -994,12 +998,22 @@
 				"action": action
 			}
 
+
 			$scope.cardBody = null;
 			$charge.myaccountapi().loadForm(data).success(function (response) {
 				$scope.cardBody = response;
 
-				$("#cardBody").append($scope.cardBody);
-				$("#cardBody_").append($scope.cardBody);
+				if($scope.cardBody != null){
+					var cardFrom = $('#cardBody').find('form');
+					if(cardFrom != undefined && cardFrom != null){
+						cardFrom.remove();
+						$("#cardBody").append($scope.cardBody);
+						$("#cardBody_").append($scope.cardBody);
+					}else{
+						$("#cardBody").append($scope.cardBody);
+						$("#cardBody_").append($scope.cardBody);
+					}
+				}
 				// $scope.addCardDialog(this,response);
 
 			}).error(function(data) {
