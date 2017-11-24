@@ -8,7 +8,7 @@
 		.controller('AccountController', AccountController);
 
 	/** @ngInject */
-	function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse,logHelper,$location) {
+	function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse,logHelper,$location, $rootScope) {
 		$scope.acc = "";
 		//// console.log("Profile Controller Called.");
 		var vm = this;
@@ -156,12 +156,12 @@
 		}
 
 		$scope.idToken= gst('securityToken');
-
+		var domain = null;
 		(function (){
 
 			try{
 
-				var domain = gst('currentDomain');
+				domain = gst('currentDomain');
 				if(!domain)
 				{
 					domain = gst('domain');
@@ -264,6 +264,10 @@
 					// console.log(response);
 					response.data = response;
 					vm.dummy.Data = response.data.Result;
+					if($rootScope.tenantType == 'member'){
+						vm.dummy.Data.UserType = 'Member';
+						vm.dummy.Data.domain = domain;
+					}
 					$scope.tenantUser.firstName = vm.dummy.Data.givenName;
 					$scope.tenantUser.surName = vm.dummy.Data.surName;
 					$scope.tenantUser.country = vm.dummy.Data.country;

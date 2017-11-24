@@ -66,7 +66,7 @@
                                                             <div flex class="text-capitalize">{{vm.dummy.Data.UserType}}</div>
                                                         </div>
                                                         <div flex="5"></div>
-                                                        <div layout="row" layout-align="start center" class="info-grid-row" flex>
+                                                        <div layout="row" layout-align="start center" class="info-grid-row" flex ng-if="vm.dummy.Data.UserType.toLowerCase() == 'admin'">
                                                             <div class="iconed-label" layout="row" layout-align="start center" flex="50">
                                                                 <md-icon md-font-icon="icon-map"></md-icon> <span flex>Current subscription</span>
                                                             </div>
