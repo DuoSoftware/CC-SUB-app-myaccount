@@ -21,6 +21,7 @@
 		$scope.onlinePayments = false;
 		$scope.apiDetails = false;
 
+
 		$scope.switchInpageState = function (switchTo){
 			if(switchTo == 'general-details'){
 				$scope.generalDetails = true;
@@ -1924,10 +1925,15 @@
 			record.downloading = true;
 
 			$scope.data= "reportname=Invoice&guInvID="+record.guInvID;
-
+      var frame = $('#reportView').find('iframe');
+      if (frame != undefined && frame != null) {
+        frame.remove();
+      }
 			$charge.myaccountapi().getReport($scope.data).success(function (successResponse) {
-
-        $window.open('Invoice',successResponse,'_blank');
+        $("#reportView").append(successResponse);
+        var src = document.getElementById('reportviewer').src;
+        $window.open(src,'_blank');
+       // $window.open('Invoice',successResponse,'_blank');
 
 				record.downloading = false;
 
