@@ -8,7 +8,7 @@
 		.controller('AccountController', AccountController);
 
 	/** @ngInject */
-	function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse,logHelper) {
+	function AccountController($scope, $interval, $mdSidenav, $charge, $filter,$http,$window,$mdDialog,notifications, $timeout,$parse,logHelper,$location, $rootScope) {
 		$scope.acc = "";
 		//// console.log("Profile Controller Called.");
 		var vm = this;
@@ -20,6 +20,7 @@
 		$scope.paymentHistory = false;
 		$scope.onlinePayments = false;
 		$scope.apiDetails = false;
+
 
 		$scope.switchInpageState = function (switchTo){
 			if(switchTo == 'general-details'){
@@ -156,64 +157,67 @@
 		}
 
 		$scope.idToken= gst('securityToken');
+		var domain = null;
 
-		(function (){
+    domain = gst('currentDomain');
+    if(!domain)
+    {
+      domain = gst('domain');
+    }
 
-			try{
-
-				var domain = gst('currentDomain');
-				if(!domain)
-				{
-					domain = gst('domain');
-				}
-				$charge.tenantEngine().getSubscriptionIdByTenantName(domain).success(function (response) {
-
-					if(response.status) {
-						var subscriptionID = response.data["0"].subscriptionID;
-
-						if (subscriptionID) {
-
-							$charge.myAccountEngine().getSubscriptionInfoByID(subscriptionID).success(function (data) {
-
-								$scope.access_keys = [{
-									name: "Primary key",
-									key: data.Result.primaryKey
-								}, {
-									name: "Secondary key",
-									key: data.Result.secondaryKey
-								}];
-								$scope.accAccessKeysLoaded = true;
-
-							}).error(function (data) {
-								// console.log(data);
-								$scope.accAccessKeysLoaded = true;
-							});
-
-						} else {
-							$scope.accAccessKeysLoaded = true;
-						}
-					} else {
-						$scope.accAccessKeysLoaded = true;
-					}
-
-				}).error(function(data) {
-					// console.log(data);
-					$scope.accAccessKeysLoaded = true;
-
-					ex.app = "myAccount";
-					logHelper.error(ex);
-
-				});
-
-
-			}catch(ex){
-
-				$scope.accAccessKeysLoaded = true;
-
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
-		})();
+		//(function (){
+        //
+		//	try{
+        //
+		//
+		//		$charge.tenantEngine().getSubscriptionIdByTenantName(domain).success(function (response) {
+        //
+		//			if(response.status) {
+		//				var subscriptionID = response.data["0"].subscriptionID;
+        //
+		//				if (subscriptionID) {
+        //
+		//					$charge.myAccountEngine().getSubscriptionInfoByID(subscriptionID).success(function (data) {
+        //
+		//						$scope.access_keys = [{
+		//							name: "Primary key",
+		//							key: data.Result.primaryKey
+		//						}, {
+		//							name: "Secondary key",
+		//							key: data.Result.secondaryKey
+		//						}];
+		//						$scope.accAccessKeysLoaded = true;
+        //
+		//					}).error(function (data) {
+		//						// console.log(data);
+		//						$scope.accAccessKeysLoaded = true;
+		//					});
+        //
+		//				} else {
+		//					$scope.accAccessKeysLoaded = true;
+		//				}
+		//			} else {
+		//				$scope.accAccessKeysLoaded = true;
+		//			}
+        //
+		//		}).error(function(data) {
+		//			// console.log(data);
+		//			$scope.accAccessKeysLoaded = true;
+        //
+		//			ex.app = "myAccount";
+		//			logHelper.error(ex);
+        //
+		//		});
+        //
+        //
+		//	}catch(ex){
+        //
+		//		$scope.accAccessKeysLoaded = true;
+        //
+		//		ex.app = "myAccount";
+		//		logHelper.error(ex);
+		//	}
+		//})();
 
 
 		// === load counries==============
@@ -264,6 +268,10 @@
 					// console.log(response);
 					response.data = response;
 					vm.dummy.Data = response.data.Result;
+					if($rootScope.tenantType == 'member'){
+						vm.dummy.Data.UserType = 'Member';
+						vm.dummy.Data.domain = domain;
+					}
 					$scope.tenantUser.firstName = vm.dummy.Data.givenName;
 					$scope.tenantUser.surName = vm.dummy.Data.surName;
 					$scope.tenantUser.country = vm.dummy.Data.country;
@@ -428,7 +436,7 @@
 					planIds.push({"planId": $scope.allPlans[i].guPlanID});
 
 					if($scope.allPlans[i].taxID != "") {
-						$scope.getTaxGroupDetails($scope.allPlans[i].taxID);
+						$scope.getTaxGroupDetails($scope.allPlans[i].taxID,$scope.allPlans[i].guPlanID);
 					}
 
 				}
@@ -467,61 +475,82 @@
 		};
 
 		$scope.planTax = [];
-		$scope.getTaxGroupDetails = function(taxGroupId){
-			try {
-				$charge.myaccountapi().getTaxGropById(taxGroupId).success(function (response) {
+    $scope.getTaxGroupDetails = function(taxGroupId,GuPlanId){
+      try {
+        $charge.myaccountapi().getTaxGropById(taxGroupId).success(function (response) {
 
-					if (response.status && response.data != null) {
+          if (response.status && response.data != null) {
 
             if(response.data.Reason){
               return;
             }
 
-						//response.data.groupDetail["0"].taxgroupid
-						$scope.planTax.push(response.data);
-						$scope.calcPlanTax();
+            response.data.guPlanId = GuPlanId;
+            $scope.planTax.push(response.data);
+            $scope.calcPlanTax();
+          }
 
-					}
+        }).error(function (data) {
+          $scope.planTax = [];
+        });
 
-				}).error(function (data) {
-					$scope.planTax = [];
-				});
+      } catch (ex) {
+        $scope.planTax = [];
+        ex.app = "myAccount";
+        logHelper.error(ex);
+      }
 
-			} catch (ex) {
-				$scope.planTax = [];
-				ex.app = "myAccount";
-				logHelper.error(ex);
-			}
-
-		};
-
-
-		$scope.calcPlanTax = function(){
-			$scope.taxDetails = [];
-			for (var i = 0; i <  $scope.planTax.length; i++) { //["0"]["0"].groupDetail["0"].amount
-				for (var ii = 0; ii <  $scope.planTax[i].length; ii++) {
-					for (var iii = 0; iii <  $scope.planTax[i][ii].groupDetail.length; iii++) {
-						$scope.taxDetails.push({"taxId":$scope.planTax[i][ii].groupDetail[iii].taxgroupid,"amount":$scope.planTax[i][ii].groupDetail[iii].amount,"amounttype":$scope.planTax[i][ii].groupDetail[iii].amounttype})
-					}
-				}
-			}
+    };
 
 
-			for (var iz = 0; iz < $scope.taxDetails.length; iz++) {
-				for (var i = 0; i < $scope.allPlans.length; i++) {
-					if ($scope.allPlans[i].taxID != "") {
-						if (parseInt($scope.allPlans[i].taxID) === $scope.taxDetails[iz].taxId) {
-							if($scope.allPlans[i].taxamount === undefined)
-								$scope.allPlans[i].taxamount = 0;
+    $scope.calcPlanTax = function(){
+      $scope.taxDetails = [];
+      for (var i = 0; i <  $scope.planTax.length; i++) { //["0"]["0"].groupDetail["0"].amount
+        for (var ii = 0; ii <  $scope.planTax[i].length; ii++) {
+          for (var iii = 0; iii <  $scope.planTax[i][ii].groupDetail.length; iii++) {
 
-							$scope.allPlans[i].taxamount = parseFloat($scope.allPlans[i].taxamount) + parseFloat($scope.taxDetails[iz].amount);
-							$scope.allPlans[i].taxtype = $scope.taxDetails[iz].amounttype;
-						}
-					}
-				}
-			}
+            if($scope.taxDetails.length > 0) {
 
-		}
+              for (var z = 0; z < $scope.taxDetails.length; z++) {
+                if ($scope.taxDetails[z].guPlanId === $scope.planTax[i].guPlanId && $scope.planTax[i][ii].groupDetail[iii].taxgroupid === $scope.taxDetails[z].taxId)
+                  continue;
+                else {
+                  $scope.taxDetails.push({
+                    "guPlanId": $scope.planTax[i].guPlanId,
+                    "taxId": $scope.planTax[i][ii].groupDetail[iii].taxgroupid,
+                    "amount": $scope.planTax[i][ii].groupDetail[iii].amount,
+                    "amounttype": $scope.planTax[i][ii].groupDetail[iii].amounttype
+                  })
+                }
+              }
+            }else{
+              $scope.taxDetails.push({
+                "guPlanId": $scope.planTax[i].guPlanId,
+                "taxId": $scope.planTax[i][ii].groupDetail[iii].taxgroupid,
+                "amount": $scope.planTax[i][ii].groupDetail[iii].amount,
+                "amounttype": $scope.planTax[i][ii].groupDetail[iii].amounttype
+              })
+            }
+          }
+        }
+      }
+
+
+      for (var iz = 0; iz < $scope.taxDetails.length; iz++) {
+        for (var i = 0; i < $scope.allPlans.length; i++) {
+          if ($scope.allPlans[i].taxID != "") {
+            if (parseInt($scope.allPlans[i].taxID) === $scope.taxDetails[iz].taxId && $scope.allPlans[i].guPlanID === $scope.taxDetails[iz].guPlanId) {
+              if($scope.allPlans[i].taxamount === undefined)
+                $scope.allPlans[i].taxamount = 0;
+
+              $scope.allPlans[i].taxamount = parseFloat($scope.allPlans[i].taxamount) + parseFloat($scope.taxDetails[iz].amount);
+              $scope.allPlans[i].taxtype = $scope.taxDetails[iz].amounttype;
+            }
+          }
+        }
+      }
+
+    }
 
 
 		$scope.addonsLoaded = true;
@@ -530,6 +559,10 @@
 			$scope.tempSelectedPlan = radioButtonPlan;
 			$scope.planAddons = null;
 			//$scope.updatePackgeFeatures(radioButtonPlan);
+
+      if($scope.customerDetails.stripeCustId === null) {
+        $scope.loadPayButtonForBuyButton();
+      }
 
 			angular.forEach($scope.allFeatures, function (feature) {
 
@@ -619,7 +652,6 @@
 
 								if(response.data.result[i].class === "Base-Plan") {
 
-
 									$scope.currentPlanCode = response.data.result[i].code
 									selectPlan($scope.currentPlanCode);
 
@@ -634,6 +666,16 @@
 											$scope.selectedAddonCodes.push(response.data.result[i].addOns[iz].code);
 										}
 									}
+
+
+                  var searchObject = $location.search();
+
+                  if (searchObject.status === "true" ){
+                    if(searchObject.selectedPlan && $scope.currentPlanCode != searchObject.selectedPlan) {
+                      $scope.changeSubscription(searchObject.selectedPlan);
+                      $location.search('myQueryStringParameter', null);
+                    }
+                  }
 
 									$scope.initPlanSliderValue = "25";
 									$scope.currentPlanUsed = '0';
@@ -823,7 +865,7 @@
 
 			if(!$scope.customerDetails.stripeCustId){
 				notifications.toast("Please add card details first to proceed", "error");
-				$scope.addNewCard('insert');
+				//$scope.addNewCard('insert');
 				return;
 			}
 
@@ -913,6 +955,10 @@
 		}
 
 
+
+
+
+
 		//addSubscription
 		$scope.addAddon = function(){
 
@@ -997,54 +1043,87 @@
 
 		$scope.addNewCard = function(action){
 
-			var data = {
-				"profileId": $scope.customerDetails.profileId,
-				"redirectUrl": window.location.href,
-				"action": action
-			}
+      // add card button
+
+      var data = {
+        "profileId": $scope.customerDetails.profileId,
+        "redirectUrl": window.location.href,
+        "action": action,
+        "buttonName": action === 'update' ? "Update Card" : "Add Card"
+      }
 
 
-			$scope.cardBody = null;
-			$charge.myaccountapi().loadForm(data).success(function (response) {
-				$scope.cardBody = response;
+      $scope.cardBody = null;
+      $charge.myaccountapi().loadForm(data).success(function (response) {
+        $scope.cardBody = response;
 
-				if($scope.cardBody != null){
-					var cardFrom = $('#cardBody').find('form');
-					if(cardFrom != undefined && cardFrom != null){
-						cardFrom.remove();
-						$("#cardBody").append($scope.cardBody);
-						$("#cardBody_").append($scope.cardBody);
-					}else{
-						$("#cardBody").append($scope.cardBody);
-						$("#cardBody_").append($scope.cardBody);
-					}
-				}
-				// $scope.addCardDialog(this,response);
+        if($scope.cardBody != null){
+          var cardFrom = $('#cardBody').find('form');
+          if(cardFrom != undefined && cardFrom != null){
+            cardFrom.remove();
+            $("#cardBody").append($scope.cardBody);
+            //$("#cardBody_").append($scope.cardBody);
+          }else{
+            $("#cardBody").append($scope.cardBody);
+           // $("#cardBody_").append($scope.cardBody);
+          }
+        }
+        // $scope.addCardDialog(this,response);
 
-			}).error(function(data) {
-				notifications.toast("Error occured while changing plans", "error");
-			});
-
+      }).error(function(data) {
+        notifications.toast("Error occured while loading pay button", "error");
+      });
 		}
 
-		//$scope.addCardDialog = function (ev,formBody) {
-		//	$mdDialog.show({
-		//		controller: 'AddCardController as vm',
-		//		templateUrl: 'app/main/account/dialogs/addCardDialog.html',
-		//		parent: angular.element(document.body),
-		//		targetEvent: ev,
-		//		clickOutsideToClose:true,
-		//		locals : {
-		//			body : formBody
-		//
-		//		}
-		//	})
-		//		.then(function(answer) {
-		//
-		//		}, function() {
-		//
-		//		});
-		//}
+    $scope.loadPayButtonForBuyButton = function(){
+
+      if($scope.customerDetails.stripeCustId === null)
+      {
+        var cardFrom_ = $('#cardBody_').find('form');
+        if (cardFrom_ != undefined && cardFrom_ != null) {
+          cardFrom_.remove();
+        }
+
+        var currentUrl = window.location.href;
+        var urlParts = currentUrl.split('?');
+        if(urlParts.length > 1)
+          currentUrl = urlParts[0];
+
+        var queryString = '?selectedPlan=' + $scope.tempSelectedPlan.code;
+
+        var data_ = {
+          "profileId": $scope.customerDetails.profileId,
+          "redirectUrl": currentUrl + queryString,
+          "action": 'insert',
+          "buttonName": "Pay Now"
+        }
+
+
+        $scope.cardBody_ = null;
+        $charge.myaccountapi().loadForm(data_).success(function (response) {
+          $scope.cardBody_ = response;
+
+          if ($scope.cardBody_ != null) {
+
+              //$("#cardBody").append($scope.cardBody);
+              $("#cardBody_").append($scope.cardBody_);
+            } else {
+              //$("#cardBody").append($scope.cardBody);
+              $("#cardBody_").append($scope.cardBody_);
+            }
+
+          // $scope.addCardDialog(this,response);
+
+        }).error(function (data) {
+          notifications.toast("Error occured while loading pay button", "error");
+        });
+      }
+
+    }
+
+
+
+
 
 		$scope.switchPlan = function(plan){
 
@@ -1845,67 +1924,17 @@
 		$scope.downloadSubscriptionPDF = function (record) {
 			record.downloading = true;
 
+			$scope.data= "reportname=Invoice&guInvID="+record.guInvID;
+      var frame = $('#reportView').find('iframe');
+      if (frame != undefined && frame != null) {
+        frame.remove();
+      }
+			$charge.myaccountapi().getReport($scope.data).success(function (successResponse) {
+        $("#reportView").append(successResponse);
+        var src = document.getElementById('reportviewer').src;
+        $window.open(src,'_blank');
+       // $window.open('Invoice',successResponse,'_blank');
 
-			//$scope.dataInfo = [];
-			//var currentPeriod = null;
-			//var currentPeriodEnd = null;
-			//var receivedDate = null;
-			//angular.forEach(record.records, function(record){
-			//	var tempItemObj = {
-			//		amount: record.amount,
-			//		feature: record.infomation.feature,
-			//		quantity:record.infomation.quantity
-			//	};
-			//	$scope.dataInfo.push(tempItemObj);
-			//	if(record.infomation.tag.toLowerCase() == 'package'){
-			//		currentPeriod = record.currentPeriod;
-			//		currentPeriodEnd = record.currentPeriodEnd;
-			//		receivedDate = record.receivedDate;
-			//	}
-			//});
-			//
-			//$scope.data=[{
-			//	"type": "PDF",
-			//	"id": record.records[0].id,
-			//	"amount": record.total,
-			//	"email": vm.dummy.Data.email,
-			//	"currency": "usd",
-			//	"infomation": JSON.stringify($scope.dataInfo),
-			//	"domain": record.records[0].domain,
-			//	"currentPeriod": new Date(currentPeriod+ ' UTC').getTime()/1000,
-			//	"currentPeriodEnd": new Date(currentPeriodEnd+ ' UTC').getTime()/1000,
-			//	"createdDate": new Date(receivedDate+ ' UTC').getTime()/1000,
-			//	"gatewayType": "stripe"
-			//}];
-			//$charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
-			//
-			//	$scope.subscriptionDateForPDF = record.receivedDate;
-			//	var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
-			//	var dlnk = document.getElementById('hidden-donwload-anchor');
-			//	$timeout(function(){
-			//		dlnk.href = pdf;
-			//		dlnk.click();
-			//	},100);
-			//	record.downloading = false;
-			//
-			//}).error(function(errorResponse) {
-			//	record.downloading = false;
-			//});
-
-			var _st = gst("category");
-			_st = (_st != null) ? _st : "subscription";
-
-			$scope.data=[{ "type": "PDF", "id": record.guInvID, "app": "invoice",   "module":_st}];
-
-			$charge.document().downloadSubscriptionPDF($scope.data).success(function (successResponse) {
-
-				$scope.subscriptionDateForPDF = record.invoiceDate;
-				var pdf = 'data:application/octet-stream;base64,' + successResponse.encodedResult;
-				var dlnk = document.getElementById('hidden-donwload-anchor');
-				$timeout(function(){
-					dlnk.href = pdf;
-					dlnk.click();
-				},100);
 				record.downloading = false;
 
 			}).error(function(errorResponse) {

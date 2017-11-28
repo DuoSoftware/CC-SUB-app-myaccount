@@ -66,7 +66,7 @@
                                                             <div flex class="text-capitalize">{{vm.dummy.Data.UserType}}</div>
                                                         </div>
                                                         <div flex="5"></div>
-                                                        <div layout="row" layout-align="start center" class="info-grid-row" flex>
+                                                        <div layout="row" layout-align="start center" class="info-grid-row" flex ng-if="vm.dummy.Data.UserType.toLowerCase() == 'admin'">
                                                             <div class="iconed-label" layout="row" layout-align="start center" flex="50">
                                                                 <md-icon md-font-icon="icon-map"></md-icon> <span flex>Current subscription</span>
                                                             </div>
@@ -385,7 +385,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+<div id="reportView" ng-hide="true"></div>
                                     <!--<div layout="row" layout-align="center center" flex class="mt-10 animate-fade-in-out" ng-if="paymentHistory">-->
                                     <!--<div flex class="list-offset">-->
                                     <!--<div class="list-header p-0" layout="row" flex style="background: #f5f5f5;">-->
@@ -577,7 +577,8 @@
                                     </div>
                                     <div class="feature-row text-right mt-10">
                                         <!--<md-button class="md-primary" ng-click="clickCancel()"></md-button>-->
-                                        <md-button class="md-raised md-accent m-0" ng-disabled="isPlanSelected || selectedPlan.code === tempSelectedPlan.code" ng-click="selectPlan($event)">Buy plan</md-button>
+                                        <div ng-show="customerDetails.stripeCustId === null" id="cardBody_"></div>
+                                        <md-button ng-show="customerDetails.stripeCustId != null" class="md-raised md-accent m-0" ng-disabled="isPlanSelected || selectedPlan.code === tempSelectedPlan.code" ng-click="selectPlan($event)">Buy plan</md-button>
                                     </div>
 
 
