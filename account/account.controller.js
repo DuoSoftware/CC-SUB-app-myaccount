@@ -560,10 +560,6 @@
 			$scope.planAddons = null;
 			//$scope.updatePackgeFeatures(radioButtonPlan);
 
-      if($scope.customerDetails.stripeCustId === null) {
-        $scope.loadPayButtonForBuyButton();
-      }
-
 			angular.forEach($scope.allFeatures, function (feature) {
 
 				for(var ii=0; ii< feature.length; ii++)
@@ -603,6 +599,11 @@
 				amount = 0;
 			}
 			$scope.calculateCost(null, amount );
+
+      if($scope.customerDetails.stripeCustId === null) {
+        $scope.loadPayButtonForBuyButton();
+      }
+
 			$charge.myaccountapi().getAddonsForBasePlan(radioButtonPlan.code).success(function (response) {
 
 				if(response.status) {
@@ -1095,13 +1096,19 @@
           "profileId": $scope.customerDetails.profileId,
           "redirectUrl": currentUrl + queryString,
           "action": 'insert',
-          "buttonName": "Pay Now"
+          "buttonName": "Pay $"+$scope.packageCost
+          //($scope.tempSelectedPlan.unitPrice-$scope.tempSelectedPlan.discountamount+$scope.tempSelectedPlan.taxamount)
         }
 
 
         $scope.cardBody_ = null;
         $charge.myaccountapi().loadForm(data_).success(function (response) {
           $scope.cardBody_ = response;
+
+          var cardFrom_ = $('#cardBody_').find('form');
+          if (cardFrom_ != undefined && cardFrom_ != null) {
+            cardFrom_.remove();
+          }
 
           if ($scope.cardBody_ != null) {
 
