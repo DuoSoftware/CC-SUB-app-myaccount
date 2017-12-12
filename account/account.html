@@ -32,7 +32,7 @@
 
                 <md-content flex ms-scroll>
 
-                    <div layout="column" ng-if="generalDetails">
+                    <div layout="column" ng-show="generalDetails">
                         <div layout="column" flex>
                             <div ng-if="!vm.editableMode">
                                 <md-card flex class="input-block-gen">
@@ -66,7 +66,7 @@
                                                             <div flex class="text-capitalize">{{vm.dummy.Data.UserType}}</div>
                                                         </div>
                                                         <div flex="5"></div>
-                                                        <div layout="row" layout-align="start center" class="info-grid-row" flex>
+                                                        <div layout="row" layout-align="start center" class="info-grid-row" flex ng-if="vm.dummy.Data.UserType.toLowerCase() == 'admin'">
                                                             <div class="iconed-label" layout="row" layout-align="start center" flex="50">
                                                                 <md-icon md-font-icon="icon-map"></md-icon> <span flex>Current subscription</span>
                                                             </div>
@@ -106,52 +106,10 @@
                                                 </div>
                                             </div>
                                             <div layout="row" layout-align="end center">
-                                                <md-button class="md-accent" href="https://login.microsoftonline.com/ccactiveb2c.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_ccPasswordReset&client_Id=d084a227-bb52-4992-889d-6e4835610e76&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fcloudcharge.com%2Fazuresignup%2FccAzure.php%2FreLogin&scope=openid&response_type=id_token&prompt=login"><md-icon md-font-icon="icon-refresh"></md-icon> Reset password</md-button>
+                                                <md-button class="md-accent" href="{{ccConfig.resetPassword.reset}}"><md-icon md-font-icon="icon-refresh"></md-icon> Reset password</md-button>
                                                 <!--<md-button class="md-accent md-raised" aria-label="compose"-->
-                                                           <!--ng-click="saveProfileDetails(true)">Edit profile</md-button>-->
+                                                <!--ng-click="saveProfileDetails(true)">Edit profile</md-button>-->
                                             </div>
-                                        </div>
-                                    </md-card-content>
-                                </md-card>
-
-                                <md-card flex class="input-block-gen">
-                                    <md-card-title>
-                                        <div layout="row" layout-align="start center">
-                                            <md-icon md-font-icon="icon-key"></md-icon> <h3>Access keys</h3>
-                                        </div>
-                                    </md-card-title>
-                                    <md-card-content md-whiteframe="1dp" ng-class="{'h-100':!accAccessKeysLoaded}">
-                                        <div class="preloader-input-block animate-fade-in-out" layout="column" layout-align="space-around" ng-hide="accAccessKeysLoaded">
-                                            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                                        </div>
-                                        <div layout="column">
-
-                                            <div flex>
-                                                <div layout="row" layout-align="space-between center" class="detail-row" ng-repeat="key in access_keys">
-                                                    <div flex>
-                                                        <div layout="row" layout-align="start center" class="group-sub-head" style="margin-top: 0">
-                                                            <span flex="30"><b>{{key.name}}</b></span>
-                                                        </div>
-                                                        <div layout="row" layout-align="space-between center" class="dashed-highlight-blue pos-rel">
-                                                            <div flex layout="row" layout-align="start center">
-                                                                <span class="access-key" id="{{key.key}}">{{xfiedKey | limitTo: key.key.length}}</span>
-                                                                <span class="copied-to-clipboard animate-fade-in-out" ng-if="$index == 0 && primaryCopied" ng-hide="coppiedTimeout">Copied</span>
-                                                                <span class="copied-to-clipboard animate-fade-in-out" ng-if="$index == 1 && secondaryCopied" ng-hide="coppiedTimeout">Copied</span>
-                                                            </div>
-                                                            <div layout="row">
-                                                                <div class="keyDisplay{{key.key}}">
-                                                                    <md-button id="show" class="md-icon-button md-accent" ng-click="showAccessKey(key, $index)"><md-icon md-font-icon="icon-eye" class="copy-icon"></md-icon><md-tooltip>Show Key</md-tooltip> </md-button>
-                                                                    <md-button id="hide" class="md-icon-button md-accent" ng-click="hideAccessKey(key, $index)"><md-icon md-font-icon="icon-eye-off" class="copy-icon"></md-icon><md-tooltip>Hide Key</md-tooltip> </md-button>
-                                                                </div>
-
-                                                                <md-button class="md-icon-button md-accent" ng-click="copyToClipboard(key.key, key.name)"><md-icon md-font-icon="icon-content-copy" class="copy-icon" style="font-size: 18px"></md-icon><md-tooltip>Copy key</md-tooltip> </md-button>
-                                                                <md-button class="md-icon-button md-accent" ng-disabled="resetLoading" ng-click="resetAccessKeys(key.name)"><md-progress-circular ng-if="currentlyResetting == key.name && resetLoading" style="top: -2px;right:6px"></md-progress-circular> <md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Reset key</md-tooltip> </md-button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="paste"></div>
                                         </div>
                                     </md-card-content>
                                 </md-card>
@@ -201,28 +159,28 @@
                                                         <!--<md-select id="country" name ="country" ng-model="tenantUser.country"  style="margin-bottom: 25px">-->
                                                         <!--<md-option ng-repeat="country in countries" value="{{country.name}}">{{country.name}}</md-option>-->
                                                         <!--</md-select>-->
-                                                      <md-autocomplete
-                                                        md-autoselect=true
-                                                        md-item-text="country.name"
-                                                        md-items="country in countries | filter:searchText"
-                                                        md-menu-class="autocomplete-custom-template"
-                                                        md-min-length="2"
-                                                        md-search-text="searchText"
-                                                        md-select-on-match=true
-                                                        md-match-case-insensitive=true
-                                                         md-selected-item="tenantUser.country">
-                                                        <md-item-template>
+                                                        <md-autocomplete
+                                                                md-autoselect=true
+                                                                md-item-text="country.name"
+                                                                md-items="country in countries | filter:searchText"
+                                                                md-menu-class="autocomplete-custom-template"
+                                                                md-min-length="2"
+                                                                md-search-text="searchText"
+                                                                md-select-on-match=true
+                                                                md-match-case-insensitive=true
+                                                                md-selected-item="tenantUser.country">
+                                                            <md-item-template>
                                                                   <span class="item-title">
                                                                     <span md-highlight-flags="^i" md-highlight-text="searchText">
                                                                       {{country.name}}
                                                                     </span>
                                                                   </span>
-                                                        </md-item-template>
-                                                        <md-not-found>
-                                                          No match found.
-                                                        </md-not-found>
-                                                      </md-autocomplete>
-                                                      <div ng-messages="vm.myaccForm.country.$error">
+                                                            </md-item-template>
+                                                            <md-not-found>
+                                                                No match found.
+                                                            </md-not-found>
+                                                        </md-autocomplete>
+                                                        <div ng-messages="vm.myaccForm.country.$error">
                                                             <div ng-message="maxlength">Country must be between 1-30 characters</div>
                                                         </div>
                                                     </md-input-container>
@@ -236,8 +194,8 @@
                         </div>
                     </div>
 
-                    <div layout="column" ng-if="planDetails">
-                        <md-card flex class="input-block-gen">
+                    <div layout="column" ng-show="planDetails">
+                        <md-card class="input-block-gen mb-0">
                             <md-card-title>
                                 <div layout="row" layout-align="start center">
                                     <md-icon md-font-icon="icon-map"></md-icon> <h3>Subscription</h3>
@@ -246,453 +204,561 @@
                             <md-card-content md-whiteframe="1dp">
                                 <div>
                                     <div layout="row" layout-align="start center">
-                                        <span class="fs-18">{{currentPlanName}} </span><span class="op-5" flex>
-                                        <!--/ {{selectedPlanDuration}}-->
-                                    </span>
+                                        <span class="fs-18">{{currentPlanName}} </span>
+                                        <span class="op-5" flex>
+                                            <!--/ {{selectedPlanDuration}}-->
+                                        </span>
+                                        <span ng-if="currentPlanCode == 'free_trial'" class="fs-16 font-accent">Only 25 subscriptions</span>
                                         <div layout-align="end center" layout="row">
-                                            <md-button class="md-accent md-raised" ng-show="selectedPlan.planNo > 1 && isTempDeactive " ng-click="deactiveCurrentPlan()" flex>Deactivate</md-button>
+                                            <md-button class="md-accent md-raised pos-rel" ng-if="currentPlanCode != 'free_trial'" ng-show="selectedPlan.code != 'free_trial'" ng-disabled="isChangeSubscriptionClicked" ng-click="deactiveCurrentPlan()" flex>Deactivate</md-button>
                                             <!--<md-button ng-disabled="" class="md-raised md-accent" ng-click="signupsuccess=true" ng-hide="signupsuccess" flex>Upgrade</md-button>-->
                                         </div>
                                     </div>
-                                    <md-divider class="mt-10 mb-10"></md-divider>
-                                    <div layout="row" class="pos-rel">
-                                        <div class="preloader-input-block animate-fade-in-out" layout="column" layout-align="space-around" ng-if="!accSubscriptionDetailsLoaded">
-                                            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                                        </div>
-                                        <div flex="60" layout="column">
-                                            <div layout="row" layout-align="start center" class="info-grid-row bordered">
-                                                <div class="iconed-label" layout="row" layout-align="start center" flex="40">
-                                                    <md-icon md-font-icon="icon-calendar"></md-icon> <span flex>Period</span>
-                                                </div>
-                                                <div class="text-right" flex>{{currentPlanCreatedDate | limitTo:10}} - {{ currentPlanExpiryDate | limitTo:10}}</div>
+                                    <md-divider class="mv-15"></md-divider>
+                                    <div layout="row" layout-align="start center" class="more-collapse" ng-style="showMoreUserInfo ? {'bottom':'0px','right':'10px'} : {'bottom':'10px','right':'10px'}">
+                                        <md-button class="md-icon-button m-0" ng-click="contentExpandHandler()"><md-icon md-font-icon="icon-chevron-down" ng-if="!showMoreUserInfo"></md-icon><md-icon md-font-icon="icon-chevron-up" ng-if="showMoreUserInfo"></md-icon> </md-button><label ng-if="showMoreUserInfo">Less</label><label ng-if="!showMoreUserInfo">More</label>
+                                    </div>
+                                    <div ng-show="showMoreUserInfo" class="pb-40">
+                                        <div layout="row" class="pos-rel">
+                                            <div class="preloader-input-block animate-fade-in-out" layout="column" layout-align="space-around" ng-if="!accSubscriptionDetailsLoaded">
+                                                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
                                             </div>
-                                            <!--<div layout="row" layout-align="start center" class="info-grid-row bordered">-->
+                                            <div flex="55" layout="column">
+                                                <div layout="row" layout-align="start center" class="info-grid-row bordered">
+                                                    <div class="iconed-label" layout="row" layout-align="start center" flex="40">
+                                                        <md-icon md-font-icon="icon-calendar"></md-icon> <span flex>Period</span>
+                                                    </div>
+                                                    <div class="text-right" flex ng-if="currentPlanCode == 'free_trial'">-</div>
+                                                    <div class="text-right" flex ng-if="currentPlanCode != 'free_trial'">{{currentPlanCreatedDate | limitTo:10}} - {{ currentPlanExpiryDate | limitTo:10}}</div>
+                                                </div>
+                                                <!--<div layout="row" layout-align="start center" class="info-grid-row bordered">-->
                                                 <!--<div class="iconed-label" layout="row" layout-align="start center" flex="40">-->
-                                                    <!--<md-icon md-font-icon="icon-cash-usd"></md-icon> <span flex>Additional charge</span>-->
+                                                <!--<md-icon md-font-icon="icon-cash-usd"></md-icon> <span flex>Additional charge</span>-->
                                                 <!--</div>-->
                                                 <!--<div class="text-right" flex>${{additionalCharge}}</div>-->
-                                            <!--</div>-->
-                                            <div layout="row" layout-align="start center" class="info-grid-row bordered">
-                                                <div class="iconed-label" layout="row" layout-align="start center" flex="40">
-                                                    <md-icon md-font-icon="icon-package"></md-icon> <span flex>Next payment</span>
-                                                </div>
-                                                <div class="text-right" flex>${{currentPlanAmount + additionalCharge}}</div>
-                                            </div>
-                                            <div layout="column" layout-align="center start" class="info-grid-row bordered mv-10">
-                                                <div class="iconed-label bordered" layout="row" layout-align="start center" style="width: 100%;">
-                                                    <md-icon md-font-icon="icon-credit-card"></md-icon> <span flex>Cards</span>
-                                                    <md-button class="md-accent md-icon-button" stripe-payment="config" ng-click="addNewCard()" layout-align="center center"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add card</md-tooltip></md-button>
-                                                </div>
-                                                <div layout="column" layout-align="center center" style="width: 100%;" class="mt-10">
-                                                    <div flex layout="row" layout-align="center center" class="msg-empty-list m-0" ng-if="cardDetails.length == 0">
-                                                        <span><md-icon md-font-icon="icon-information-outline"></md-icon> No card has been added yet</span>
+                                                <!--</div>-->
+                                                <div layout="row" layout-align="start center" class="info-grid-row bordered">
+                                                    <div class="iconed-label" layout="row" layout-align="start center" flex="40">
+                                                        <md-icon md-font-icon="icon-package"></md-icon> <span flex>Next payment</span>
                                                     </div>
-                                                    <!--<div fill-width layout="row" flex class="list-item">-->
+                                                    <div class="text-right" flex>{{currentPlanCode != 'free_trial' ? '$'+currentPlanAmount : 'Free'}}</div>
+                                                </div>
+                                                <div layout="column" layout-align="center start" class="info-grid-row bordered mv-10">
+                                                    <div id="cardBody" class="iconed-label bordered" layout="row" layout-align="start center" style="width: 100%;">
+                                                        <md-icon md-font-icon="icon-credit-card"></md-icon> <span flex>Cards</span>
+                                                        <!--<span >{{cardBody}}</span>-->
+                                                        <!--<md-button class="md-accent md-icon-button"  ng-if="customerDetails.stripeCustId === null" ng-click="addNewCard('insert')" layout-align="center center"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add card</md-tooltip></md-button>-->
+                                                        <!--<md-button class="md-accent md-icon-button"  ng-if="customerDetails.stripeCustId != null" ng-click="addNewCard('update')" layout-align="center center"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Update card</md-tooltip></md-button>-->
+                                                    </div>
+                                                    <div layout="column" layout-align="center center" style="width: 100%;" class="mt-10">
+                                                        <div flex layout="row" layout-align="center center" class="msg-empty-list m-0" ng-if="cardDetails.length == 0">
+                                                            <span><md-icon md-font-icon="icon-information-outline"></md-icon> No card has been added yet</span>
+                                                        </div>
 
-                                                    <!--<div class="prodCost" flex layout="row" layout-align="start center">-->
-                                                    <!--<span class="MasterCard"></span> <span class="text-truncate card-no">XXXX-XXXX-XXXX-4242</span>-->
-                                                    <!--<md-tooltip>XXXX-XXXX-XXXX-4242</md-tooltip>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="prodCost" flex="30" layout="row" layout-align="start center">-->
-                                                    <!--&lt;!&ndash; <span> {{card.exp_month | parseDate | date: 'MMMM' | limitTo:3}} {{card.exp_year | parseDate | date: 'yyyy'}}</span> &ndash;&gt;-->
-                                                    <!--<span>January</span>-->
-                                                    <!--<span>&nbsp;2017</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="prodCost" layout="column" layout-align="center end">-->
-                                                    <!--<span class="default" ng-if="card.rowId===0">Default</span>-->
-                                                    <!--<md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>-->
-                                                    <!--</div>-->
-                                                    <!--<md-button class="md-warn md-icon-button" ng-click="removeCard()" layout-align="center center" style="margin-right: -10px"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove card</md-tooltip></md-button>-->
-                                                    <!--</div>-->
-                                                    <div layout="row" fill-width class="list-item" ng-repeat="card in cardDetails" modal-animation-class="mt-20">
+                                                        <div layout="row" fill-width class="list-item" ng-repeat="card in cardDetails" modal-animation-class="mt-20">
 
-                                                        <div class="prodCost" flex layout="row" layout-align="start center">
-                                                            <span ng-class="card.brand"></span> <span class="text-truncate card-no">XXXX-XXXX-XXXX-{{card.last4}}</span>
-                                                            <md-tooltip>XXXX-XXXX-XXXX-{{card.last4}}</md-tooltip>
+                                                            <div class="prodCost" flex layout="row" layout-align="start center">
+                                                                <span ng-class="card.brand"></span> <span class="text-truncate card-no">XXXX-XXXX-XXXX-{{card.last4}}</span>
+                                                                <md-tooltip>XXXX-XXXX-XXXX-{{card.last4}}</md-tooltip>
+                                                            </div>
+                                                            <div class="prodCost fs-12 fw-400" flex="30" layout="row" layout-align="start center">
+                                                                <!-- <span> {{card.exp_month | parseDate | date: 'MMMM' | limitTo:3}} {{card.exp_year | parseDate | date: 'yyyy'}}</span> -->
+                                                                <span ng-if="card.exp_month==1">Jan</span>
+                                                                <span ng-if="card.exp_month==2">Feb</span>
+                                                                <span ng-if="card.exp_month==3">Mar</span>
+                                                                <span ng-if="card.exp_month==4">Apr</span>
+                                                                <span ng-if="card.exp_month==5">May</span>
+                                                                <span ng-if="card.exp_month==6">Jun</span>
+                                                                <span ng-if="card.exp_month==7">Jul</span>
+                                                                <span ng-if="card.exp_month==8">Aug</span>
+                                                                <span ng-if="card.exp_month==9">Sep</span>
+                                                                <span ng-if="card.exp_month==10">Oct</span>
+                                                                <span ng-if="card.exp_month==11">Nov</span>
+                                                                <span ng-if="card.exp_month==12">Dec</span>
+                                                                <span>&nbsp;{{card.exp_year}}</span>
+                                                            </div>
+                                                            <div class="prodCost" layout="column" layout-align="center end" flex="15">
+                                                                <span class="default" ng-if="card.rowId===0">Default</span>
+                                                                <md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>
+                                                            </div>
+                                                            <!--<md-button class="md-warn md-icon-button" ng-click="removeCard(card)" layout-align="center center" style="margin-right: -10px"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove card</md-tooltip></md-button>-->
                                                         </div>
-                                                        <div class="prodCost fs-12 fw-400" flex="30" layout="row" layout-align="start center">
-                                                            <!-- <span> {{card.exp_month | parseDate | date: 'MMMM' | limitTo:3}} {{card.exp_year | parseDate | date: 'yyyy'}}</span> -->
-                                                            <span ng-if="card.exp_month==1">Jan</span>
-                                                            <span ng-if="card.exp_month==2">Feb</span>
-                                                            <span ng-if="card.exp_month==3">Mar</span>
-                                                            <span ng-if="card.exp_month==4">Apr</span>
-                                                            <span ng-if="card.exp_month==5">May</span>
-                                                            <span ng-if="card.exp_month==6">Jun</span>
-                                                            <span ng-if="card.exp_month==7">Jul</span>
-                                                            <span ng-if="card.exp_month==8">Aug</span>
-                                                            <span ng-if="card.exp_month==9">Sep</span>
-                                                            <span ng-if="card.exp_month==10">Oct</span>
-                                                            <span ng-if="card.exp_month==11">Nov</span>
-                                                            <span ng-if="card.exp_month==12">Dec</span>
-                                                            <span>&nbsp;{{card.exp_year}}</span>
-                                                        </div>
-                                                        <div class="prodCost" layout="column" layout-align="center end" flex="15">
-                                                            <span class="default" ng-if="card.rowId===0">Default</span>
-                                                            <md-button class="md-raised make-default" ng-if="card.rowId != 0" ng-click="defaultPayment('1',card)" layout-align="center center"> Make Default</md-button>
-                                                        </div>
-                                                        <md-button class="md-warn md-icon-button" ng-click="removeCard(card)" layout-align="center center" style="margin-right: -10px"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove card</md-tooltip></md-button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--<div layout="row" layout-align="start center" class="info-grid-row">-->
-                                            <!--<div class="iconed-label" layout="row" layout-align="start center" flex="30">-->
-                                            <!--<md-icon md-font-icon="icon-email"></md-icon> <span flex>Rate</span>-->
-                                            <!--</div>-->
-                                            <!--<div>{{currentPlanRate}}</div>-->
-                                            <!--</div>-->
-                                            <!--<div layout="row" layout-align="start center" class="info-grid-row">-->
-                                            <!--<div class="iconed-label" layout="row" layout-align="start center" flex="30">-->
-                                            <!--<md-icon md-font-icon="icon-map"></md-icon> <span flex>Days remaining</span>-->
-                                            <!--</div>-->
-                                            <!--<div>{{selectedPlan.name}}</div>-->
-                                            <!--</div>-->
+
+                                            <div layout="column" layout-align="center center" flex>
+                                                <div ng-show="currentPlanCode == 'free_trial'" class="usage-meter" layout="column" layout-align="center center" flex>
+                                                    <span class="fw-500 fs-16 op-5">Usage</span>
+                                                    <nvd3 options="vm.usageChart.chart.options"
+                                                          data="vm.usageChart.chart.data">
+                                                    </nvd3>
+                                                    <span class="label-large fs-18 font-accent fw-500" style="top: -30px;position:relative;">{{currentPlanUsed}}</span>
+                                                </div>
+                                                <div ng-if="currentPlanCode != 'free_trial'" fill-width layout="column" layout-align="center center" flex>
+                                                    <span class="fw-500 fs-14 op-5">Subscription count</span>
+                                                    <div flex></div>
+                                                    <div flex class="label-large fs-40 font-accent fw-500">{{currentPlanUsed}}</div>
+                                                    <div flex></div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <!--<div flex="5"></div>-->
-                                        <!--<md-divider></md-divider>-->
-                                        <!--<div class="subscription-usage" layout="column" layout-align="center center" flex ng-if="selectedPlan.price > 0">-->
-                                        <!--<rzslider rz-slider-model="subUsage.value" rz-slider-options="subUsage.options"></rzslider>-->
-                                        <!--<span>Usage</span>-->
+                                        <!--<div layout="row" layout-align="end center">-->
+                                        <!--<md-button class="m-0 fs-12 md-accent" layout="row" ng-click="getTenantPaymentHistory()">-->
+                                        <!--&lt;!&ndash;<md-button class="m-0 fs-12 md-accent" layout="row" >&ndash;&gt;-->
+                                        <!--<md-progress-circular ng-show="isTenantPaymentHistoryClicked" class="inbtn-loader md-accent"></md-progress-circular>-->
+                                        <!--Show invoice history <md-icon md-font-icon="icon-chevron-down"></md-icon>-->
+                                        <!--</md-button>-->
                                         <!--</div>-->
-                                        <div layout="column" layout-align="center center" flex>
-                                            <div ng-show="currentPlanCode == 'free_trial'" class="usage-meter" layout="column" layout-align="center center" flex>
-                                                <span class="fw-500 fs-16 op-5">Usage</span>
-                                                <nvd3 options="vm.usageChart.chart.options"
-                                                      data="vm.usageChart.chart.data">
-                                                </nvd3>
-                                                <span class="label-large fs-18 font-accent fw-500" style="top: -30px;position:relative;">{{currentPlanUsed}}</span>
-                                            </div>
-                                            <div ng-if="currentPlanCode != 'free_trial'" fill-width layout="column" layout-align="center center" flex>
-                                                <span class="fw-500 fs-14 op-5">Subscription count</span>
-                                                <div flex></div>
-                                                <div flex class="label-large fs-40 font-accent fw-500">{{currentPlanUsed}}</div>
-                                                <div flex></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div layout="row" layout-align="end center">
-                                        <md-button class="m-0 fs-12 md-accent" layout="row" ng-click="getTenantPaymentHistory()">
-                                            <md-progress-circular ng-show="isTenantPaymentHistoryClicked" class="inbtn-loader md-accent"></md-progress-circular>
-                                            Show payment history <md-icon md-font-icon="icon-chevron-down"></md-icon>
-                                        </md-button>
-                                    </div>
-                                    <div layout="row" layout-align="center center" flex class="mt-10 animate-fade-in-out" ng-if="paymentHistory">
-                                        <div flex class="list-offset">
-                                            <div class="list-header p-0" layout="row" flex style="background: #f5f5f5;">
-                                                <div class="w-100 ph-16 pv-10">Month</div>
-                                                <div layout="row" class="ph-16 pv-10" flex>
-                                                    <div flex="30">Plan</div>
-                                                    <div flex>Period</div>
-                                                    <div class="w-165 text-right"><span>Amount</span></div>
+
+                                        <div layout="row" layout-align="center center" flex class="mt-10 animate-fade-in-out">
+                                            <div flex class="list-offset">
+                                                <h3>Payment history</h3>
+                                                <div class="list-header p-5" layout="row" flex style="background: #f5f5f5;">
+                                                    <!--<div class="w-100 ph-16 pv-10">Month</div>-->
+                                                    <!--<div layout="row" class="ph-16 pv-10" flex>-->
+                                                    <!--<div flex="30">Plan</div>-->
+                                                    <div flex>Invoice Date</div>
+                                                    <div flex>Invoice No</div>
+                                                    <div flex class="text-right"><span>Amount</span></div>
                                                     <div flex="5"></div>
                                                     <div flex="10">Status</div>
+                                                    <!--</div>-->
+                                                    <div flex="10" class="text-right"></div>
                                                 </div>
-                                                <div flex="10" class="text-right"></div>
-                                            </div>
-                                            <md-card-content class="p-0" flex>
                                                 <md-content class="sub-list list-content" ms-scroll>
-                                                    <div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 || paymentHistoryList == null">
+                                                    <div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 && paymentHistoryLoading || paymentHistoryList == null && paymentHistoryLoading">
                                                         <span><md-icon md-font-icon="icon-information-outline"></md-icon> No record has been created yet</span>
                                                     </div>
-                                                    <!--<div layout="row" layout-align="start center" ng-repeat="(key, value) in paymentHistoryList | groupBy:'periodForGroup'" ng-hide="isTenantPaymentHistoryClicked" class="bb b-light">-->
-                                                    <!--<div class="w-100 ph-16">{{key}}</div>-->
-                                                    <!--<div layout="column" layout-align="start center" class="bl b-light" flex ng-init="value.total = 0">-->
-                                                    <!--<div layout="row" flex class="list-item bn" ng-repeat="history in value" fill-width>-->
-                                                    <!--<div flex="30" layout="row" layout-align="start center">-->
-                                                    <!--<span>{{history.infomation.feature}}</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div flex layout="row" layout-align="start center">-->
-                                                    <!--<span> {{history.currentPeriod | date:'yyyy.MM.dd'}}</span><span class="mh-5"> - </span><span> {{history.currentPeriodEnd | date:'yyyy.MM.dd'}}</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div flex layout="row" layout-align="end center" ng-init="value.total = value.total + history.amount">-->
-                                                    <!--<span>${{history.amount}}</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div flex="5"></div>-->
-                                                    <!--<div flex="10" layout="row" layout-align="start center">-->
-                                                    <!--<span flex>{{history.status }}</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div flex="10" layout="row" layout-align="end center">-->
-                                                    <!--<md-button ng-disabled="history.downloading" md-no-ink class="md-icon-button p-0 w-40 h-25" ng-click="downloadSubscriptionPDF(history)"><md-icon md-font-icon="icon-file-pdf w-25 h-25 fs-20 md-accent"></md-icon><md-tooltip>Download PDF</md-tooltip> </md-button>-->
-                                                    <!--<md-progress-circular class="list-action-preloader" ng-if="history.downloading"></md-progress-circular>-->
-                                                    <!--</div>-->
-                                                    <!--</div>-->
-                                                    <!--<div layout="row" fill-width>-->
-                                                    <!--<div flex="30"></div>-->
-                                                    <!--<div flex>Total</div>-->
-                                                    <!--<div flex>-->
-                                                    <!--{{value.total}}-->
-                                                    <!--</div>-->
-                                                    <!--<div flex="25"></div>-->
-                                                    <!--</div>-->
-                                                    <!--</div>-->
-                                                    <!--</div>-->
 
-                                                    <div layout="row" layout-align="start start" ng-repeat="history in groupedPaymentHistory" ng-hide="isTenantPaymentHistoryClicked" class="bb b-gray hover-g-light" ng-click="expandPaymentRecord(history)">
-                                                        <div class="w-100 ph-16 pv-10">{{history.month | date:'yyyy MMM'}}</div>
-                                                        <div layout="column" layout-align="start center" class="bl br b-light" flex ng-init="value.total = 0">
-                                                            <div layout="row" flex class="list-item bn" ng-repeat="record in history.records" fill-width ng-hide="record.infomation.tag.toLowerCase() == 'revenue' && !history.expanded">
-                                                                <div flex="30" layout="row" layout-align="start center">
-                                                                    <span ng-if="record.infomation.tag.toLowerCase() == 'revenue' && history.expanded">{{record.infomation.feature}}</span>
-                                                                    <span ng-if="record.infomation.tag.toLowerCase() != 'revenue'">{{record.infomation.tag}} <i class="op-5">({{record.infomation.feature}})</i></span>
-                                                                </div>
-                                                                <div layout="row" layout-align="start center" class="w-165">
-                                                                    <span> {{record.currentPeriod | date:'yyyy.MM.dd'}}</span><span class="mh-5"> - </span><span> {{record.currentPeriodEnd | date:'yyyy.MM.dd'}}</span>
-                                                                </div>
-                                                                <div layout="row" layout-align="end center" flex>
-                                                                    <span ng-if="history.expanded">${{record.amount}}</span>
-                                                                    <span ng-if="!history.expanded">${{history.total}}</span>
-                                                                </div>
-                                                                <div flex="5"></div>
-                                                                <div flex="10" layout="row" layout-align="start center">
-                                                                    <span flex>{{record.status }}</span>
-                                                                </div>
-                                                            </div>
-                                                            <div flex ng-if="!history.expanded"></div>
-                                                            <div layout="row" fill-width ng-if="history.expanded">
-                                                                <div flex="30"></div>
-                                                                <div class="w-165 pv-10 ph-8 fw-500 b-light" ng-class="{'bt':history.expanded}"><span ng-if="history.expanded">Total</span></div>
-                                                                <div flex class="p-10 text-right fw-500 b-light" ng-class="{'bt':history.expanded}">
-                                                                    ${{history.total}}
-                                                                </div>
-                                                                <div flex="15"></div>
-                                                            </div>
+                                                    <div class="preloader" ng-if="paymentHistoryLoading">
+                                                        <md-progress-circular></md-progress-circular>
+                                                    </div>
+
+                                                    <div layout="row" layout-align="start center" ng-repeat="history in paymentHistoryList track by $index" class="bb b-gray hover-g-light p-5" ng-click="expandPaymentRecord(history)">
+                                                    <!--<div layout="row" layout-align="start center" ng-repeat="history in [1,2,3,4,5]" class="bb b-gray hover-g-light p-5" ng-click="expandPaymentRecord(history)">-->
+                                                        <!--<div class="w-100 ph-16 pv-10">{{history.month | date:'yyyy MMM'}}</div>-->
+                                                        <!--<div layout="column" layout-align="start center" class="bl br b-light" flex ng-init="value.total = 0">-->
+                                                        <!--<div layout="row" flex class="list-item bn" ng-repeat="record in history.records track by $index" fill-width ng-hide="record.infomation.tag.toLowerCase() == 'revenue' && !history.expanded">-->
+                                                        <!--<div flex="30" layout="row" layout-align="start center">-->
+                                                        <!--&lt;!&ndash;<span ng-if="record.infomation.tag.toLowerCase() == 'revenue' && history.expanded">{{record.infomation.feature}}</span>&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<span ng-if="record.infomation.tag.toLowerCase() != 'revenue'">{{record.infomation.tag}} <i class="op-5">({{record.infomation.feature}})</i></span>&ndash;&gt;-->
+                                                        <!-- -->
+                                                        <!--</div>-->
+                                                        <div layout="row" layout-align="start center" flex>
+                                                            <span> {{history.invoiceDate | date:'yyyy-MM-dd'}}</span>
                                                         </div>
-                                                        <div flex="10" layout="row" layout-align="end center" class="pv-10 pos-rel">
+                                                        <div flex>{{history.invoiceNo}}</div>
+                                                        <div flex class="text-right"><span>${{history.invoiceAmount}}</span></div>
+                                                        <div flex="5"></div>
+                                                        <div flex="10" layout="row" layout-align="start center">
+                                                            <span flex>{{history.invoiceStatus }}</span>
+                                                        </div>
+                                                        <!--</div>-->
+                                                        <!--<div flex ng-if="!history.expanded"></div>-->
+                                                        <!--<div layout="row" fill-width ng-if="history.expanded">-->
+                                                        <!--<div flex="30"></div>-->
+                                                        <!--<div class="w-165 pv-10 ph-8 fw-500 b-light" ng-class="{'bt':history.expanded}"><span ng-if="history.expanded">Total</span></div>-->
+                                                        <!--<div flex class="p-10 text-right fw-500 b-light" ng-class="{'bt':history.expanded}">-->
+                                                        <!--${{history.total}}-->
+                                                        <!--</div>-->
+                                                        <!--<div flex="15"></div>-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+                                                        <div flex="10" layout="row" layout-align="end center" class="pos-rel">
                                                             <md-button ng-disabled="history.downloading" md-no-ink class="md-icon-button p-0 h-25" ng-click="downloadSubscriptionPDF(history)"><md-icon md-font-icon="icon-file-pdf w-25 h-25 fs-20 md-accent"></md-icon><md-tooltip>Download PDF</md-tooltip> </md-button>
                                                             <md-progress-circular class="list-action-preloader" ng-if="history.downloading"></md-progress-circular>
                                                             <!--<md-button md-no-ink class="md-icon-button p-0 h-25"><md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-20"></md-icon><md-tooltip>Expand</md-tooltip> </md-button>-->
-                                                            <div layout="row" layout-align="start center" class="fs-12 op-5">More <md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-18"></md-icon></div>
+                                                            <!--<div layout="row" layout-align="start center" class="fs-12 op-5">More <md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-18"></md-icon></div>-->
                                                         </div>
-                                                    </div>
+
+                                                      </div>
+                                                  <div layout="row" layout-align="center center" ng-if="showPayHistoryMoreButton">
+                                                    <md-button ng-click="getTenantPaymentHistory()"><md-icon md-font-icon="icon-magnify" class="s20"></md-icon> SHOW MORE</md-button>
+                                                  </div>
 
                                                     <!--Hidden download link-->
                                                     <a id='hidden-donwload-anchor' download='CloudCharge_subscription_{{subscriptionDateForPDF | date:"yyyy.MM.dd"}}.pdf' ng-hide="true" />
                                                     <!--Hidden download link-->
 
                                                 </md-content>
-                                            </md-card-content>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div layout="row" flex class="mt-20">
-                                        <div class="commonContentShell solid-highlight-gray pb-10" flex>
+<div id="reportView" ng-hide="true"></div>
+                                    <!--<div layout="row" layout-align="center center" flex class="mt-10 animate-fade-in-out" ng-if="paymentHistory">-->
+                                    <!--<div flex class="list-offset">-->
+                                    <!--<div class="list-header p-0" layout="row" flex style="background: #f5f5f5;">-->
+                                    <!--<div class="w-100 ph-16 pv-10">Month</div>-->
+                                    <!--<div layout="row" class="ph-16 pv-10" flex>-->
+                                    <!--<div flex="30">Plan</div>-->
+                                    <!--<div flex>Period</div>-->
+                                    <!--<div class="w-165 text-right"><span>Amount</span></div>-->
+                                    <!--<div flex="5"></div>-->
+                                    <!--<div flex="10">Status</div>-->
+                                    <!--</div>-->
+                                    <!--<div flex="10" class="text-right"></div>-->
+                                    <!--</div>-->
+                                    <!--<md-card-content class="p-0" flex>-->
+                                    <!--<md-content class="sub-list list-content" ms-scroll>-->
+                                    <!--<div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 || paymentHistoryList == null">-->
+                                    <!--<span><md-icon md-font-icon="icon-information-outline"></md-icon> No record has been created yet</span>-->
+                                    <!--</div>-->
 
-                                            <section id="successContainer" layout="column" layout-align="center center" >
-                                                <div layout="row" style="width: 100%;">
-                                                    <div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>
-                                                        <md-card ng-repeat="plan in companyPricePlans" flex class="subscription-plan" ng-if="plan.type == selectedPlanDuration || plan.code == 'free_trial'" ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">
-                                                            <!--<div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>-->
+                                    <!--<div layout="row" layout-align="start start" ng-repeat="history in groupedPaymentHistory track by $index" ng-hide="isTenantPaymentHistoryClicked" class="bb b-gray hover-g-light" ng-click="expandPaymentRecord(history)">-->
+                                    <!--<div class="w-100 ph-16 pv-10">{{history.month | date:'yyyy MMM'}}</div>-->
+                                    <!--<div layout="column" layout-align="start center" class="bl br b-light" flex ng-init="value.total = 0">-->
+                                    <!--<div layout="row" flex class="list-item bn" ng-repeat="record in history.records track by $index" fill-width ng-hide="record.infomation.tag.toLowerCase() == 'revenue' && !history.expanded">-->
+                                    <!--<div flex="30" layout="row" layout-align="start center">-->
+                                    <!--&lt;!&ndash;<span ng-if="record.infomation.tag.toLowerCase() == 'revenue' && history.expanded">{{record.infomation.feature}}</span>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<span ng-if="record.infomation.tag.toLowerCase() != 'revenue'">{{record.infomation.tag}} <i class="op-5">({{record.infomation.feature}})</i></span>&ndash;&gt;-->
+                                    <!--<span >{{record.infomation}}</span>-->
+                                    <!--</div>-->
+                                    <!--<div layout="row" layout-align="start center" class="w-165">-->
+                                    <!--<span> {{record.currentPeriod | date:'yyyy.MM.dd'}}</span><span class="mh-5"> - </span><span> {{record.currentPeriodEnd | date:'yyyy.MM.dd'}}</span>-->
+                                    <!--</div>-->
+                                    <!--<div layout="row" layout-align="end center" flex>-->
+                                    <!--<span ng-if="history.expanded">${{record.amount}}</span>-->
+                                    <!--<span ng-if="!history.expanded">${{history.total}}</span>-->
+                                    <!--</div>-->
+                                    <!--<div flex="5"></div>-->
+                                    <!--<div flex="10" layout="row" layout-align="start center">-->
+                                    <!--<span flex>{{record.status }}</span>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div flex ng-if="!history.expanded"></div>-->
+                                    <!--<div layout="row" fill-width ng-if="history.expanded">-->
+                                    <!--<div flex="30"></div>-->
+                                    <!--<div class="w-165 pv-10 ph-8 fw-500 b-light" ng-class="{'bt':history.expanded}"><span ng-if="history.expanded">Total</span></div>-->
+                                    <!--<div flex class="p-10 text-right fw-500 b-light" ng-class="{'bt':history.expanded}">-->
+                                    <!--${{history.total}}-->
+                                    <!--</div>-->
+                                    <!--<div flex="15"></div>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div flex="10" layout="row" layout-align="end center" class="pv-10 pos-rel">-->
+                                    <!--<md-button ng-disabled="history.downloading" md-no-ink class="md-icon-button p-0 h-25" ng-click="downloadSubscriptionPDF(history)"><md-icon md-font-icon="icon-file-pdf w-25 h-25 fs-20 md-accent"></md-icon><md-tooltip>Download PDF</md-tooltip> </md-button>-->
+                                    <!--<md-progress-circular class="list-action-preloader" ng-if="history.downloading"></md-progress-circular>-->
+                                    <!--&lt;!&ndash;<md-button md-no-ink class="md-icon-button p-0 h-25"><md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-20"></md-icon><md-tooltip>Expand</md-tooltip> </md-button>&ndash;&gt;-->
+                                    <!--<div layout="row" layout-align="start center" class="fs-12 op-5">More <md-icon md-font-icon="icon-{{history.expanded ? 'chevron-up' : 'chevron-down'}} w-25 h-25 fs-18"></md-icon></div>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
 
-                                                            <md-card-title flex layout="row" layout-align="center center" ng-class="{'solid-washer-blue': plan.code == selectedPlan.code}">
-                                                                <h3 ng-class="{'f-white':plan.code == selectedPlan.code}">{{plan.code == 'free_trial' ? plan.name.split('(')[0] : plan.name}} <span class="braket-text" ng-if="plan.code == 'free_trial'">({{plan.name.split('(')[1]}}</span></h3>
-                                                            </md-card-title>
+                                    <!--&lt;!&ndash;Hidden download link&ndash;&gt;-->
+                                    <!--<a id='hidden-donwload-anchor' download='CloudCharge_subscription_{{subscriptionDateForPDF | date:"yyyy.MM.dd"}}.pdf' ng-hide="true" />-->
+                                    <!--&lt;!&ndash;Hidden download link&ndash;&gt;-->
 
-                                                            <md-card-content flex class="p-0" layout="column">
-                                                                <div class="rate-container" layout="column" layout-align="center center">
-                                                                    <div layout="row" ng-if="plan.code === 'free_trial'" layout-align="center end"><span>Free</span><span></span></div>
-                                                                    <div layout="row" ng-if="plan.code != 'free_trial'" layout-align="center end"><span>${{plan.changingPrice}} </span> <span> / {{plan.type}}</span></div>
-                                                                </div>
-                                                                <div class="feature-wrap">
-                                                                    <div class="feature-container" layout="column" layout-align="center center">
-                                                                        <div layout="row" layout-align="center center">
-                                                                            <div><span>{{plan.description}}</span></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text-center h-130" flex layout="column" layout-align="center center">
-                                                                    <div class="additional-feature text-center">Additional feature</div>
-                                                                    <div class="additional-feature text-center">Additional feature</div>
-                                                                    <div class="additional-feature text-center">Additional feature</div>
-                                                                </div>
-                                                            </md-card-content>
+                                    <!--</md-content>-->
+                                    <!--</md-card-content>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                </div>
+                            </md-card-content>
 
-                                                            <md-card-footer layout="row" layout-align="center center" flex>
-                                                                <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || isPlanSelected" ng-if="selectedPlan.price < 1 " stripe-payment="config" ishara="{{plan.changingPrice}}" ng-click="selectPlan(plan)">Select</md-button>
-                                                              <md-button class="md-raised md-accent" ng-disabled="plan.planNo === 1 || plan.code === currentPlanCode || isPlanSelected" ng-if="selectedPlan.price > 0 " ng-click="selectPlan(plan)">Select</md-button>
-                                                            </md-card-footer>
-                                                        </md-card>
+                        </md-card>
 
+                        <md-card class="input-block-gen mt-0" style="overflow: visible">
+                            <md-card-content class="p-0">
+                                <div class="preloader animate-fade-in-out" ng-if="!accSubscriptionDetailsLoaded" style="z-index: 20">
+                                    <md-progress-circular></md-progress-circular>
+                                </div>
+                                <div class="commonContentShell solid-highlight-gray p-15" flex>
+                                    <h4 class="fw-500 mt-0">Primary packages</h4>
+                                    <div layout="row" class="vertical-plans-view">
+                                        <div class="packages" layout="column" layout-align="start center" style="z-index: 10">
+                                            <md-card ng-repeat="plan in allPlans | filter : {type: 'Base-Plan'}" class="package" layout="row" layout-align="space-between center" ng-class="{'active-package':plan.code == selectedPlan.code, 'md-whiteframe-3dp':tempSelectedPlan.code == plan.code}" ng-style="tempSelectedPlan.code == plan.code ? {'z-index':'1'} : null">
+
+                                                <!--Promotion-->
+                                                <div class="promotion-flag" ng-if="plan.hasPromotion" layout="row" layout-align="start center"><i class="material-icons">stars</i>
+                                                    <span ng-if="plan.discounttype === 1" class="msg">{{plan.discountamount}}% DISCOUNT!</span>
+                                                    <span ng-if="plan.discounttype === 0" class="msg">${{plan.discountamount}} DISCOUNT!</span>
+                                                    <span class="code">Code: <span>{{plan.promotionCode}}</span></span>
+                                                </div>
+                                                <!--Promotion-->
+                                                <input id="{{plan.code}}" type="radio" name="planRadioButton[]" value="" ng-click="radioButtonSelectedPlan(plan)" ng-checked="plan.code === selectedPlan.code">
+                                                <label for="{{plan.code}}" class="package-name" flex> {{ plan.name}} </label>
+                                                <div class="rate-container">
+                                                    <div ng-if="plan.code === 'free_trial'">
+                                                        <span>Free</span><span></span>
+                                                        <!--<div class="tax">Tax : 10%</div>-->
+                                                    </div>
+                                                    <div ng-if="plan.code != 'free_trial'">
+                                                        <span>${{plan.unitPrice}} </span><span> / {{plan.billEvery}}</span>
+                                                        <div ng-if="plan.taxtype === '1'" class="tax">Tax : {{plan.taxamount}}%</div>
+                                                        <div ng-if="plan.taxtype === '0'" class="tax">Tax : {{plan.taxamount}}$</div>
                                                     </div>
                                                 </div>
-
-                                            </section>
-                                            <md-card-actions layout="row" layout-align="end end" flex ng-show="isPlanSelected">
-                                                <md-button ng-click="clickCancel()">Cancel</md-button>
-                                            </md-card-actions>
+                                            </md-card>
                                         </div>
-
+                                        <div class="w-60"></div>
+                                        <div class="features" layout="column" flex>
+                                            <div class="feature-row">
+                                                <div class="mt-0 mb-20">Package features</div>
+                                                <div ng-repeat="feature in allFeatures" class="feature">
+                                                    <div ng-repeat="fea in feature" class="feature">
+                                                        <input type="checkbox" class="styled-checkbox" id="{{fea.featureCode}}" ng-model="fea.isSelected" disabled><label for="{{fea.featureCode}}">{{fea.featureCode}} {{fea.unitsTo}} {{fea.unitUom}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-20">
+                                                <!--<div class="feature-row">-->
+                                                <!--<div layout="row" layout-align="space-between center"><h3 class="mt-0 mb-20">Add-ons</h3>-->
+                                                <!--&lt;!&ndash;<md-button class="md-icon-button md-accent" style="margin-right: 0;margin-top: -20px" ng-click="showAddonsContainer()"><md-icon md-font-icon="icon-plus-circle"></md-icon> </md-button>&ndash;&gt;-->
+                                                <!--</div>-->
+                                                <!--&lt;!&ndash;<div style="overflow: auto">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div ng-repeat="ad in ['addon one', 'addon two', 'addon three']" flex class="control-pill">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<span>{{ad}}</span> <md-icon md-font-icon="icon-close"></md-icon>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--<div ms-scroll class="addons-container">-->
+                                                <!--<div ng-if="!addonsLoaded" layout="row" layout-align="center center" style="overflow: hidden">-->
+                                                <!--<md-progress-circular></md-progress-circular>-->
+                                                <!--</div>-->
+                                                <!--<div class="text-center" ng-if="addonsLoaded && planAddons.length == 0 || addonsLoaded && planAddons == null">-->
+                                                <!--<p class="op-5">No add-on is available for this plan</p>-->
+                                                <!--</div>-->
+                                                <!--<div ng-repeat="ads in planAddons" class="check-cube" ng-class="{'active-cube':ads.isChecked}">-->
+                                                <!--<div class="text-center">-->
+                                                <!--<span>{{ads.name}}</span>-->
+                                                <!--</div>-->
+                                                <!--<div layout="row" layout-align="center center">-->
+                                                <!--<div class="ph-20 pv-10">-->
+                                                <!--<input class="styled-checkbox" type="checkbox" id="{{ads}}"  ng-checked="ads.isChecked" ng-change="calculateCost(ads.isChecked);updateSelectedAddons(ads)" ng-model="ads.isChecked">-->
+                                                <!--<label for="{{ads}}"></label>-->
+                                                <!--<span>${{ads.unitPrice}}</span><span>/{{ads.billEvery}}</span>-->
+                                                <!--</div>-->
+                                                <!--<div class="qty ph-20 pv-10" ng-style="ads.isChecked ? {'z-index':'10'} : {'z-index':'0','opacity':'0.4'}">-->
+                                                <!--<div>Qty.</div>-->
+                                                <!--<div>-->
+                                                <!--<input type="number" ng-model="ads.qty" ng-init="ads.qty = 1" min="1" ng-change="calculateCost(ads.isChecked)">-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--&lt;!&ndash;<div class="addons-container animate-slide-down" md-whiteframe="1dp" layout="column" layout-align="center start" ng-if="showAddons">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<md-content ms-scroll class="of-a" flex fill-width>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="preloader" ng-if="!addonsLoaded">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<md-progress-circular></md-progress-circular>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="text-center" ng-if="addonsLoaded && planAddons.length == 0 || planAddons == null">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<p>No add-on is available for this plan</p>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div ng-repeat="ads in planAddons" class="check-cube">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="text-center">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<span>{{ads.name}}</span>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<input class="styled-checkbox" type="checkbox" id="{{ads}}"><label for="{{ads}}"></label>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<span>${{ads.unitPrice}}</span><span>/{{ads.billEvery}}</span>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</md-content>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="text-right" fill-width>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<md-button class="md-accent md-accent" ng-click="showAddonsContainer()">OK</md-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--</div>-->
+                                                <md-divider></md-divider>
+                                                <div class="feature-row total" layout="row" layout-align="space-between center" ng-if="tempSelectedPlan.code != 'free_trial' && tempSelectedPlan.hasPromotion">
+                                                    <h3 class="mt-0">Coupon code: </h3>
+                                                    <div class="text-right">
+                                                        <md-input-container class="m-0">
+                                                            <input type="text" ng-model="promoCode">
+                                                        </md-input-container>
+                                                    </div>
+                                                </div>
+                                                <div class="feature-row total" layout="row" layout-align="space-between center">
+                                                    <div>Total</div>
+                                                    <div class="text-right">${{packageCost}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div class="feature-row text-right mt-10">
+                                        <!--<md-button class="md-primary" ng-click="clickCancel()"></md-button>-->
+                                        <div ng-show="customerDetails.stripeCustId === null" id="cardBody_"></div>
+                                        <md-button ng-show="customerDetails.stripeCustId != null" class="md-raised md-accent m-0" ng-disabled="isPlanSelected || selectedPlan.code === tempSelectedPlan.code" ng-click="selectPlan($event)">Buy plan</md-button>
+                                    </div>
+
+
+                                    <div class="mt-30">
+                                        <h4 class="fw-500 mt-0">Add-ons</h4>
+                                        <div class="addons-container">
+                                            <div ng-if="!addonsLoaded" layout="row" layout-align="center center" style="overflow: hidden">
+                                                <md-progress-circular></md-progress-circular>
+                                            </div>
+                                            <div class="text-center" ng-if="addonsLoaded && planAddons.length == 0 || addonsLoaded && planAddons == null">
+                                                <p class="op-5">No add-on is available for this plan</p>
+                                            </div>
+                                            <div layout="row" layout-align="start center" ng-if="planAddons.length > 0">
+                                                <div flex>
+                                                    <div ng-repeat="ads in planAddons" class="check-row" ng-class="{'active':ads.isChecked}" layout="row" layout-align="start center" flex>
+                                                        <div flex>
+                                                            <input class="styled-checkbox" type="checkbox" id="{{ads}}" ng-checked="ads.isChecked" ng-change="toggleSelection(ads)" ng-model="ads.isChecked">
+                                                            <label for="{{ads}}">{{ads.name}}</label>
+                                                        </div>
+                                                        <div flex class="amount">
+                                                            <span>${{ads.unitPrice}}</span><span>/ {{ads.billEvery}}</span>
+                                                        </div>
+                                                        <div ng-style="ads.isChecked ? {'z-index':'10'} : {'z-index':'0','opacity':'0.6'}">
+                                                            <span>Quantity : </span>
+                                                            <input type="number" ng-disabled="!ads.isChecked" ng-model="ads.qty" ng-init="ads.qty = 1" min="1">
+                                                        </div>
+                                                        <div flex class="amount text-right">
+                                                            <span>${{ads.unitPrice * ads.qty}}</span>
+                                                        </div>
+
+                                                        <!--<div class="text-center">-->
+                                                        <!--<span>{{ads.name}}</span>-->
+                                                        <!--</div>-->
+                                                        <!--<div layout="row" layout-align="center center">-->
+                                                        <!--<div class="ph-20 pv-10">-->
+                                                        <!--<input class="styled-checkbox" type="checkbox" id="{{ads}}"  ng-checked="ads.isChecked" ng-change="calculateCost(ads.isChecked);updateSelectedAddons(ads)" ng-model="ads.isChecked">-->
+                                                        <!--<label for="{{ads}}"></label>-->
+                                                        <!--<span>${{ads.unitPrice}}</span><span>/{{ads.billEvery}}</span>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="qty ph-20 pv-10" ng-style="ads.isChecked ? {'z-index':'10'} : {'z-index':'0','opacity':'0.4'}">-->
+                                                        <!--<div>Qty.</div>-->
+                                                        <!--<div>-->
+                                                        <!--<input type="number" ng-model="ads.qty" ng-init="ads.qty = 1" min="1" ng-change="calculateCost(ads.isChecked)">-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+                                                    </div>
+                                                </div>
+                                                <div flex="5"></div>
+                                                <md-divider></md-divider>
+                                                <div>
+                                                    <md-button class="md-accent md-raised" ng-show="customerDetails.stripeCustId != null" ng-disabled="selectedPlan.code != tempSelectedPlan.code || selectedAddons === undefined || isPlanSelected" ng-click="addAddon()">Buy add-on(s)</md-button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!--<section id="successMainplanContainer" layout="column" layout-align="center center" >-->
+                                    <!--<div layout="row" style="width: 100%;">-->
+                                    <!--<div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>-->
+                                    <!--<md-card ng-repeat="plan in allPlans | filter : {type: 'Base-Plan'}" flex class="subscription-plan"  ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">-->
+                                    <!--&lt;!&ndash;<div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>&ndash;&gt;-->
+
+                                    <!--<md-card-title flex layout="row" layout-align="center center" ng-class="{'solid-washer-blue': plan.code == selectedPlan.code}">-->
+
+                                    <!--<input type="radio"name="planRadioButton[]" value="" ng-click="radioButtonSelectedPlan(plan)" ng-checked="plan.code === selectedPlan.code" >-->
+                                    <!--<h3 ng-class="{'f-white':plan.code == selectedPlan.code}"> {{ plan.name}} </h3>-->
+
+                                    <!--</md-card-title>-->
+
+                                    <!--<md-card-content flex class="p-0" layout="column">-->
+                                    <!--<div class="rate-container" layout="column" layout-align="center center">-->
+                                    <!--<div layout="row" ng-if="plan.code === 'free_trial'" layout-align="center end"><span>Free</span><span></span></div>-->
+                                    <!--<div layout="row" ng-if="plan.code != 'free_trial'" layout-align="center end"><span>${{plan.unitPrice}} </span> <span> / {{plan.billEvery}}</span></div>-->
+                                    <!--</div>-->
+
+
+                                    <!--</md-card-content>-->
+
+                                    <!--</md-card>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                    <!--</section>-->
+
+                                    <!--<section id="successAddonContainer" layout="column" layout-align="center center" >-->
+                                    <!--<div layout="row" style="width: 100%;">-->
+
+                                    <!--<div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>-->
+                                    <!--<md-card ng-repeat="plan in planAddons" flex class="subscription-plan"  ng-class="{'md-whiteframe-10dp':plan.code == selectedPlan.code}">-->
+                                    <!--&lt;!&ndash;<div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>&ndash;&gt;-->
+
+                                    <!--<md-card-title flex layout="row" layout-align="center center" ng-class="{'solid-washer-blue': selectedAddonCodes.indexOf(plan.code) > -1 && selectedPlan.code === tempSelectedPlan.code}">-->
+
+                                    <!--<input type="checkbox" ng-disabled="selectedPlan.code != 'free_trial'" name="planCheckbox[]" value="" ng-click="toggleSelection(plan)" ng-checked="selectedAddonCodes.indexOf(plan.code) > -1 && selectedPlan.code === tempSelectedPlan.code" >-->
+                                    <!--<h3 ng-class="{'f-white':plan.code == selectedPlan.code}">{{plan.name}} </h3>-->
+                                    <!--</md-card-title>-->
+
+                                    <!--<md-card-content flex class="p-0" layout="column">-->
+                                    <!--<div class="rate-container" layout="column" layout-align="center center">-->
+                                    <!--<div layout="row" ng-if="plan.code === 'free_trial'" layout-align="center end"><span>Free</span><span></span></div>-->
+                                    <!--<div layout="row" ng-if="plan.code != 'free_trial'" layout-align="center end"><span>${{plan.unitPrice}} </span> <span> / {{plan.billEvery}}</span></div>-->
+                                    <!--</div>-->
+                                    <!--</md-card-content>-->
+
+                                    <!--</md-card>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                    <!--</section>-->
+
+                                    <!--<section id="successContainer" layout="column" layout-align="center center" >-->
+                                    <!--<div layout="row" style="width: 100%;">-->
+
+                                    <!--<div ng-hide="isPlanSelected" layout="row" layout-align="center center" flex>-->
+                                    <!--&lt;!&ndash;<md-button class="md-raised md-accent" ng-disabled="isPlanSelected" ng-if="selectedPlan.unitPrice < 1 " stripe-payment="config" ishara="{{tempSelectedPlan.unitPrice}}" ng-click="selectPlan()">Buy Plan(s)</md-button>&ndash;&gt;-->
+                                    <!--<md-button ng-show="customerDetails.stripeCustId != null" class="md-raised md-accent" ng-disabled="isPlanSelected || selectedPlan.code === tempSelectedPlan.code" ng-click="selectPlan()">Buy Plan(s)</md-button>-->
+                                    <!--&lt;!&ndash;<div ng-show="customerDetails.stripeCustId === null" id="cardBody_"></div>&ndash;&gt;-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+
+                                    <!--</section>-->
                                 </div>
                             </md-card-content>
-                            <!--<md-card-actions>-->
-                            <!--<div layout="row" class="plan_footer" layout-align="space-between center">-->
-                            <!--<div layout="row" layout-align="start center" class="detail-row">-->
-                            <!--<span flex style="width: auto"><b>Number of additional users</b></span>-->
-                            <!--<span>: {{userdata}}</span>-->
-                            <!--</div>-->
-                            <!--<md-button class="md-icon-button md-accent" ng-disabled="selectedPlan.price < 1 " ng-click="addMoreUsersDialog($event)"><md-icon md-font-icon="icon-plus-circle"></md-icon> </md-button>-->
-                            <!--</div>-->
-                            <!--</md-card-actions>-->
                         </md-card>
                     </div>
 
-                    <!--<div layout="column" ng-if="paymentHistory">-->
-                    <!--<md-card flex class="input-block-gen eq-margin" layout="column">-->
+
+
+                    <!--<div layout="column" ng-if="apiDetails">-->
+                    <!--<md-card flex class="input-block-gen">-->
                     <!--<md-card-title layout="row" layout-align="space-between center">-->
                     <!--<div layout="row" layout-align="start center">-->
-                    <!--<md-icon md-font-icon="icon-credit-card-multiple"></md-icon> <h3>Payment history</h3>-->
+                    <!--<md-icon md-font-icon="icon-cloud"></md-icon> <h3>API management</h3>-->
                     <!--</div>-->
-                    <!--<md-button class="md-icon-button" ng-click="getTenantPaymentHistory()"><md-icon md-font-icon="icon-refresh"></md-icon><md-tooltip>Refresh list</md-tooltip></md-button>-->
                     <!--</md-card-title>-->
-                    <!--<div class="list-header" layout="row">-->
-                    <!--<div flex="20" layout-align="start center">Plan</div>-->
-                    <!--<div flex layout-align="start center">Period</div>-->
-                    <!--<div flex class="text-right" layout-align="end center" layout="row"><span>Amount</span></div>-->
-                    <!--<div flex="20"></div>-->
-                    <!--<div flex="10" layout="row" layout-align="start center">Status</div>-->
-                    <!--</div>-->
-                    <!--<md-card-content md-whiteframe="1dp" class="p-0" flex>-->
-                    <!--<md-content class="sub-list list-content" ms-scroll>-->
-                    <!--<div layout="row" layout-align="center center" class="msg-empty-list" ng-if="paymentHistoryList.length == 0 || paymentHistoryList == null">-->
-                    <!--<span><md-icon md-font-icon="icon-information-outline"></md-icon> No record has been created yet</span>-->
-                    <!--</div>-->
-                    <!--<div layout="row" flex class="list-item" ng-repeat="history in paymentHistoryList" ng-hide="isTenantPaymentHistoryClicked">-->
-
-                    <!--<div flex="20" layout="row" layout-align="start center">-->
-                    <!--<span>{{history.infomation.feature}}</span>-->
-                    <!--</div>-->
-                    <!--<div flex layout="row" layout-align="start center">-->
-                    <!--<span> {{history.receivedDate | date:'yyyy.MM.dd'}} -</span><span>- {{history.lastDate | date:'yyyy.MM.dd'}}</span>-->
-                    <!--</div>-->
-                    <!--<div flex layout="row" layout-align="end center">-->
-                    <!--<span>${{history.amount}}</span>-->
-                    <!--</div>-->
-                    <!--<div flex="20"></div>-->
-                    <!--<div flex="10" layout="row" layout-align="start center">-->
-                    <!--<span flex>{{history.status }}</span>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</md-content>-->
+                    <!--<md-card-content md-whiteframe="1dp">-->
+                    <!--<md-button class="md-accent" href="https://cloudcharge.portal.azure-api.net" target="_blank"><md-icon md-font-icon="icon-link-variant"></md-icon> API Manager</md-button>-->
                     <!--</md-card-content>-->
                     <!--</md-card>-->
+                    <!--<form name="vm.devPasswordForm" id="devPasswordForm" ng-submit="saveDevPassword()" novalidate>-->
+                    <!--<md-card flex class="input-block-gen">-->
+                    <!--<md-card-title layout="row" layout-align="space-between center">-->
+                    <!--<div layout="row" layout-align="start center">-->
+                    <!--<md-icon md-font-icon="icon-lock"></md-icon> <h3>API password</h3>-->
                     <!--</div>-->
-
-                    <!--<div layout="column" ng-if="onlinePayments">-->
-                    <!--<md-content class="md-padding" layout="row" flex>-->
-                    <!--<md-card flex="30" class="payment-card">-->
-                    <!--<div layout="row" layout-align="center center">-->
-                    <!--<md-input-container style="margin: 0;">-->
-                    <!--<div class="online_stripe" ng-class="{'online_disabled': !isRegisteredWithStripe}"></div>-->
+                    <!--</md-card-title>-->
+                    <!--<md-card-content>-->
+                    <!--<div layout="row" layout-align="start center" class="group-sub-head" style="margin-top: 0">-->
+                    <!--<span flex="30"><b>Set password</b></span>-->
+                    <!--</div>-->
+                    <!--<div layout="row" layout-align="start center">-->
+                    <!--<md-input-container flex="30">-->
+                    <!--<label>New password</label>-->
+                    <!--<input type="password" ng-model="dev.newPassword" name="new_password" ng-pattern="dev.cnfirmNewPassword" required/>-->
+                    <!--<div ng-messages="vm.devPasswordForm.new_password.$error">-->
+                    <!--<div ng-message="required"></div>-->
+                    <!--<div ng-message="pattern">Passwords do not match</div>-->
+                    <!--</div>-->
                     <!--</md-input-container>-->
-
-                    <!--<div flex></div>-->
-
-                    <!--<md-input-container style="margin: 0;">-->
-                    <!--<md-menu>-->
-                    <!--<md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="vm.openRegistrationMenu($mdOpenMenu, $event)">-->
-                    <!--<md-icon md-font-icon="icon-dots-vertical"></md-icon>-->
-                    <!--</md-button>-->
-                    <!--<md-menu-content width="4" ng-disabled="isRegButtonsShow">-->
-                    <!--<md-menu-item>-->
-                    <!--<md-button ng-disabled="isRegisteredWithStripe" ng-click="proceedWithStripe()">-->
-                    <!--<md-icon md-font-icon="icon-login" md-menu-align-target></md-icon>-->
-                    <!--Register-->
-                    <!--</md-button>-->
-                    <!--</md-menu-item>-->
-                    <!--<md-menu-item>-->
-                    <!--<md-button ng-disabled="!isRegisteredWithStripe" ng-click="disconnectWithStripe()">-->
-                    <!--<md-icon md-font-icon="icon-logout"></md-icon>-->
-                    <!--Leave-->
-                    <!--</md-button>-->
-                    <!--</md-menu-item>-->
-                    <!--</md-menu-content>-->
-                    <!--</md-menu>-->
+                    <!--<div flex="5"></div>-->
+                    <!--<md-input-container flex="30">-->
+                    <!--<label>Confirm password</label>-->
+                    <!--<input type="password" ng-model="dev.cnfirmNewPassword" name="confirm_password" ng-pattern="dev.newPassword" required/>-->
+                    <!--<div ng-messages="vm.devPasswordForm.confirm_password.$error">-->
+                    <!--<div ng-message="required"></div>-->
+                    <!--<div ng-message="pattern">Passwords do not match</div>-->
+                    <!--</div>-->
                     <!--</md-input-container>-->
                     <!--</div>-->
+                    <!--</md-card-content>-->
+                    <!--<md-card-actions>-->
+                    <!--<div layout="row" layout-align="end center" class="plan_footer">-->
+                    <!--<md-button class="md-primary" ng-click="clearPasswordFields()">Clear</md-button>-->
+                    <!--<md-button type="submit" class="md-accent md-raised" ng-disabled="isChangePasswordSelected" ng-click="changePassword()">Save</md-button>-->
+                    <!--</div>-->
+                    <!--</md-card-actions>-->
                     <!--</md-card>-->
-                    <!--&lt;!&ndash;2Checkout section &ndash;&gt;-->
-                    <!--<md-card flex="30" class="payment-card">-->
-                    <!--<div layout="row" layout-align="center center">-->
-                    <!--<md-input-container style="margin: 0;">-->
-                    <!--<div class="online_2checkout" ng-class="{'online_disabled': !isRegisteredWith2checkout}"></div>-->
-                    <!--</md-input-container>-->
-                    <!--<div flex></div>-->
-
-                    <!--<md-input-container style="margin: 0;">-->
-                    <!--<md-menu>-->
-                    <!--<md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="vm.openRegistrationMenu($mdOpenMenu, $event)">-->
-                    <!--<md-icon md-font-icon="icon-dots-vertical"></md-icon>-->
-                    <!--</md-button>-->
-                    <!--<md-menu-content width="4" ng-disabled="isRegButtonsShow">-->
-                    <!--<md-menu-item>-->
-                    <!--<md-button ng-disabled="isRegisteredWith2checkout" ng-click="registerWithTwoCheckout($event)">-->
-                    <!--<md-icon md-font-icon="icon-login" md-menu-align-target></md-icon>-->
-                    <!--Register-->
-                    <!--</md-button>-->
-                    <!--</md-menu-item>-->
-                    <!--<md-menu-item>-->
-                    <!--<md-button ng-disabled="!isRegisteredWith2checkout" ng-click="deleteWithTwoCheckout()">-->
-                    <!--<md-icon md-font-icon="icon-logout"></md-icon>-->
-                    <!--Leave-->
-                    <!--</md-button>-->
-                    <!--</md-menu-item>-->
-                    <!--</md-menu-content>-->
-                    <!--</md-menu>-->
-                    <!--</md-input-container>-->
+                    <!--</form>-->
                     <!--</div>-->
-                    <!--</md-card>-->
-                    <!--</md-content>-->
-                    <!--</div>-->
-
-                    <div layout="column" ng-if="apiDetails">
-                        <md-card flex class="input-block-gen">
-                            <md-card-title layout="row" layout-align="space-between center">
-                                <div layout="row" layout-align="start center">
-                                    <md-icon md-font-icon="icon-cloud"></md-icon> <h3>API management</h3>
-                                </div>
-                            </md-card-title>
-                            <md-card-content md-whiteframe="1dp">
-                                <md-button class="md-accent" href="https://cloudcharge.portal.azure-api.net" target="_blank"><md-icon md-font-icon="icon-link-variant"></md-icon> API Manager</md-button>
-                            </md-card-content>
-                        </md-card>
-                        <form name="vm.devPasswordForm" id="devPasswordForm" ng-submit="saveDevPassword()" novalidate>
-                            <md-card flex class="input-block-gen">
-                                <md-card-title layout="row" layout-align="space-between center">
-                                    <div layout="row" layout-align="start center">
-                                        <md-icon md-font-icon="icon-lock"></md-icon> <h3>API password</h3>
-                                    </div>
-                                </md-card-title>
-                                <md-card-content>
-                                    <div layout="row" layout-align="start center" class="group-sub-head" style="margin-top: 0">
-                                        <span flex="30"><b>Set password</b></span>
-                                    </div>
-                                    <div layout="row" layout-align="start center">
-                                        <md-input-container flex="30">
-                                            <label>New password</label>
-                                            <input type="password" ng-model="dev.newPassword" name="new_password" ng-pattern="dev.cnfirmNewPassword" required/>
-                                            <div ng-messages="vm.devPasswordForm.new_password.$error">
-                                                <div ng-message="required"></div>
-                                                <div ng-message="pattern">Passwords do not match</div>
-                                            </div>
-                                        </md-input-container>
-                                        <div flex="5"></div>
-                                        <md-input-container flex="30">
-                                            <label>Confirm password</label>
-                                            <input type="password" ng-model="dev.cnfirmNewPassword" name="confirm_password" ng-pattern="dev.newPassword" required/>
-                                            <div ng-messages="vm.devPasswordForm.confirm_password.$error">
-                                                <div ng-message="required"></div>
-                                                <div ng-message="pattern">Passwords do not match</div>
-                                            </div>
-                                        </md-input-container>
-                                    </div>
-                                </md-card-content>
-                                <md-card-actions>
-                                    <div layout="row" layout-align="end center" class="plan_footer">
-                                        <md-button class="md-primary" ng-click="clearPasswordFields()">Clear</md-button>
-                                        <md-button type="submit" class="md-accent md-raised" ng-disabled="isChangePasswordSelected" ng-click="changePassword()">Save</md-button>
-                                    </div>
-                                </md-card-actions>
-                            </md-card>
-                        </form>
-                    </div>
 
 
                 </md-content>

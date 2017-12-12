@@ -1,0 +1,37 @@
+<md-dialog class="prompt-dialog" aria-label="Confirm buy" style="width: 35%">
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-login"></md-icon> <h3>Confirm purchase</h3>
+            </div>
+            <md-button class="md-icon-button" ng-click="ctrl.confirmData.confirmation(false)" aria-label="Close dialog">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content class="p-15" ms-scroll>
+        <div class="mb-40 text-center op-5">You are about to make the below purchase.</div>
+
+        <div layout="column" layout-align="center center">
+            <div class="w-300 mb-10" ng-repeat="addon in ctrl.confirmDataAddon.addons">
+                <div class="w-100">{{addon.name}}</div>
+                <div flex class="bg-gray p-5 text-center">
+                    <span class="font-accent fs-20">${{addon.unitPrice}}</span><span class="op-5"> / {{addon.billEvery}}</span>
+                </div>
+            </div>
+            <div layout="row" layout-align="start center" class="w-300 mb-10">
+                <div class="w-100 fs-16">Total</div>
+                <div flex class="fs-20 text-center">${{addon.total}}</div>
+            </div>
+
+            <div class="mt-50">Please confirm or cancel this purchase</div>
+
+        </div>
+
+    </md-content>
+    <md-dialog-actions>
+        <md-button ng-click="ctrl.confirmData.confirmation(false)">Cancel</md-button>
+        <md-button class="md-raised md-accent" ng-click="ctrl.confirmData.confirmation(true)">Confirm</md-button>
+    </md-dialog-actions>
+
+</md-dialog>
