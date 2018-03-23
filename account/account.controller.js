@@ -4,7 +4,7 @@
 	'use strict';
 
 	angular
-		.module('app.account')
+		.module('app.myaccount')
 		.controller('AccountController', AccountController);
 
 	/** @ngInject */
