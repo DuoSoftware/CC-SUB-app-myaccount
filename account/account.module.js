@@ -12,7 +12,7 @@
 	'use strict';
 
 	angular
-		.module('app.account',[])
+		.module('app.myaccount',[])
 		.config(config);
 
 	/** @ngInject */
@@ -20,7 +20,7 @@
 	{
 
 		$stateProvider
-			.state('app.account', {
+			.state('app.myaccount', {
 				url    : '/account',
 				views  : {
 					'account@app': {
@@ -33,9 +33,9 @@
 						return $q(function(resolve, reject) {
 							$timeout(function() {
 								resolve(function () {
-									var entitledStatesReturn = mesentitlement.stateDepResolver('account');
+									var entitledStatesReturn = mesentitlement.stateDepResolver('myaccount');
 
-									mesentitlementProvider.setStateCheck("account");
+									mesentitlementProvider.setStateCheck("myaccount");
 								});
 							});
 						});
@@ -45,9 +45,9 @@
 				bodyClass: 'account'
 			});
 
-		msNavigationServiceProvider.saveItem('account', {
+		msNavigationServiceProvider.saveItem('myaccount', {
 			// title    : 'My Account',
-			state    : 'app.account',
+			state    : 'app.myaccount',
 			/*stateParams: {
 			 'param1': 'page'
 			 },*/
