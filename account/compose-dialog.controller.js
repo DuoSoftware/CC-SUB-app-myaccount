@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('myaccount')
+        .module('app.myaccount')
         .controller('AccountDialogController', AccountDialogController);
 
     /** @ngInject */
