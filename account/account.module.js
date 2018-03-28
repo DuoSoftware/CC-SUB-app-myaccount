@@ -21,9 +21,9 @@
 
 		$stateProvider
 			.state('app.myaccount', {
-				url    : '/account',
+				url    : '/myaccount',
 				views  : {
-					'account@app': {
+					'myaccount@app': {
 						templateUrl: 'app/main/account/account.html',
 						controller : 'AccountController as vm'
 					}
@@ -42,7 +42,7 @@
 					}]
 
 				},
-				bodyClass: 'account'
+				bodyClass: 'myaccount'
 			});
 
 		msNavigationServiceProvider.saveItem('myaccount', {
