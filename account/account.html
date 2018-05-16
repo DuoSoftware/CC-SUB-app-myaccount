@@ -1,4 +1,3 @@
-<script src="../../../../../UPLOADABLE/Apps/app.settings/settings/settings.module.js"></script>
 <meta name="owner" content="Ishara">
 <meta name="modifiedBy" content="Kasun">
 <meta name="modifiedDate" content="24-02-2017">
@@ -48,7 +47,7 @@
                                         <div>
                                             <div layout="row">
                                                 <div layout="row" layout-align="start center" flex class="user">
-                                                    <img src="assets/icons/ic_face_black_24px.svg" alt="vm.dummy.Data.givenName" class="mr-10">
+                                                    <i class="material-icons mr-10">face</i>
                                                     <div class="user-name">
                                                         <span>{{vm.dummy.Data.givenName}} {{vm.dummy.Data.surName}}</span>
                                                     </div>
@@ -258,7 +257,7 @@
                                                         <div layout="row" fill-width class="list-item" ng-repeat="card in cardDetails" modal-animation-class="mt-20">
 
                                                             <div class="prodCost" flex layout="row" layout-align="start center">
-                                                                <span ng-class="card.brand"></span> <span class="text-truncate card-no">XXXX-XXXX-XXXX-{{card.last4}}</span>
+                                                                <span class="gateway-payments payment-{{card.brand == 'MasterCard' ? 'master' : card.brand == 'American' ? 'amex' : card.brand.toLowerCase()}}"></span> <span class="text-truncate card-no">XXXX-XXXX-XXXX-{{card.last4}}</span>
                                                                 <md-tooltip>XXXX-XXXX-XXXX-{{card.last4}}</md-tooltip>
                                                             </div>
                                                             <div class="prodCost fs-12 fw-400" flex="30" layout="row" layout-align="start center">
